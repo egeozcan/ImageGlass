@@ -28,14 +28,10 @@ Author: Kevin Routley - August 2019
  ********************************************/
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
 using System.Drawing;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace ImageGlass.Library.WinAPI
 {
@@ -50,7 +46,9 @@ namespace ImageGlass.Library.WinAPI
             Swipe_Left,
             Swipe_Right,
             Rotate_CCW,
-            Rotate_CW
+            Rotate_CW,
+            Zoom_In,
+            Zoom_Out,
         }
 
         #region P/Invoke functions
@@ -137,7 +135,10 @@ namespace ImageGlass.Library.WinAPI
 
         private static Point _ptFirst = new Point();
         private static Point _ptSecond = new Point();
+        private static int _iArgs;
+
         #endregion
+
 
         #region Constants
         private const Int64 ULL_ARGUMENTS_BIT_MASK = 0x00000000FFFFFFFF;
@@ -155,6 +156,20 @@ namespace ImageGlass.Library.WinAPI
         private const int GF_END = 4;
         #endregion
 
+
+        /// <summary>
+        /// The point at which the Zoom action is taking place.
+        /// NOTE: valid *only* when action is zoom/pinch
+        /// </summary>
+        public static Point ZoomLocation { get; private set; }
+
+        /// <summary>
+        /// The 'size' of the zoom/pinch action. Essentially,
+        /// the number of zoom steps to take. 
+        /// NOTE: valid *only* when action is zoom/pinch
+        /// </summary>
+        public static int ZoomFactor { get; private set; }
+
         private static double ArgToRadians(Int64 arg)
         {
             return ((((double)(arg) / 65535.0) * 4.0 * 3.14159265) - 2.0 * 3.14159265);
@@ -162,14 +177,20 @@ namespace ImageGlass.Library.WinAPI
 
         private static void logit(string msg)
         {
-            //var path = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "gesture.log");
-            var path = @"E:\gesture.log";
-            using (TextWriter tw = new StreamWriter(path, append: true))
+#if DEBUG
+            try
             {
-                tw.WriteLine(msg);
-                tw.Flush();
-                tw.Close();
+                //var path = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "gesture.log");
+                var path = @"E:\gesture.log";
+                using (TextWriter tw = new StreamWriter(path, append: true))
+                {
+                    tw.WriteLine(msg);
+                    tw.Flush();
+                    tw.Close();
+                }
             }
+            catch { }
+#endif
         }
 
 
@@ -207,6 +228,8 @@ namespace ImageGlass.Library.WinAPI
             switch ((int)m.WParam)
             {
                 case GID_END:
+                    // Empirically I found this is the 'best' way to handle 
+                    // swipe end, instead of GF_END under GID_PAN.
                     if (swipe)
                     {
                         swipe = false;
@@ -251,6 +274,45 @@ namespace ImageGlass.Library.WinAPI
                     }
                     break;
                 case GID_ZOOM:
+                    if (gi.dwFlags == GF_BEGIN)
+                    {
+                        // The zoom center and factor are derived from the first and last data points
+                        _ptFirst.X = gi.ptsLocation.x;
+                        _ptFirst.Y = gi.ptsLocation.y;
+                        _ptFirst = who.PointToClient(_ptFirst);
+                        _iArgs = (int)(gi.ullArguments & ULL_ARGUMENTS_BIT_MASK);
+
+                        logit(string.Format("GID_ZOOM.GF_BEGIN ({0},{1})", _ptFirst.X, _ptFirst.Y));
+                    }
+                    if (gi.dwFlags == GF_END)
+                    {
+                        _ptSecond.X = gi.ptsLocation.x;
+                        _ptSecond.Y = gi.ptsLocation.y;
+                        _ptSecond = who.PointToClient(_ptSecond);
+
+                        // This is the center of the zoom
+                        ZoomLocation = new Point((_ptFirst.X + _ptSecond.X)/2, 
+                                                 (_ptFirst.Y + _ptSecond.Y)/2);
+
+                        // This is the size of the spread/pinch. The direction 
+                        // dictates whether this is a spread or a pinch; the
+                        // size indicates the magnitude.
+                        var factor = (double)(gi.ullArguments & ULL_ARGUMENTS_BIT_MASK) /
+                                     (double)(_iArgs);
+
+                        if (factor < 1.0)  // pinch
+                        {
+                            act = Action.Zoom_Out;
+                            ZoomFactor = (int)(1.0 / factor);
+                        }
+                        else // zoom
+                        {
+                            act = Action.Zoom_In;
+                            ZoomFactor = (int)factor;
+                        }
+
+                        logit($"GID_ZOOM.GF_END ({factor}:{ZoomFactor})");
+                    }
                     break;
                 default:
                     logit("GID_?");

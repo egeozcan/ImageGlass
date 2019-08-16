@@ -2997,6 +2997,14 @@ namespace ImageGlass
                     case Touch.Action.Rotate_CW:
                         mnuMainRotateClockwise_Click(null, null);
                         break;
+                    case Touch.Action.Zoom_In:
+                        for (int i = 0; i < Touch.ZoomFactor; i++)
+                            ZoomAtPosition(true, Touch.ZoomLocation);
+                        break;
+                    case Touch.Action.Zoom_Out:
+                        for (int i = 0; i < Touch.ZoomFactor; i++)
+                            ZoomAtPosition(false, Touch.ZoomLocation);
+                        break;
                 }
             }
 
@@ -3785,6 +3793,14 @@ namespace ImageGlass
 
         }
 
+
+        private void ZoomAtPosition(bool zoomIn, Point position)
+        {
+            // Zoom in/out to a specific position
+            picMain.ProcessMouseZoom(zoomIn, position);
+        }
+
+
         private void picMain_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             //workaround that makes it so side mouse buttons will not zoom the image
@@ -3824,6 +3840,13 @@ namespace ImageGlass
             {
                 ToggleActualSize();
             }
+
+            // if (GlobalSettings.MouseB1Dbl == MouseAction.ZoomInToMouse)
+            // {
+                // NOTE: "CTRL+DoubleClick" is not available, probably due to the imagebox handling drag+drop
+                //var zoomIn = !(ModifierKeys.HasFlag(Keys.Shift));
+                //ZoomAtPosition(zoomIn, e.Location);
+            // }
         }
 
 
