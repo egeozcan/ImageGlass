@@ -3005,6 +3005,12 @@ namespace ImageGlass
                         for (int i = 0; i < Touch.ZoomFactor; i++)
                             ZoomAtPosition(false, Touch.ZoomLocation);
                         break;
+                    case Touch.Action.Swipe_Up:
+                        btnZoomOut_Click(null, null);
+                        break;
+                    case Touch.Action.Swipe_Down:
+                        btnZoomIn_Click(null, null);
+                        break;
                 }
             }
 

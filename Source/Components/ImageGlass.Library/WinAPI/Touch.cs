@@ -49,6 +49,8 @@ namespace ImageGlass.Library.WinAPI
             Rotate_CW,
             Zoom_In,
             Zoom_Out,
+            Swipe_Up,
+            Swipe_Down,
         }
 
         #region P/Invoke functions
@@ -239,11 +241,23 @@ namespace ImageGlass.Library.WinAPI
 
                         logit(string.Format("PANNING.END ({0},{1})", _ptSecond.X, _ptSecond.Y));
 
-                        // TODO ignore swipe up/down
-                        if (_ptSecond.X > _ptFirst.X)
-                            act = Action.Swipe_Right;
+                        int dVert = (_ptSecond.Y - _ptFirst.Y);
+                        int dHorz = (_ptSecond.X - _ptFirst.X);
+
+                        if (Math.Abs(dVert) > Math.Abs(dHorz))
+                        {
+                            if (dVert > 0)
+                                act = Action.Swipe_Down;
+                            else
+                                act = Action.Swipe_Up;
+                        }
                         else
-                            act = Action.Swipe_Left;
+                        {
+                            if (dHorz > 0)
+                                act = Action.Swipe_Right;
+                            else
+                                act = Action.Swipe_Left;
+                        }
                     }
                     break;
                 case GID_ROTATE:
