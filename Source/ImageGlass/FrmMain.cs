@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+using Cysharp.Text;
 using ImageGlass.Base;
 using ImageGlass.Base.Actions;
 using ImageGlass.Base.DirectoryComparer;
@@ -256,7 +257,7 @@ public partial class FrmMain : ThemedForm
         var langPath = "_.Metadata";
 
         // build tooltip content
-        var sb = new StringBuilder();
+        using var sb = ZString.CreateStringBuilder();
         sb.AppendLine(e.Item.FileName);
         sb.AppendLine($"{Config.Language[$"{langPath}._{nameof(IgMetadata.FileSize)}"]}: {e.Item.Details.FileSizeFormated}");
         sb.AppendLine($"{Config.Language[$"{langPath}._{nameof(IgMetadata.FileLastWriteTime)}"]}: {e.Item.Details.FileLastWriteTimeFormated}");
@@ -1359,12 +1360,12 @@ public partial class FrmMain : ThemedForm
                 if (Config.ImageInfoTags.Contains(nameof(ImageInfo.ListCount))
                     && Local.Images.Length > 0)
                 {
-                    var listInfo = new StringBuilder(3);
+                    using var listInfo = ZString.CreateStringBuilder();
                     listInfo.Append(Local.CurrentIndex + 1);
                     listInfo.Append('/');
                     listInfo.Append(Local.Images.Length);
 
-                    ImageInfo.ListCount = string.Format(
+                    ImageInfo.ListCount = ZString.Format(
                         Config.Language[$"_.{nameof(ImageInfo)}._{nameof(ImageInfo.ListCount)}"],
                         listInfo.ToString());
                 }
@@ -1423,7 +1424,7 @@ public partial class FrmMain : ThemedForm
                     && Local.Metadata != null
                     && Local.Metadata.FrameCount > 1)
                 {
-                    var frameInfo = new StringBuilder(3);
+                    using var frameInfo = ZString.CreateStringBuilder();
                     if (Local.Metadata != null)
                     {
                         frameInfo.Append(Local.Metadata.FrameIndex + 1);
@@ -1431,7 +1432,7 @@ public partial class FrmMain : ThemedForm
                         frameInfo.Append(Local.Metadata.FrameCount);
                     }
 
-                    ImageInfo.FrameCount = string.Format(
+                    ImageInfo.FrameCount = ZString.Format(
                         Config.Language[$"_.{nameof(ImageInfo)}._{nameof(ImageInfo.FrameCount)}"],
                         frameInfo.ToString());
                 }
@@ -1601,7 +1602,7 @@ public partial class FrmMain : ThemedForm
         if (mnu != null) mnu.PerformClick();
         else if (ac.Executable.StartsWith("Mnu", StringComparison.Ordinal))
         {
-            error = new MissingFieldException(string.Format(Config.Language[$"{langPath}._MenuNotFound"], ac.Executable));
+            error = new MissingFieldException(ZString.Format(Config.Language[$"{langPath}._MenuNotFound"], ac.Executable));
         }
         #endregion
 
@@ -1645,7 +1646,7 @@ public partial class FrmMain : ThemedForm
                     else
                     {
                         error = new ArgumentException(
-                            string.Format(Config.Language[$"{langPath}._MethodArgumentNotSupported"], ac.Executable),
+                            ZString.Format(Config.Language[$"{langPath}._MethodArgumentNotSupported"], ac.Executable),
                             nameof(ac.Arguments));
                     }
 
@@ -1672,7 +1673,7 @@ public partial class FrmMain : ThemedForm
             else
             {
                 error = new MissingMethodException(
-                    string.Format(Config.Language[$"{langPath}._MethodNotFound"], ac.Executable));
+                    ZString.Format(Config.Language[$"{langPath}._MethodNotFound"], ac.Executable));
             }
         }
 
@@ -1692,7 +1693,7 @@ public partial class FrmMain : ThemedForm
             var result = await BHelper.RunExeCmd(ac.Executable, procArgs, true);
             if (result != IgExitCode.Done)
             {
-                error = new Exception(string.Format(Config.Language[$"{langPath}._Win32ExeError"], ac.Executable));
+                error = new Exception(ZString.Format(Config.Language[$"{langPath}._Win32ExeError"], ac.Executable));
             }
         }
 
