@@ -6,7 +6,7 @@ ImageGlass - A lightweight, versatile image viewer
 [![GPL Licence](https://img.shields.io/badge/license-GPLv3-green.svg?maxAge=3600)](https://github.com/d2phap/ImageGlass/blob/master/LICENSE)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/imageglass/localized.svg)](https://crowdin.com/project/imageglass)
 
-[![Discord](https://img.shields.io/discord/818852544859209748?label=chat&logo=discord&color=%233097B8&style=social)](http://discord.io/imageglass)
+[![Discord](https://img.shields.io/discord/818852544859209748?label=chat&logo=discord&color=%233097B8&style=social)](https://discord.gg/tWjbynH2X8)
 [![Twitter Follow](https://img.shields.io/twitter/follow/duongdieuphap?style=social)](https://twitter.com/duongdieuphap)
 
 
