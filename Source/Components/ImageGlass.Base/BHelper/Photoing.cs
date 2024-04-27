@@ -263,7 +263,7 @@ public partial class BHelper
           ImageLockMode.WriteOnly,
           PixelFormat.Format32bppPArgb);
 
-        source.CopyPixels(data.Height * data.Stride, data.Scan0, data.Stride);
+        source.CopyPixels((uint)(data.Height * data.Stride), data.Scan0, data.Stride);
 
         bmp.UnlockBits(data);
 
