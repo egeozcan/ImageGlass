@@ -36,7 +36,7 @@ namespace igcmd {
             catch { }
 
             // get requirements of the new update
-            var updateRequirements = await updater.CheckRequirementsAsync();
+            var updateRequirements = await updater.CheckV9RequirementsAsync();
             var canUpdate = !updateRequirements.ContainsValue(false);
 
             Configs.IsNewVersionAvailable = updater.HasNewUpdate && canUpdate;
