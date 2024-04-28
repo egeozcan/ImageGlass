@@ -60,7 +60,7 @@
     "_._UserAction._MethodNotFound": "Metoden '{0}' ble ikke funnet og kan ikke utføres",
     "_._UserAction._MethodArgumentNotSupported": "Argumenttypen for metoden '{0}' støttes ikke",
     "_._UserAction._Win32ExeError": "Kan ikke kjøre kommandoen '{0}'. Sjekk at navnet stemmer.",
-    "_._Webview2._NotFound": "ImageGlass could not detect WebView2 Runtime 64-bit on your machine.",
+    "_._Webview2._NotFound": "ImageGlass fant ikke WebView2 Runtime 64-bit på maskinen.",
     "_.Metadata._FileSize": "Filstørrelse",
     "_.Metadata._FileCreationTime": "Date created",
     "_.Metadata._FileLastAccessTime": "Date accessed",
