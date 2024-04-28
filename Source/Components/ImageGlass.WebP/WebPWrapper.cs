@@ -869,30 +869,31 @@ public sealed class WebPWrapper : IDisposable
     {
         byte[]? rawWebP = null;
         byte[]? dataWebp = null;
-        WebPPicture wpic = new WebPPicture();
+        var wpic = new WebPPicture();
         BitmapData? bmpData = null;
-        WebPAuxStats stats = new WebPAuxStats();
-        IntPtr ptrStats = IntPtr.Zero;
-        GCHandle pinnedArrayHandle = new GCHandle();
+        var stats = new WebPAuxStats();
+        var ptrStats = IntPtr.Zero;
+        var pinnedArrayHandle = new GCHandle();
         int dataWebpSize;
+
         try
         {
-            //Validate the configuration
+            // Validate the configuration
             if (UnsafeNativeMethods.WebPValidateConfig(ref config) != 1)
                 throw new Exception("Bad configuration parameters");
 
-            //test bmp
+            // test bmp
             if (bmp.Width == 0 || bmp.Height == 0)
-                throw new ArgumentException("Bitmap contains no data.", "bmp");
+                throw new ArgumentException("Bitmap contains no data.", nameof(bmp));
             if (bmp.Width > WEBP_MAX_DIMENSION || bmp.Height > WEBP_MAX_DIMENSION)
-                throw new NotSupportedException("Bitmap's dimension is too large. Max is " + WEBP_MAX_DIMENSION + "x" + WEBP_MAX_DIMENSION + " pixels.");
+                throw new NotSupportedException($"Bitmap's dimension is too large. Max is {WEBP_MAX_DIMENSION}x{WEBP_MAX_DIMENSION} pixels.");
             if (bmp.PixelFormat != PixelFormat.Format24bppRgb && bmp.PixelFormat != PixelFormat.Format32bppArgb)
                 throw new NotSupportedException("Only support Format24bppRgb and Format32bppArgb pixelFormat.");
 
             // Setup the input data, allocating a the bitmap, width and height
             bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, bmp.PixelFormat);
             if (UnsafeNativeMethods.WebPPictureInitInternal(ref wpic) != 1)
-                throw new Exception("Can´t initialize WebPPictureInit");
+                throw new Exception("Can't initialize WebPPictureInit");
             wpic.width = (int)bmp.Width;
             wpic.height = (int)bmp.Height;
             wpic.use_argb = 1;
@@ -902,22 +903,22 @@ public sealed class WebPWrapper : IDisposable
                 //Put the bitmap componets in wpic
                 int result = UnsafeNativeMethods.WebPPictureImportBGRA(ref wpic, bmpData.Scan0, bmpData.Stride);
                 if (result != 1)
-                    throw new Exception("Can´t allocate memory in WebPPictureImportBGRA");
+                    throw new Exception("Can't allocate memory in WebPPictureImportBGRA");
                 wpic.colorspace = (uint)WEBP_CSP_MODE.MODE_bgrA;
                 dataWebpSize = bmp.Width * bmp.Height * 32;
-                dataWebp = new byte[bmp.Width * bmp.Height * 32];                //Memory for WebP output
+                dataWebp = new byte[bmp.Width * bmp.Height * 32]; // Memory for WebP output
             }
             else
             {
                 //Put the bitmap contents in WebPPicture instance
                 int result = UnsafeNativeMethods.WebPPictureImportBGR(ref wpic, bmpData.Scan0, bmpData.Stride);
                 if (result != 1)
-                    throw new Exception("Can´t allocate memory in WebPPictureImportBGR");
+                    throw new Exception("Can't allocate memory in WebPPictureImportBGR");
                 dataWebpSize = bmp.Width * bmp.Height * 24;
 
             }
 
-            //Set up statistics of compression
+            // Set up statistics of compression
             if (info)
             {
                 stats = new WebPAuxStats();
@@ -958,7 +959,7 @@ public sealed class WebPWrapper : IDisposable
             pinnedArrayHandle.Free();
             dataWebp = null;
 
-            //Show statistics
+            // Show statistics
             if (info)
             {
                 stats = (WebPAuxStats)Marshal.PtrToStructure(ptrStats, typeof(WebPAuxStats));
@@ -969,25 +970,25 @@ public sealed class WebPWrapper : IDisposable
         catch (Exception ex) { throw new Exception(ex.Message + "\r\nIn WebP.AdvancedEncode"); }
         finally
         {
-            //Free temporal compress memory
+            // Free temporal compress memory
             if (pinnedArrayHandle.IsAllocated)
             {
                 pinnedArrayHandle.Free();
             }
 
-            //Free statistics memory
+            // Free statistics memory
             if (ptrStats != IntPtr.Zero)
             {
                 Marshal.FreeHGlobal(ptrStats);
             }
 
-            //Unlock the pixels
+            // Unlock the pixels
             if (bmpData != null)
             {
                 bmp.UnlockBits(bmpData);
             }
 
-            //Free memory
+            // Free memory
             if (wpic.argb != IntPtr.Zero)
             {
                 UnsafeNativeMethods.WebPPictureFree(ref wpic);
