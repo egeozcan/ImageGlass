@@ -277,6 +277,7 @@ namespace ImageGlass.Base {
         Win11,
         Win10,
         Win10OrLater,
+        Win10Build17763OrLater,
         Win7,
     }
 }

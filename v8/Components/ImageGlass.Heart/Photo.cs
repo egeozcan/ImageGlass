@@ -287,7 +287,7 @@ namespace ImageGlass.Heart {
 
                     try {
                         // try to get thumbnail
-                        imgM.Read(profile?.GetData(), settings);
+                        imgM.Read(profile?.ToByteArray(), settings);
                     }
                     catch {
                         imgM.Read(filename, settings);

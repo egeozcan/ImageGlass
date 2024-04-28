@@ -1,6 +1,6 @@
 ﻿/*
 ImageGlass Project - Image viewer for Windows
-Copyright (C) 2010 -2023 DUONG DIEU PHAP
+Copyright (C) 2010 - 2024 DUONG DIEU PHAP
 Project homepage: https://imageglass.org
 
 This program is free software: you can redistribute it and/or modify
@@ -90,13 +90,15 @@ namespace ImageGlass.Base.Update {
         /// <summary>
         /// Checks the requirements for the update.
         /// </summary>
-        public async Task<Dictionary<string, bool>> CheckRequirementsAsync() {
-            var list = new Dictionary<string, bool>();
-            var newVersion = new Version(CurrentReleaseInfo.Version);
-            if (newVersion.Major < 9) return list;
-
-            // Windows 64-bit
-            list.Add("64-bit Windows", Environment.Is64BitOperatingSystem);
+        public async Task<Dictionary<string, bool>> CheckV9RequirementsAsync() {
+            var list = new Dictionary<string, bool> {
+                // Windows 64-bit
+                {
+                    "Windows 10 64-bit, version 1809 or later",
+                        Environment.Is64BitOperatingSystem
+                        && Helpers.IsOS(WindowsOS.Win10Build17763OrLater)
+                }
+            };
 
 
             // .NET Desktop Runtime versions
@@ -106,14 +108,14 @@ namespace ImageGlass.Base.Update {
                     .ExecuteBufferedAsync(Encoding.UTF8);
 
                 if (cmdOutput.StandardOutput.Contains("Microsoft.WindowsDesktop.App 8")) {
-                    list.Add(".NET Desktop Runtime 8.0", true);
+                    list.Add(".NET Desktop Runtime 8", true);
                 }
                 else {
-                    throw new Exception(".NET Desktop Runtime not found");
+                    throw new Exception(".NET Desktop Runtime 8 is not found");
                 }
             }
             catch {
-                list.Add(".NET Desktop Runtime", false);
+                list.Add(".NET Desktop Runtime 8", false);
             }
 
 
@@ -127,15 +129,19 @@ namespace ImageGlass.Base.Update {
                     installedVersion = cuKey.GetValue("pv", string.Empty).ToString();
                 }
 
+
                 if (string.IsNullOrWhiteSpace(installedVersion)) {
                     throw new Exception("WebView2 Runtime not found");
                 }
+                else if (new Version(installedVersion) < new Version("119.0.2151.0")) {
+                    throw new Exception($"WebView2 Runtime is outdated: {installedVersion}");
+                }
                 else {
-                    list.Add("WebView2 Runtime", true);
+                    list.Add("WebView2 Runtime v119.0.2151 or later", true);
                 }
             }
             catch {
-                list.Add("WebView2 Runtime", false);
+                list.Add("WebView2 Runtime v119.0.2151 or later", false);
             }
 
             return list;
