@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<DOCUMENT Type="Advanced Installer" CreateVersion="16.6.1" version="21.3.1" Modules="express" RootPath="." Language="en" Id="{F94250A5-86CD-4D74-BDB8-560C4CA1354D}">
+<DOCUMENT Type="Advanced Installer" CreateVersion="16.6.1" version="21.6.1" Modules="express" RootPath="." Language="en" Id="{F94250A5-86CD-4D74-BDB8-560C4CA1354D}">
   <COMPONENT cid="caphyon.advinst.msicomp.ProjectOptionsComponent">
     <ROW Name="HiddenItems" Value="AppXProductDetailsComponent;AppXDependenciesComponent;AppXAppDetailsComponent;AppXVisualAssetsComponent;AppXCapabilitiesComponent;AppXAppDeclarationsComponent;AppXUriRulesComponent;FixupComponent;MsiXDiffComponent;MsixManifestEditorComponent"/>
   </COMPONENT>
@@ -18,10 +18,10 @@
     <ROW Property="MSIFASTINSTALL" MultiBuildValue="DefaultBuild:3"/>
     <ROW Property="Manufacturer" Value="Duong Dieu Phap"/>
     <ROW Property="MsiLogging" MultiBuildValue="DefaultBuild:vp"/>
-    <ROW Property="ProductCode" Value="1033:{35D2E54D-F51D-4BCE-B499-67EB30062C5C} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{2D92ED66-FAE1-4E7E-B3AB-74E2EBAA7DFE} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="ImageGlass"/>
-    <ROW Property="ProductVersion" Value="9.0.10.201" Options="32"/>
+    <ROW Property="ProductVersion" Value="9.0.11.430" Options="32"/>
     <ROW Property="RUNAPPLICATION" Value="1" Type="4"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{877DB994-AB03-4025-B99D-41CE565E810B}"/>
@@ -127,6 +127,7 @@
     <ROW Component="WebView2Loader.dll_1" ComponentId="{734ED35E-882B-4000-A2C6-ABF3A1951F05}" Directory_="native_Dir" Attributes="256" KeyPath="WebView2Loader.dll_1"/>
     <ROW Component="WicNet.dll" ComponentId="{104D60EF-94A4-496E-A344-66859C27FA75}" Directory_="APPDIR" Attributes="256" KeyPath="WicNet.dll"/>
     <ROW Component="WinRT.Runtime.dll" ComponentId="{89BE7794-C3D0-415E-BFB9-DC37226F0621}" Directory_="APPDIR" Attributes="0" KeyPath="WinRT.Runtime.dll"/>
+    <ROW Component="ZString.dll" ComponentId="{09B28A07-B0D9-4474-ADDD-D54AFB135F23}" Directory_="APPDIR" Attributes="256" KeyPath="ZString.dll"/>
     <ROW Component="globalHelpers.d.ts" ComponentId="{0A7D65D1-BEEC-462C-B629-43455653A2AD}" Directory_="helpers_Dir" Attributes="0" KeyPath="globalHelpers.d.ts" Type="0"/>
     <ROW Component="igcmd.dll" ComponentId="{2BC725DB-D08A-43DC-AFB4-31ECE4564B12}" Directory_="APPDIR" Attributes="256" KeyPath="igcmd.dll"/>
     <ROW Component="igcmd.dll.config" ComponentId="{FD6534D7-4727-44E3-9273-3CF6E1FC0141}" Directory_="APPDIR" Attributes="0" KeyPath="ReadMe.rtf" Type="0"/>
@@ -466,6 +467,8 @@
     <ROW File="ImageGlass.WebP.pdb" Component_="ImageGlass.WebP.dll" FileName="IMAGEG~7.PDB|ImageGlass.WebP.pdb" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\ImageGlass.WebP.pdb" SelfReg="false"/>
     <ROW File="ImageGlass.WinTouch.pdb" Component_="ImageGlass.WinTouch.dll" FileName="IMAGEG~8.PDB|ImageGlass.WinTouch.pdb" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\ImageGlass.WinTouch.pdb" SelfReg="false"/>
     <ROW File="default.webp" Component_="igcmd.dll.config" FileName="DEFAUL~1.WEB|default.webp" Attributes="0" SourcePath="..\Assets\default.webp" SelfReg="false"/>
+    <ROW File="Persian.iglang.json" Component_="Vietnamese.iglang.json" FileName="PERSIA~1.JSO|Persian.iglang.json" Attributes="0" SourcePath="..\Assets\Language\Persian.iglang.json" SelfReg="false"/>
+    <ROW File="ZString.dll" Component_="ZString.dll" FileName="ZString.dll" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\ZString.dll" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.AiPersistentPropComponent">
     <ROW Property="AI_INSTALLPERUSER" Registry="AI_INSTALLPERUSER" HklmSearch="AI_INSTALLPERUSER" HkcuSearch="AI_INSTALLPERUSER_1" Hklm64Search="AI_INSTALLPERUSER_2" Hkcu64Search="AI_INSTALLPERUSER_3"/>
@@ -653,6 +656,7 @@
     <ROW Feature_="MainFeatures" Component_="WebView2Loader.dll"/>
     <ROW Feature_="MainFeatures" Component_="WicNet.dll"/>
     <ROW Feature_="MainFeatures" Component_="WinRT.Runtime.dll"/>
+    <ROW Feature_="MainFeatures" Component_="ZString.dll"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiIconsComponent">
     <ROW Name="SystemFoldermsiexec.exe" SourcePath="&lt;AI_RES&gt;uninstall.ico" Index="0"/>
