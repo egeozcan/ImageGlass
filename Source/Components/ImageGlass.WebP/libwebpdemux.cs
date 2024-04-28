@@ -12,13 +12,6 @@ internal sealed partial class UnsafeNativeMethods
     private static readonly int WEBP_DEMUX_ABI_VERSION = 0x0107;
 
 
-    [MethodImpl(256)]  //MethodImplOptions.AggressiveInlining
-    private static void ValidatePlatform()
-    {
-        if (IntPtr.Size != 4 && IntPtr.Size != 8)
-            throw new InvalidOperationException("Invalid platform. Can not find proper function");
-    }
-
 
     /// <summary>Should always be called, to initialize a fresh WebPAnimDecoderOptions
     /// structure before modification. Returns false in case of version mismatch.
@@ -28,12 +21,11 @@ internal sealed partial class UnsafeNativeMethods
     /// <returns>true/false - success/error</returns>
     internal static bool WebPAnimDecoderOptionsInit(ref WebPAnimDecoderOptions dec_options)
     {
-        ValidatePlatform();
-
         return WebPAnimDecoderOptionsInitInternal(ref dec_options, WEBP_DEMUX_ABI_VERSION) == 1;
     }
-    [DllImport("libwebpdemux.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "WebPAnimDecoderOptionsInitInternal")]
-    private static extern int WebPAnimDecoderOptionsInitInternal(ref WebPAnimDecoderOptions dec_options, int WEBP_DEMUX_ABI_VERSION);
+    [LibraryImport("libwebpdemux.dll", EntryPoint = "WebPAnimDecoderOptionsInitInternal")]
+    [UnmanagedCallConv(CallConvs = new Type[] { typeof(CallConvCdecl) })]
+    private static partial int WebPAnimDecoderOptionsInitInternal(ref WebPAnimDecoderOptions dec_options, int WEBP_DEMUX_ABI_VERSION);
 
 
 
@@ -65,8 +57,9 @@ internal sealed partial class UnsafeNativeMethods
         ////        throw new InvalidOperationException("Invalid platform. Can not find proper function");
         ////}
     }
-    [DllImport("libwebpdemux.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "WebPAnimDecoderNewInternal")]
-    private static extern IntPtr WebPAnimDecoderNewInternal(ref WebPData webp_data, ref WebPAnimDecoderOptions dec_options, int WEBP_DEMUX_ABI_VERSION);
+    [LibraryImport("libwebpdemux.dll", EntryPoint = "WebPAnimDecoderNewInternal")]
+    [UnmanagedCallConv(CallConvs = new Type[] { typeof(CallConvCdecl) })]
+    private static partial IntPtr WebPAnimDecoderNewInternal(ref WebPData webp_data, ref WebPAnimDecoderOptions dec_options, int WEBP_DEMUX_ABI_VERSION);
 
 
 
@@ -78,8 +71,9 @@ internal sealed partial class UnsafeNativeMethods
     {
         return WebPAnimDecoderGetInfoInternal(dec, out info) == 1;
     }
-    [DllImport("libwebpdemux.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "WebPAnimDecoderGetInfo")]
-    private static extern int WebPAnimDecoderGetInfoInternal(IntPtr dec, out WebPAnimInfo info);
+    [LibraryImport("libwebpdemux.dll", EntryPoint = "WebPAnimDecoderGetInfo")]
+    [UnmanagedCallConv(CallConvs = new Type[] { typeof(CallConvCdecl) })]
+    private static partial int WebPAnimDecoderGetInfoInternal(IntPtr dec, out WebPAnimInfo info);
 
 
 
@@ -93,8 +87,9 @@ internal sealed partial class UnsafeNativeMethods
     {
         return WebPAnimDecoderHasMoreFramesInternal(dec) == 1;
     }
-    [DllImport("libwebpdemux.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "WebPAnimDecoderHasMoreFrames")]
-    private static extern int WebPAnimDecoderHasMoreFramesInternal(IntPtr dec);
+    [LibraryImport("libwebpdemux.dll", EntryPoint = "WebPAnimDecoderHasMoreFrames")]
+    [UnmanagedCallConv(CallConvs = new Type[] { typeof(CallConvCdecl) })]
+    private static partial int WebPAnimDecoderHasMoreFramesInternal(IntPtr dec);
 
 
 
@@ -116,8 +111,9 @@ internal sealed partial class UnsafeNativeMethods
     {
         return WebPAnimDecoderGetNextInternal(dec, ref buf, ref timestamp) == 1;
     }
-    [DllImport("libwebpdemux.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "WebPAnimDecoderGetNext")]
-    private static extern int WebPAnimDecoderGetNextInternal(IntPtr dec, ref IntPtr buf, ref int timestamp);
+    [LibraryImport("libwebpdemux.dll", EntryPoint = "WebPAnimDecoderGetNext")]
+    [UnmanagedCallConv(CallConvs = new Type[] { typeof(CallConvCdecl) })]
+    private static partial int WebPAnimDecoderGetNextInternal(IntPtr dec, ref IntPtr buf, ref int timestamp);
 
 
 
@@ -132,8 +128,9 @@ internal sealed partial class UnsafeNativeMethods
     {
         WebPAnimDecoderResetInternal(dec);
     }
-    [DllImport("libwebpdemux.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "WebPAnimDecoderReset")]
-    private static extern void WebPAnimDecoderResetInternal(IntPtr dec);
+    [LibraryImport("libwebpdemux.dll", EntryPoint = "WebPAnimDecoderReset")]
+    [UnmanagedCallConv(CallConvs = new Type[] { typeof(CallConvCdecl) })]
+    private static partial void WebPAnimDecoderResetInternal(IntPtr dec);
 
 
 
@@ -143,8 +140,9 @@ internal sealed partial class UnsafeNativeMethods
     {
         WebPAnimDecoderDeleteInternal(decoder);
     }
-    [DllImport("libwebpdemux.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "WebPAnimDecoderDelete")]
-    private static extern void WebPAnimDecoderDeleteInternal(IntPtr dec);
+    [LibraryImport("libwebpdemux.dll", EntryPoint = "WebPAnimDecoderDelete")]
+    [UnmanagedCallConv(CallConvs = new Type[] { typeof(CallConvCdecl) })]
+    private static partial void WebPAnimDecoderDeleteInternal(IntPtr dec);
 
 }
 
