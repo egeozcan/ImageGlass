@@ -1,4 +1,22 @@
-﻿using System.Runtime.InteropServices;
+﻿/*
+ImageGlass Project - Image viewer for Windows
+Copyright (C) 2010 - 2024 DUONG DIEU PHAP
+Project homepage: https://imageglass.org
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+using System.Runtime.InteropServices;
 using System.Security;
 
 namespace ImageGlass.WebP;
@@ -6,7 +24,7 @@ namespace ImageGlass.WebP;
 
 
 [SuppressUnmanagedCodeSecurityAttribute]
-internal sealed partial class UnsafeNativeMethods
+internal sealed partial class LibWebp
 {
     private static readonly int WEBP_DECODER_ABI_VERSION = 0x0208;
 
@@ -16,7 +34,7 @@ internal sealed partial class UnsafeNativeMethods
     /// <param name="data_size">Size of data returned</param>
     /// <param name="wpic">Picture structure</param>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal delegate int WebPMemoryWrite([In()] IntPtr data, UIntPtr data_size, ref WebPPicture wpic);
+    internal delegate int WebPMemoryWrite([In()] IntPtr data, uint data_size, ref WebPPicture wpic);
     internal static WebPMemoryWrite? OnCallback;
 
 
