@@ -11,6 +11,17 @@ internal sealed partial class UnsafeNativeMethods
     private static readonly int WEBP_DECODER_ABI_VERSION = 0x0208;
 
 
+    /// <summary>The writer type for output compress data</summary>
+    /// <param name="data">Data returned</param>
+    /// <param name="data_size">Size of data returned</param>
+    /// <param name="wpic">Picture structure</param>
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    internal delegate int WebPMemoryWrite([In()] IntPtr data, UIntPtr data_size, ref WebPPicture wpic);
+    internal static WebPMemoryWrite? OnCallback;
+
+
+
+
     /// <summary>This function will initialize the configuration according to a predefined set of parameters (referred to by 'preset') and a given quality factor</summary>
     /// <param name="config">The WebPConfig structure</param>
     /// <param name="preset">Type of image</param>
@@ -121,18 +132,6 @@ internal sealed partial class UnsafeNativeMethods
 
 
 
-    /// <summary>The writer type for output compress data</summary>
-    /// <param name="data">Data returned</param>
-    /// <param name="data_size">Size of data returned</param>
-    /// <param name="wpic">Picture structure</param>
-    /// <returns></returns>
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal delegate int WebPMemoryWrite([In()] IntPtr data, UIntPtr data_size, ref WebPPicture wpic);
-    internal static WebPMemoryWrite? OnCallback;
-
-
-
-
     /// <summary>Compress to WebP format</summary>
     /// <param name="config">The configuration structure for compression parameters</param>
     /// <param name="picture">'picture' hold the source samples in both YUV(A) or ARGB input</param>
@@ -229,7 +228,7 @@ internal sealed partial class UnsafeNativeMethods
 
 
 
-    /// <summary>Initialize the configuration as empty. This function must always be called first, unless WebPGetFeatures() is to be called</summary>
+    /// <summary>Initialize the configuration as empty. This function must always be called first, unless <see cref="WebPGetFeatures(nint, int, ref WebPBitstreamFeatures)"/> is to be called</summary>
     /// <param name="webPDecoderConfig">Configuration structure</param>
     /// <returns>False in case of mismatched version.</returns>
     internal static int WebPInitDecoderConfig(ref WebPDecoderConfig webPDecoderConfig)
@@ -246,7 +245,7 @@ internal sealed partial class UnsafeNativeMethods
     /// <param name="data">WebP raw data to decode</param>
     /// <param name="data_size">Size of WebP data </param>
     /// <param name="webPDecoderConfig">Configuration structure</param>
-    /// <returns>VP8_STATUS_OK if the decoding was successful</returns>
+    /// <returns><see cref="VP8StatusCode.VP8_STATUS_OK"/> if the decoding was successful</returns>
     internal static VP8StatusCode WebPDecode(IntPtr data, int data_size, ref WebPDecoderConfig webPDecoderConfig)
     {
         return WebPDecode_x64(data, (UIntPtr)data_size, ref webPDecoderConfig);
@@ -258,13 +257,13 @@ internal sealed partial class UnsafeNativeMethods
 
 
     /// <summary>Free any memory associated with the buffer. Must always be called last. Doesn't free the 'buffer' structure itself</summary>
-    /// <param name="buffer">WebPDecBuffer</param>
     internal static void WebPFreeDecBuffer(ref WebPDecBuffer buffer)
     {
         WebPFreeDecBuffer_x64(ref buffer);
     }
-    [DllImport("libwebp.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "WebPFreeDecBuffer")]
-    private static extern void WebPFreeDecBuffer_x64(ref WebPDecBuffer buffer);
+    [LibraryImport("libwebp.dll", EntryPoint = "WebPFreeDecBuffer")]
+    [UnmanagedCallConv(CallConvs = new Type[] { typeof(System.Runtime.CompilerServices.CallConvCdecl) })]
+    private static partial void WebPFreeDecBuffer_x64(ref WebPDecBuffer buffer);
 
 
 
@@ -345,8 +344,9 @@ internal sealed partial class UnsafeNativeMethods
     {
         WebPFree_x64(p);
     }
-    [DllImport("libwebp.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "WebPFree")]
-    private static extern void WebPFree_x64(IntPtr p);
+    [LibraryImport("libwebp.dll", EntryPoint = "WebPFree")]
+    [UnmanagedCallConv(CallConvs = new Type[] { typeof(System.Runtime.CompilerServices.CallConvCdecl) })]
+    private static partial void WebPFree_x64(IntPtr p);
 
 
 
@@ -357,8 +357,9 @@ internal sealed partial class UnsafeNativeMethods
     {
         return WebPGetDecoderVersion_x64();
     }
-    [DllImport("libwebp.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "WebPGetDecoderVersion")]
-    private static extern int WebPGetDecoderVersion_x64();
+    [LibraryImport("libwebp.dll", EntryPoint = "WebPGetDecoderVersion")]
+    [UnmanagedCallConv(CallConvs = new Type[] { typeof(System.Runtime.CompilerServices.CallConvCdecl) })]
+    private static partial int WebPGetDecoderVersion_x64();
 
 
 
@@ -383,8 +384,9 @@ internal sealed partial class UnsafeNativeMethods
     {
         return WebPMalloc_x64(size);
     }
-    [DllImport("libwebp.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "WebPMalloc")]
-    private static extern IntPtr WebPMalloc_x64(int size);
+    [LibraryImport("libwebp.dll", EntryPoint = "WebPMalloc")]
+    [UnmanagedCallConv(CallConvs = new Type[] { typeof(System.Runtime.CompilerServices.CallConvCdecl) })]
+    private static partial IntPtr WebPMalloc_x64(int size);
 
 }
 
