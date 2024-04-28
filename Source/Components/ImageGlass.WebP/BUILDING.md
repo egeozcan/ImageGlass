@@ -11,7 +11,9 @@ cd /d "F:\Path\To\Directory"
 ```batch
 nmake /f Makefile.vc CFG=release-dynamic RTLIBCFG=dynamic OBJDIR=output
 ```
+6. The DLL files are generated in `output\release-dynamic\x64\bin` folder
+
 
 ## Notes
-* Depend on which `Native Tools Command Prompt` (x86 or x64), the compiled binaries will match the architecture with the `Command Prompt`'s environment.
-* You **may** need to manually add some directory to `PATH` environment so that the build tool can find the external tools.
+- Depend on which `Native Tools Command Prompt` (x86 or x64), the compiled binaries will match the architecture with the `Command Prompt`'s environment.
+- You **may** need to manually add some directory to `PATH` environment so that the build tool can find the external tools.
