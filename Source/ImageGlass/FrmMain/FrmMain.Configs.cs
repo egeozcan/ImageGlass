@@ -230,6 +230,10 @@ public partial class FrmMain
         IG_ToggleGallery(Config.ShowGallery);
 
 
+        // Enable form movable: must be before IG_ToggleFullScreen()
+        IG_SetWindowMoveable(true);
+
+
         // load Full screen mode
         if (Config.EnableFullScreen)
         {
@@ -295,23 +299,6 @@ public partial class FrmMain
 
         // load language pack
         Local.UpdateFrmMain(UpdateRequests.Language | UpdateRequests.MenuHotkeys | UpdateRequests.MouseActions);
-
-
-        // Initialize form movable
-        #region Form movable
-        _movableForm = new(this)
-        {
-            Key = Keys.ShiftKey | Keys.Shift,
-            FreeMoveControlNames =
-            [
-                nameof(Toolbar),
-                nameof(ToolbarContext),
-            ],
-        };
-
-        // Enable form movable
-        IG_SetWindowMoveable(true);
-        #endregion // Form movable
 
 
         // update tag data for zoom mode menus

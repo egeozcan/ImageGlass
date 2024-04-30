@@ -41,7 +41,7 @@ public partial class FrmSlideshow : ThemedForm
     private string _initImagePath;
 
     private CancellationTokenSource? _loadCancelTokenSrc = new();
-    private MovableForm _movableForm;
+    private MovableForm? _movableForm;
     private ImageBooster _images = new();
     private int _currentIndex = -1;
     private IgMetadata? _currentMetadata = null;
@@ -160,16 +160,8 @@ public partial class FrmSlideshow : ThemedForm
         _slideshowTimer.Tick += SlideshowTimer_Tick;
 
 
-        // Initialize form movable
-        #region Form movable
-        _movableForm = new(this)
-        {
-            Key = Keys.ShiftKey | Keys.Shift,
-        };
-
-        // Enable form movable
+        // Enable form movable: must be before IG_ToggleFullScreen()
         IG_SetWindowMoveable(true);
-        #endregion // Form movable
 
 
         // full screen slideshow
@@ -1807,7 +1799,11 @@ public partial class FrmSlideshow : ThemedForm
     public void IG_SetWindowMoveable(bool? enable = null)
     {
         enable ??= true;
-        _movableForm.Key = Keys.ShiftKey | Keys.Shift;
+
+        _movableForm ??= new(this)
+        {
+            Key = Keys.ShiftKey | Keys.Shift,
+        };
 
         if (enable.Value)
         {
