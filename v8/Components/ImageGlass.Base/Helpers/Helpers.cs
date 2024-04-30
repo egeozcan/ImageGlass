@@ -175,6 +175,11 @@ namespace ImageGlass.Base {
                 return Environment.OSVersion.Version.Major >= 10;
             }
 
+            if (ver == WindowsOS.Win10Build17763OrLater) {
+                return Environment.OSVersion.Version.Major >= 10
+                    && Environment.OSVersion.Version.Build >= 17763;
+            }
+
             if (ver == WindowsOS.Win7) {
                 return Environment.OSVersion.Version.Major == 6
                     && Environment.OSVersion.Version.Minor == 1;

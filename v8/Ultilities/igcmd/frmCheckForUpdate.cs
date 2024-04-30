@@ -1,6 +1,6 @@
 ﻿/*
 ImageGlass Project - Image viewer for Windows
-Copyright (C) 2010 - 2023 DUONG DIEU PHAP
+Copyright (C) 2010 - 2024 DUONG DIEU PHAP
 Project homepage: https://imageglass.org
 
 This program is free software: you can redistribute it and/or modify
@@ -50,12 +50,12 @@ namespace igcmd {
             // Icon theming
             if (!Configs.Theme.IsShowTitlebarLogo) {
                 using var icon = Icon.FromHandle(new Bitmap(48, 48).GetHicon());
-                this.Icon = icon;
+                Icon = icon;
                 FormIcon.SetTaskbarIcon(this, iconPtr);
             }
             else {
                 using var icon = Icon.FromHandle(iconPtr);
-                this.Icon = icon;
+                Icon = icon;
             }
         }
 
@@ -65,13 +65,15 @@ namespace igcmd {
 <div>Current version: {App.Version}</div>
 ");
 
+            var v9Requirements = "";
+
             try {
                 await updater.GetUpdatesAsync();
+
+                v9Requirements = (await GetV9RequirementsAsync()).ToString();
             }
             catch (Exception ex) {
-
                 btnDownload.Visible = false;
-
 
                 ShowHtmlContent($@"
 <h1 class=""text-warning"">Could not check for update</h1>
@@ -79,6 +81,9 @@ namespace igcmd {
 <br/>
 <div><b>Error message:</b></div>
 <div><pre><code>{ex.Message}</code></pre></div>
+<hr/>
+
+{v9Requirements}
 ");
 
                 return;
@@ -86,7 +91,7 @@ namespace igcmd {
 
 
             // get requirements of the new update
-            var updateRequirements = await updater.CheckRequirementsAsync();
+            var updateRequirements = await updater.CheckV9RequirementsAsync();
             var canUpdate = !updateRequirements.ContainsValue(false);
 
 
@@ -111,39 +116,49 @@ namespace igcmd {
             sb.Append($"<div>Latest version: {updater.CurrentReleaseInfo.Version}</div>");
             sb.Append($"<div>Published date: {updater.CurrentReleaseInfo.PublishedDate}</div>");
 
-            // update requirements
-            if (updateRequirements.Count > 0) {
-                sb.Append("<hr/>");
-                sb.Append($"<div class=\"box {(canUpdate ? "box-success" : "box-danger")}\">");
-                if (canUpdate) {
-                    sb.Append($"<div>😊 Your system meets all the requirements!</div>");
-                }
-                else {
-                    sb.Append($"<div>Your system <b><u>does not meet</u></b> the new version's requirements!</div>");
-                }
-
-                sb.Append("<div style=\"margin-left: 1rem;\">");
-                foreach (var item in updateRequirements) {
-                    if (item.Value) {
-                        sb.Append($"<div><span class=\"text-success\">✔️</span> {item.Key}</div>");
-                    }
-                    else {
-                        sb.Append($"<div><span class=\"text-danger\">❌</span> {item.Key}</div>");
-                    }
-                }
-                sb.Append("</div>");
-                sb.Append("</div>");
-            }
 
             // update details
             sb.Append("<hr/>");
-            sb.Append($"<h2 class=\"text-accent\">🌟 <a href=\"{updater.CurrentReleaseInfo.ChangelogUrl}?utm_source=app_{App.Version}&utm_medium=app_click&utm_campaign=app_update_read_more\" target=\"_blank\">{updater.CurrentReleaseInfo.Title}</a></h2>");
+            sb.Append($"<h2 class=\"text-accent\">🌟 <a href=\"{updater.CurrentReleaseInfo.ChangelogUrl}\" target=\"_blank\">{updater.CurrentReleaseInfo.Title}</a></h2>");
             sb.Append($"<div>{updater.CurrentReleaseInfo.Description.Replace("\r\n", "<br/>")}</div>");
+            sb.Append("<hr/>");
 
-
-            ShowHtmlContent(sb.ToString());
+            ShowHtmlContent(sb.ToString() + v9Requirements);
 
             Configs.IsNewVersionAvailable = updater.HasNewUpdate && canUpdate;
+        }
+
+
+        private async Task<StringBuilder> GetV9RequirementsAsync() {
+            // get requirements of the new update
+            var updateRequirements = await updater.CheckV9RequirementsAsync();
+            var canUpdate = !updateRequirements.ContainsValue(false);
+
+            var sb = new StringBuilder();
+            sb.Append($"<div class=\"box {(canUpdate ? "box-success" : "box-danger")}\">");
+            sb.Append($"<h2 style=\"margin-top: 0\"><a href=\"https://imageglass.org\" target=\"_blank\"><b>ImageGlass 9 Update</b></a></h2>");
+
+
+            if (canUpdate) {
+                sb.Append($"<div>Your system meets all the requirements! 😊</div>");
+            }
+            else {
+                sb.Append($"<div>Your system <b><u>does not meet</u></b> the new version's requirements!</div>");
+            }
+
+            sb.Append("<div style=\"margin-left: 1rem; margin-top: 0.5rem;\">");
+            foreach (var item in updateRequirements) {
+                if (item.Value) {
+                    sb.Append($"<div><span class=\"text-success\">✔️</span> {item.Key}</div>");
+                }
+                else {
+                    sb.Append($"<div><span class=\"text-danger\">❌</span> {item.Key}</div>");
+                }
+            }
+            sb.Append("</div>");
+            sb.Append("</div>");
+
+            return sb;
         }
 
 
