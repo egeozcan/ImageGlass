@@ -47,10 +47,10 @@ internal class ThumbnailCacheManager : IDisposable
     {
         CacheSize = 100 * 1024 * 1024, // 100 MB disk cache
     };
-    private readonly Dictionary<Guid, CacheItem> _thumbCache = new();
-    private readonly Dictionary<Guid, bool> _processing = new();
-    private readonly Dictionary<Guid, bool> _editCache = new();
-    private readonly List<Guid> _removedItems = new();
+    private readonly Dictionary<Guid, CacheItem> _thumbCache = [];
+    private readonly Dictionary<Guid, bool> _processing = [];
+    private readonly Dictionary<Guid, bool> _editCache = [];
+    private readonly List<Guid> _removedItems = [];
 
     private Guid _processingRendererItem = Guid.Empty;
     private Guid _processingGalleryItem = Guid.Empty;
@@ -442,16 +442,12 @@ internal class ThumbnailCacheManager : IDisposable
         // Dispose old item and add to cache
         if (request.RequestType == RequestType.Renderer)
         {
-            if (_rendererItem != null)
-                _rendererItem.Dispose();
-
+            _rendererItem?.Dispose();
             _rendererItem = result;
         }
         else if (request.RequestType == RequestType.Gallery)
         {
-            if (_galleryItem != null)
-                _galleryItem.Dispose();
-
+            _galleryItem?.Dispose();
             _galleryItem = result;
         }
         else if (result != null)
@@ -586,10 +582,11 @@ internal class ThumbnailCacheManager : IDisposable
     /// <param name="guid">The guid representing the item</param>
     public void BeginItemEdit(Guid guid)
     {
-        if (!_editCache.ContainsKey(guid))
+        try
         {
-            _editCache.Add(guid, false);
+            _ = _editCache.TryAdd(guid, false);
         }
+        catch { }
     }
 
     /// <summary>
@@ -599,7 +596,7 @@ internal class ThumbnailCacheManager : IDisposable
     /// <param name="guid">The guid representing the item.</param>
     public void EndItemEdit(Guid guid)
     {
-        _editCache.Remove(guid);
+        _ = _editCache.Remove(guid);
     }
 
     /// <summary>
@@ -624,17 +621,15 @@ internal class ThumbnailCacheManager : IDisposable
     public void Clear()
     {
         foreach (var item in _thumbCache.Values)
+        {
             item.Dispose();
+        }
         _thumbCache.Clear();
 
-        if (_galleryItem != null)
-        {
-            _galleryItem.Dispose();
-            _galleryItem = null;
-        }
+        _galleryItem?.Dispose();
+        _galleryItem = null;
 
-        if (_rendererItem != null)
-            _rendererItem.Dispose();
+        _rendererItem?.Dispose();
         _rendererItem = null;
 
         _bw.CancelAsync();
@@ -1050,16 +1045,13 @@ internal class ThumbnailCacheManager : IDisposable
     private void RunWorker(CacheRequest item, int priority)
     {
         // Get the current synchronization context
-        if (_context == null)
-            _context = SynchronizationContext.Current;
+        _context ??= SynchronizationContext.Current;
 
         // Already being processed?
         if (item.RequestType == RequestType.Thumbnail)
         {
-            if (_processing.ContainsKey(item.Guid))
+            if (!_processing.TryAdd(item.Guid, false))
                 return;
-            else
-                _processing.Add(item.Guid, false);
         }
         else if (item.RequestType == RequestType.Renderer)
         {
@@ -1083,8 +1075,7 @@ internal class ThumbnailCacheManager : IDisposable
         }
 
         // Raise the ThumbnailCaching event
-        if (_imageGallery != null)
-            _imageGallery.OnThumbnailCachingInternal(item.Guid, item.Size);
+        _imageGallery?.OnThumbnailCachingInternal(item.Guid, item.Size);
 
         // Add the item to the queue for processing
         _bw.RunWorkerAsync(item, priority, item.RequestType != RequestType.Thumbnail);

@@ -27,9 +27,9 @@ namespace ImageGlass;
 /// <summary>
 /// Provides settings for Crop tool.
 /// </summary>
-public class CropToolConfig : IToolConfig
+public class CropToolConfig(string toolId) : IToolConfig
 {
-    public string ToolId { get; init; }
+    public string ToolId { get; init; } = toolId;
 
 
     /// <summary>
@@ -41,7 +41,7 @@ public class CropToolConfig : IToolConfig
     /// <summary>
     /// Gets, sets the aspect ratio values.
     /// </summary>
-    public int[] AspectRatioValues { get; set; } = new int[2] { 0, 0 };
+    public int[] AspectRatioValues { get; set; } = [0, 0];
 
 
     /// <summary>
@@ -68,15 +68,6 @@ public class CropToolConfig : IToolConfig
     public bool AutoCenterSelection { get; set; } = true;
 
 
-    /// <summary>
-    /// Initializes new instance of <see cref="CropToolConfig"/>.
-    /// </summary>
-    public CropToolConfig(string toolId)
-    {
-        ToolId = toolId;
-    }
-
-
     public void LoadFromAppConfig()
     {
         var toolConfig = Config.ToolSettings.GetValue(ToolId);
@@ -100,7 +91,7 @@ public class CropToolConfig : IToolConfig
             var numArr = ratioValues.Select(i => int.Parse((string)i)).ToArray();
             if (numArr.Length == 2)
             {
-                AspectRatioValues = new int[2] { numArr[0], numArr[1] };
+                AspectRatioValues = [numArr[0], numArr[1]];
             }
         }
 
@@ -126,16 +117,16 @@ public class CropToolConfig : IToolConfig
         var settings = new ExpandoObject();
 
         // Bool configs
-        settings.TryAdd(nameof(CloseToolAfterSaving), CloseToolAfterSaving);
-        settings.TryAdd(nameof(AutoCenterSelection), AutoCenterSelection);
+        _ = settings.TryAdd(nameof(CloseToolAfterSaving), CloseToolAfterSaving);
+        _ = settings.TryAdd(nameof(AutoCenterSelection), AutoCenterSelection);
 
         // Enum configs
-        settings.TryAdd(nameof(AspectRatio), AspectRatio);
-        settings.TryAdd(nameof(InitSelectionType), InitSelectionType);
+        _ = settings.TryAdd(nameof(AspectRatio), AspectRatio);
+        _ = settings.TryAdd(nameof(InitSelectionType), InitSelectionType);
 
         // Array configs
-        settings.TryAdd(nameof(AspectRatioValues), AspectRatioValues);
-        settings.TryAdd(nameof(InitSelectedArea), new int[]
+        _ = settings.TryAdd(nameof(AspectRatioValues), AspectRatioValues);
+        _ = settings.TryAdd(nameof(InitSelectedArea), new int[]
         {
             InitSelectedArea.Left,
             InitSelectedArea.Top,

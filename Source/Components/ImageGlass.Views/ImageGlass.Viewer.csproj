@@ -6,7 +6,7 @@
         <UseWindowsForms>true</UseWindowsForms>
         <ImplicitUsings>enable</ImplicitUsings>
         <Platforms>x64;ARM64</Platforms>
-        <Version>9.0.7.1125</Version>
+        <Version>9.0.11.502</Version>
         <FileVersion>$(Version)</FileVersion>
         <Copyright>Copyright © 2010 - 2024 Duong Dieu Phap</Copyright>
         <Configurations>Debug;Release;Publish_Release</Configurations>
@@ -62,7 +62,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="D2Phap.DXControl" Version="3.1.0" />
+        <PackageReference Include="D2Phap.DXControl" Version="3.2.0" />
         <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2151.40" />
     </ItemGroup>
 

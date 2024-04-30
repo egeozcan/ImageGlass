@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using Cysharp.Text;
 using DirectN;
 using ImageGlass.Base;
 using ImageGlass.Base.Actions;
@@ -26,11 +27,13 @@ using ImageGlass.Base.WinApi;
 using ImageGlass.UI;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Win32;
+using System.Collections.Frozen;
 using System.Diagnostics;
 using System.Dynamic;
 using System.Media;
 using System.Reflection;
 using System.Text;
+using Windows.Globalization;
 
 namespace ImageGlass.Settings;
 
@@ -209,12 +212,12 @@ public static class Config
     public static bool EnableWindowTopMost { get; set; } = false;
 
     /// <summary>
-    /// Gets, sets value indicating that Confirmation dialog is displayed when deleting image
+    /// Gets, sets value indicates that Confirmation dialog is displayed when deleting image
     /// </summary>
     public static bool ShowDeleteConfirmation { get; set; } = true;
 
     /// <summary>
-    /// Gets, sets value indicating that Confirmation dialog is displayed when overriding the viewing image
+    /// Gets, sets value indicates that Confirmation dialog is displayed when overriding the viewing image
     /// </summary>
     public static bool ShowSaveOverrideConfirmation { get; set; } = true;
 
@@ -222,6 +225,11 @@ public static class Config
     /// Gets, sets the setting to control whether the image's original modified date value is preserved on save
     /// </summary>
     public static bool ShouldPreserveModifiedDate { get; set; } = false;
+
+    /// <summary>
+    /// Gets, sets value indicates that Save dialog should use the current image folder as initial directory
+    /// </summary>
+    public static bool OpenSaveAsDialogInTheCurrentImageDir { get; set; } = true;
 
     /// <summary>
     /// Gets, sets the value indicates that there is a new version
@@ -583,7 +591,7 @@ public static class Config
     /// <summary>
     /// Gets, sets the list of disabled menus
     /// </summary>
-    public static List<string> DisabledMenus { get; set; } = [];
+    public static FrozenSet<string> DisabledMenus { get; set; } = FrozenSet<string>.Empty;
 
     #endregion // Array items
 
@@ -643,7 +651,7 @@ public static class Config
     /// <summary>
     /// Gets, sets background color of of the main window
     /// </summary>
-    public static Color BackgroundColor { get; set; } = Color.Black;
+    public static Color BackgroundColor { get; set; } = Color.Empty;
 
     /// <summary>
     /// Gets, sets background color of slideshow
@@ -666,10 +674,10 @@ public static class Config
     /// <summary>
     /// Loads and parsse configs from file
     /// </summary>
-    public static void Load()
+    public static void Load(IConfigurationRoot? items = null)
     {
 #nullable disable
-        var items = Source.LoadUserConfigs();
+        items ??= Source.LoadUserConfigs();
 
         // save the config for all tools
         ToolSettings = items.GetValueObj(nameof(ToolSettings)).GetValue(nameof(ToolSettings), new ExpandoObject());
@@ -700,6 +708,7 @@ public static class Config
         ShowDeleteConfirmation = items.GetValueEx(nameof(ShowDeleteConfirmation), ShowDeleteConfirmation);
         ShowSaveOverrideConfirmation = items.GetValueEx(nameof(ShowSaveOverrideConfirmation), ShowSaveOverrideConfirmation);
         ShouldPreserveModifiedDate = items.GetValueEx(nameof(ShouldPreserveModifiedDate), ShouldPreserveModifiedDate);
+        OpenSaveAsDialogInTheCurrentImageDir = items.GetValueEx(nameof(OpenSaveAsDialogInTheCurrentImageDir), OpenSaveAsDialogInTheCurrentImageDir);
         ShowNewVersionIndicator = items.GetValueEx(nameof(ShowNewVersionIndicator), ShowNewVersionIndicator);
         EnableCenterToolbar = items.GetValueEx(nameof(EnableCenterToolbar), EnableCenterToolbar);
         ShouldOpenLastSeenImage = items.GetValueEx(nameof(ShouldOpenLastSeenImage), ShouldOpenLastSeenImage);
@@ -848,9 +857,10 @@ public static class Config
         #region ImageFormats
 
         var formats = items.GetValueEx(nameof(FileFormats), Const.IMAGE_FORMATS);
+        if (string.IsNullOrWhiteSpace(formats)) formats = Const.IMAGE_FORMATS;
         FileFormats = GetImageFormats(formats);
 
-        formats = items.GetValueEx(nameof(SingleFrameFormats), string.Join(";", SingleFrameFormats));
+        formats = items.GetValueEx(nameof(SingleFrameFormats), ZString.Join(';', SingleFrameFormats));
         SingleFrameFormats = GetImageFormats(formats);
 
         #endregion
@@ -937,7 +947,7 @@ public static class Config
         DisabledMenus = items.GetSection(nameof(DisabledMenus))
             .GetChildren()
             .Select(i => i.Get<string>())
-            .ToList();
+            .ToFrozenSet();
 
         #endregion // Array items
 
@@ -1019,158 +1029,159 @@ public static class Config
             Version = _source.Version,
         };
 
-        settings.TryAdd("_Metadata", metadata);
+        _ = settings.TryAdd("_Metadata", metadata);
 
 
         #region Boolean items
 
-        settings.TryAdd(nameof(EnableSlideshow), EnableSlideshow);
-        settings.TryAdd(nameof(HideMainWindowInSlideshow), HideMainWindowInSlideshow);
-        settings.TryAdd(nameof(ShowSlideshowCountdown), ShowSlideshowCountdown);
-        settings.TryAdd(nameof(UseRandomIntervalForSlideshow), UseRandomIntervalForSlideshow);
-        settings.TryAdd(nameof(EnableLoopSlideshow), EnableLoopSlideshow);
-        settings.TryAdd(nameof(EnableFullscreenSlideshow), EnableFullscreenSlideshow);
-        settings.TryAdd(nameof(EnableFrameless), EnableFrameless);
-        settings.TryAdd(nameof(EnableFullScreen), EnableFullScreen);
-        settings.TryAdd(nameof(ShowGallery), ShowGallery);
-        settings.TryAdd(nameof(ShowGalleryScrollbars), ShowGalleryScrollbars);
-        settings.TryAdd(nameof(ShowGalleryFileName), ShowGalleryFileName);
-        settings.TryAdd(nameof(ShowWelcomeImage), ShowWelcomeImage);
-        settings.TryAdd(nameof(ShowToolbar), ShowToolbar);
-        settings.TryAdd(nameof(ShowAppIcon), ShowAppIcon);
-        settings.TryAdd(nameof(EnableLoopBackNavigation), EnableLoopBackNavigation);
-        settings.TryAdd(nameof(ShowCheckerboard), ShowCheckerboard);
-        settings.TryAdd(nameof(ShowCheckerboardOnlyImageRegion), ShowCheckerboardOnlyImageRegion);
-        settings.TryAdd(nameof(EnableMultiInstances), EnableMultiInstances);
-        settings.TryAdd(nameof(EnableWindowTopMost), EnableWindowTopMost);
-        settings.TryAdd(nameof(ShowDeleteConfirmation), ShowDeleteConfirmation);
-        settings.TryAdd(nameof(ShowSaveOverrideConfirmation), ShowSaveOverrideConfirmation);
-        settings.TryAdd(nameof(ShouldPreserveModifiedDate), ShouldPreserveModifiedDate);
-        settings.TryAdd(nameof(ShowNewVersionIndicator), ShowNewVersionIndicator);
-        settings.TryAdd(nameof(EnableCenterToolbar), EnableCenterToolbar);
-        settings.TryAdd(nameof(ShouldOpenLastSeenImage), ShouldOpenLastSeenImage);
-        settings.TryAdd(nameof(ShouldUseColorProfileForAll), ShouldUseColorProfileForAll);
-        settings.TryAdd(nameof(EnableNavigationButtons), EnableNavigationButtons);
-        settings.TryAdd(nameof(EnableRecursiveLoading), EnableRecursiveLoading);
-        settings.TryAdd(nameof(ShouldUseExplorerSortOrder), ShouldUseExplorerSortOrder);
-        settings.TryAdd(nameof(ShouldGroupImagesByDirectory), ShouldGroupImagesByDirectory);
-        settings.TryAdd(nameof(ShouldLoadHiddenImages), ShouldLoadHiddenImages);
-        settings.TryAdd(nameof(EnableWindowFit), EnableWindowFit);
-        settings.TryAdd(nameof(CenterWindowFit), CenterWindowFit);
-        settings.TryAdd(nameof(UseEmbeddedThumbnailRawFormats), UseEmbeddedThumbnailRawFormats);
-        settings.TryAdd(nameof(UseEmbeddedThumbnailOtherFormats), UseEmbeddedThumbnailOtherFormats);
-        settings.TryAdd(nameof(ShowImagePreview), ShowImagePreview);
-        settings.TryAdd(nameof(EnableImageTransition), EnableImageTransition);
-        settings.TryAdd(nameof(EnableImageAsyncLoading), EnableImageAsyncLoading);
-        settings.TryAdd(nameof(EnableCopyMultipleFiles), EnableCopyMultipleFiles);
-        settings.TryAdd(nameof(EnableCutMultipleFiles), EnableCutMultipleFiles);
-        settings.TryAdd(nameof(EnableRealTimeFileUpdate), EnableRealTimeFileUpdate);
-        settings.TryAdd(nameof(ShouldAutoOpenNewAddedImage), ShouldAutoOpenNewAddedImage);
-        settings.TryAdd(nameof(UseWebview2ForSvg), UseWebview2ForSvg);
-        settings.TryAdd(nameof(EnableDebug), EnableDebug);
+        _ = settings.TryAdd(nameof(EnableSlideshow), EnableSlideshow);
+        _ = settings.TryAdd(nameof(HideMainWindowInSlideshow), HideMainWindowInSlideshow);
+        _ = settings.TryAdd(nameof(ShowSlideshowCountdown), ShowSlideshowCountdown);
+        _ = settings.TryAdd(nameof(UseRandomIntervalForSlideshow), UseRandomIntervalForSlideshow);
+        _ = settings.TryAdd(nameof(EnableLoopSlideshow), EnableLoopSlideshow);
+        _ = settings.TryAdd(nameof(EnableFullscreenSlideshow), EnableFullscreenSlideshow);
+        _ = settings.TryAdd(nameof(EnableFrameless), EnableFrameless);
+        _ = settings.TryAdd(nameof(EnableFullScreen), EnableFullScreen);
+        _ = settings.TryAdd(nameof(ShowGallery), ShowGallery);
+        _ = settings.TryAdd(nameof(ShowGalleryScrollbars), ShowGalleryScrollbars);
+        _ = settings.TryAdd(nameof(ShowGalleryFileName), ShowGalleryFileName);
+        _ = settings.TryAdd(nameof(ShowWelcomeImage), ShowWelcomeImage);
+        _ = settings.TryAdd(nameof(ShowToolbar), ShowToolbar);
+        _ = settings.TryAdd(nameof(ShowAppIcon), ShowAppIcon);
+        _ = settings.TryAdd(nameof(EnableLoopBackNavigation), EnableLoopBackNavigation);
+        _ = settings.TryAdd(nameof(ShowCheckerboard), ShowCheckerboard);
+        _ = settings.TryAdd(nameof(ShowCheckerboardOnlyImageRegion), ShowCheckerboardOnlyImageRegion);
+        _ = settings.TryAdd(nameof(EnableMultiInstances), EnableMultiInstances);
+        _ = settings.TryAdd(nameof(EnableWindowTopMost), EnableWindowTopMost);
+        _ = settings.TryAdd(nameof(ShowDeleteConfirmation), ShowDeleteConfirmation);
+        _ = settings.TryAdd(nameof(ShowSaveOverrideConfirmation), ShowSaveOverrideConfirmation);
+        _ = settings.TryAdd(nameof(ShouldPreserveModifiedDate), ShouldPreserveModifiedDate);
+        _ = settings.TryAdd(nameof(OpenSaveAsDialogInTheCurrentImageDir), OpenSaveAsDialogInTheCurrentImageDir);
+        _ = settings.TryAdd(nameof(ShowNewVersionIndicator), ShowNewVersionIndicator);
+        _ = settings.TryAdd(nameof(EnableCenterToolbar), EnableCenterToolbar);
+        _ = settings.TryAdd(nameof(ShouldOpenLastSeenImage), ShouldOpenLastSeenImage);
+        _ = settings.TryAdd(nameof(ShouldUseColorProfileForAll), ShouldUseColorProfileForAll);
+        _ = settings.TryAdd(nameof(EnableNavigationButtons), EnableNavigationButtons);
+        _ = settings.TryAdd(nameof(EnableRecursiveLoading), EnableRecursiveLoading);
+        _ = settings.TryAdd(nameof(ShouldUseExplorerSortOrder), ShouldUseExplorerSortOrder);
+        _ = settings.TryAdd(nameof(ShouldGroupImagesByDirectory), ShouldGroupImagesByDirectory);
+        _ = settings.TryAdd(nameof(ShouldLoadHiddenImages), ShouldLoadHiddenImages);
+        _ = settings.TryAdd(nameof(EnableWindowFit), EnableWindowFit);
+        _ = settings.TryAdd(nameof(CenterWindowFit), CenterWindowFit);
+        _ = settings.TryAdd(nameof(UseEmbeddedThumbnailRawFormats), UseEmbeddedThumbnailRawFormats);
+        _ = settings.TryAdd(nameof(UseEmbeddedThumbnailOtherFormats), UseEmbeddedThumbnailOtherFormats);
+        _ = settings.TryAdd(nameof(ShowImagePreview), ShowImagePreview);
+        _ = settings.TryAdd(nameof(EnableImageTransition), EnableImageTransition);
+        _ = settings.TryAdd(nameof(EnableImageAsyncLoading), EnableImageAsyncLoading);
+        _ = settings.TryAdd(nameof(EnableCopyMultipleFiles), EnableCopyMultipleFiles);
+        _ = settings.TryAdd(nameof(EnableCutMultipleFiles), EnableCutMultipleFiles);
+        _ = settings.TryAdd(nameof(EnableRealTimeFileUpdate), EnableRealTimeFileUpdate);
+        _ = settings.TryAdd(nameof(ShouldAutoOpenNewAddedImage), ShouldAutoOpenNewAddedImage);
+        _ = settings.TryAdd(nameof(UseWebview2ForSvg), UseWebview2ForSvg);
+        _ = settings.TryAdd(nameof(EnableDebug), EnableDebug);
 
-        settings.TryAdd(nameof(HideToolbarInFullscreen), HideToolbarInFullscreen);
-        settings.TryAdd(nameof(HideGalleryInFullscreen), HideGalleryInFullscreen);
+        _ = settings.TryAdd(nameof(HideToolbarInFullscreen), HideToolbarInFullscreen);
+        _ = settings.TryAdd(nameof(HideGalleryInFullscreen), HideGalleryInFullscreen);
 
         #endregion
 
 
         #region Number items
 
-        settings.TryAdd(nameof(QuickSetupVersion), QuickSetupVersion);
+        _ = settings.TryAdd(nameof(QuickSetupVersion), QuickSetupVersion);
 
         // FrmMain
-        settings.TryAdd(nameof(FrmMainPositionX), FrmMainPositionX);
-        settings.TryAdd(nameof(FrmMainPositionY), FrmMainPositionY);
-        settings.TryAdd(nameof(FrmMainWidth), FrmMainWidth);
-        settings.TryAdd(nameof(FrmMainHeight), FrmMainHeight);
+        _ = settings.TryAdd(nameof(FrmMainPositionX), FrmMainPositionX);
+        _ = settings.TryAdd(nameof(FrmMainPositionY), FrmMainPositionY);
+        _ = settings.TryAdd(nameof(FrmMainWidth), FrmMainWidth);
+        _ = settings.TryAdd(nameof(FrmMainHeight), FrmMainHeight);
 
         // FrmSettings
-        settings.TryAdd(nameof(FrmSettingsPositionX), FrmSettingsPositionX);
-        settings.TryAdd(nameof(FrmSettingsPositionY), FrmSettingsPositionY);
-        settings.TryAdd(nameof(FrmSettingsWidth), FrmSettingsWidth);
-        settings.TryAdd(nameof(FrmSettingsHeight), FrmSettingsHeight);
+        _ = settings.TryAdd(nameof(FrmSettingsPositionX), FrmSettingsPositionX);
+        _ = settings.TryAdd(nameof(FrmSettingsPositionY), FrmSettingsPositionY);
+        _ = settings.TryAdd(nameof(FrmSettingsWidth), FrmSettingsWidth);
+        _ = settings.TryAdd(nameof(FrmSettingsHeight), FrmSettingsHeight);
 
-        settings.TryAdd(nameof(PanSpeed), PanSpeed);
-        settings.TryAdd(nameof(ZoomSpeed), ZoomSpeed);
-        settings.TryAdd(nameof(SlideshowInterval), SlideshowInterval);
-        settings.TryAdd(nameof(SlideshowIntervalTo), SlideshowIntervalTo);
-        settings.TryAdd(nameof(SlideshowImagesToNotifySound), SlideshowImagesToNotifySound);
-        settings.TryAdd(nameof(ThumbnailSize), ThumbnailSize);
-        settings.TryAdd(nameof(GalleryCacheSizeInMb), GalleryCacheSizeInMb);
-        settings.TryAdd(nameof(GalleryColumns), GalleryColumns);
-        settings.TryAdd(nameof(ImageBoosterCacheCount), ImageBoosterCacheCount);
-        settings.TryAdd(nameof(ImageBoosterCacheMaxDimension), ImageBoosterCacheMaxDimension);
-        settings.TryAdd(nameof(ImageBoosterCacheMaxFileSizeInMb), ImageBoosterCacheMaxFileSizeInMb);
-        settings.TryAdd(nameof(ZoomLockValue), ZoomLockValue);
-        settings.TryAdd(nameof(ToolbarIconHeight), ToolbarIconHeight);
-        settings.TryAdd(nameof(ImageEditQuality), ImageEditQuality);
-        settings.TryAdd(nameof(InAppMessageDuration), InAppMessageDuration);
-        settings.TryAdd(nameof(EmbeddedThumbnailMinWidth), EmbeddedThumbnailMinWidth);
-        settings.TryAdd(nameof(EmbeddedThumbnailMinHeight), EmbeddedThumbnailMinHeight);
+        _ = settings.TryAdd(nameof(PanSpeed), PanSpeed);
+        _ = settings.TryAdd(nameof(ZoomSpeed), ZoomSpeed);
+        _ = settings.TryAdd(nameof(SlideshowInterval), SlideshowInterval);
+        _ = settings.TryAdd(nameof(SlideshowIntervalTo), SlideshowIntervalTo);
+        _ = settings.TryAdd(nameof(SlideshowImagesToNotifySound), SlideshowImagesToNotifySound);
+        _ = settings.TryAdd(nameof(ThumbnailSize), ThumbnailSize);
+        _ = settings.TryAdd(nameof(GalleryCacheSizeInMb), GalleryCacheSizeInMb);
+        _ = settings.TryAdd(nameof(GalleryColumns), GalleryColumns);
+        _ = settings.TryAdd(nameof(ImageBoosterCacheCount), ImageBoosterCacheCount);
+        _ = settings.TryAdd(nameof(ImageBoosterCacheMaxDimension), ImageBoosterCacheMaxDimension);
+        _ = settings.TryAdd(nameof(ImageBoosterCacheMaxFileSizeInMb), ImageBoosterCacheMaxFileSizeInMb);
+        _ = settings.TryAdd(nameof(ZoomLockValue), ZoomLockValue);
+        _ = settings.TryAdd(nameof(ToolbarIconHeight), ToolbarIconHeight);
+        _ = settings.TryAdd(nameof(ImageEditQuality), ImageEditQuality);
+        _ = settings.TryAdd(nameof(InAppMessageDuration), InAppMessageDuration);
+        _ = settings.TryAdd(nameof(EmbeddedThumbnailMinWidth), EmbeddedThumbnailMinWidth);
+        _ = settings.TryAdd(nameof(EmbeddedThumbnailMinHeight), EmbeddedThumbnailMinHeight);
 
         #endregion
 
 
         #region Enum items
 
-        settings.TryAdd(nameof(FrmMainState), FrmMainState.ToString());
-        settings.TryAdd(nameof(FrmSettingsState), FrmSettingsState.ToString());
-        settings.TryAdd(nameof(ImageLoadingOrder), ImageLoadingOrder.ToString());
-        settings.TryAdd(nameof(ImageLoadingOrderType), ImageLoadingOrderType.ToString());
-        settings.TryAdd(nameof(ZoomMode), ZoomMode.ToString());
-        settings.TryAdd(nameof(ImageInterpolationScaleDown), ImageInterpolationScaleDown);
-        settings.TryAdd(nameof(ImageInterpolationScaleUp), ImageInterpolationScaleUp);
-        settings.TryAdd(nameof(AfterEditingAction), AfterEditingAction.ToString());
-        settings.TryAdd(nameof(WindowBackdrop), WindowBackdrop);
+        _ = settings.TryAdd(nameof(FrmMainState), FrmMainState.ToString());
+        _ = settings.TryAdd(nameof(FrmSettingsState), FrmSettingsState.ToString());
+        _ = settings.TryAdd(nameof(ImageLoadingOrder), ImageLoadingOrder.ToString());
+        _ = settings.TryAdd(nameof(ImageLoadingOrderType), ImageLoadingOrderType.ToString());
+        _ = settings.TryAdd(nameof(ZoomMode), ZoomMode.ToString());
+        _ = settings.TryAdd(nameof(ImageInterpolationScaleDown), ImageInterpolationScaleDown);
+        _ = settings.TryAdd(nameof(ImageInterpolationScaleUp), ImageInterpolationScaleUp);
+        _ = settings.TryAdd(nameof(AfterEditingAction), AfterEditingAction.ToString());
+        _ = settings.TryAdd(nameof(WindowBackdrop), WindowBackdrop);
 
         #endregion
 
 
         #region String items
 
-        settings.TryAdd(nameof(ColorProfile), ColorProfile);
-        settings.TryAdd(nameof(AutoUpdate), AutoUpdate);
-        settings.TryAdd(nameof(LastSeenImagePath), LastSeenImagePath);
-        settings.TryAdd(nameof(LastOpenedSetting), LastOpenedSetting);
-        settings.TryAdd(nameof(DarkTheme), DarkTheme);
-        settings.TryAdd(nameof(LightTheme), LightTheme);
+        _ = settings.TryAdd(nameof(ColorProfile), ColorProfile);
+        _ = settings.TryAdd(nameof(AutoUpdate), AutoUpdate);
+        _ = settings.TryAdd(nameof(LastSeenImagePath), LastSeenImagePath);
+        _ = settings.TryAdd(nameof(LastOpenedSetting), LastOpenedSetting);
+        _ = settings.TryAdd(nameof(DarkTheme), DarkTheme);
+        _ = settings.TryAdd(nameof(LightTheme), LightTheme);
 
         #endregion
 
 
         #region Other types items
-        if (BackgroundColor == Theme.Colors.BgColor)
+        if (BackgroundColor == Theme.Colors.BgColor || BackgroundColor.IsEmpty)
         {
-            settings.TryAdd(nameof(BackgroundColor), ""); // follow theme background
+            _ = settings.TryAdd(nameof(BackgroundColor), ""); // follow theme background
         }
         else
         {
-            settings.TryAdd(nameof(BackgroundColor), BackgroundColor.ToHex());
+            _ = settings.TryAdd(nameof(BackgroundColor), BackgroundColor.ToHex());
         }
 
-        settings.TryAdd(nameof(SlideshowBackgroundColor), SlideshowBackgroundColor.ToHex());
-        settings.TryAdd(nameof(Language), Language.FileName);
+        _ = settings.TryAdd(nameof(SlideshowBackgroundColor), SlideshowBackgroundColor.ToHex());
+        _ = settings.TryAdd(nameof(Language), Language.FileName);
 
         #endregion
 
 
         #region Array items
 
-        settings.TryAdd(nameof(ZoomLevels), ZoomLevels.Select(i => Math.Round(i * 100, 2)));
-        settings.TryAdd(nameof(EditApps), EditApps);
-        settings.TryAdd(nameof(FileFormats), GetImageFormats(FileFormats));
-        settings.TryAdd(nameof(SingleFrameFormats), GetImageFormats(SingleFrameFormats));
-        settings.TryAdd(nameof(ImageInfoTags), ImageInfoTags);
-        settings.TryAdd(nameof(MenuHotkeys), ParseHotkeys(MenuHotkeys));
-        settings.TryAdd(nameof(MouseClickActions), MouseClickActions);
-        settings.TryAdd(nameof(MouseWheelActions), MouseWheelActions);
-        settings.TryAdd(nameof(Layout), Layout);
-        settings.TryAdd(nameof(Tools), Tools);
-        settings.TryAdd(nameof(DisabledMenus), DisabledMenus);
+        _ = settings.TryAdd(nameof(ZoomLevels), ZoomLevels.Select(i => Math.Round(i * 100, 2)));
+        _ = settings.TryAdd(nameof(EditApps), EditApps);
+        _ = settings.TryAdd(nameof(FileFormats), GetImageFormats(FileFormats));
+        _ = settings.TryAdd(nameof(SingleFrameFormats), GetImageFormats(SingleFrameFormats));
+        _ = settings.TryAdd(nameof(ImageInfoTags), ImageInfoTags);
+        _ = settings.TryAdd(nameof(MenuHotkeys), ParseHotkeys(MenuHotkeys));
+        _ = settings.TryAdd(nameof(MouseClickActions), MouseClickActions);
+        _ = settings.TryAdd(nameof(MouseWheelActions), MouseWheelActions);
+        _ = settings.TryAdd(nameof(Layout), Layout);
+        _ = settings.TryAdd(nameof(Tools), Tools);
+        _ = settings.TryAdd(nameof(DisabledMenus), DisabledMenus);
 
         // ToolbarButtons
-        settings.TryAdd(nameof(ToolbarButtons), useAbsoluteFileUrl
+        _ = settings.TryAdd(nameof(ToolbarButtons), useAbsoluteFileUrl
             ? ConvertToolbarButtonsToExpandoObjList(ToolbarButtons)
             : ToolbarButtons);
 
@@ -1178,7 +1189,7 @@ public static class Config
 
 
         // Tools' settings
-        settings.TryAdd(nameof(ToolSettings), (object)ToolSettings);
+        _ = settings.TryAdd(nameof(ToolSettings), (object)ToolSettings);
 
         return settings;
     }
@@ -1188,7 +1199,7 @@ public static class Config
     /// Converts <c>List{ToolbarItemModel}</c> to <c>List{ExpandoObject}</c>.
     /// Also adds <c>ImageUrl</c> property to the item.
     /// </summary>
-    public static List<ExpandoObject> ConvertToolbarButtonsToExpandoObjList(List<ToolbarItemModel> list)
+    public static List<ExpandoObject> ConvertToolbarButtonsToExpandoObjList(IEnumerable<ToolbarItemModel> list)
     {
         var items = list.Select(i =>
         {
@@ -1552,6 +1563,8 @@ public static class Config
     {
         // look for theme pack in the Config dir
         var th = new IgTheme(App.ConfigDir(PathType.Dir, Dir.Themes, themeFolderName));
+        var themeConfigPath = th.ConfigFilePath;
+
         if (!th.IsValid)
         {
             // look for theme pack in the Startup dir
@@ -1576,8 +1589,8 @@ public static class Config
             th.Dispose();
             th = null;
 
-            throw new InvalidDataException($"Unable to load '{th.FolderName}' theme pack. " +
-                $"Please make sure '{Path.Combine(th.FolderName, IgTheme.CONFIG_FILE)}' file is valid.");
+            throw new InvalidDataException($"Unable to load '{themeFolderName}' theme pack. " +
+                $"Please make sure '{themeConfigPath}' file is valid.");
         }
 
         return th;
@@ -1720,7 +1733,7 @@ public static class Config
 
         if (hotkeyList != null)
         {
-            var str = string.Join(", ", hotkeyList.Select(k => k.ToString()));
+            var str = ZString.Join(", ", hotkeyList);
 
             return str ?? string.Empty;
         }
@@ -1998,7 +2011,7 @@ public static class Config
         var result = ShowError(null,
             title: Application.ProductName + " v" + Application.ProductVersion,
             heading: Language[$"{langPath}._Heading"],
-            description: string.Format(Language[$"{langPath}._Description"], url),
+            description: ZString.Format(Language[$"{langPath}._Description"], url),
             buttons: PopupButton.LearnMore_Close);
 
 
@@ -2083,10 +2096,11 @@ public static class Config
     /// <param name="list">The input HashSet</param>
     public static string GetImageFormats(HashSet<string> list)
     {
-        var sb = new StringBuilder(list.Count);
+        using var sb = ZString.CreateStringBuilder();
         foreach (var item in list)
         {
-            sb.Append(item).Append(';');
+            sb.Append(item);
+            sb.Append(';');
         }
 
         return sb.ToString();

@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+using Cysharp.Text;
 using D2Phap;
 using ImageGlass.Base;
 using ImageGlass.Base.PhotoBox;
@@ -40,7 +41,7 @@ public partial class FrmSlideshow : ThemedForm
     private string _initImagePath;
 
     private CancellationTokenSource? _loadCancelTokenSrc = new();
-    private MovableForm _movableForm;
+    private MovableForm? _movableForm;
     private ImageBooster _images = new();
     private int _currentIndex = -1;
     private IgMetadata? _currentMetadata = null;
@@ -159,16 +160,8 @@ public partial class FrmSlideshow : ThemedForm
         _slideshowTimer.Tick += SlideshowTimer_Tick;
 
 
-        // Initialize form movable
-        #region Form movable
-        _movableForm = new(this)
-        {
-            Key = Keys.ShiftKey | Keys.Shift,
-        };
-
-        // Enable form movable
+        // Enable form movable: must be before IG_ToggleFullScreen()
         IG_SetWindowMoveable(true);
-        #endregion // Form movable
 
 
         // full screen slideshow
@@ -313,7 +306,7 @@ public partial class FrmSlideshow : ThemedForm
         var newIconHeight = DpiApi.Scale(Config.ToolbarIconHeight);
 
         // reload theme
-        Config.Theme.LoadTheme(newIconHeight);
+        Config.Theme.ToolbarActualIconHeight = newIconHeight;
 
         // update picmain scaling
         PicMain.NavButtonSize = this.ScaleToDpi(new SizeF(50f, 50f));
@@ -1186,12 +1179,12 @@ public partial class FrmSlideshow : ThemedForm
             if (Config.ImageInfoTags.Contains(nameof(ImageInfo.ListCount))
                 && _images.Length > 0)
             {
-                var listInfo = new StringBuilder(3);
+                using var listInfo = ZString.CreateStringBuilder();
                 listInfo.Append(_currentIndex + 1);
                 listInfo.Append('/');
                 listInfo.Append(_images.Length);
 
-                ImageInfo.ListCount = string.Format(
+                ImageInfo.ListCount = ZString.Format(
                     Config.Language[$"_.{nameof(ImageInfo)}._{nameof(ImageInfo.ListCount)}"],
                     listInfo.ToString());
             }
@@ -1248,7 +1241,7 @@ public partial class FrmSlideshow : ThemedForm
                 && _currentMetadata != null
                 && _currentMetadata.FrameCount > 1)
             {
-                ImageInfo.FrameCount = string.Format(
+                ImageInfo.FrameCount = ZString.Format(
                     Config.Language[$"_.{nameof(ImageInfo)}._{nameof(ImageInfo.FrameCount)}"],
                     _currentMetadata.FrameCount);
             }
@@ -1792,7 +1785,7 @@ public partial class FrmSlideshow : ThemedForm
                 WindowApi.SetRoundCorner(Handle);
 
                 PicMain.ShowMessage(
-                    string.Format(Config.Language[$"{langPath}._EnableDescription"], MnuFrameless.ShortcutKeyDisplayString),
+                    ZString.Format(Config.Language[$"{langPath}._EnableDescription"], MnuFrameless.ShortcutKeyDisplayString),
                     Config.InAppMessageDuration);
             }
         }
@@ -1806,7 +1799,11 @@ public partial class FrmSlideshow : ThemedForm
     public void IG_SetWindowMoveable(bool? enable = null)
     {
         enable ??= true;
-        _movableForm.Key = Keys.ShiftKey | Keys.Shift;
+
+        _movableForm ??= new(this)
+        {
+            Key = Keys.ShiftKey | Keys.Shift,
+        };
 
         if (enable.Value)
         {

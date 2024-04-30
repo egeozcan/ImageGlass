@@ -19,7 +19,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 using ImageGlass;
 using ImageGlass.Base;
 using ImageGlass.Settings;
-using System.Diagnostics;
 
 namespace igcmd.Tools;
 
@@ -49,6 +48,14 @@ public partial class FrmQuickSetup : WebForm
         var workingArea = Screen.FromControl(this).WorkingArea;
         var rect = BHelper.CenterRectToRect(Bounds, workingArea);
         Location = rect.Location;
+    }
+
+
+    protected override void OnRequestUpdatingLanguage()
+    {
+        base.OnRequestUpdatingLanguage();
+
+        Text = Config.Language[$"{Name}._Text"];
     }
 
 
@@ -93,7 +100,7 @@ public partial class FrmQuickSetup : WebForm
             Config.QuickSetupVersion = Const.QUICK_SETUP_VERSION;
             await Config.WriteAsync();
 
-            LaunchImageGlass();
+            CmdHelper.LaunchImageGlass();
             Close();
         }
         else if (e.Name.Equals("LOAD_LANGUAGE", StringComparison.InvariantCultureIgnoreCase))
@@ -110,8 +117,15 @@ public partial class FrmQuickSetup : WebForm
     #endregion // Protected / override methods
 
 
+    // Private methods
+    #region Private methods
     private async Task ApplySettingsAsync(string settingJson)
     {
+        // try to kill all ImageGlass processes
+        if (!CmdHelper.KillImageGlassProcessesAsync(this, true)) return;
+
+
+        // don't auto-show Quick Setup again
         Config.QuickSetupVersion = Const.QUICK_SETUP_VERSION;
 
 
@@ -119,12 +133,7 @@ public partial class FrmQuickSetup : WebForm
         #region Parse settings JSON
         var dict = BHelper.ParseJson<Dictionary<string, object?>>(settingJson);
 
-        if (dict.TryGetValue("Language", out var lang))
-        {
-            Config.Language = new IgLang(lang?.ToString(), App.StartUpDir(Dir.Language));
-        }
-
-        if (dict.TryGetValue("ColorProfile", out var enableColorProfileObj))
+        if (dict.TryGetValue(nameof(Config.ColorProfile), out var enableColorProfileObj))
         {
             var enableColorProfile = enableColorProfileObj
                 ?.ToString()
@@ -135,7 +144,7 @@ public partial class FrmQuickSetup : WebForm
                 : nameof(ColorProfileOption.None);
         }
 
-        if (dict.TryGetValue("UseEmbeddedThumbnailRawFormats", out var useThumbnailRawFormatsObj))
+        if (dict.TryGetValue(nameof(Config.UseEmbeddedThumbnailRawFormats), out var useThumbnailRawFormatsObj))
         {
             Config.UseEmbeddedThumbnailRawFormats = useThumbnailRawFormatsObj
                 ?.ToString()
@@ -145,38 +154,8 @@ public partial class FrmQuickSetup : WebForm
         #endregion // Parse settings JSON
 
 
-        // kill all ImageGlass processes and relaunch
-        #region kill all ImageGlass processes and relaunch
-
-        var igProcesses = Process.GetProcesses()
-        .Where(p =>
-            p.Id != Environment.ProcessId &&
-            p.ProcessName.Contains("ImageGlass")
-        ).ToList();
-
-        if (igProcesses.Count > 0)
-        {
-            var result = Config.ShowInfo(this,
-                title: Text,
-                heading: Config.Language[$"{nameof(FrmQuickSetup)}._ConfirmCloseProcess"],
-                icon: ImageGlass.Base.WinApi.ShellStockIcon.SIID_HELP,
-                buttons: PopupButton.Yes_No);
-
-            if (result.ExitResult == PopupExitResult.OK)
-            {
-                // Kill all processes
-                igProcesses.ForEach(p => p.Kill());
-
-                await ApplyAndCloseAsync();
-            }
-        }
-        else
-        {
-            await ApplyAndCloseAsync();
-        }
-
-        #endregion // kill all ImageGlass processes and relaunch
-
+        // apply and restart ImageGlass
+        await ApplyAndCloseAsync();
     }
 
 
@@ -185,19 +164,10 @@ public partial class FrmQuickSetup : WebForm
         // write settings
         await Config.WriteAsync();
 
-        LaunchImageGlass();
+        CmdHelper.LaunchImageGlass();
         Close();
     }
 
-
-    /// <summary>
-    /// Launch ImageGlass app
-    /// </summary>
-    private static void LaunchImageGlass()
-    {
-        using var p = new Process();
-        p.StartInfo.FileName = App.IGExePath;
-        p.Start();
-    }
+    #endregion // Private methods
 
 }

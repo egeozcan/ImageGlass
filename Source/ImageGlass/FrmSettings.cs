@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+using Cysharp.Text;
 using ImageGlass.Base;
 using ImageGlass.Base.PhotoBox;
 using ImageGlass.Settings;
@@ -97,19 +98,19 @@ public partial class FrmSettings : WebForm
 
 
         var pageSettingObj = new ExpandoObject();
-        pageSettingObj.TryAdd("startUpDir", startupDir);
-        pageSettingObj.TryAdd("configDir", configDir);
-        pageSettingObj.TryAdd("userConfigFilePath", userConfigFilePath);
-        pageSettingObj.TryAdd("FILE_MACRO", Const.FILE_MACRO);
-        pageSettingObj.TryAdd("enums", WebUI.Enums);
-        pageSettingObj.TryAdd("defaultThemeDir", defaultThemeDir);
-        pageSettingObj.TryAdd("defaultImageInfoTags", Config.DefaultImageInfoTags);
-        pageSettingObj.TryAdd("toolList", Config.Tools);
-        pageSettingObj.TryAdd("langList", WebUI.LangList);
-        pageSettingObj.TryAdd("themeList", WebUI.ThemeList);
-        pageSettingObj.TryAdd("icons", WebUI.SvgIcons);
-        pageSettingObj.TryAdd("builtInToolbarButtons", builtInToolbarBtns);
-        pageSettingObj.TryAdd("config", configJsonObj);
+        _ = pageSettingObj.TryAdd("startUpDir", startupDir);
+        _ = pageSettingObj.TryAdd("configDir", configDir);
+        _ = pageSettingObj.TryAdd("userConfigFilePath", userConfigFilePath);
+        _ = pageSettingObj.TryAdd("FILE_MACRO", Const.FILE_MACRO);
+        _ = pageSettingObj.TryAdd("enums", WebUI.Enums);
+        _ = pageSettingObj.TryAdd("defaultThemeDir", defaultThemeDir);
+        _ = pageSettingObj.TryAdd("defaultImageInfoTags", Config.DefaultImageInfoTags);
+        _ = pageSettingObj.TryAdd("toolList", Config.Tools);
+        _ = pageSettingObj.TryAdd("langList", WebUI.LangList);
+        _ = pageSettingObj.TryAdd("themeList", WebUI.ThemeList);
+        _ = pageSettingObj.TryAdd("icons", WebUI.SvgIcons);
+        _ = pageSettingObj.TryAdd("builtInToolbarButtons", builtInToolbarBtns);
+        _ = pageSettingObj.TryAdd("config", configJsonObj);
         var pageSettingStr = BHelper.ToJson(pageSettingObj);
 
         var script = @$"
@@ -148,6 +149,10 @@ public partial class FrmSettings : WebForm
         else if (e.Name.Equals("LnkHelp", StringComparison.Ordinal))
         {
             _ = BHelper.OpenUrlAsync("https://imageglass.org/docs", $"from_setting_{Config.LastOpenedSetting}");
+        }
+        else if (e.Name.Equals("LnkResetSettings", StringComparison.Ordinal))
+        {
+            FrmMain.IG_OpenQuickSetupDialog();
         }
         #endregion // General events
 
@@ -227,7 +232,7 @@ public partial class FrmSettings : WebForm
                     if (isCreate
                         && Config.ToolbarButtons.Any(i => i.Id.Equals(btn.Id, StringComparison.OrdinalIgnoreCase)))
                     {
-                        throw new ArgumentException(string.Format(Config.Language[$"{langPath}._ButtonIdDuplicated"], btn.Id), nameof(btn.Id));
+                        throw new ArgumentException(ZString.Format(Config.Language[$"{langPath}._ButtonIdDuplicated"], btn.Id), nameof(btn.Id));
                     }
 
                     if (string.IsNullOrEmpty(btn.OnClick.Executable))
@@ -473,6 +478,7 @@ public partial class FrmSettings : WebForm
         _ = Config.SetFromJson(dict, nameof(Config.ShowDeleteConfirmation));
         _ = Config.SetFromJson(dict, nameof(Config.ShowSaveOverrideConfirmation));
         _ = Config.SetFromJson(dict, nameof(Config.ShouldPreserveModifiedDate));
+        _ = Config.SetFromJson(dict, nameof(Config.OpenSaveAsDialogInTheCurrentImageDir));
         _ = Config.SetFromJson(dict, nameof(Config.ImageEditQuality));
         _ = Config.SetFromJson(dict, nameof(Config.AfterEditingAction));
         _ = Config.SetFromJson(dict, nameof(Config.EnableCopyMultipleFiles));

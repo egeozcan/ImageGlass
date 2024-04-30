@@ -170,3 +170,4 @@ BundleArtifacts
 BundleArtifactsUpload
 node_modules/
 launchSettings.json
+Setup/Assets/WebView2_Runtime/

@@ -260,11 +260,10 @@ public static class PhotoCodec
             try
             {
                 token.ThrowIfCancellationRequested();
-                var profile = imgM.GetProfile("dng:thumbnail");
 
                 // try to get thumbnail
-                var thumbnailData = profile?.GetData();
-                if (thumbnailData != null)
+                if (imgM.GetProfile("dng:thumbnail") is IImageProfile profile
+                    && profile.ToReadOnlySpan() is ReadOnlySpan<byte> thumbnailData)
                 {
                     imgM.Read(thumbnailData, settings);
                     imgM.AutoOrient();
@@ -896,8 +895,8 @@ public static class PhotoCodec
             try
             {
                 // try to get thumbnail
-                var thumbnailData = profile?.GetData();
-                if (thumbnailData != null)
+                if (profile != null
+                    && profile.ToByteArray() is byte[] thumbnailData)
                 {
                     imgM.Ping(thumbnailData);
 
@@ -1282,6 +1281,14 @@ public static class PhotoCodec
         {
             settings.Width = options.Width;
             settings.Height = options.Height;
+
+            if (ext == ".JPG" || ext == ".JPEG" || ext == ".JPE" || ext == ".JFIF")
+            {
+                settings.SetDefines(new JpegReadDefines()
+                {
+                    Size = new MagickGeometry(options.Width, options.Height),
+                });
+            }
         }
 
         // Fixed #708: length and filesize do not match

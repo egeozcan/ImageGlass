@@ -137,6 +137,10 @@ public partial class Popup : DialogForm
             {
                 lblNote.Visible = true;
                 tableMain.RowStyles[rowIndex].SizeType = SizeType.AutoSize;
+
+                // need to set the following row AutoSize to make this row visible
+                var chkOptionRowIndex = tableMain.GetRow(ChkOption);
+                tableMain.RowStyles[chkOptionRowIndex].SizeType = SizeType.AutoSize;
             }
             else
             {
@@ -402,9 +406,9 @@ public partial class Popup : DialogForm
         Heading = "";
         Description = "";
         Title = "";
+        OptionCheckBoxText = "";
         Note = "";
         Thumbnail = null; // hide thumbnail by default
-        OptionCheckBoxText = "";
 
         ApplyLanguage();
     }
@@ -435,7 +439,14 @@ public partial class Popup : DialogForm
         base.OnLoad(e);
 
         ApplyTheme(Config.Theme.Settings.IsDarkMode);
-        _ = SetFocusAsync();
+    }
+
+
+    protected override void OnShown(EventArgs e)
+    {
+        base.OnShown(e);
+
+        SetFocus();
     }
 
 
@@ -524,14 +535,12 @@ public partial class Popup : DialogForm
 
 
     /// <summary>
-    /// Set focus to the form.
+    /// Set default focus to the form
     /// </summary>
-    private async Task SetFocusAsync()
+    private void SetFocus()
     {
-        await Task.Delay(300);
-
         // set default focus
-        if (!TextInputReadOnly)
+        if (ShowTextInput && !TextInputReadOnly)
         {
             txtValue.Focus();
             txtValue.SelectAll();
@@ -634,18 +643,21 @@ public partial class Popup : DialogForm
         Form? formOwner = null)
     {
         var sysIcon = SystemIconApi.GetSystemIcon(icon);
+        var hasDetails = !string.IsNullOrEmpty(details);
 
         using var frm = new Popup()
         {
             Title = title,
             Heading = heading,
             Description = description,
-            Note = note,
             NoteStatusType = noteStatusType ?? ColorStatusType.Neutral,
+
+            TextInputReadOnly = hasDetails,
+            TextInputMultiLine = hasDetails,
+            ShowTextInput = hasDetails,
 
             Thumbnail = thumbnail ?? sysIcon,
             ThumbnailOverlay = (thumbnail != null && sysIcon != null) ? sysIcon : null,
-            ShowTextInput = false,
             ShowInTaskbar = true,
 
             TopMost = topMost,
@@ -659,19 +671,20 @@ public partial class Popup : DialogForm
             FormIconApi.SetTaskbarIcon(frm, formIconHandle);
         }
 
-        if (!string.IsNullOrEmpty(details.Trim()))
+        if (hasDetails)
         {
             frm.Value = details;
-            frm.TextInputMultiLine = true;
-            frm.TextInputReadOnly = true;
-            frm.ShowTextInput = true;
-
             frm.Width += 200;
         }
 
-        if (!string.IsNullOrEmpty(optionText.Trim()))
+        if (!string.IsNullOrEmpty(optionText))
         {
             frm.OptionCheckBoxText = optionText;
+        }
+
+        if (!string.IsNullOrEmpty(note))
+        {
+            frm.Note = note;
         }
 
         if (buttons == PopupButton.OK_Cancel)
