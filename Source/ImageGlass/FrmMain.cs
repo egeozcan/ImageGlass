@@ -39,13 +39,13 @@ public partial class FrmMain : ThemedForm
 {
     [SuppressMessage("IDisposableAnalyzers.Correctness", "IDISP002:Dispose member", Justification = "<Pending>")]
 #pragma warning disable CA1051 // Do not declare visible instance fields
-    public readonly ModernToolbar ToolbarContext = new ModernToolbar();
+    public readonly ModernToolbar ToolbarContext = new();
 #pragma warning restore CA1051 // Do not declare visible instance fields
 
     // cancellation tokens of synchronious task
     private CancellationTokenSource? _loadCancelTokenSrc = new();
     private IProgress<ProgressReporterEventArgs> _uiReporter;
-    private MovableForm _movableForm;
+    private MovableForm? _movableForm;
     private bool _isShowingImagePreview;
 
 

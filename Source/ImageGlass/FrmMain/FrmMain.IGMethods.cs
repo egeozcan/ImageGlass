@@ -2749,7 +2749,16 @@ public partial class FrmMain
     public void IG_SetWindowMoveable(bool? enable = null)
     {
         enable ??= true;
-        _movableForm.Key = Keys.ShiftKey | Keys.Shift;
+
+        _movableForm ??= new(this)
+        {
+            Key = Keys.ShiftKey | Keys.Shift,
+            FreeMoveControlNames =
+            [
+                nameof(Toolbar),
+                nameof(ToolbarContext),
+            ],
+        };
 
         if (enable.Value)
         {
