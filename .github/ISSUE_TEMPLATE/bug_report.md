@@ -1,6 +1,6 @@
 ---
 name: Bug report
-description: Create a report to help us improve. Clearly attach screenshots or video to help reproduce the issue quickly. Include a sample file if the problem involves image formats.
+about: Create a report to help us improve. Clearly attach screenshots or video to help reproduce the issue quickly. Include a sample file if the problem involves image formats.
 title: ''
 labels: "\U0001F41E bug"
 assignees: ''
