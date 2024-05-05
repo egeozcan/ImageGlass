@@ -7,14 +7,25 @@ assignees: ''
 
 ---
 
-### Is your feature request related to a problem? Please describe.
-<!-- A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]. -->
+### System information
+- Windows OS version: 
+- ImageGlass version:
+- ImageGlass release: Store / Classic?
 
-### Describe the solution you'd like
-<!-- A clear and concise description of what you want to happen. -->
 
-### Describe alternatives you've considered
-<!-- A clear and concise description of any alternative solutions or features you've considered. -->
+### Describe the feature
+<!-- Make it SHORT and STRAIGHT FORWARD -->
+<!-- Use list bullets to describe, I'm LAZY to read an essay -->
+
+
+### How to use feature
+<!-- List the steps to activate the feature and how other people use it -->
+1. 
+2. 
+3. 
+
 
 ### Additional context
-<!-- Add any other context or screenshots about the feature request here. -->
+<!-- Add any other context or SCREENSHOTS about the new feature -->
+
+
