@@ -1,9 +1,9 @@
 blank_issues_enabled: false
 contact_links:
   - name: Ask question
-    url: https://github.com/d2phap/ImageGlass/discussions/category_choices
-    about: Ask a question about this project.
+    url: https://github.com/d2phap/ImageGlass/discussions/new/choose
+    about: Ask a question about ImageGlass features.
     
   - name: Ask Discord community
-    url: http://discord.io/imageglass
-    about: Join in ImageGlass official Discord server.
+    url: https://discord.gg/tWjbynH2X8
+    about: Join in official Discord server of ImageGlass.
