@@ -77,6 +77,26 @@ public partial class FrmMain : ThemedForm
         ApplyTheme(Config.Theme.Settings.IsDarkMode);
     }
 
+    protected override CreateParams CreateParams
+    {
+        get
+        {
+            // ensure that when in full-screen or frameless mode we can still use the 
+            // Windows shortcut keys to minimize, and allow the taskbar icon to minimize
+            // the window.
+
+            // ref https://www.fluxbytes.com/csharp/minimize-a-form-without-border-using-the-taskbar/
+
+            const int WS_MINIMIZEBOX = 0x20000;
+            const int CS_DBLCLKS = 0x8;
+
+            var cp = base.CreateParams;
+            cp.Style |= WS_MINIMIZEBOX;
+            cp.ClassStyle |= CS_DBLCLKS;
+
+            return cp;
+        }
+    }
 
     protected override void OnDpiChanged()
     {
@@ -440,7 +460,6 @@ public partial class FrmMain : ThemedForm
             _ = LoadImageListAsync(paths, currentFile ?? filePath);
         }
     }
-
 
     /// <summary>
     /// Load the images list.
