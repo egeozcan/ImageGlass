@@ -441,7 +441,6 @@ public partial class FrmMain : ThemedForm
         }
     }
 
-
     /// <summary>
     /// Load the images list.
     /// </summary>
