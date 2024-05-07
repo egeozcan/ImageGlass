@@ -68,16 +68,20 @@ public partial class ToolForm : ThemedForm
 
     protected override bool ShowWithoutActivation => true;
 
+
     protected override CreateParams CreateParams
     {
         get
         {
-            CreateParams baseParams = base.CreateParams;
+            var cp = base.CreateParams;
 
             const int WS_EX_NOACTIVATE = 0x08000000;
-            baseParams.ExStyle |= WS_EX_NOACTIVATE;
+            const int WS_MINIMIZEBOX = 0x20000;
 
-            return baseParams;
+            cp.ExStyle |= WS_EX_NOACTIVATE;
+            cp.Style ^= WS_MINIMIZEBOX; // hide Minimize box
+
+            return cp;
         }
     }
 
