@@ -29,15 +29,12 @@ using ImageGlass.UI;
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using System.Text;
 using WicNet;
-using Windows.ApplicationModel.DataTransfer;
 
 namespace ImageGlass;
 
 public partial class FrmMain : ThemedForm
 {
-    [SuppressMessage("IDisposableAnalyzers.Correctness", "IDISP002:Dispose member", Justification = "<Pending>")]
 #pragma warning disable CA1051 // Do not declare visible instance fields
     public readonly ModernToolbar ToolbarContext = new();
 #pragma warning restore CA1051 // Do not declare visible instance fields

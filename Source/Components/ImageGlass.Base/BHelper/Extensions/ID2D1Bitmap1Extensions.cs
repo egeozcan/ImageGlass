@@ -51,23 +51,21 @@ public static class ID2D1Bitmap1Extensions
         bitmap1.CopyFromBitmap(srcBitmap1);
 
         var map = bitmap1.Map(D2D1_MAP_OPTIONS.D2D1_MAP_OPTIONS_READ);
-        //var totalDataSize = (int)(size.height * map.pitch);
         var startIndex = (y * map.pitch) + (x * 4);
-        var lastIndex = (int)(startIndex + 4);
 
-        var bytes = new byte[lastIndex];
-        Marshal.Copy(map.bits, bytes, 0, lastIndex);
+        var bytes = new byte[4];
+        Marshal.Copy((nint)(map.bits + startIndex), bytes, 0, bytes.Length);
         bitmap1.Unmap();
 
 
         // since pixel data is D2D1_ALPHA_MODE_PREMULTIPLIED,
         // we need to re-calculate the color values
-        var a = bytes[startIndex + 3];
+        var a = bytes[3];
         var alphaPremultiplied = a / 255f;
 
-        var r = (byte)(bytes[startIndex + 2] / alphaPremultiplied);
-        var g = (byte)(bytes[startIndex + 1] / alphaPremultiplied);
-        var b = (byte)(bytes[startIndex] / alphaPremultiplied);
+        var r = (byte)(bytes[2] / alphaPremultiplied);
+        var g = (byte)(bytes[1] / alphaPremultiplied);
+        var b = (byte)(bytes[0] / alphaPremultiplied);
 
 
         var color = Color.FromArgb(a, r, g, b);
