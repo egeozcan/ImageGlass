@@ -98,6 +98,34 @@ public static class PhotoCodec
                 meta.FrameIndex = (uint)frameIndex;
                 using var imgM = imgC[frameIndex];
 
+
+                // image size
+                meta.OriginalWidth = imgM.BaseWidth;
+                meta.OriginalHeight = imgM.BaseHeight;
+
+                if (options?.AutoScaleDownLargeImage == true)
+                {
+                    var newSize = GetMaxImageRenderSize(imgM.BaseWidth, imgM.BaseHeight);
+
+                    meta.RenderedWidth = newSize.Width;
+                    meta.RenderedHeight = newSize.Height;
+                }
+                else
+                {
+                    meta.RenderedWidth = imgM.Width;
+                    meta.RenderedHeight = imgM.Height;
+                }
+
+
+                // image color
+                meta.HasAlpha = imgC.Any(i => i.HasAlpha);
+                meta.ColorSpace = imgM.ColorSpace.ToString();
+
+                var isAnimatedExtension = ext == ".GIF" || ext == ".GIFV" || ext == ".WEBP";
+                meta.CanAnimate = imgC.Count > 1
+                    && (isAnimatedExtension || imgC.Any(i => i.GifDisposeMethod != GifDisposeMethod.Undefined));
+
+
                 // EXIF profile
                 if (imgM.GetExifProfile() is IExifProfile exifProfile)
                 {
@@ -142,7 +170,7 @@ public static class PhotoCodec
                         using var img = Image.FromStream(fs, false, false);
                         var enc = new ASCIIEncoding();
 
-                        var EXIF_DateTimeOriginal = 0x9003; //36867;
+                        var EXIF_DateTimeOriginal = 0x9003; //36867
                         var EXIF_DateTime = 0x0132;
 
                         try
@@ -175,34 +203,17 @@ public static class PhotoCodec
                     catch { }
                 }
 
+
                 // Color profile
                 if (imgM.GetColorProfile() is IColorProfile colorProfile)
                 {
                     meta.ColorProfile = colorProfile.ColorSpace.ToString();
+
+                    if (!string.IsNullOrWhiteSpace(colorProfile.Description))
+                    {
+                        meta.ColorProfile = $"{colorProfile.Description} ({meta.ColorProfile})";
+                    }
                 }
-
-                if (options?.AutoScaleDownLargeImage == true)
-                {
-                    var newSize = GetMaxImageRenderSize(imgM.BaseWidth, imgM.BaseHeight);
-
-                    meta.RenderedWidth = newSize.Width;
-                    meta.RenderedHeight = newSize.Height;
-                }
-                else
-                {
-                    meta.RenderedWidth = imgM.Width;
-                    meta.RenderedHeight = imgM.Height;
-                }
-
-                meta.OriginalWidth = imgM.BaseWidth;
-                meta.OriginalHeight = imgM.BaseHeight;
-
-                meta.HasAlpha = imgC.Any(i => i.HasAlpha);
-                meta.ColorSpace = imgM.ColorSpace.ToString();
-
-                var isAnimatedExtension = ext == ".GIF" || ext == ".GIFV" || ext == ".WEBP";
-                meta.CanAnimate = imgC.Count > 1
-                    && (isAnimatedExtension || imgC.Any(i => i.GifDisposeMethod != GifDisposeMethod.Undefined));
             }
         }
         catch { }
