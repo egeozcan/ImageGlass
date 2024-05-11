@@ -269,31 +269,53 @@ public class DiskCache
         {
             if (string.IsNullOrEmpty(_dirName)) return;
             if (_cacheSize == 0) return;
-
+            if (_currentCacheSize <= _cacheSize) return;
+            
             var files = new DirectoryInfo(_dirName).GetFiles();
-            var indexList = new List<FileInfo>(files);
-
+            if (files.Length == 0) return;
+            
             // sort creation time ascending
-            indexList.Sort((f1, f2) =>
+            Array.Sort(files, (f1, f2) =>
             {
                 var d1 = f1.CreationTime;
                 var d2 = f2.CreationTime;
                 return (d1 < d2 ? -1 : (d2 > d1 ? 1 : 0));
             });
 
-            while (indexList.Count > 0 && _currentCacheSize > _cacheSize)
+            // Reduce the cache to 50% of its maximum size. This way we prevent excessive
+            // purge operations when new items are subsequently added to the cache.
+            var maxPurgedSize = _cacheSize / 2;
+
+            foreach (var f in files)
             {
-                if (indexList.FirstOrDefault() is not FileInfo firstFile) continue;
+                if (!f.Exists) continue;
+                
+                var length = f.Length;
 
-                _currentCacheSize -= firstFile.Length;
-                var filePath = firstFile.FullName;
-
-                indexList.RemoveAt(0);
-                firstFile.Delete();
+                if (TryDeleteFile(f))
+                {
+                    _currentCacheSize -= length;
+                    if (_currentCacheSize <= maxPurgedSize) break;
+                }
             }
 
             if (_currentCacheSize < 0) _currentCacheSize = 0;
         }
+    }
+
+    private bool TryDeleteFile(FileInfo fi)
+    {
+        try
+        {
+            fi.Delete();
+            return true;
+        }
+        catch
+        {
+            // perhaps no access or IO exception
+        }
+
+        return false;
     }
 
     #endregion
