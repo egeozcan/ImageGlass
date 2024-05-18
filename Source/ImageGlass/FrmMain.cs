@@ -2174,6 +2174,11 @@ public partial class FrmMain : ThemedForm
     {
         IG_ToggleTopMost();
     }
+
+    private void MnuChangeBackgroundColor_Click(object sender, EventArgs e)
+    {
+        IG_SetBackgroundColor();
+    }
     #endregion // Menu Layout
 
 
@@ -2393,6 +2398,7 @@ public partial class FrmMain : ThemedForm
     #endregion // Other menu
 
     #endregion // Main Menu component
+
 
 
 }

@@ -511,6 +511,7 @@ public class IgLang : IDictionary<string, string>
             { "FrmMain.MnuToggleTopMost", "Keep window always on top" }, //v3.2
             { "FrmMain.MnuToggleTopMost._Enable", "Enabled window always on top" }, // v9.0
             { "FrmMain.MnuToggleTopMost._Disable", "Disabled window always on top" }, // v9.0
+            { "FrmMain.MnuChangeBackgroundColor", "Change background color…" }, // v9.0
             #endregion // Layout
 
             #region Tools
@@ -930,7 +931,6 @@ public class IgLang : IDictionary<string, string>
             // menu
             { "FrmSlideshow.MnuPauseResumeSlideshow", "Pause/resume slideshow" }, // v9.0
             { "FrmSlideshow.MnuExitSlideshow", "Exit slideshow" }, // v9.0
-            { "FrmSlideshow.MnuChangeBackgroundColor", "Change background color…" }, // v9.0
 
             { "FrmSlideshow.MnuToggleCountdown", "Show slideshow countdown" }, // v9.0
             { "FrmSlideshow.MnuZoomModes", "Zoom modes" }, // v9.0

@@ -121,6 +121,7 @@ public partial class FrmMain
         { nameof(MnuToggleToolbar),         [new(Keys.T)] },
         { nameof(MnuToggleGallery),         [new(Keys.G)] },
         { nameof(MnuToggleCheckerboard),    [new(Keys.B)] },
+        { nameof(MnuChangeBackgroundColor), [new(Keys.M)] },
 
         // MnuTools
         { nameof(MnuColorPicker),           [new(Keys.K)] },
@@ -744,6 +745,7 @@ public partial class FrmMain
         MnuToggleGallery.Text = lang[$"{Name}.{nameof(MnuToggleGallery)}"];
         MnuToggleCheckerboard.Text = lang[$"{Name}.{nameof(MnuToggleCheckerboard)}"];
         MnuToggleTopMost.Text = lang[$"{Name}.{nameof(MnuToggleTopMost)}"];
+        MnuChangeBackgroundColor.Text = lang[$"{Name}.{nameof(MnuChangeBackgroundColor)}"];
         #endregion
 
 

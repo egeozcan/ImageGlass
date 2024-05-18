@@ -1399,7 +1399,7 @@ public partial class FrmSlideshow : ThemedForm
         MnuToggleCheckerboard.Text = lang[$"FrmMain.{nameof(MnuToggleCheckerboard)}"];
 
         // navigation
-        MnuChangeBackgroundColor.Text = lang[$"{Name}.{nameof(MnuChangeBackgroundColor)}"];
+        MnuChangeBackgroundColor.Text = lang[$"FrmMain.{nameof(MnuChangeBackgroundColor)}"];
         MnuNavigation.Text = lang[$"FrmMain.{nameof(MnuNavigation)}"];
         MnuViewNext.Text = lang[$"FrmMain.{nameof(MnuViewNext)}"];
         MnuViewPrevious.Text = lang[$"FrmMain.{nameof(MnuViewPrevious)}"];
@@ -1951,17 +1951,43 @@ public partial class FrmSlideshow : ThemedForm
 
     private void MnuChangeBackgroundColor_Click(object sender, EventArgs e)
     {
-        _isColorPickerOpen = true;
+        IG_SetBackgroundColor();
+    }
 
-        using var cd = new ModernColorDialog()
-        {
-            StartPosition = FormStartPosition.CenterParent,
-            ColorValue = Config.SlideshowBackgroundColor,
-        };
 
-        if (cd.ShowDialog() == DialogResult.OK)
+    /// <summary>
+    /// Sets background color,
+    /// opens <see cref="ModernColorDialog"/> if the <paramref name="hexColor"/> is <c>null</c>.
+    /// </summary>
+    public void IG_SetBackgroundColor(string? hexColor = null)
+    {
+        var color = Color.Empty;
+
+        // open Color picker to select color if hexColor not defined
+        if (string.IsNullOrEmpty(hexColor))
         {
-            PicMain.BackColor = Config.SlideshowBackgroundColor = cd.ColorValue;
+            _isColorPickerOpen = true;
+
+            using var cd = new ModernColorDialog()
+            {
+                StartPosition = FormStartPosition.CenterParent,
+                ColorValue = Config.SlideshowBackgroundColor,
+            };
+
+            if (cd.ShowDialog() == DialogResult.OK)
+            {
+                color = cd.ColorValue;
+            }
+        }
+        else
+        {
+            color = BHelper.ColorFromHex(hexColor);
+        }
+
+
+        if (!color.IsEmpty)
+        {
+            PicMain.BackColor = Config.SlideshowBackgroundColor = color;
             PicMain.ForeColor = PicMain.BackColor.InvertBlackOrWhite(220);
 
 

@@ -153,6 +153,7 @@ namespace ImageGlass
             toolStripMenuItem4 = new ToolStripSeparator();
             MnuSubMenu = new UI.ModernMenu(components);
             itemToPreserveSpaceToolStripMenuItem = new ToolStripMenuItem();
+            MnuChangeBackgroundColor = new ToolStripMenuItem();
             MnuMain.SuspendLayout();
             MnuContext.SuspendLayout();
             MnuSubMenu.SuspendLayout();
@@ -175,7 +176,7 @@ namespace ImageGlass
             Toolbar.RenderMode = ToolStripRenderMode.System;
             Toolbar.ShowItemToolTips = false;
             Toolbar.ShowMainMenuButton = false;
-            Toolbar.Size = new Size(917, 25);
+            Toolbar.Size = new Size(898, 25);
             Toolbar.TabIndex = 1;
             Toolbar.Theme = null;
             Toolbar.ItemClicked += Toolbar_ItemClicked;
@@ -792,7 +793,7 @@ namespace ImageGlass
             // 
             // MnuLayout
             // 
-            MnuLayout.DropDownItems.AddRange(new ToolStripItem[] { MnuToggleToolbar, MnuToggleGallery, MnuToggleCheckerboard, toolStripMenuItem20, MnuToggleTopMost });
+            MnuLayout.DropDownItems.AddRange(new ToolStripItem[] { MnuToggleToolbar, MnuToggleGallery, MnuToggleCheckerboard, toolStripMenuItem20, MnuToggleTopMost, MnuChangeBackgroundColor });
             MnuLayout.Image = (Image)resources.GetObject("MnuLayout.Image");
             MnuLayout.ImageAlign = ContentAlignment.MiddleLeft;
             MnuLayout.ImageScaling = ToolStripItemImageScaling.None;
@@ -990,7 +991,7 @@ namespace ImageGlass
             PicMain.Margin = new Padding(0);
             PicMain.Name = "PicMain";
             PicMain.RequestUpdateFrame = false;
-            PicMain.Size = new Size(917, 336);
+            PicMain.Size = new Size(898, 310);
             PicMain.TabIndex = 2;
             PicMain.OnZoomChanged += PicMain_OnZoomChanged;
             PicMain.OnNavLeftClicked += PicMain_OnNavLeftClicked;
@@ -1014,7 +1015,7 @@ namespace ImageGlass
             Gallery.Dock = DockStyle.Bottom;
             Gallery.EnableKeyNavigation = true;
             Gallery.EnableTransparent = true;
-            Gallery.Location = new Point(0, 336);
+            Gallery.Location = new Point(0, 310);
             Gallery.Margin = new Padding(0);
             Gallery.Name = "Gallery";
             Gallery.PersistentCacheDirectory = "";
@@ -1022,7 +1023,7 @@ namespace ImageGlass
             Gallery.Resizer = Base.WinApi.ResizerType.None;
             Gallery.ResizerSize = 8;
             Gallery.RetryOnError = false;
-            Gallery.Size = new Size(917, 200);
+            Gallery.Size = new Size(898, 200);
             Gallery.TabIndex = 0;
             Gallery.ThumbnailSize = new Size(70, 70);
             Gallery.View = ImageGlass.Gallery.View.HorizontalStrip;
@@ -1080,13 +1081,20 @@ namespace ImageGlass
             itemToPreserveSpaceToolStripMenuItem.Size = new Size(210, 22);
             itemToPreserveSpaceToolStripMenuItem.Text = "item to preserve space";
             // 
+            // MnuChangeBackgroundColor
+            // 
+            MnuChangeBackgroundColor.Name = "MnuChangeBackgroundColor";
+            MnuChangeBackgroundColor.Size = new Size(247, 22);
+            MnuChangeBackgroundColor.Text = "[Change background color]";
+            MnuChangeBackgroundColor.Click += MnuChangeBackgroundColor_Click;
+            // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(96F, 96F);
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.FromArgb(192, 192, 255);
             BackgroundImageLayout = ImageLayout.None;
-            ClientSize = new Size(917, 536);
+            ClientSize = new Size(898, 510);
             Controls.Add(Toolbar);
             Controls.Add(PicMain);
             Controls.Add(Gallery);
@@ -1230,5 +1238,6 @@ namespace ImageGlass
         private ToolStripMenuItem MnuGetMoreTools;
         private ToolStripSeparator MnuExternalToolsSeparator;
         public ToolStripMenuItem MnuLosslessCompression;
+        public ToolStripMenuItem MnuChangeBackgroundColor;
     }
 }
