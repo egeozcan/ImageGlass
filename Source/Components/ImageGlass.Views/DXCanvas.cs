@@ -1559,16 +1559,22 @@ public partial class DXCanvas : DXControl
 
         if (EnableDebug)
         {
+            var text = "";
             var monitor = DirectN.Monitor.FromWindow(TopLevelControl.Handle);
 
-            var text = $"Monitor={monitor.Bounds.Size}; Dpi={DeviceDpi} ({(int)monitor.ScaleFactor}%); Renderer={Source}";
+            if (monitor != null)
+            {
+                text = $"Monitor={monitor?.Bounds.Size}; {(int)monitor.ScaleFactor}%; ";
+            }
+
+            text = $"Dpi={DeviceDpi}; Renderer={Source}; ";
             if (UseWebview2)
             {
-                text += $"; v{Web2.Webview2Version}";
+                text += $"v{Web2.Webview2Version}; ";
             }
             else
             {
-                text += $"; Opacity={_imageOpacity}; FPS={FPS}";
+                text += $"Opacity={_imageOpacity}; FPS={FPS}; ";
             }
 
             var textSize = g.MeasureText(text, Font.Name, Font.Size, textDpi: DeviceDpi);
