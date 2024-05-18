@@ -813,6 +813,41 @@ public partial class FrmMain
 
 
     /// <summary>
+    /// Sets background color,
+    /// opens <see cref="ModernColorDialog"/> if the <paramref name="hexColor"/> is <c>null</c>.
+    /// </summary>
+    public void IG_SetBackgroundColor(string? hexColor = null)
+    {
+        var color = Color.Empty;
+
+        // open Color picker to select color if hexColor not defined
+        if (string.IsNullOrEmpty(hexColor))
+        {
+            using var cd = new ModernColorDialog()
+            {
+                StartPosition = FormStartPosition.CenterParent,
+                ColorValue = Config.BackgroundColor,
+            };
+
+            if (cd.ShowDialog() == DialogResult.OK)
+            {
+                color = cd.ColorValue;
+            }
+        }
+        else
+        {
+            color = BHelper.ColorFromHex(hexColor);
+        }
+        
+
+        if (!color.IsEmpty)
+        {
+            PicMain.BackColor = Config.BackgroundColor = color;
+        }
+    }
+
+
+    /// <summary>
     /// Opens project site to report issue
     /// </summary>
     public static void IG_ReportIssue()
