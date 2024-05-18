@@ -31,6 +31,14 @@ internal static class Program
 
 
     /// <summary>
+    /// Gets value to indicates this ImageGlass instance is to preload to OS.
+    /// In PRELOAD_OS mode,
+    /// ImageGlass UI is totally hiden and its process auto-closes after 3s, user settings are not saved.
+    /// </summary>
+    public static bool IsPreloadWithOs => Environment.GetCommandLineArgs().Contains(IgCommands.PRELOAD_OS);
+
+
+    /// <summary>
     /// The main entry point for the application.
     /// </summary>
     [STAThread]
@@ -98,7 +106,7 @@ internal static class Program
     {
         var requiredQuickSetup = false;
 
-        if (Config.QuickSetupVersion < Const.QUICK_SETUP_VERSION)
+        if (Config.QuickSetupVersion < Const.QUICK_SETUP_VERSION && !IsPreloadWithOs)
         {
             FrmMain.IG_OpenQuickSetupDialog();
 
@@ -203,20 +211,13 @@ internal static class Program
         // Attempt to run a 2nd instance of IG when multi-instance turned off.
         // The primary instance will crash if no file provided
         // (e.g. by double-clicking on .EXE in explorer).
-        var realCount = 0;
-        foreach (var arg in e.Arguments)
-        {
-            if (arg != null)
-            {
-                realCount++;
-            }
-        }
+        var argsCount = e.Arguments.Count(i => i != null);
 
-        var realArgs = new string[realCount];
-        Array.Copy(e.Arguments, realArgs, realCount);
+        var args = new string[argsCount];
+        Array.Copy(e.Arguments, args, argsCount);
 
         // Execute our delegate on the forms thread!
-        Local.FrmMain.Invoke(ActivateWindow, (object)realArgs);
+        Local.FrmMain.Invoke(ActivateWindow, (object)args);
     }
 
 
@@ -226,6 +227,7 @@ internal static class Program
     private static void ActivateWindow(string[] args)
     {
         if (Local.FrmMain == null) return;
+
 
         // load image file from arg
         Local.FrmMain.LoadImagesFromCmdArgs(args);

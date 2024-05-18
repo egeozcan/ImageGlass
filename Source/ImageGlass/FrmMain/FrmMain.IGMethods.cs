@@ -28,7 +28,6 @@ using ImageGlass.Viewer;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Text;
 using WicNet;
 
 namespace ImageGlass;
@@ -838,7 +837,7 @@ public partial class FrmMain
         {
             color = BHelper.ColorFromHex(hexColor);
         }
-        
+
 
         if (!color.IsEmpty)
         {

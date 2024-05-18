@@ -328,7 +328,6 @@ public partial class FrmMain : ThemedForm
     }
 
 
-
     #region Image Loading functions
 
     /// <summary>
@@ -2398,7 +2397,6 @@ public partial class FrmMain : ThemedForm
     #endregion // Other menu
 
     #endregion // Main Menu component
-
 
 
 }

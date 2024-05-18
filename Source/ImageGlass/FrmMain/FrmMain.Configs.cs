@@ -267,14 +267,22 @@ public partial class FrmMain
         }
 
 
-        // start slideshow
-        if (Config.EnableSlideshow)
+        // hide app window
+        if (Program.IsPreloadWithOs)
         {
-            IG_ToggleSlideshow();
+            RunAsPreloadOsMode();
         }
+        else
+        {
+            // start slideshow
+            if (Config.EnableSlideshow)
+            {
+                IG_ToggleSlideshow();
+            }
 
-        // load first image
-        LoadImagesFromCmdArgs(Environment.GetCommandLineArgs());
+            // load first image
+            LoadImagesFromCmdArgs(Environment.GetCommandLineArgs());
+        }
 
 
         // load other low priority data after 500ms
@@ -282,6 +290,21 @@ public partial class FrmMain
         {
             await Task.Delay(500);
             _uiReporter.Report(new(EventArgs.Empty, nameof(LoadLowPriorityFormData)));
+        });
+    }
+
+
+    private void RunAsPreloadOsMode()
+    {
+        WindowState = FormWindowState.Minimized;
+        ShowInTaskbar = false;
+        Visible = false;
+
+
+        Task.Run(async () =>
+        {
+            await Task.Delay(3000);
+            IG_Exit();
         });
     }
 
@@ -322,7 +345,11 @@ public partial class FrmMain
 
     private void FrmMainConfig_FormClosing(object? sender, FormClosingEventArgs e)
     {
-        _ = SaveConfigsOnClosing();
+        // do not save configs when preloading with OS
+        if (!Program.IsPreloadWithOs)
+        {
+            _ = SaveConfigsOnClosing();
+        }
 
         ToolbarContext.Dispose();
     }
