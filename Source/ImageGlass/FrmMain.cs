@@ -1202,7 +1202,7 @@ public partial class FrmMain : ThemedForm
 
     private void ImageTransform_Changed(object? sender, EventArgs e)
     {
-        _uiReporter.Report(new ProgressReporterEventArgs(e, nameof(ImageTransform_Changed)));
+        _uiReporter.Report(new(e, nameof(ImageTransform_Changed)));
     }
 
 

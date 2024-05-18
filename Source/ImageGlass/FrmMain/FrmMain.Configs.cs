@@ -140,6 +140,13 @@ public partial class FrmMain
 
     private void SetUpFrmMainConfigs()
     {
+        // run Preload OS mode
+        if (Program.IsPreloadWithOs)
+        {
+            RunAsPreloadOsMode();
+        }
+
+
         SuspendLayout();
 
         // Toolbar
@@ -216,6 +223,10 @@ public partial class FrmMain
 
     private void FrmMain_Load(object sender, EventArgs e)
     {
+        // do not load UI settings if running in Preload OS mode
+        if (Program.IsPreloadWithOs) return;
+
+
         Local.FrmMainUpdateRequested += Local_FrmMainUpdateRequested;
 
 
@@ -267,22 +278,14 @@ public partial class FrmMain
         }
 
 
-        // hide app window
-        if (Program.IsPreloadWithOs)
+        // start slideshow
+        if (Config.EnableSlideshow)
         {
-            RunAsPreloadOsMode();
+            IG_ToggleSlideshow();
         }
-        else
-        {
-            // start slideshow
-            if (Config.EnableSlideshow)
-            {
-                IG_ToggleSlideshow();
-            }
 
-            // load first image
-            LoadImagesFromCmdArgs(Environment.GetCommandLineArgs());
-        }
+        // load first image
+        LoadImagesFromCmdArgs(Environment.GetCommandLineArgs());
 
 
         // load other low priority data after 500ms
@@ -299,7 +302,6 @@ public partial class FrmMain
         WindowState = FormWindowState.Minimized;
         ShowInTaskbar = false;
         Visible = false;
-
 
         Task.Run(async () =>
         {
@@ -345,13 +347,12 @@ public partial class FrmMain
 
     private void FrmMainConfig_FormClosing(object? sender, FormClosingEventArgs e)
     {
-        // do not save configs when preloading with OS
-        if (!Program.IsPreloadWithOs)
-        {
-            _ = SaveConfigsOnClosing();
-        }
+        // immediately exit
+        if (Program.IsPreloadWithOs) return;
 
-        ToolbarContext.Dispose();
+
+        // save settings
+        _ = SaveConfigsOnClosing();
     }
 
 
