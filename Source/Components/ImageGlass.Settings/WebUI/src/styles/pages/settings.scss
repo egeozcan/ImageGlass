@@ -380,6 +380,7 @@
       height: 1.125em;
       stroke: rgb(var(--AppText));
       fill: rgb(var(--AppText));
+      pointer-events: none; // prevent svg icon blocking tooltip
     }
 
     &.icon-hover {
