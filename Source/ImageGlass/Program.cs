@@ -33,7 +33,7 @@ internal static class Program
     /// <summary>
     /// Gets value to indicates this ImageGlass instance is in <see cref="IgCommands.STARTUP_BOOST"/> mode.
     /// In <see cref="IgCommands.STARTUP_BOOST"/> mode,
-    /// ImageGlass UI is totally hiden and its process auto-closes after 3s, user settings are not saved.
+    /// ImageGlass UI is totally hiden and its process auto-closes after a few seconds, user settings are not saved.
     /// </summary>
     public static bool IsStartupBoostMode => Environment.GetCommandLineArgs().Contains(IgCommands.STARTUP_BOOST);
 

@@ -137,7 +137,7 @@ public class App
 
             if (enable)
             {
-                key?.SetValue(APP_NAME, $"{App.IGExePath} ${IgCommands.STARTUP_BOOST}");
+                key?.SetValue(APP_NAME, $"\"{App.IGExePath}\" {IgCommands.STARTUP_BOOST}");
             }
             else
             {

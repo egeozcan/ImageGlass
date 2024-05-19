@@ -622,7 +622,7 @@ public class IgLang : IDictionary<string, string>
             { "FrmSettings._ShouldOpenLastSeenImage", "Open the last seen image" },
 
             { "FrmSettings._StartupBoost", "Startup Boost" }, // v9.1
-            { "FrmSettings._StartupBoost._Description", "Preload and run ImageGlass in the background for 3 seconds during Windows startup to accelerate the first launch." }, // v9.1
+            { "FrmSettings._StartupBoost._Description", "Preload and run ImageGlass in the background for a few seconds during Windows startup to accelerate the first launch." }, // v9.1
             { "FrmSettings._StartupBoost._Enabled", "Startup Boost is enabled" }, // v9.1
             { "FrmSettings._StartupBoost._Disabled", "Startup Boost is disabled" }, // v9.1
             { "FrmSettings._StartupBoost._Error", "Could not change Startup Boost setting" }, // v9.1

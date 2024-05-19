@@ -140,13 +140,6 @@ public partial class FrmMain
 
     private void SetUpFrmMainConfigs()
     {
-        // run Startup Boost mode
-        if (Program.IsStartupBoostMode)
-        {
-            RunAsPreloadOsMode();
-        }
-
-
         SuspendLayout();
 
         // Toolbar
@@ -192,6 +185,15 @@ public partial class FrmMain
 
         FormClosing += FrmMainConfig_FormClosing;
         SizeChanged += FrmMainConfig_SizeChanged;
+
+
+        // run Startup Boost mode
+        if (Program.IsStartupBoostMode)
+        {
+            Config.FrmMainPositionX = -9999;
+            Config.FrmMainPositionY = -9999;
+            ShowInTaskbar = false;
+        }
     }
 
 
@@ -223,10 +225,6 @@ public partial class FrmMain
 
     private void FrmMain_Load(object sender, EventArgs e)
     {
-        // do not load UI settings if running in Startup Boost mode
-        if (Program.IsStartupBoostMode) return;
-
-
         Local.FrmMainUpdateRequested += Local_FrmMainUpdateRequested;
 
 
@@ -278,14 +276,26 @@ public partial class FrmMain
         }
 
 
-        // start slideshow
-        if (Config.EnableSlideshow)
+        // run Startup Boost mode
+        if (Program.IsStartupBoostMode)
         {
-            IG_ToggleSlideshow();
+            Task.Run(async () =>
+            {
+                await Task.Delay(3000);
+                IG_Exit();
+            });
         }
+        else
+        {
+            // start slideshow
+            if (Config.EnableSlideshow)
+            {
+                IG_ToggleSlideshow();
+            }
 
-        // load first image
-        LoadImagesFromCmdArgs(Environment.GetCommandLineArgs());
+            // load first image
+            LoadImagesFromCmdArgs(Environment.GetCommandLineArgs());
+        }
 
 
         // load other low priority data after 500ms
@@ -293,20 +303,6 @@ public partial class FrmMain
         {
             await Task.Delay(500);
             _uiReporter.Report(new(EventArgs.Empty, nameof(LoadLowPriorityFormData)));
-        });
-    }
-
-
-    private void RunAsPreloadOsMode()
-    {
-        WindowState = FormWindowState.Minimized;
-        ShowInTaskbar = false;
-        Visible = false;
-
-        Task.Run(async () =>
-        {
-            await Task.Delay(3000);
-            IG_Exit();
         });
     }
 
