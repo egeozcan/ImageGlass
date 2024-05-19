@@ -291,6 +291,7 @@
       border: 0.1rem solid transparent;
       border-radius: var(--borderRadius);
       background-color: rgb(var(--Accent) / 0.2);
+      cursor: grab;
 
       &> * {
         display: inline-block;
@@ -300,6 +301,9 @@
   
       &:hover {
         border-color: var(--ControlCtaBorderHover);
+      }
+      &:active {
+        cursor: grabbing;
       }
     }
 

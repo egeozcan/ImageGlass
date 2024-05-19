@@ -34,6 +34,7 @@ export default class TabGeneral {
     query('#Lnk_UserConfigFile').addEventListener('click', () => post('Lnk_UserConfigFile', _pageSettings.userConfigFilePath), false);
     query('#Btn_EnableStartupBoost').addEventListener('click', () => post('Btn_EnableStartupBoost'), false);
     query('#Btn_DisableStartupBoost').addEventListener('click', () => post('Btn_DisableStartupBoost'), false);
+    query('#Lnk_OpenStartupAppsSetting').addEventListener('click', () => post('Lnk_OpenStartupAppsSetting'), false);
 
     query('[name="ImageInfoTags"]').addEventListener('blur', TabGeneral.onImageInfoTagsBlur, false);
     query('#LnkResetImageInfoTags').addEventListener('click', TabGeneral.resetImageInfoTags, false);

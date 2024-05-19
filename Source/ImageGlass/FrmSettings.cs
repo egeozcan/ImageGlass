@@ -189,6 +189,10 @@ public partial class FrmSettings : WebForm
         {
             _ = SetStartupBoostAsync(false);
         }
+        else if (e.Name.Equals("Lnk_OpenStartupAppsSetting", StringComparison.Ordinal))
+        {
+            _ = BHelper.OpenUrlAsync("ms-settings:startupapps");
+        }
         #endregion // Tab General
 
 

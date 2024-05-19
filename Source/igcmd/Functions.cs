@@ -88,9 +88,13 @@ public static class Functions
 
             if (Program.ShowUi)
             {
-                _ = Config.ShowInfo(null,
+                var note = enable ? Config.Language["FrmSettings._UnmanagedSettingReminder"] : "";
+
+                _ = Config.ShowWarning(null,
                     title: Config.Language[langPath],
-                    heading: Config.Language[$"{langPath}._Success"]);
+                    heading: Config.Language[$"{langPath}._Success"],
+                    note: note,
+                    icon: ShellStockIcon.SIID_INFO);
             }
         }, (error) =>
         {

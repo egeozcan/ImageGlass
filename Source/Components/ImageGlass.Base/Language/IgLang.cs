@@ -620,6 +620,7 @@ public class IgLang : IDictionary<string, string>
             { "FrmSettings._Startup", "Startup" },
             { "FrmSettings._ShowWelcomeImage", "Show welcome image" },
             { "FrmSettings._ShouldOpenLastSeenImage", "Open the last seen image" },
+
             { "FrmSettings._StartupBoost", "Startup Boost" }, // v9.1
             { "FrmSettings._StartupBoost._Description", "Preload and run ImageGlass in the background for 3 seconds during Windows startup to accelerate the first launch." }, // v9.1
             { "FrmSettings._StartupBoost._Enabled", "Startup Boost is enabled" }, // v9.1
@@ -627,6 +628,7 @@ public class IgLang : IDictionary<string, string>
             { "FrmSettings._StartupBoost._Error", "Could not change Startup Boost setting" }, // v9.1
             { "FrmSettings._EnableStartupBoost", "Enable Startup Boost" }, // v9.1
             { "FrmSettings._DisableStartupBoost", "Disable Startup Boost" }, // v9.1
+            { "FrmSettings._OpenStartupAppsSetting", "Open Startup apps setting" }, // v9.1
 
             // General > Real-time update
             { "FrmSettings._RealTimeFileUpdate", "Real-time file update" },
@@ -803,7 +805,7 @@ public class IgLang : IDictionary<string, string>
 
             // File type associations > Default photo viewer
             { "FrmSettings._DefaultPhotoViewer", "Default photo viewer" },
-            { "FrmSettings._DefaultPhotoViewer._Description", "You can set ImageGlass as your default photo viewer using the buttons below. If necessary, open the Default apps setting to manually choose ImageGlass as the default." },
+            { "FrmSettings._DefaultPhotoViewer._Description", "Register the supported formats of ImageGlass with Windows. You might need to open the Default apps settings and manually select ImageGlass from the list for it to take effect." },
             { "FrmSettings._MakeDefault", "Make default" },
             { "FrmSettings._RemoveDefault", "Remove default" },
             { "FrmSettings._OpenDefaultAppsSetting", "Open Default apps setting" },
