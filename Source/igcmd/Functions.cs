@@ -343,16 +343,22 @@ public static class Functions
 
             if (Program.ShowUi)
             {
-                _ = Config.ShowInfo(null,
+                var note = enable ? Config.Language["FrmSettings._UnmanagedSettingReminder"] : "";
+                var description = enable ? Config.Language[$"{langPath}._Description"] : "";
+
+                _ = Config.ShowWarning(null,
                     title: Config.Language[langPath],
-                    heading: Config.Language[$"{langPath}.{(enable ? "_Enabled" : "_Disabled")}"]);
+                    heading: Config.Language[$"{langPath}.{(enable ? "_Enabled" : "_Disabled")}"],
+                    description: description,
+                    note: note,
+                    icon: ShellStockIcon.SIID_INFO);
             }
         }, (error) =>
         {
             _ = Config.ShowError(null,
-                description: error.Message,
                 title: Config.Language[langPath],
                 heading: Config.Language[$"{langPath}._Error"],
+                description: error.Message,
                 details: error.ToString());
         });
     }

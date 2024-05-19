@@ -122,7 +122,7 @@ public class App
 
 
     /// <summary>
-    /// Sets or unsets ImageGlass to start with OS.
+    /// Sets or unsets ImageGlass to start with OS in <see cref="IgCommands.STARTUP_BOOST"/> mode.
     /// Returns <c>null</c> if successful.
     /// </summary>
     public static Exception? SetStartWithOs(bool enable)
@@ -137,7 +137,7 @@ public class App
 
             if (enable)
             {
-                key?.SetValue(APP_NAME, $"{App.IGExePath} ${IgCommands.PRELOAD_OS}");
+                key?.SetValue(APP_NAME, $"{App.IGExePath} ${IgCommands.STARTUP_BOOST}");
             }
             else
             {

@@ -31,11 +31,11 @@ internal static class Program
 
 
     /// <summary>
-    /// Gets value to indicates this ImageGlass instance is to preload to OS.
-    /// In PRELOAD_OS mode,
+    /// Gets value to indicates this ImageGlass instance is in <see cref="IgCommands.STARTUP_BOOST"/> mode.
+    /// In <see cref="IgCommands.STARTUP_BOOST"/> mode,
     /// ImageGlass UI is totally hiden and its process auto-closes after 3s, user settings are not saved.
     /// </summary>
-    public static bool IsPreloadWithOs => Environment.GetCommandLineArgs().Contains(IgCommands.PRELOAD_OS);
+    public static bool IsStartupBoostMode => Environment.GetCommandLineArgs().Contains(IgCommands.STARTUP_BOOST);
 
 
     /// <summary>
@@ -106,7 +106,7 @@ internal static class Program
     {
         var requiredQuickSetup = false;
 
-        if (Config.QuickSetupVersion < Const.QUICK_SETUP_VERSION && !IsPreloadWithOs)
+        if (Config.QuickSetupVersion < Const.QUICK_SETUP_VERSION && !IsStartupBoostMode)
         {
             FrmMain.IG_OpenQuickSetupDialog();
 

@@ -25,7 +25,7 @@ public static class IgCommands
     public static string SHOW_UI => "--ui";
     public static string HIDE_ADMIN_REQUIRED_ERROR_UI => "--hide-admin-error-ui";
     public static string PER_MACHINE => "--per-machine";
-    public static string PRELOAD_OS => "--preload-os";
+    public static string STARTUP_BOOST => "--startup-boost";
 
 
     // igcmd.exe

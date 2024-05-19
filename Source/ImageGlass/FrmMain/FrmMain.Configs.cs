@@ -140,8 +140,8 @@ public partial class FrmMain
 
     private void SetUpFrmMainConfigs()
     {
-        // run Preload OS mode
-        if (Program.IsPreloadWithOs)
+        // run Startup Boost mode
+        if (Program.IsStartupBoostMode)
         {
             RunAsPreloadOsMode();
         }
@@ -223,8 +223,8 @@ public partial class FrmMain
 
     private void FrmMain_Load(object sender, EventArgs e)
     {
-        // do not load UI settings if running in Preload OS mode
-        if (Program.IsPreloadWithOs) return;
+        // do not load UI settings if running in Startup Boost mode
+        if (Program.IsStartupBoostMode) return;
 
 
         Local.FrmMainUpdateRequested += Local_FrmMainUpdateRequested;
@@ -348,7 +348,7 @@ public partial class FrmMain
     private void FrmMainConfig_FormClosing(object? sender, FormClosingEventArgs e)
     {
         // immediately exit
-        if (Program.IsPreloadWithOs) return;
+        if (Program.IsStartupBoostMode) return;
 
 
         // save settings
