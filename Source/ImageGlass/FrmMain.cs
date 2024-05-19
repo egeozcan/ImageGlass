@@ -2003,12 +2003,12 @@ public partial class FrmMain : ThemedForm
     #region Menu Navigation
     private void MnuViewNext_Click(object sender, EventArgs e)
     {
-        IG_ViewNextImage();
+        IG_ViewImage(1);
     }
 
     private void MnuViewPrevious_Click(object sender, EventArgs e)
     {
-        IG_ViewPreviousImage();
+        IG_ViewImage(-1);
     }
 
     private void MnuGoTo_Click(object sender, EventArgs e)

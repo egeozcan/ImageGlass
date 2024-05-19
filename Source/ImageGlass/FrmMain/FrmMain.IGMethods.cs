@@ -162,33 +162,17 @@ public partial class FrmMain
 
 
     /// <summary>
-    /// Views previous image
+    /// View image
     /// </summary>
-    public void IG_ViewPreviousImage()
+    public void IG_ViewImage(int step)
     {
         if (Config.EnableImageAsyncLoading)
         {
-            _ = ViewNextCancellableAsync(-1);
+            _ = ViewNextCancellableAsync(step);
         }
         else
         {
-            BHelper.RunSync(() => ViewNextCancellableAsync(-1));
-        }
-    }
-
-
-    /// <summary>
-    /// View next image
-    /// </summary>
-    public void IG_ViewNextImage()
-    {
-        if (Config.EnableImageAsyncLoading)
-        {
-            _ = ViewNextCancellableAsync(1);
-        }
-        else
-        {
-            BHelper.RunSync(() => ViewNextCancellableAsync(1));
+            BHelper.RunSync(() => ViewNextCancellableAsync(step));
         }
     }
 

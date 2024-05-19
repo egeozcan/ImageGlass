@@ -1343,13 +1343,13 @@ public partial class FrmMain
                 new ToggleAction(new(nameof(IG_AutoSetActualSize))));
 
             Config.MouseClickActions.Add(MouseClickEvent.WheelClick,
-                new ToggleAction(new(nameof(IG_Refresh))));
+                new ToggleAction(new(nameof(MnuRefresh))));
 
             Config.MouseClickActions.Add(MouseClickEvent.XButton1Click,
-                new ToggleAction(new(nameof(IG_ViewPreviousImage))));
+                new ToggleAction(new(nameof(MnuViewPrevious))));
 
             Config.MouseClickActions.Add(MouseClickEvent.XButton2Click,
-                new ToggleAction(new(nameof(IG_ViewNextImage))));
+                new ToggleAction(new(nameof(MnuViewNext))));
         }
     }
 

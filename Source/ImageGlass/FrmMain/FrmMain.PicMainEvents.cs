@@ -368,11 +368,11 @@ public partial class FrmMain
         {
             if (e.Delta < 0)
             {
-                IG_ViewNextImage();
+                IG_ViewImage(1);
             }
             else
             {
-                IG_ViewPreviousImage();
+                IG_ViewImage(-1);
             }
         }
         #endregion
