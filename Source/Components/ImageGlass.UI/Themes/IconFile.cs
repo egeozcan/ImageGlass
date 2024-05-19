@@ -63,6 +63,8 @@ public enum IconName
     Selection,
     Setting,
 
+    Info,
+    Warning,
     Delete,
     Edit,
     Moon,

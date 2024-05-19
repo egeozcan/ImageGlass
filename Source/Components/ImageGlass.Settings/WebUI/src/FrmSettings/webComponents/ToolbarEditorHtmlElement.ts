@@ -84,7 +84,9 @@ export class ToolbarEditorHtmlElement extends HTMLElement {
         <ul class="ig-list-vertical is--no-separator toolbar-list" data-source="available">
         </ul>
       </div>
-      <div class="section-middle">[Icon]</div>
+      <div class="section-middle">
+        <i icon="ArrowExchange" style="font-size: 1.75rem;"></i>
+      </div>
       <div class="section-current">
         <div class="mb-1" lang-text="FrmSettings.Toolbar._CurrentButtons">[Current buttons:]</div>
         <ul class="ig-list-vertical is--no-separator toolbar-list" data-source="current">
@@ -103,9 +105,6 @@ export class ToolbarEditorHtmlElement extends HTMLElement {
     this.#editButtonFn = onEditButton.bind(this);
     this.#hasChanges = false;
     this.loadItems();
-
-    // load icon
-    query('.section-middle', this).innerHTML = _pageSettings.icons.ArrowExchange;
   }
 
   private loadItems(items?: IToolbarButton[]) {

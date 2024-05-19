@@ -40,6 +40,8 @@ if (!window._pageSettings) {
       ArrowExchange: '',
       Moon: '',
       Sun: '',
+      Info: '',
+      Warning: '',
     },
     startUpDir: '',
     configDir: '',

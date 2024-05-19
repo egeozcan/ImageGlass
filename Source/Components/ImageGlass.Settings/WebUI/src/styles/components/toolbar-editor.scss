@@ -6,13 +6,6 @@ toolbar-editor {
     display: flex;
     align-items: center;
     padding: 0 1rem;
-
-    svg {
-      width: 2rem;
-      height: 2rem;
-      stroke: rgb(var(--AppText));
-      fill: rgb(var(--AppText));
-    }
   }
   .section-available {
     display: grid;

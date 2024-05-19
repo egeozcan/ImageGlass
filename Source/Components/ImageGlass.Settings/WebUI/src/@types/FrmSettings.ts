@@ -94,6 +94,8 @@ export type IPageSettings = Record<string, any> & {
     ArrowExchange: string,
     Sun: string,
     Moon: string,
+    Info: string,
+    Warning: string,
   },
   FILE_MACRO: string;
 };

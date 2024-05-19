@@ -128,7 +128,7 @@
     </nav>
 
     <div class="sidebar-bottom">
-      <a id="LnkHelp" href="#" lang-title="_._GetHelp" lang-text="_._GetHelp">[Get help]</a>
+      <a id="LnkHelp" class="cursor-help" href="#" lang-title="_._GetHelp" lang-text="_._GetHelp">[Get help]</a>
       <span>︱</span>
       <a id="LnkResetSettings" href="#" lang-title="FrmSettings._ResetSettings" lang-text="FrmSettings._ResetSettings">[Reset settings]</a>
     </div>
@@ -158,9 +158,9 @@
         </div>
       </section>
 
-      <!-- General > Start up -->
+      <!-- General > Startup -->
       <section>
-        <header lang-text="FrmSettings._Startup">[Start up]</header>
+        <header lang-text="FrmSettings._Startup">[Startup]</header>
         <div class="mb-2">
           <label class="ig-checkbox">
             <input type="checkbox" name="ShowWelcomeImage" />
@@ -172,6 +172,27 @@
             <input type="checkbox" name="ShouldOpenLastSeenImage" />
             <div lang-text="FrmSettings._ShouldOpenLastSeenImage">[ShouldOpenLastSeenImage]</div>
           </label>
+        </div>
+
+        <!-- General > Startup > Startup Boost -->
+        <div class="mt-4 mb-2">
+          <div class="mb-2 d-inline-flex align-items-center">
+            <b lang-text="FrmSettings._StartupBoost">[Startup Boost]</b>
+            <i class="icon-hover cursor-help ms-2" icon="Warning" lang-title="FrmSettings._UnmanagedSettingReminder"></i>
+          </div>
+          <div class="mb-2">
+            <span lang-text="FrmSettings._StartupBoost._Description">
+              [Preload ImageGlass in the background during Windows startup to accelerate the first launch. The app will automatically exit after 3 seconds.]
+            </span>
+          </div>
+          <div class="mb-2">
+            <button id="Btn_EnableStartupBoost" class="me-2" type="button" lang-text="FrmSettings._EnableStartupBoost">
+              [Enable Startup Boost]
+            </button>
+            <button id="Btn_DisableStartupBoost" class="me-2" type="button" lang-text="FrmSettings._DisableStartupBoost">
+              [Disable Startup Boost]
+            </button>
+          </div>
         </div>
       </section>
 
@@ -902,10 +923,13 @@
 
       <!-- File type assosications > Default photo viewer -->
       <section>
-        <header lang-text="FrmSettings._DefaultPhotoViewer">[Default photo viewer]</header>
+        <header class="d-flex align-items-center">
+          <span lang-text="FrmSettings._DefaultPhotoViewer">[Default photo viewer]</span>
+          <i class="icon-hover cursor-help ms-2" icon="Warning" lang-title="FrmSettings._UnmanagedSettingReminder"></i>
+        </header>
         <div class="mb-2">
           <div class="mb-3" style="max-width: 60rem;" lang-text="FrmSettings._DefaultPhotoViewer._Description">
-            [You can set ImageGlass as your default photo viewer using the buttons below. Remember to manually reset it if you uninstall ImageGlass, as the installer does not handle this task automatically.]
+            [You can set ImageGlass as your default photo viewer using the buttons below. If necessary, open the Default apps settings to manually choose ImageGlass as the default.]
           </div>
           <div class="d-flex align-items-center">
             <button id="Btn_MakeDefaultViewer" class="me-2" type="button" lang-text="FrmSettings._MakeDefault">

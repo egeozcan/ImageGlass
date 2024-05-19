@@ -53,10 +53,6 @@
     }
   }
 
-  #LnkHelp {
-    cursor: help;
-  }
-
   section {
     margin-bottom: 2rem;
     padding-left: 1rem;
@@ -368,6 +364,27 @@
     [data-position="right"i] {
       grid-area: region-right;
       border-left: 0.1rem solid var(--ControlBorder);
+    }
+  }
+
+
+  i[icon] {
+    display: inline-flex;
+
+    &> svg {
+      width: 1.125em;
+      height: 1.125em;
+      stroke: rgb(var(--AppText));
+      fill: rgb(var(--AppText));
+    }
+
+    &.icon-hover {
+      border-radius: var(--borderRadius);
+      transition: background ease var(--transitionMs);
+
+      &:hover {
+        background: rgb(var(--Accent) / 0.25);
+      }
     }
   }
 }

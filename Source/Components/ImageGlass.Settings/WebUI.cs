@@ -100,6 +100,8 @@ public static class WebUI
             { IconName.ArrowExchange, string.Empty },
             { IconName.Sun, string.Empty },
             { IconName.Moon, string.Empty },
+            { IconName.Info, string.Empty },
+            { IconName.Warning, string.Empty },
         };
 
 

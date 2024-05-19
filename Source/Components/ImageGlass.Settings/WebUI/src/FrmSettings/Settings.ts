@@ -72,6 +72,17 @@ export default class Settings {
     }
 
 
+    // load icon element: <i icon="">
+    queryAll('i[icon]').forEach(el => {
+      const iconName = el.getAttribute('icon');
+      const iconSvg = _pageSettings.icons[iconName];
+
+      if (iconSvg) {
+        el.innerHTML = iconSvg;
+      }
+    });
+
+
     // load specific settings
     TabGeneral.loadSettings();
     TabImage.loadSettings();
