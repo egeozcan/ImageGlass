@@ -56,4 +56,10 @@ public class SingleAction(string executable = "", object?[]? arguments = null, S
     /// </summary>
     public SingleAction? NextAction { get; set; } = nextAction;
 
+
+
+    public override string ToString()
+    {
+        return Executable;
+    }
 }

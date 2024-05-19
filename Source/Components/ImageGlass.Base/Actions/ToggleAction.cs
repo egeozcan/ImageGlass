@@ -77,5 +77,10 @@ public class ToggleAction(SingleAction? toggleOn = null)
         }
     }
 
+
+    public override string ToString()
+    {
+        return $"{ToggleOn?.ToString() ?? "<empty>"} | {ToggleOff?.ToString() ?? "<empty>"}";
+    }
 }
 

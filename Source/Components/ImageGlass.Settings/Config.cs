@@ -47,6 +47,7 @@ public static class Config
     private static readonly Source _source = new();
     private static CancellationTokenSource _requestUpdatingColorModeCancelToken = new();
     private static bool _isDarkMode = WinColorsApi.IsDarkMode;
+    private static float Version = 9;
 
 
     /// <summary>
@@ -679,6 +680,10 @@ public static class Config
 #nullable disable
         items ??= Source.LoadUserConfigs();
 
+        // get user config version
+        Version = items.GetValue<float>($"_Metadata:{nameof(Version)}");
+            
+
         // save the config for all tools
         ToolSettings = items.GetValueObj(nameof(ToolSettings)).GetValue(nameof(ToolSettings), new ExpandoObject());
 
@@ -1000,6 +1005,9 @@ public static class Config
         // listen to system events
         SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
 
+        // migrate user config file if config version is changed
+        MigrateUserConfigFile();
+
 #nullable enable 
     }
 
@@ -1025,8 +1033,8 @@ public static class Config
 
         var metadata = new ConfigMetadata()
         {
-            Description = _source.Description,
-            Version = _source.Version,
+            Description = Source.Description,
+            Version = Source.Version,
         };
 
         _ = settings.TryAdd("_Metadata", metadata);
@@ -2073,6 +2081,43 @@ public static class Config
 
 
     #region Private functions
+
+    // Config file migration
+    #region Config file migration
+
+    /// <summary>
+    /// Migrate user config file
+    /// </summary>
+    private static void MigrateUserConfigFile()
+    {
+        // no change
+        if (Source.Version <= Version) return;
+
+
+        // migrate from 9
+        if (Version == 9)
+        {
+            // MouseClickActions
+            if (MouseClickActions.TryGetValue(MouseClickEvent.WheelClick, out var action1)
+                && action1?.ToggleOn?.Executable == "IG_Refresh")
+            {
+                MouseClickActions[MouseClickEvent.WheelClick] = new(new("MnuRefresh"));
+            }
+            if (MouseClickActions.TryGetValue(MouseClickEvent.XButton1Click, out var action2)
+                && action2?.ToggleOn?.Executable == "IG_ViewPreviousImage")
+            {
+                MouseClickActions[MouseClickEvent.XButton1Click] = new(new("MnuViewPrevious"));
+            }
+            if (MouseClickActions.TryGetValue(MouseClickEvent.XButton2Click, out var action3)
+                && action3?.ToggleOn?.Executable == "IG_ViewNextImage")
+            {
+                MouseClickActions[MouseClickEvent.XButton2Click] = new(new("MnuViewNext"));
+            }
+        }
+    }
+
+    #endregion // Config file migration
+
 
     // ImageFormats
     #region ImageFormats

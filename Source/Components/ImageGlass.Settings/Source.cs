@@ -46,19 +46,13 @@ public class Source
     /// <summary>
     /// Config file description
     /// </summary>
-    public string Description { get; set; } = "ImageGlass configuration file";
+    public static string Description => "ImageGlass configuration file";
 
 
     /// <summary>
     /// Config file version
     /// </summary>
-    public string Version { get; set; } = "9.0";
-
-
-    /// <summary>
-    /// Gets, sets value indicates that the config file is compatible with this ImageGlass version or not
-    /// </summary>
-    public bool IsCompatible { get; set; } = true;
+    public static float Version => 9.1f;
 
 
     /// <summary>
@@ -169,5 +163,5 @@ public class Source
 public record ConfigMetadata
 {
     public string Description { get; set; } = string.Empty;
-    public string Version { get; set; } = string.Empty;
+    public float Version { get; set; } = 9.0f;
 }
