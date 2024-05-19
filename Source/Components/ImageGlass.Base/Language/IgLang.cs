@@ -589,6 +589,8 @@ public class IgLang : IDictionary<string, string>
             #region FrmSettings
 
             { "FrmSettings._ResetSettings", "Reset settings" }, // v9.1
+            { "FrmSettings._UnmanagedSettingReminder", "This setting is not managed by ImageGlass. Don't forget to disable it before you remove the app because the installer does not handle this task automatically." }, // v9.1
+
 
             #region Nav bar
             { "FrmSettings.Nav._General", "General" },
@@ -618,6 +620,13 @@ public class IgLang : IDictionary<string, string>
             { "FrmSettings._Startup", "Startup" },
             { "FrmSettings._ShowWelcomeImage", "Show welcome image" },
             { "FrmSettings._ShouldOpenLastSeenImage", "Open the last seen image" },
+            { "FrmSettings._StartupBoost", "Startup Boost" }, // v9.1
+            { "FrmSettings._StartupBoost._Description", "Preload ImageGlass in the background during Windows startup to accelerate the first launch. The app will automatically exit after 3 seconds." }, // v9.1
+            { "FrmSettings._StartupBoost._Enabled", "Startup Boost is enabled" }, // v9.1
+            { "FrmSettings._StartupBoost._Disabled", "Startup Boost is disabled" }, // v9.1
+            { "FrmSettings._StartupBoost._Error", "Could not change Startup Boost setting" }, // v9.1
+            { "FrmSettings._EnableStartupBoost", "Enable Startup Boost" }, // v9.1
+            { "FrmSettings._DisableStartupBoost", "Disable Startup Boost" }, // v9.1
 
             // General > Real-time update
             { "FrmSettings._RealTimeFileUpdate", "Real-time file update" },
@@ -633,7 +642,6 @@ public class IgLang : IDictionary<string, string>
             { "FrmSettings._ImageInfoTags", "Image information tags" },
             { "FrmSettings._AvailableImageInfoTags", "Available tags:" },
             #endregion // Tab General
-
 
             
             #region Tab Image
@@ -795,7 +803,7 @@ public class IgLang : IDictionary<string, string>
 
             // File type associations > Default photo viewer
             { "FrmSettings._DefaultPhotoViewer", "Default photo viewer" },
-            { "FrmSettings._DefaultPhotoViewer._Description", "You can set ImageGlass as your default photo viewer using the buttons below. Remember to manually reset it if you uninstall ImageGlass, as the installer does not handle this task automatically." },
+            { "FrmSettings._DefaultPhotoViewer._Description", "You can set ImageGlass as your default photo viewer using the buttons below. If necessary, open the Default apps setting to manually choose ImageGlass as the default." },
             { "FrmSettings._MakeDefault", "Make default" },
             { "FrmSettings._RemoveDefault", "Remove default" },
             { "FrmSettings._OpenDefaultAppsSetting", "Open Default apps setting" },

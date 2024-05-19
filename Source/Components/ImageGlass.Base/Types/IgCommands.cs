@@ -36,6 +36,8 @@ public static class IgCommands
     public static string START_SLIDESHOW => "start-slideshow";
     public static string EXPORT_FRAMES => "export-frames";
     public static string LOSSLESS_COMPRESS => "lossless-compress";
+    public static string SET_STARTUP_BOOST => "set-startup-boost";
+    public static string REMOVE_STARTUP_BOOST => "remove-startup-boost";
 
 
     public static string QUICK_SETUP => "quick-setup";

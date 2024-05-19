@@ -123,10 +123,11 @@ public class App
 
     /// <summary>
     /// Sets or unsets ImageGlass to start with OS.
-    /// Returns <c>true</c> if successful.
+    /// Returns <c>null</c> if successful.
     /// </summary>
-    public static bool SetStartWithOs(bool enable)
+    public static Exception? SetStartWithOs(bool enable)
     {
+        Exception? error = null;
         const string APP_NAME = "ImageGlass";
         var regAppPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
 
@@ -142,13 +143,11 @@ public class App
             {
                 key?.DeleteValue(APP_NAME);
             }
-
-            return true;
         }
-        catch { }
+        catch (Exception ex) { error = ex; }
 
 
-        return false;
+        return error;
     }
 
 

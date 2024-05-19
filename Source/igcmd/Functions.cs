@@ -327,4 +327,33 @@ public static class Functions
                 heading: error.Message);
         });
     }
+
+
+    /// <summary>
+    /// Sets Startup Boost.
+    /// </summary>
+    public static IgExitCode SetStartupBoost(bool enable)
+    {
+        var langPath = "FrmSettings._StartupBoost";
+
+        return Run(() =>
+        {
+            var error = App.SetStartWithOs(enable);
+            if (error != null) throw error;
+
+            if (Program.ShowUi)
+            {
+                _ = Config.ShowInfo(null,
+                    title: Config.Language[langPath],
+                    heading: Config.Language[$"{langPath}.{(enable ? "_Enabled" : "_Disabled")}"]);
+            }
+        }, (error) =>
+        {
+            _ = Config.ShowError(null,
+                description: error.Message,
+                title: Config.Language[langPath],
+                heading: Config.Language[$"{langPath}._Error"],
+                details: error.ToString());
+        });
+    }
 }

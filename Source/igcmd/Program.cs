@@ -266,6 +266,22 @@ internal static class Program
         #endregion
 
 
+        #region SET_STARTUP_BOOST
+        if (topCmd == IgCommands.SET_STARTUP_BOOST)
+        {
+            return (int)Functions.SetStartupBoost(true);
+        }
+        #endregion
+
+
+        #region REMOVE_STARTUP_BOOST
+        if (topCmd == IgCommands.REMOVE_STARTUP_BOOST)
+        {
+            return (int)Functions.SetStartupBoost(false);
+        }
+        #endregion
+
+
         return (int)IgExitCode.Error;
     }
 
