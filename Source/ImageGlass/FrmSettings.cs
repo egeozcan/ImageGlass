@@ -181,6 +181,14 @@ public partial class FrmSettings : WebForm
         {
             _ = OpenUserConfigFileAsync(e.Data);
         }
+        else if (e.Name.Equals("Btn_EnableStartupBoost", StringComparison.Ordinal))
+        {
+            _ = SetStartupBoostAsync(true);
+        }
+        else if (e.Name.Equals("Btn_DisableStartupBoost", StringComparison.Ordinal))
+        {
+            _ = SetStartupBoostAsync(false);
+        }
         #endregion // Tab General
 
 
@@ -832,6 +840,20 @@ public partial class FrmSettings : WebForm
         }
 
         return string.Empty;
+    }
+
+
+    /// <summary>
+    /// Sets Startup Boost setting.
+    /// </summary>
+    private static async Task SetStartupBoostAsync(bool enable)
+    {
+        var cmd = enable
+            ? IgCommands.SET_STARTUP_BOOST
+            : IgCommands.REMOVE_STARTUP_BOOST;
+
+        // run command and show the results
+        _ = await Config.RunIgcmd($"{cmd} {IgCommands.SHOW_UI}");
     }
 
     #endregion // Private methods
