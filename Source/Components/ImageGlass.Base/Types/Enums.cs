@@ -53,21 +53,6 @@ public enum UpdateRequests
 
 
 /// <summary>
-/// Color channels of image, the value should be same as MagickImage.Channels enum
-/// </summary>
-public enum ColorChannel
-{
-    All = -1, // not applicable
-
-    Red = 1,
-    Green = 2,
-    Blue = 4,
-    Black = 8,
-    Alpha = 16,
-}
-
-
-/// <summary>
 /// Color profile options.
 /// </summary>
 public enum ColorProfileOption
@@ -151,10 +136,10 @@ public enum RotateOption
 
 
 /// <summary>
-/// Color channel option
+/// Color channels
 /// </summary>
 [Flags]
-public enum ColorChannelOption
+public enum ColorChannels
 {
     R = 1 << 1,
     G = 1 << 2,

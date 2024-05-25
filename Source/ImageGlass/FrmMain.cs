@@ -812,7 +812,6 @@ public partial class FrmMain : ThemedForm
             {
                 ColorProfileName = Config.ColorProfile,
                 ApplyColorProfileForAll = Config.ShouldUseColorProfileForAll,
-                ImageChannel = Local.ImageChannel,
                 AutoScaleDownLargeImage = true,
                 UseEmbeddedThumbnailRawFormats = Config.UseEmbeddedThumbnailRawFormats,
                 UseEmbeddedThumbnailOtherFormats = Config.UseEmbeddedThumbnailOtherFormats,
@@ -1130,7 +1129,8 @@ public partial class FrmMain : ThemedForm
                 autoAnimate: !e.IsViewingSeparateFrame,
                 frameIndex: e.FrameIndex,
                 resetZoom: e.ResetZoom,
-                enableFading: enableFadingTrainsition);
+                enableFading: enableFadingTrainsition,
+                channels: Local.ImageChannels);
 
             // update window fit
             if (e.ResetZoom && Config.EnableWindowFit)
@@ -1289,7 +1289,9 @@ public partial class FrmMain : ThemedForm
                     Image = wicSrc,
                     CanAnimate = false,
                     FrameCount = 1,
-                }, enableFading: Config.EnableImageTransition, isForPreview: true);
+                }, enableFading: Config.EnableImageTransition,
+                    isForPreview: true,
+                    channels: Local.ImageChannels);
 
                 _isShowingImagePreview = true;
             }
@@ -1794,6 +1796,7 @@ public partial class FrmMain : ThemedForm
         MnuSubMenu.Show(Cursor.Position);
     }
 
+
     private void MnuMain_Opening(object sender, System.ComponentModel.CancelEventArgs e)
     {
         try
@@ -1864,7 +1867,7 @@ public partial class FrmMain : ThemedForm
 
             if (!Local.IsImageError
                 && !hasClipboardImage
-                && Local.Metadata?.FrameCount <= 1)
+                && !PicMain.CanImageAnimate)
             {
                 MnuContext.Items.Add(MenuUtils.Clone(MnuViewChannels));
             }
@@ -2175,6 +2178,62 @@ public partial class FrmMain : ThemedForm
 
     // Menu Image
     #region Menu Image
+
+    private void MnuViewChannelRed_Click(object sender, EventArgs e)
+    {
+        if (MnuViewChannelRed.Checked)
+        {
+            Local.ImageChannels ^= ColorChannels.R;
+        }
+        else
+        {
+            Local.ImageChannels |= ColorChannels.R;
+        }
+
+        IG_SetImageColorChannels();
+    }
+
+    private void MnuViewChannelGreen_Click(object sender, EventArgs e)
+    {
+        if (MnuViewChannelGreen.Checked)
+        {
+            Local.ImageChannels ^= ColorChannels.G;
+        }
+        else
+        {
+            Local.ImageChannels |= ColorChannels.G;
+        }
+
+        IG_SetImageColorChannels();
+    }
+
+    private void MnuViewChannelBlue_Click(object sender, EventArgs e)
+    {
+        if (MnuViewChannelBlue.Checked)
+        {
+            Local.ImageChannels ^= ColorChannels.B;
+        }
+        else
+        {
+            Local.ImageChannels |= ColorChannels.B;
+        }
+        
+        IG_SetImageColorChannels();
+    }
+
+    private void MnuViewChannelAlpha_Click(object sender, EventArgs e)
+    {
+        if (MnuViewChannelAlpha.Checked)
+        {
+            Local.ImageChannels ^= ColorChannels.A;
+        }
+        else
+        {
+            Local.ImageChannels |= ColorChannels.A;
+        }
+
+        IG_SetImageColorChannels();
+    }
 
     private void MnuRotateLeft_Click(object sender, EventArgs e)
     {

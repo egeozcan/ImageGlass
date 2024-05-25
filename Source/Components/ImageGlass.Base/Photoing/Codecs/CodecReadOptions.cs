@@ -51,11 +51,6 @@ public record CodecReadOptions
     public bool ApplyColorProfileForAll { get; set; } = false;
 
     /// <summary>
-    /// Gets, sets the value of ImageMagick.Channels to apply to the entire image list
-    /// </summary>
-    public ColorChannel ImageChannel { get; set; } = ColorChannel.All;
-
-    /// <summary>
     /// Gets, sets the value indicates the embedded thumbnail of the RAW formats should be returned (if found).
     /// </summary>
     public bool UseEmbeddedThumbnailRawFormats { get; set; } = true;

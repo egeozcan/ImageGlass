@@ -2969,7 +2969,7 @@ public partial class DXCanvas : DXControl
         bool isForPreview = false,
         bool autoAnimate = true,
         ImgTransform? transforms = null,
-        ColorChannelOption channels = ColorChannelOption.RGBA)
+        ColorChannels channels = ColorChannels.RGBA)
     {
         // reset variables
         _imageDrawingState = ImageDrawingState.NotStarted;
@@ -3032,7 +3032,7 @@ public partial class DXCanvas : DXControl
                 }
 
                 // apply color channels filter
-                if (channels != ColorChannelOption.RGBA)
+                if (channels != ColorChannels.RGBA)
                 {
                     // use original image to create color channel filter
                     FilterColorChannels(channels, false);
@@ -3216,7 +3216,7 @@ public partial class DXCanvas : DXControl
     /// <summary>
     /// Filters image color channels.
     /// </summary>
-    public bool FilterColorChannels(ColorChannelOption colors, bool requestRerender = true)
+    public bool FilterColorChannels(ColorChannels colors, bool requestRerender = true)
     {
         if (_oriImageD2D == null || IsImageAnimating) return false;
 
@@ -3225,22 +3225,22 @@ public partial class DXCanvas : DXControl
         effect.SetInput(_oriImageD2D, 0);
 
 
-        var redOnly = colors.HasFlag(ColorChannelOption.R)
-            && !colors.HasFlag(ColorChannelOption.G)
-            && !colors.HasFlag(ColorChannelOption.B);
-        var greenOnly = colors.HasFlag(ColorChannelOption.G)
-            && !colors.HasFlag(ColorChannelOption.R)
-            && !colors.HasFlag(ColorChannelOption.B);
-        var blueOnly = colors.HasFlag(ColorChannelOption.B)
-            && !colors.HasFlag(ColorChannelOption.G)
-            && !colors.HasFlag(ColorChannelOption.R);
-        var alphaOnly = colors == ColorChannelOption.A;
-        var ignoreAlpha = alphaOnly || !colors.HasFlag(ColorChannelOption.A);
+        var redOnly = colors.HasFlag(ColorChannels.R)
+            && !colors.HasFlag(ColorChannels.G)
+            && !colors.HasFlag(ColorChannels.B);
+        var greenOnly = colors.HasFlag(ColorChannels.G)
+            && !colors.HasFlag(ColorChannels.R)
+            && !colors.HasFlag(ColorChannels.B);
+        var blueOnly = colors.HasFlag(ColorChannels.B)
+            && !colors.HasFlag(ColorChannels.G)
+            && !colors.HasFlag(ColorChannels.R);
+        var alphaOnly = colors == ColorChannels.A;
+        var ignoreAlpha = alphaOnly || !colors.HasFlag(ColorChannels.A);
 
 
-        var red = !alphaOnly && colors.HasFlag(ColorChannelOption.R) ? 1f : 0f;
-        var green = !alphaOnly && colors.HasFlag(ColorChannelOption.G) ? 1f : 0f;
-        var blue = !alphaOnly && colors.HasFlag(ColorChannelOption.B) ? 1f : 0f;
+        var red = !alphaOnly && colors.HasFlag(ColorChannels.R) ? 1f : 0f;
+        var green = !alphaOnly && colors.HasFlag(ColorChannels.G) ? 1f : 0f;
+        var blue = !alphaOnly && colors.HasFlag(ColorChannels.B) ? 1f : 0f;
 
         var mRed = redOnly ? 1f : 0f;
         var mGreen = greenOnly ? 1f : 0f;

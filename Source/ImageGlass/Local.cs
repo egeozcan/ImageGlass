@@ -522,7 +522,7 @@ public class Local
     /// <summary>
     /// Gets, sets color channel of image
     /// </summary>
-    public static ColorChannel ImageChannel { get; set; } = ColorChannel.All;
+    public static ColorChannels ImageChannels { get; set; } = ColorChannels.RGBA;
 
     /// <summary>
     /// Gets, sets value if image data was modified
@@ -564,7 +564,6 @@ public class Local
             MaxImageDimensionToCache = Config.ImageBoosterCacheMaxDimension,
             MaxFileSizeInMbToCache = Config.ImageBoosterCacheMaxFileSizeInMb,
 
-            ImageChannel = ImageChannel,
             DistinctDirs = distinctDirsList ?? [],
         };
     }

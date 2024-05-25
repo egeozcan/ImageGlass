@@ -3292,5 +3292,53 @@ public partial class FrmMain
         return Config.EnableRealTimeFileUpdate;
     }
 
+
+    /// <summary>
+    /// Set image color channels.
+    /// </summary>
+    /// <param name="colors">
+    /// Color channels as string. E.g. <c>R, A</c>, <c>R, G, B</c>
+    /// <list type="bullet">
+    ///   <item><c>A</c>: Show alpha channel only</item>
+    ///   <item><c>R, A</c>: Show red and alpha channel</item>
+    ///   <item><c>R, G, B</c>: Show red, green, blue channel (without alpha)</item>
+    /// </list>
+    /// </param>
+    public void IG_SetImageColorChannels(string? colors = null)
+    {
+        var channels = Local.ImageChannels;
+
+        if (!string.IsNullOrWhiteSpace(colors))
+        {
+            channels = BHelper.ParseEnum<ColorChannels>(colors);
+        }
+
+        SetImageColorChannels(channels);
+    }
+    private void SetImageColorChannels(ColorChannels channels)
+    {
+        if (PicMain.Source == ImageSource.Null || Local.IsBusy) return;
+
+
+        // update rotation changes
+        if (PicMain.FilterColorChannels(channels, true))
+        {
+            Local.ImageChannels = channels;
+
+            // update check state of menu Channels
+            MnuViewChannelRed.Checked = channels.HasFlag(ColorChannels.R);
+            MnuViewChannelGreen.Checked = channels.HasFlag(ColorChannels.G);
+            MnuViewChannelBlue.Checked = channels.HasFlag(ColorChannels.B);
+            MnuViewChannelAlpha.Checked = channels.HasFlag(ColorChannels.A);
+        }
+        else
+        {
+            PicMain.ShowMessage(
+                text: "",
+                heading: Config.Language["_._InvalidAction"],
+                durationMs: Config.InAppMessageDuration);
+        }
+    }
+
 }
 

@@ -132,11 +132,6 @@ public class ImageBooster : IDisposable
     public int MaxQueue { get; set; } = 1;
 
     /// <summary>
-    /// Gets, sets the value of <see cref="ColorChannel"/> to apply to the entire image list.
-    /// </summary>
-    public ColorChannel ImageChannel { get; set; } = ColorChannel.All;
-
-    /// <summary>
     /// Gets, sets the maximum image dimension to cache.
     /// If this value is <c>less than or equals 0</c>, the option will be ignored.
     /// </summary>

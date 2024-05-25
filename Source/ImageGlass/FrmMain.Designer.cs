@@ -85,6 +85,10 @@ namespace ImageGlass
             MnuPanToBottom = new ToolStripMenuItem();
             MnuImage = new ToolStripMenuItem();
             MnuViewChannels = new ToolStripMenuItem();
+            MnuViewChannelRed = new ToolStripMenuItem();
+            MnuViewChannelGreen = new ToolStripMenuItem();
+            MnuViewChannelBlue = new ToolStripMenuItem();
+            MnuViewChannelAlpha = new ToolStripMenuItem();
             MnuLoadingOrders = new ToolStripMenuItem();
             toolStripMenuItem16 = new ToolStripSeparator();
             MnuRotateLeft = new ToolStripMenuItem();
@@ -556,9 +560,54 @@ namespace ImageGlass
             // 
             // MnuViewChannels
             // 
+            MnuViewChannels.DropDownItems.AddRange(new ToolStripItem[] { MnuViewChannelRed, MnuViewChannelGreen, MnuViewChannelBlue, MnuViewChannelAlpha });
             MnuViewChannels.Name = "MnuViewChannels";
             MnuViewChannels.Size = new Size(251, 22);
             MnuViewChannels.Text = "[Channels]";
+            // 
+            // MnuViewChannelRed
+            // 
+            MnuViewChannelRed.Checked = true;
+            MnuViewChannelRed.CheckOnClick = true;
+            MnuViewChannelRed.CheckState = CheckState.Checked;
+            MnuViewChannelRed.ImageScaling = ToolStripItemImageScaling.None;
+            MnuViewChannelRed.Name = "MnuViewChannelRed";
+            MnuViewChannelRed.Size = new Size(180, 22);
+            MnuViewChannelRed.Text = "[Red]";
+            MnuViewChannelRed.Click += MnuViewChannelRed_Click;
+            // 
+            // MnuViewChannelGreen
+            // 
+            MnuViewChannelGreen.Checked = true;
+            MnuViewChannelGreen.CheckOnClick = true;
+            MnuViewChannelGreen.CheckState = CheckState.Checked;
+            MnuViewChannelGreen.ImageScaling = ToolStripItemImageScaling.None;
+            MnuViewChannelGreen.Name = "MnuViewChannelGreen";
+            MnuViewChannelGreen.Size = new Size(180, 22);
+            MnuViewChannelGreen.Text = "[Green]";
+            MnuViewChannelGreen.Click += MnuViewChannelGreen_Click;
+            // 
+            // MnuViewChannelBlue
+            // 
+            MnuViewChannelBlue.Checked = true;
+            MnuViewChannelBlue.CheckOnClick = true;
+            MnuViewChannelBlue.CheckState = CheckState.Checked;
+            MnuViewChannelBlue.ImageScaling = ToolStripItemImageScaling.None;
+            MnuViewChannelBlue.Name = "MnuViewChannelBlue";
+            MnuViewChannelBlue.Size = new Size(180, 22);
+            MnuViewChannelBlue.Text = "[Blue]";
+            MnuViewChannelBlue.Click += MnuViewChannelBlue_Click;
+            // 
+            // MnuViewChannelAlpha
+            // 
+            MnuViewChannelAlpha.Checked = true;
+            MnuViewChannelAlpha.CheckOnClick = true;
+            MnuViewChannelAlpha.CheckState = CheckState.Checked;
+            MnuViewChannelAlpha.ImageScaling = ToolStripItemImageScaling.None;
+            MnuViewChannelAlpha.Name = "MnuViewChannelAlpha";
+            MnuViewChannelAlpha.Size = new Size(180, 22);
+            MnuViewChannelAlpha.Text = "[Alpha]";
+            MnuViewChannelAlpha.Click += MnuViewChannelAlpha_Click;
             // 
             // MnuLoadingOrders
             // 
@@ -1239,5 +1288,9 @@ namespace ImageGlass
         private ToolStripSeparator MnuExternalToolsSeparator;
         public ToolStripMenuItem MnuLosslessCompression;
         public ToolStripMenuItem MnuChangeBackgroundColor;
+        public ToolStripMenuItem MnuViewChannelRed;
+        public ToolStripMenuItem MnuViewChannelGreen;
+        public ToolStripMenuItem MnuViewChannelBlue;
+        public ToolStripMenuItem MnuViewChannelAlpha;
     }
 }

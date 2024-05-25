@@ -28,6 +28,4 @@ public class ModernMenuItemTag
 
     public ImageOrderType? ImageOrderType { get; set; }
 
-    public ColorChannel? ColorChannel { get; set; }
-
 }

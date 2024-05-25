@@ -265,7 +265,6 @@ public static class PhotoCodec
             Width = width,
             Height = height,
             FirstFrameOnly = true,
-            ImageChannel = ColorChannel.All,
             UseEmbeddedThumbnailRawFormats = true,
             UseEmbeddedThumbnailOtherFormats = true,
             ApplyColorProfileForAll = false,
@@ -1016,9 +1015,6 @@ public static class PhotoCodec
         }
 
 
-        // apply color channel
-        imgM = ApplyColorChannel(imgM, options);
-
         // apply final changes
         TransformImage(imgM, transform);
 
@@ -1227,21 +1223,6 @@ public static class PhotoCodec
 
 
     /// <summary>
-    /// Applies color channel setting
-    /// </summary>
-    private static MagickImage ApplyColorChannel(MagickImage imgM, CodecReadOptions options)
-    {
-        // apply color channel
-        if (options.ImageChannel != ColorChannel.All)
-        {
-            return FilterColorChannel(imgM, options.ImageChannel);
-        }
-
-        return imgM;
-    }
-
-
-    /// <summary>
     /// Applies the size settings
     /// </summary>
     private static void ApplySizeSettings(IMagickImage imgM, CodecReadOptions options)
@@ -1253,27 +1234,6 @@ public static class PhotoCodec
                 imgM.Thumbnail(options.Width, options.Height);
             }
         }
-    }
-
-
-    /// <summary>
-    /// Filter color channel of Magick image
-    /// </summary>
-    private static MagickImage FilterColorChannel(MagickImage imgM, ColorChannel channel)
-    {
-        if (channel == ColorChannel.All) return imgM;
-
-
-        var magickChannel = (Channels)channel;
-        var channelImgM = (MagickImage)imgM.Separate(magickChannel).First();
-
-        if (imgM.HasAlpha && magickChannel != Channels.Alpha)
-        {
-            using var alpha = imgM.Separate(Channels.Alpha).First();
-            channelImgM.Composite(alpha, CompositeOperator.CopyAlpha);
-        }
-
-        return channelImgM;
     }
 
 

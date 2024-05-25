@@ -733,7 +733,10 @@ public partial class FrmMain
         MnuImageProperties.Text = lang[$"{Name}.{nameof(MnuImageProperties)}"];
 
         MnuViewChannels.Text = lang[$"{Name}.{nameof(MnuViewChannels)}"];
-        LoadMnuViewChannelsSubItems(); // update Channels menu items
+        MnuViewChannelRed.Text = lang[$"{Name}.{nameof(MnuViewChannelRed)}"];
+        MnuViewChannelGreen.Text = lang[$"{Name}.{nameof(MnuViewChannelGreen)}"];
+        MnuViewChannelBlue.Text = lang[$"{Name}.{nameof(MnuViewChannelBlue)}"];
+        MnuViewChannelAlpha.Text = lang[$"{Name}.{nameof(MnuViewChannelAlpha)}"];
 
         MnuLoadingOrders.Text = lang[$"{Name}.{nameof(MnuLoadingOrders)}"];
         LoadMnuLoadingOrdersSubItems(); // update Loading order items
@@ -909,65 +912,6 @@ public partial class FrmMain
                     }
                 }
             }
-        }
-    }
-
-
-    /// <summary>
-    /// Load View Channels menu items
-    /// </summary>
-    private void LoadMnuViewChannelsSubItems()
-    {
-        // clear items
-        MnuViewChannels.DropDown.Items.Clear();
-
-        var newMenuIconHeight = this.ScaleToDpi(Const.MENU_ICON_HEIGHT);
-
-        // add new items
-        foreach (var channel in Enum.GetValues(typeof(ColorChannel)))
-        {
-            var channelName = Enum.GetName(typeof(ColorChannel), channel);
-            var mnu = new ToolStripRadioButtonMenuItem()
-            {
-                Text = Config.Language[$"{Name}.{nameof(MnuViewChannels)}._{channelName}"],
-                Tag = new ModernMenuItemTag()
-                {
-                    SingleSelect = true,
-                    ColorChannel = (ColorChannel)channel,
-                },
-                CheckOnClick = true,
-                Checked = (int)channel == (int)Local.ImageChannel,
-                ImageScaling = ToolStripItemImageScaling.None,
-                Image = new Bitmap(newMenuIconHeight, newMenuIconHeight),
-            };
-
-            mnu.Click += MnuViewChannelsItem_Click;
-            MnuViewChannels.DropDown.Items.Add(mnu);
-        }
-    }
-
-
-    private void MnuViewChannelsItem_Click(object? sender, EventArgs e)
-    {
-        var mnu = sender as ToolStripMenuItem;
-        if (mnu is null) return;
-
-        // get color channel from tag
-        if (mnu.Tag is ModernMenuItemTag tag
-            && tag.ColorChannel != null
-            && tag.ColorChannel.Value != Local.ImageChannel)
-        {
-            Local.ImageChannel = tag.ColorChannel.Value;
-            Local.Images.ImageChannel = tag.ColorChannel.Value;
-
-            // update the viewing image
-            _ = ViewNextCancellableAsync(0, true, true);
-
-            // update cached images
-            Local.Images.UpdateCache();
-
-            // reload state
-            LoadMnuViewChannelsSubItems();
         }
     }
 

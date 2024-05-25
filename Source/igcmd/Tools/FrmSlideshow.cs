@@ -792,7 +792,6 @@ public partial class FrmSlideshow : ThemedForm
         {
             ColorProfileName = Config.ColorProfile,
             ApplyColorProfileForAll = Config.ShouldUseColorProfileForAll,
-            ImageChannel = ColorChannel.All,
             AutoScaleDownLargeImage = true,
             UseEmbeddedThumbnailRawFormats = Config.UseEmbeddedThumbnailRawFormats,
             UseEmbeddedThumbnailOtherFormats = Config.UseEmbeddedThumbnailOtherFormats,

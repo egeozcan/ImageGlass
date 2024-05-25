@@ -444,12 +444,10 @@ public class IgLang : IDictionary<string, string>
             { "FrmMain.MnuImage", "Image" }, //v7.0
 
             { "FrmMain.MnuViewChannels", "View channels" }, //v7.0
-            { "FrmMain.MnuViewChannels._All", "All" }, //v7.0
-            { "FrmMain.MnuViewChannels._Red", "Red" }, //v7.0
-            { "FrmMain.MnuViewChannels._Green", "Green" }, //v7.0
-            { "FrmMain.MnuViewChannels._Blue", "Blue" }, //v7.0
-            { "FrmMain.MnuViewChannels._Black", "Black" }, //v7.0
-            { "FrmMain.MnuViewChannels._Alpha", "Alpha" }, //v7.0
+            { "FrmMain.MnuViewChannelRed", "Red" }, //v9.1
+            { "FrmMain.MnuViewChannelGreen", "Green" }, //v9.1
+            { "FrmMain.MnuViewChannelBlue", "Blue" }, //v9.1
+            { "FrmMain.MnuViewChannelAlpha", "Alpha" }, //v9.1
 
             { "FrmMain.MnuLoadingOrders", "Loading orders" }, //v8.0
 
