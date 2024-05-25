@@ -73,4 +73,52 @@ public static class ID2D1Bitmap1Extensions
         return color;
     }
 
+
+
+    /// <summary>
+    /// Clones <see cref="ID2D1Bitmap1"/>.
+    /// </summary>
+    public static IComObject<ID2D1Bitmap1>? Clone(this IComObject<ID2D1Bitmap1>? srcBitmap1, IComObject<ID2D1DeviceContext6>? dc)
+    {
+        if (srcBitmap1 == null) return null;
+
+        var bmpProps = new D2D1_BITMAP_PROPERTIES1()
+        {
+            bitmapOptions = D2D1_BITMAP_OPTIONS.D2D1_BITMAP_OPTIONS_TARGET,
+            pixelFormat = new D2D1_PIXEL_FORMAT()
+            {
+                alphaMode = D2D1_ALPHA_MODE.D2D1_ALPHA_MODE_PREMULTIPLIED,
+                format = DXGI_FORMAT.DXGI_FORMAT_B8G8R8A8_UNORM,
+            },
+            dpiX = 96.0f,
+            dpiY = 96.0f,
+        };
+
+        // create an empty bitmap
+        dc.Object.GetImageLocalBounds(srcBitmap1.Object, out var outputRect);
+        var newD2dBitmap = dc.CreateBitmap<ID2D1Bitmap1>(outputRect.SizeU, bmpProps);
+
+
+        // save current Target, replace by ID2D1Bitmap
+        dc.Object.GetTarget(out var oldTarget);
+        var oldTargetObj = new ComObject<ID2D1Image>(oldTarget);
+        dc.SetTarget(newD2dBitmap);
+
+
+        // draw Image on Target
+        dc.BeginDraw();
+        dc.DrawImage(srcBitmap1, D2D1_INTERPOLATION_MODE.D2D1_INTERPOLATION_MODE_NEAREST_NEIGHBOR, D2D1_COMPOSITE_MODE.D2D1_COMPOSITE_MODE_SOURCE_OVER);
+        dc.EndDraw();
+
+
+        // set previous Target
+        dc.SetTarget(oldTargetObj);
+
+
+        // release resources
+        oldTargetObj.Dispose();
+
+        return newD2dBitmap;
+    }
+
 }

@@ -26,7 +26,7 @@ public static class ID2D1EffectExtensions
     /// <summary>
     /// Gets <see cref="ID2D1Bitmap1"/> from <see cref="ID2D1Effect"/>.
     /// </summary>
-    public static IComObject<ID2D1Bitmap1> GetD2D1Bitmap1(this IComObject<ID2D1Effect> effect, IComObject<ID2D1DeviceContext6>? dc)
+    public static IComObject<ID2D1Bitmap1> GetD2D1Bitmap1(this IComObject<ID2D1Effect> effect, IComObject<ID2D1DeviceContext6>? dc, bool ignoreAlpha = false)
     {
         // create D2D1Bitmap from WICBitmapSource
         var bmpProps = new D2D1_BITMAP_PROPERTIES1()
@@ -34,7 +34,9 @@ public static class ID2D1EffectExtensions
             bitmapOptions = D2D1_BITMAP_OPTIONS.D2D1_BITMAP_OPTIONS_TARGET,
             pixelFormat = new D2D1_PIXEL_FORMAT()
             {
-                alphaMode = D2D1_ALPHA_MODE.D2D1_ALPHA_MODE_PREMULTIPLIED,
+                alphaMode = ignoreAlpha
+                    ? D2D1_ALPHA_MODE.D2D1_ALPHA_MODE_IGNORE
+                    : D2D1_ALPHA_MODE.D2D1_ALPHA_MODE_PREMULTIPLIED,
                 format = DXGI_FORMAT.DXGI_FORMAT_B8G8R8A8_UNORM,
             },
             dpiX = 96.0f,

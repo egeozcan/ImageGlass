@@ -151,6 +151,22 @@ public enum RotateOption
 
 
 /// <summary>
+/// Color channel option
+/// </summary>
+[Flags]
+public enum ColorChannelOption
+{
+    R = 1 << 1,
+    G = 1 << 2,
+    B = 1 << 3,
+    A = 1 << 4,
+
+    RGB = R | G | B,
+    RGBA = RGB | A,
+}
+
+
+/// <summary>
 /// Selection aspect ratio.
 /// </summary>
 public enum SelectionAspectRatio
