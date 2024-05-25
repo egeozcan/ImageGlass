@@ -27,15 +27,14 @@ namespace ImageGlass.Base;
 public enum ImageOrderBy
 {
     Name = 0,
-    Random = 1,
-    FileSize = 2,
-    Extension = 3,
-    Date = 4,
-    DateCreated = 5,
-    DateAccessed = 6,
-    DateModified = 7,
-    ExifDateTaken = 8,
-    ExifRating = 9,
+    Random,
+    FileSize,
+    Extension,
+    DateCreated,
+    DateAccessed,
+    DateModified,
+    ExifDateTaken,
+    ExifRating,
 }
 
 

@@ -31,7 +31,6 @@ public static class ExplorerSortOrder
     /// </summary>
     private static readonly Dictionary<string, ImageOrderBy> SortTranslation = new()
     {
-        { "System.ItemDate", ImageOrderBy.Date },
         { "System.ItemTypeText", ImageOrderBy.Extension },
         { "System.FileExtension", ImageOrderBy.Extension },
         { "System.FileName", ImageOrderBy.Name },
@@ -43,7 +42,6 @@ public static class ExplorerSortOrder
 
         { "System.Photo.DateTaken", ImageOrderBy.ExifDateTaken },
         { "System.Rating", ImageOrderBy.ExifRating },
-        //{ "System.Image.Dimensions", ImageOrderBy.Name },
     };
 
 

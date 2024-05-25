@@ -304,14 +304,6 @@ public partial class FrmMain : ThemedForm
         }
 
 
-        // DEBUG ONLY
-        if (Config.EnableDebug)
-        {
-            // Date
-            sb.AppendLine($"[DATE]: {BHelper.FormatDateTime(e.Item.Details.Date)}");
-            tooltipLinesCount++;
-        }
-
         e.TooltipContent = sb.ToString();
         e.TooltipTitle = e.Item.Text + $" ({e.Item.Details.OriginalWidth:n0}×{e.Item.Details.OriginalHeight:n0})";
         e.TooltipSize = (Gallery.Tooltip as ModernTooltip)?.CalculateSize(e.TooltipContent);

@@ -295,9 +295,8 @@ public class IgLang : IDictionary<string, string>
             { $"_.Metadata._{nameof(IgMetadata.ExifRatingPercent)}", "Rating" }, //v9.0
             { $"_.Metadata._{nameof(IgMetadata.ColorSpace)}", "Color space" }, //v9.0
             { $"_.Metadata._{nameof(IgMetadata.ColorProfile)}", "Color profile" }, //v9.0
-            { $"_.Metadata._{nameof(IgMetadata.ExifDateTime)}", "EXIF DateTime" }, //v9.0
-            { $"_.Metadata._{nameof(IgMetadata.ExifDateTimeOriginal)}", "EXIF DateTimeOriginal" }, //v9.0
-            { $"_.Metadata._{nameof(IgMetadata.Date)}", "Date" }, //v9.0
+            { $"_.Metadata._{nameof(IgMetadata.ExifDateTime)}", "EXIF: DateTime" }, //v9.0
+            { $"_.Metadata._{nameof(IgMetadata.ExifDateTimeOriginal)}", "EXIF: DateTimeOriginal" }, //v9.0
 
             // image info
             { $"_.{nameof(ImageInfo)}._{nameof(ImageInfo.ListCount)}", "{0} file(s)" }, //v9.0
@@ -319,7 +318,6 @@ public class IgLang : IDictionary<string, string>
             { $"_.{nameof(ImageOrderBy)}._{nameof(ImageOrderBy.Random)}", "Random" }, //v8.0
             { $"_.{nameof(ImageOrderBy)}._{nameof(ImageOrderBy.FileSize)}", "File size" }, //v8.0
             { $"_.{nameof(ImageOrderBy)}._{nameof(ImageOrderBy.Extension)}", "Extension" }, //v8.0
-            { $"_.{nameof(ImageOrderBy)}._{nameof(ImageOrderBy.Date)}", "Date" }, //v9.0
             { $"_.{nameof(ImageOrderBy)}._{nameof(ImageOrderBy.DateCreated)}", "Date created" }, //v8.0
             { $"_.{nameof(ImageOrderBy)}._{nameof(ImageOrderBy.DateAccessed)}", "Date accessed" }, //v8.0
             { $"_.{nameof(ImageOrderBy)}._{nameof(ImageOrderBy.DateModified)}", "Date modified" }, //v8.0

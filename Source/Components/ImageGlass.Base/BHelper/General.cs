@@ -270,25 +270,6 @@ public partial class BHelper
                 .ThenBy(_ => Guid.NewGuid());
         }
 
-        // sort by Date
-        if (orderBy == ImageOrderBy.Date)
-        {
-            if (orderType == ImageOrderType.Desc)
-            {
-                return fileList
-                    .OrderBy(f => Path.GetDirectoryName(f), dirPathComparer)
-                    .ThenByDescending(f => PhotoCodec.LoadMetadata(f).Date)
-                    .ThenBy(f => Path.GetFileName(f), new StringNaturalComparer()); // always by ASC
-            }
-            else
-            {
-                return fileList
-                    .OrderBy(f => Path.GetDirectoryName(f), dirPathComparer)
-                    .ThenBy(f => PhotoCodec.LoadMetadata(f).Date)
-                    .ThenBy(f => Path.GetFileName(f), filePathComparer);
-            }
-        }
-
         // sort by DateTaken
         if (orderBy == ImageOrderBy.ExifDateTaken)
         {

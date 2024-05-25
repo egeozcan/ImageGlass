@@ -78,37 +78,4 @@ public class IgMetadata
     public int? ExifISOSpeed { get; set; } = null;
     public float? ExifFocalLength { get; set; } = null;
 
-
-    /// <summary>
-    /// Auto-computes date.
-    /// </summary>
-    /// 
-    /// <remarks>
-    /// Returns <see cref="ExifDateTimeOriginal"/> if it's not <c>null</c>,
-    /// else returns the earliest date of:
-    /// <list type="bullet">
-    ///     <item><see cref="ExifDateTime"/></item>,
-    ///     <item><see cref="FileCreationTime"/></item>,
-    ///     <item><see cref="FileLastWriteTime"/></item>,
-    /// </list>
-    /// </remarks>
-    public DateTime Date
-    {
-        get
-        {
-            if (ExifDateTimeOriginal != null) return ExifDateTimeOriginal.Value;
-
-            var dates = new List<DateTime?>()
-            {
-                ExifDateTime,
-                FileCreationTime,
-                FileLastWriteTime,
-            };
-
-            return dates.Where(i => i != null)
-                .OrderBy(i => i)
-                .FirstOrDefault() ?? DateTime.MaxValue;
-        }
-    }
-
 }
