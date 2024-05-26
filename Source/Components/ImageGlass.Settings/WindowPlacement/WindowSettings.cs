@@ -64,18 +64,16 @@ public class WindowSettings
 
         try
         {
-            _ = SetWindowPlacement(frm.Handle, ref wp);
+            frm.SetBounds(
+                wp.normalPosition.Left,
+                wp.normalPosition.Top,
+                wp.normalPosition.Right - wp.normalPosition.Left,
+                wp.normalPosition.Bottom - wp.normalPosition.Top);
 
-            // Windows 10 hack: if taskbar is on top, the window position is not correct
-            // https://github.com/d2phap/ImageGlass/issues/1790
-            if (wp.showCmd == WindowState.Normal)
-            {
-                frm.SetBounds(
-                    wp.normalPosition.Left,
-                    wp.normalPosition.Top,
-                    wp.normalPosition.Right - wp.normalPosition.Left,
-                    wp.normalPosition.Bottom - wp.normalPosition.Top);
-            }
+            // Window state must be set after window bounds
+            frm.WindowState = (FormWindowState)((int)wp.showCmd - 1);
+
+            Application.DoEvents();
         }
         catch { }
     }

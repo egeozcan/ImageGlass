@@ -181,7 +181,16 @@ public partial class FrmMain
         // set up layout
         LoadAppLayout();
 
+
+        // toggle toolbar
+        IG_ToggleToolbar(Config.ShowToolbar);
+
+        // toggle gallery
+        IG_ToggleGallery(Config.ShowGallery);
+
+
         ResumeLayout(false);
+
 
         FormClosing += FrmMainConfig_FormClosing;
         SizeChanged += FrmMainConfig_SizeChanged;
@@ -230,14 +239,6 @@ public partial class FrmMain
 
         // IsWindowAlwaysOnTop
         IG_ToggleTopMost(Config.EnableWindowTopMost, showInAppMessage: false);
-
-
-        // toggle toolbar
-        IG_ToggleToolbar(Config.ShowToolbar);
-
-
-        // toggle gallery
-        IG_ToggleGallery(Config.ShowGallery);
 
 
         // Enable form movable: must be before IG_ToggleFullScreen()
