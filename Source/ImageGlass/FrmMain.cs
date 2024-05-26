@@ -1865,9 +1865,7 @@ public partial class FrmMain : ThemedForm
                 MnuContext.Items.Add(MenuUtils.Clone(MnuLoadingOrders));
             }
 
-            if (!Local.IsImageError
-                && !hasClipboardImage
-                && !PicMain.CanImageAnimate)
+            if (!Local.IsImageError && !PicMain.CanImageAnimate)
             {
                 MnuContext.Items.Add(MenuUtils.Clone(MnuViewChannels));
             }
