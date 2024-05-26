@@ -3220,6 +3220,7 @@ public partial class DXCanvas : DXControl
     {
         if (_oriImageD2D == null || IsImageAnimating) return false;
 
+
         // create effect
         using var effect = Device.CreateEffect(Direct2DEffects.CLSID_D2D1ColorMatrix);
         effect.SetInput(_oriImageD2D, 0);
@@ -3296,6 +3297,17 @@ public partial class DXCanvas : DXControl
 
 
         return Color.Transparent;
+    }
+
+
+    /// <summary>
+    /// Gets the <see cref="WicBitmapSource"/> being rendered.
+    /// </summary>
+    public WicBitmapSource? GetRenderedBitmap()
+    {
+        var wicBmp = _imageD2D.ToWicBitmapSource(Device);
+
+        return wicBmp;
     }
 
 
