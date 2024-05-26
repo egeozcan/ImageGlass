@@ -1193,13 +1193,7 @@ public partial class FrmMain
     {
         if (PicMain.Source == ImageSource.Null) return;
 
-        var bitmap = Local.ClipboardImage;
-        if (bitmap == null)
-        {
-            var img = await Local.Images.GetAsync(Local.CurrentIndex);
-            bitmap = img?.ImgData?.Image;
-        }
-
+        var bitmap = PicMain.GetRenderedBitmap();
         if (bitmap == null) return;
 
         var langPath = $"{Name}.{nameof(MnuCopyImageData)}";
@@ -1212,7 +1206,7 @@ public partial class FrmMain
         {
             bitmap = BHelper.CropImage(bitmap, PicMain.SourceSelection);
         }
-
+        
         await Task.Run(() => ClipboardEx.SetClipboardImage(bitmap));
 
         PicMain.ShowMessage(Config.Language[$"{langPath}._Success"], Config.InAppMessageDuration);
