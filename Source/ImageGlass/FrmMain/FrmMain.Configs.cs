@@ -733,10 +733,6 @@ public partial class FrmMain
         MnuImageProperties.Text = lang[$"{Name}.{nameof(MnuImageProperties)}"];
 
         MnuViewChannels.Text = lang[$"{Name}.{nameof(MnuViewChannels)}"];
-        MnuViewChannelRed.Text = lang[$"{Name}.{nameof(MnuViewChannelRed)}"];
-        MnuViewChannelGreen.Text = lang[$"{Name}.{nameof(MnuViewChannelGreen)}"];
-        MnuViewChannelBlue.Text = lang[$"{Name}.{nameof(MnuViewChannelBlue)}"];
-        MnuViewChannelAlpha.Text = lang[$"{Name}.{nameof(MnuViewChannelAlpha)}"];
 
         MnuLoadingOrders.Text = lang[$"{Name}.{nameof(MnuLoadingOrders)}"];
         LoadMnuLoadingOrdersSubItems(); // update Loading order items

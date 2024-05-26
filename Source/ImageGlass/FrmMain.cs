@@ -2217,7 +2217,7 @@ public partial class FrmMain : ThemedForm
         {
             Local.ImageChannels |= ColorChannels.B;
         }
-        
+
         IG_SetImageColorChannels();
     }
 
@@ -2234,6 +2234,43 @@ public partial class FrmMain : ThemedForm
 
         IG_SetImageColorChannels();
     }
+
+    private void MnuViewChannelRGBA_Click(object sender, EventArgs e)
+    {
+        Local.ImageChannels = ColorChannels.RGBA;
+        IG_SetImageColorChannels();
+    }
+
+    private void MnuViewChannelRGB_Click(object sender, EventArgs e)
+    {
+        Local.ImageChannels = ColorChannels.RGB;
+        IG_SetImageColorChannels();
+    }
+
+    private void MnuViewChannelRedAlpha_Click(object sender, EventArgs e)
+    {
+        Local.ImageChannels = ColorChannels.R | ColorChannels.A;
+        IG_SetImageColorChannels();
+    }
+
+    private void MnuViewChannelGreenAlpha_Click(object sender, EventArgs e)
+    {
+        Local.ImageChannels = ColorChannels.G | ColorChannels.A;
+        IG_SetImageColorChannels();
+    }
+
+    private void MnuViewChannelBlueAlpha_Click(object sender, EventArgs e)
+    {
+        Local.ImageChannels = ColorChannels.B | ColorChannels.A;
+        IG_SetImageColorChannels();
+    }
+
+    private void MnuViewChannelAlphaOnly_Click(object sender, EventArgs e)
+    {
+        Local.ImageChannels = ColorChannels.A;
+        IG_SetImageColorChannels();
+    }
+
 
     private void MnuRotateLeft_Click(object sender, EventArgs e)
     {
@@ -2450,4 +2487,5 @@ public partial class FrmMain : ThemedForm
     #endregion // Main Menu component
 
 
+    
 }

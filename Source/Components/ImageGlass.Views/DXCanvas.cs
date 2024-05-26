@@ -3166,7 +3166,7 @@ public partial class DXCanvas : DXControl
         // render the transformation
         if (requestRerender)
         {
-            Refresh();
+            Refresh(resetZoom: false);
         }
 
         return true;
@@ -3206,7 +3206,7 @@ public partial class DXCanvas : DXControl
         // render the transformation
         if (requestRerender)
         {
-            Refresh();
+            Refresh(resetZoom: false);
         }
 
         return true;
@@ -3269,7 +3269,7 @@ public partial class DXCanvas : DXControl
         // render the transformation
         if (requestRerender)
         {
-            Refresh();
+            Refresh(resetZoom: false);
         }
 
         return true;

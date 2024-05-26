@@ -3320,7 +3320,7 @@ public partial class FrmMain
         if (PicMain.Source == ImageSource.Null || Local.IsBusy) return;
 
 
-        // update rotation changes
+        // apply color channels filter
         if (PicMain.FilterColorChannels(channels, true))
         {
             Local.ImageChannels = channels;
