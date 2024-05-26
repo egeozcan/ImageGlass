@@ -99,6 +99,15 @@ public partial class BHelper
 
 
     /// <summary>
+    /// Checks if the given rectangle is visible on any screen
+    /// </summary>
+    public static bool IsVisibleOnAnyScreen(Rectangle rect)
+    {
+        return Screen.AllScreens.Any(i => i.WorkingArea.IntersectsWith(rect));
+    }
+
+
+    /// <summary>
     /// Checks if the given Windows version is matched.
     /// </summary>
     public static bool IsOS(WindowsOS ver)

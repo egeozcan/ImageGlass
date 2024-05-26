@@ -46,7 +46,7 @@ public partial class FrmSettings : WebForm
         CloseFormHotkey = Keys.Escape;
 
         // load window placement from settings
-        WindowSettings.SetPlacementToWindow(this, WindowSettings.GetFrmSettingsPlacementFromConfig());
+        WindowSettings.LoadFrmSettingsPlacementFromConfig(this);
     }
 
 
@@ -64,8 +64,7 @@ public partial class FrmSettings : WebForm
         base.OnFormClosing(e);
 
         // save placement setting
-        var wp = WindowSettings.GetPlacementFromWindow(this);
-        WindowSettings.SetFrmSettingsPlacementConfig(wp);
+        WindowSettings.SaveFrmSettingsPlacementToConfig(this);
     }
 
 

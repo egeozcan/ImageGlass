@@ -201,6 +201,7 @@ public partial class FrmMain
         {
             Config.FrmMainPositionX = -9999;
             Config.FrmMainPositionY = -9999;
+            Config.FrmMainState = FormWindowState.Normal;
             ShowInTaskbar = false;
         }
     }
@@ -260,14 +261,14 @@ public partial class FrmMain
             // load window placement from settings here to save the initial
             // position of window so that when user exists the fullscreen mode,
             // it can be restore correctly
-            WindowSettings.SetPlacementToWindow(this, WindowSettings.GetFrmMainPlacementFromConfig());
+            WindowSettings.LoadFrmMainPlacementFromConfig(this, autoCorrectBounds: !Program.IsStartupBoostMode);
 
             IG_ToggleFullScreen(true);
         }
         else
         {
             // load window placement from settings
-            WindowSettings.SetPlacementToWindow(this, WindowSettings.GetFrmMainPlacementFromConfig());
+            WindowSettings.LoadFrmMainPlacementFromConfig(this, autoCorrectBounds: !Program.IsStartupBoostMode);
 
             // toggle frameless window
             IG_ToggleFrameless(Config.EnableFrameless, false);
@@ -358,8 +359,7 @@ public partial class FrmMain
         // save FrmMain placement
         if (!Config.EnableFullScreen)
         {
-            var wp = WindowSettings.GetPlacementFromWindow(this);
-            WindowSettings.SetFrmMainPlacementConfig(wp);
+            WindowSettings.SaveFrmMainPlacementToConfig(this);
         }
 
 

@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Dwm;
@@ -362,6 +363,37 @@ public class WindowApi
         var topMost = enable ? new HWND(new IntPtr(-1)) : new HWND(new IntPtr(-2));
         _ = PInvoke.SetWindowPos(new HWND(handle), topMost, 0, 0, 0, 0,
             SET_WINDOW_POS_FLAGS.SWP_NOMOVE | SET_WINDOW_POS_FLAGS.SWP_NOSIZE);
+    }
+
+
+    /// <summary>
+    /// Gets window bounds and state.
+    /// </summary>
+    public static (Rectangle Bounds, FormWindowState State) GetWindowPlacement(Form frm)
+    {
+        var bounds = new Rectangle();
+        var state = FormWindowState.Normal;
+        var wp = new WINDOWPLACEMENT();
+
+        if (frm.WindowState == FormWindowState.Normal)
+        {
+            bounds = frm.Bounds;
+        }
+        else if (PInvoke.GetWindowPlacement(new(frm.Handle), ref wp))
+        {
+            if (wp.showCmd == Windows.Win32.UI.WindowsAndMessaging.SHOW_WINDOW_CMD.SW_MAXIMIZE)
+            {
+                state = FormWindowState.Maximized;
+            }
+
+            bounds = new(
+                wp.rcNormalPosition.X,
+                wp.rcNormalPosition.Y,
+                wp.rcNormalPosition.Width,
+                wp.rcNormalPosition.Height);
+        }
+
+        return (bounds, state);
     }
 }
 

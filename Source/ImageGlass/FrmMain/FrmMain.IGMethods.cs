@@ -2567,7 +2567,7 @@ public partial class FrmMain
             // restore window state, size, position
             if (changeWindowState)
             {
-                Config.FrmMainState = WindowSettings.ToWindowState(_windowState);
+                Config.FrmMainState = _windowState;
 
                 // windows state
                 if (_windowState == FormWindowState.Normal)
@@ -2581,8 +2581,7 @@ public partial class FrmMain
                 else if (_windowState == FormWindowState.Maximized)
                 {
                     // Windows Bound (Position + Size)
-                    var wp = WindowSettings.GetFrmMainPlacementFromConfig();
-                    WindowSettings.SetPlacementToWindow(this, wp);
+                    WindowSettings.LoadFrmMainPlacementFromConfig(this);
 
                     // to make sure the SizeChanged event is not triggered
                     // before we set the window placement

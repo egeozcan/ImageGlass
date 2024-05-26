@@ -180,8 +180,9 @@ public partial class FrmSlideshow : ThemedForm
             // load window placement from settings here to save the initial
             // position of window so that when user exists the fullscreen mode,
             // it can be restore correctly
-            WindowSettings.SetPlacementToWindow(this,
-                WindowSettings.GetFrmMainPlacementFromConfig(SystemInformation.CaptionHeight, SystemInformation.CaptionHeight));
+            WindowSettings.LoadFrmMainPlacementFromConfig(this,
+                SystemInformation.CaptionHeight,
+                SystemInformation.CaptionHeight);
 
             IG_ToggleFullScreen(true);
         }
@@ -189,8 +190,9 @@ public partial class FrmSlideshow : ThemedForm
         else
         {
             // load window placement from settings
-            WindowSettings.SetPlacementToWindow(this,
-                WindowSettings.GetFrmMainPlacementFromConfig(SystemInformation.CaptionHeight, SystemInformation.CaptionHeight));
+            WindowSettings.LoadFrmMainPlacementFromConfig(this,
+                SystemInformation.CaptionHeight,
+                SystemInformation.CaptionHeight);
 
             // toggle frameless window
             IG_ToggleFrameless(Config.EnableFrameless, false);
@@ -1901,8 +1903,7 @@ public partial class FrmSlideshow : ThemedForm
             else if (_windowState == FormWindowState.Maximized)
             {
                 // Windows Bound (Position + Size)
-                var wp = WindowSettings.GetPlacement(_windowBound, _windowState);
-                WindowSettings.SetPlacementToWindow(this, wp);
+                WindowSettings.LoadPlacementToWindow(this, _windowBound, _windowState, true);
 
                 // to make sure the SizeChanged event is not triggered
                 // before we set the window placement

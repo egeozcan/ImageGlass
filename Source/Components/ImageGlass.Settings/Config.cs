@@ -602,12 +602,12 @@ public static class Config
     /// <summary>
     /// Gets, sets state of main window
     /// </summary>
-    public static WindowState FrmMainState { get; set; } = WindowState.Normal;
+    public static FormWindowState FrmMainState { get; set; } = FormWindowState.Normal;
 
     /// <summary>
     /// Gets, sets state of settings window
     /// </summary>
-    public static WindowState FrmSettingsState { get; set; } = WindowState.Normal;
+    public static FormWindowState FrmSettingsState { get; set; } = FormWindowState.Normal;
 
     /// <summary>
     /// Gets, sets image loading order
