@@ -334,7 +334,7 @@ public class StyleRenderer : IDisposable
 
         if (img == null)
         {
-            ImageGalleryOwner.thumbnailCache.AddToRendererCache(item.Guid, item.mAdaptor, item.VirtualItemKey,
+            ImageGalleryOwner.thumbnailCache.AddToRendererCache(item.Guid, item.mAdaptor, item.VirtualKey,
                 size, ImageGalleryOwner.UseEmbeddedThumbnails, ImageGalleryOwner.AutoRotateThumbnails);
         }
 
@@ -664,7 +664,7 @@ public class StyleRenderer : IDisposable
 
         if (img == null)
         {
-            ImageGalleryOwner.thumbnailCache.AddToGalleryCache(item.Guid, item.mAdaptor, item.VirtualItemKey,
+            ImageGalleryOwner.thumbnailCache.AddToGalleryCache(item.Guid, item.mAdaptor, item.VirtualKey,
                 size, ImageGalleryOwner.UseEmbeddedThumbnails, ImageGalleryOwner.AutoRotateThumbnails);
         }
 

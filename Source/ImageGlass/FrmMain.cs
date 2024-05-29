@@ -255,7 +255,7 @@ public partial class FrmMain : ThemedForm
 
         // build tooltip content
         using var sb = ZString.CreateStringBuilder();
-        sb.AppendLine(e.Item.FileName);
+        sb.AppendLine(e.Item.FilePath);
         sb.AppendLine($"{Config.Language[$"{langPath}._{nameof(IgMetadata.FileSize)}"]}: {e.Item.Details.FileSizeFormated}");
         sb.AppendLine($"{Config.Language[$"{langPath}._{nameof(IgMetadata.FileLastWriteTime)}"]}: {e.Item.Details.FileLastWriteTimeFormated}");
         var tooltipLinesCount = 4;
@@ -1236,7 +1236,7 @@ public partial class FrmMain : ThemedForm
                     var thumbItem = Gallery.Items[Local.CurrentIndex];
 
                     if (thumbItem.ThumbnailImage is Image thumb
-                        && thumbItem.FileName.Equals(filePath, StringComparison.OrdinalIgnoreCase))
+                        && thumbItem.FilePath.Equals(filePath, StringComparison.OrdinalIgnoreCase))
                     {
                         wicSrc?.Dispose();
                         wicSrc = BHelper.ToWicBitmapSource(thumb);

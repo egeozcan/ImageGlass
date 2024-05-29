@@ -1049,7 +1049,7 @@ public partial class ImageGallery : Control, IComponent
             {
                 foreach (ImageGalleryItem item in mItems)
                 {
-                    thumbnailCache.Add(item.Guid, item.Adaptor, item.VirtualItemKey, mThumbnailSize, mUseEmbeddedThumbnails, AutoRotateThumbnails);
+                    thumbnailCache.Add(item.Guid, item.Adaptor, item.VirtualKey, mThumbnailSize, mUseEmbeddedThumbnails, AutoRotateThumbnails);
                 }
             }
             Refresh();

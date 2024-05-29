@@ -101,7 +101,7 @@ internal class ThumbnailCacheManager : IDisposable
         /// <summary>
         /// Gets the public key for the virtual item.
         /// </summary>
-        public object VirtualItemKey { get; private set; }
+        public string VirtualKey { get; private set; }
         /// <summary>
         /// Gets the size of the requested thumbnail.
         /// </summary>
@@ -125,15 +125,15 @@ internal class ThumbnailCacheManager : IDisposable
         /// </summary>
         /// <param name="guid">The guid of the <see cref="ImageGalleryItem"/>.</param>
         /// <param name="adaptor">The adaptor of this item.</param>
-        /// <param name="key">The public key for the virtual item.</param>
+        /// <param name="filePath">The file path for item.</param>
         /// <param name="size">The size of the requested thumbnail.</param>
         /// <param name="useEmbeddedThumbnails">UseEmbeddedThumbnails property of the owner control.</param>
         /// <param name="autoRotate">AutoRotate property of the owner control.</param>
         /// <param name="requestType">Type of this request.</param>
-        public CacheRequest(Guid guid, IAdaptor adaptor, object key, Size size, UseEmbeddedThumbnails useEmbeddedThumbnails, bool autoRotate, RequestType requestType)
+        public CacheRequest(Guid guid, IAdaptor adaptor, string filePath, Size size, UseEmbeddedThumbnails useEmbeddedThumbnails, bool autoRotate, RequestType requestType)
         {
             Guid = guid;
-            VirtualItemKey = key;
+            VirtualKey = filePath;
             Adaptor = adaptor;
             Size = size;
             UseEmbeddedThumbnails = useEmbeddedThumbnails;
@@ -146,7 +146,7 @@ internal class ThumbnailCacheManager : IDisposable
         /// </summary>
         public override string ToString()
         {
-            return "CacheRequest (" + VirtualItemKey.ToString() + ")";
+            return "CacheRequest (" + VirtualKey.ToString() + ")";
         }
     }
     #endregion
@@ -512,7 +512,7 @@ internal class ThumbnailCacheManager : IDisposable
         }
 
         Image? thumb = null;
-        var diskCacheKey = request.Adaptor.GetUniqueIdentifier(request.VirtualItemKey, request.Size, request.UseEmbeddedThumbnails, request.AutoRotate);
+        var diskCacheKey = request.Adaptor.GetUniqueIdentifier(request.VirtualKey, request.Size, request.UseEmbeddedThumbnails, request.AutoRotate);
 
         // Check the disk cache
         using var cs = _diskCache.Read(diskCacheKey);
@@ -527,7 +527,7 @@ internal class ThumbnailCacheManager : IDisposable
         {
             try
             {
-                thumb = request.Adaptor.GetThumbnail(request.VirtualItemKey, request.Size, request.UseEmbeddedThumbnails, request.AutoRotate);
+                thumb = request.Adaptor.GetThumbnail(request.VirtualKey, request.Size, request.UseEmbeddedThumbnails, request.AutoRotate);
             }
             // fix infinite re-cache when throwing error
             catch { }
@@ -694,7 +694,7 @@ internal class ThumbnailCacheManager : IDisposable
             if (item != null)
             {
                 var diskCacheKey = item.Adaptor.GetUniqueIdentifier(
-                    item.VirtualItemKey,
+                    item.VirtualKey,
                     cacheItem.Size,
                     cacheItem.UseEmbeddedThumbnails,
                     cacheItem.AutoRotate);
@@ -820,11 +820,11 @@ internal class ThumbnailCacheManager : IDisposable
     /// </summary>
     /// <param name="guid">The guid representing this item.</param>
     /// <param name="adaptor">he adaptor for this item.</param>
-    /// <param name="key">The key of this item.</param>
+    /// <param name="filePath">The file path of this item.</param>
     /// <param name="thumbSize">Requested thumbnail size.</param>
     /// <param name="useEmbeddedThumbnails">UseEmbeddedThumbnails property of the owner control.</param>
     /// <param name="autoRotate">AutoRotate property of the owner control.</param>
-    public void Add(Guid guid, IAdaptor adaptor, object key, Size thumbSize, UseEmbeddedThumbnails useEmbeddedThumbnails, bool autoRotate)
+    public void Add(Guid guid, IAdaptor adaptor, string filePath, Size thumbSize, UseEmbeddedThumbnails useEmbeddedThumbnails, bool autoRotate)
     {
         // Already cached?
         if (_thumbCache.TryGetValue(guid, out CacheItem? item))
@@ -834,7 +834,7 @@ internal class ThumbnailCacheManager : IDisposable
         }
 
         // Add to cache queue
-        RunWorker(new CacheRequest(guid, adaptor, key, thumbSize, useEmbeddedThumbnails, autoRotate, RequestType.Thumbnail));
+        RunWorker(new CacheRequest(guid, adaptor, filePath, thumbSize, useEmbeddedThumbnails, autoRotate, RequestType.Thumbnail));
     }
 
     /// <summary>
@@ -842,12 +842,12 @@ internal class ThumbnailCacheManager : IDisposable
     /// </summary>
     /// <param name="guid">The guid representing this item.</param>
     /// <param name="adaptor">The adaptor for this item.</param>
-    /// <param name="key">The key of this item.</param>
+    /// <param name="filePath">The file path of this item.</param>
     /// <param name="thumbSize">Requested thumbnail size.</param>
     /// <param name="thumb">Thumbnail image to add to cache.</param>
     /// <param name="useEmbeddedThumbnails">UseEmbeddedThumbnails property of the owner control.</param>
     /// <param name="autoRotate">AutoRotate property of the owner control.</param>
-    public void Add(Guid guid, IAdaptor adaptor, object key, Size thumbSize, Image? thumb, UseEmbeddedThumbnails useEmbeddedThumbnails, bool autoRotate)
+    public void Add(Guid guid, IAdaptor adaptor, string filePath, Size thumbSize, Image? thumb, UseEmbeddedThumbnails useEmbeddedThumbnails, bool autoRotate)
     {
         // Already cached?
         if (_thumbCache.TryGetValue(guid, out CacheItem? item))
@@ -864,7 +864,7 @@ internal class ThumbnailCacheManager : IDisposable
 
         // Add to disk cache
         using var stream = new MemoryStream();
-        var diskCacheKey = adaptor.GetUniqueIdentifier(key, thumbSize, useEmbeddedThumbnails, autoRotate);
+        var diskCacheKey = adaptor.GetUniqueIdentifier(filePath, thumbSize, useEmbeddedThumbnails, autoRotate);
         thumb.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
         _diskCache.Write(diskCacheKey, stream);
 
@@ -882,11 +882,11 @@ internal class ThumbnailCacheManager : IDisposable
     /// </summary>
     /// <param name="guid">The guid representing this item.</param>
     /// <param name="adaptor">The adaptor for this item.</param>
-    /// <param name="key">The key of this item.</param>
+    /// <param name="filePath">The file path of this item.</param>
     /// <param name="thumbSize">Requested thumbnail size.</param>
     /// <param name="useEmbeddedThumbnails">UseEmbeddedThumbnails property of the owner control.</param>
     /// <param name="autoRotate">AutoRotate property of the owner control.</param>
-    public void AddToGalleryCache(Guid guid, IAdaptor adaptor, object key, Size thumbSize, UseEmbeddedThumbnails useEmbeddedThumbnails, bool autoRotate)
+    public void AddToGalleryCache(Guid guid, IAdaptor adaptor, string filePath, Size thumbSize, UseEmbeddedThumbnails useEmbeddedThumbnails, bool autoRotate)
     {
         // Already cached?
         if (_galleryItem != null
@@ -898,7 +898,7 @@ internal class ThumbnailCacheManager : IDisposable
             return;
 
         // Add to cache queue
-        RunWorker(new CacheRequest(guid, adaptor, key, thumbSize, useEmbeddedThumbnails, autoRotate, RequestType.Gallery), 2);
+        RunWorker(new CacheRequest(guid, adaptor, filePath, thumbSize, useEmbeddedThumbnails, autoRotate, RequestType.Gallery), 2);
     }
 
     /// <summary>
@@ -906,11 +906,11 @@ internal class ThumbnailCacheManager : IDisposable
     /// </summary>
     /// <param name="guid">The guid representing this item.</param>
     /// <param name="adaptor">The adaptor of this item.</param>
-    /// <param name="key">The key of this item.</param>
+    /// <param name="filePath">The file path of this item.</param>
     /// <param name="thumbSize">Requested thumbnail size.</param>
     /// <param name="useEmbeddedThumbnails">UseEmbeddedThumbnails property of the owner control.</param>
     /// <param name="autoRotate">AutoRotate property of the owner control.</param>
-    public void AddToRendererCache(Guid guid, IAdaptor adaptor, object key, Size thumbSize, UseEmbeddedThumbnails useEmbeddedThumbnails, bool autoRotate)
+    public void AddToRendererCache(Guid guid, IAdaptor adaptor, string filePath, Size thumbSize, UseEmbeddedThumbnails useEmbeddedThumbnails, bool autoRotate)
     {
         // Already cached?
         if (_rendererItem != null
@@ -922,7 +922,7 @@ internal class ThumbnailCacheManager : IDisposable
             return;
 
         // Add to cache queue
-        RunWorker(new CacheRequest(guid, adaptor, key, thumbSize, useEmbeddedThumbnails, autoRotate, RequestType.Renderer), 1);
+        RunWorker(new CacheRequest(guid, adaptor, filePath, thumbSize, useEmbeddedThumbnails, autoRotate, RequestType.Renderer), 1);
     }
 
     /// <summary>
@@ -973,12 +973,12 @@ internal class ThumbnailCacheManager : IDisposable
     /// </summary>
     /// <param name="guid">The guid representing this item.</param>
     /// <param name="adaptor">The adaptor of this item.</param>
-    /// <param name="key">The key of this item.</param>
+    /// <param name="filePath">The key of this item.</param>
     /// <param name="thumbSize">Requested thumbnail size.</param>
     /// <param name="useEmbeddedThumbnails">UseEmbeddedThumbnails property of the owner control.</param>
     /// <param name="autoRotate">AutoRotate property of the owner control.</param>
     /// <param name="clone">true to return a clone of the cached image; otherwise false.</param>
-    public Image? GetImage(Guid guid, IAdaptor adaptor, object key, Size thumbSize, UseEmbeddedThumbnails useEmbeddedThumbnails, bool autoRotate, bool clone)
+    public Image? GetImage(Guid guid, IAdaptor adaptor, string filePath, Size thumbSize, UseEmbeddedThumbnails useEmbeddedThumbnails, bool autoRotate, bool clone)
     {
         if (_thumbCache.TryGetValue(guid, out CacheItem? item)
             && item != null
@@ -998,7 +998,8 @@ internal class ThumbnailCacheManager : IDisposable
         }
         else
         {
-            var diskCacheKey = adaptor.GetUniqueIdentifier(key, thumbSize, useEmbeddedThumbnails, autoRotate);
+            var fi = new FileInfo(filePath.ToString());
+            var diskCacheKey = adaptor.GetUniqueIdentifier(filePath, thumbSize, useEmbeddedThumbnails, autoRotate);
 
             // Check the disk cache
             using var stream = _diskCache.Read(diskCacheKey);

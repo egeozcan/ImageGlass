@@ -135,7 +135,7 @@ public partial class ImageGallery
                         _imageGallery.thumbnailCache.Add(
                             item.Guid,
                             item.Adaptor,
-                            item.VirtualItemKey,
+                            item.VirtualKey,
                             _imageGallery.ThumbnailSize,
                             _imageGallery.UseEmbeddedThumbnails,
                             _imageGallery.AutoRotateThumbnails);
@@ -507,7 +507,7 @@ public partial class ImageGallery
             // Add current thumbnail to cache
             if (item.clonedThumbnail != null)
             {
-                _imageGallery.thumbnailCache.Add(item.Guid, item.Adaptor, item.VirtualItemKey, _imageGallery.ThumbnailSize,
+                _imageGallery.thumbnailCache.Add(item.Guid, item.Adaptor, item.VirtualKey, _imageGallery.ThumbnailSize,
                     item.clonedThumbnail, _imageGallery.UseEmbeddedThumbnails, _imageGallery.AutoRotateThumbnails);
                 item.clonedThumbnail = null;
             }
@@ -515,7 +515,7 @@ public partial class ImageGallery
             // Add to thumbnail cache
             if (_imageGallery.CacheMode == CacheMode.Continuous)
             {
-                _imageGallery.thumbnailCache.Add(item.Guid, item.Adaptor, item.VirtualItemKey,
+                _imageGallery.thumbnailCache.Add(item.Guid, item.Adaptor, item.VirtualKey,
                     _imageGallery.ThumbnailSize, _imageGallery.UseEmbeddedThumbnails, _imageGallery.AutoRotateThumbnails);
             }
 

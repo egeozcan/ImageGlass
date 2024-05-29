@@ -1966,7 +1966,7 @@ public partial class FrmMain
             if (!Config.EnableRealTimeFileUpdate)
             {
                 Local.Images.SetFileName(Local.CurrentIndex, newFilePath);
-                Gallery.Items[Local.CurrentIndex].FileName = newFilePath;
+                Gallery.Items[Local.CurrentIndex].FilePath = newFilePath;
                 Gallery.Items[Local.CurrentIndex].Text = newName;
                 LoadImageInfo(ImageInfoUpdateTypes.Name | ImageInfoUpdateTypes.Path);
             }

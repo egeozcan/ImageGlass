@@ -51,10 +51,10 @@ public class ImageGalleryItem : ICloneable
     // File info
     private IgMetadata? _details = null;
     internal string extension = string.Empty;
-    internal string mFileName = string.Empty;
+    internal string mFilePath = string.Empty;
 
     // Adaptor
-    internal object mVirtualItemKey;
+    internal string mVirtualKey;
     internal IAdaptor? mAdaptor = null;
 
     // Used for cloned items
@@ -157,7 +157,7 @@ public class ImageGalleryItem : ICloneable
     /// Gets the virtual item key associated with this item.
     /// </summary>
     [Category("Behavior"), Browsable(false)]
-    public object VirtualItemKey => mVirtualItemKey;
+    public string VirtualKey => mVirtualKey;
 
     /// <summary>
     /// Gets the ImageListView owning this item.
@@ -254,22 +254,22 @@ public class ImageGalleryItem : ICloneable
     }
 
     /// <summary>
-    /// Gets or sets the name of the image file represented by this item.
+    /// Gets or sets the file path of the image file represented by this item.
     /// </summary>        
     [Category("File Properties")]
-    public string FileName
+    public string FilePath
     {
-        get => mFileName;
+        get => mFilePath;
         set
         {
             if (string.IsNullOrEmpty(value))
-                throw new ArgumentException("FileName cannot be null");
+                throw new ArgumentException("File path cannot be null");
 
-            if (mFileName != value)
+            if (mFilePath != value)
             {
-                mFileName = value;
-                mVirtualItemKey = mFileName;
-                extension = _stringCache.GetFromCache(Path.GetExtension(mFileName));
+                mFilePath = value;
+                mVirtualKey = mFilePath;
+                extension = _stringCache.GetFromCache(Path.GetExtension(mFilePath));
 
                 isDirty = true;
                 if (ImageGalleryOwner != null)
@@ -298,11 +298,11 @@ public class ImageGalleryItem : ICloneable
 
             if (ThumbnailCacheState != CacheState.Cached)
             {
-                ImageGalleryOwner.thumbnailCache.Add(Guid, mAdaptor, mVirtualItemKey, ImageGalleryOwner.ThumbnailSize,
+                ImageGalleryOwner.thumbnailCache.Add(Guid, mAdaptor, mVirtualKey, ImageGalleryOwner.ThumbnailSize,
                     ImageGalleryOwner.UseEmbeddedThumbnails, ImageGalleryOwner.AutoRotateThumbnails);
             }
 
-            return ImageGalleryOwner.thumbnailCache.GetImage(Guid, mAdaptor, mVirtualItemKey, ImageGalleryOwner.ThumbnailSize, ImageGalleryOwner.UseEmbeddedThumbnails,
+            return ImageGalleryOwner.thumbnailCache.GetImage(Guid, mAdaptor, mVirtualKey, ImageGalleryOwner.ThumbnailSize, ImageGalleryOwner.UseEmbeddedThumbnails,
                 ImageGalleryOwner.AutoRotateThumbnails, true);
         }
     }
@@ -439,9 +439,9 @@ public class ImageGalleryItem : ICloneable
     public ImageGalleryItem(string filename, string text = "")
     {
         // important! to make it load faster using virtual items
-        mVirtualItemKey = filename;
+        mVirtualKey = filename;
 
-        mFileName = filename;
+        mFilePath = filename;
         mText = string.IsNullOrEmpty(text) ? Path.GetFileName(filename) : text;
         extension = _stringCache.GetFromCache(Path.GetExtension(filename));
     }
@@ -531,13 +531,13 @@ public class ImageGalleryItem : ICloneable
                 return img;
             }
 
-            img = ImageGalleryOwner.thumbnailCache.GetImage(Guid, mAdaptor, mVirtualItemKey, ImageGalleryOwner.ThumbnailSize, ImageGalleryOwner.UseEmbeddedThumbnails,
+            img = ImageGalleryOwner.thumbnailCache.GetImage(Guid, mAdaptor, mVirtualKey, ImageGalleryOwner.ThumbnailSize, ImageGalleryOwner.UseEmbeddedThumbnails,
                 ImageGalleryOwner.AutoRotateThumbnails, false);
 
             if (state == CacheState.Cached)
                 return img;
 
-            ImageGalleryOwner.thumbnailCache.Add(Guid, mAdaptor, mVirtualItemKey, ImageGalleryOwner.ThumbnailSize,
+            ImageGalleryOwner.thumbnailCache.Add(Guid, mAdaptor, mVirtualKey, ImageGalleryOwner.ThumbnailSize,
                 ImageGalleryOwner.UseEmbeddedThumbnails, ImageGalleryOwner.AutoRotateThumbnails);
 
             if (img == null && string.IsNullOrEmpty(iconPath))
@@ -564,11 +564,11 @@ public class ImageGalleryItem : ICloneable
         if (!isDirty
             || Adaptor == null
             || ImageGalleryOwner == null
-            || mVirtualItemKey == null) return;
+            || mVirtualKey == null) return;
 
         if (force || _details == null)
         {
-            _details = Adaptor.GetDetails(mVirtualItemKey);
+            _details = Adaptor.GetDetails(mVirtualKey);
         }
     }
 
@@ -596,7 +596,7 @@ public class ImageGalleryItem : ICloneable
     {
         if (ImageGalleryOwner != null && ImageGalleryOwner.ShellIconFromFileContent &&
             (string.Compare(extension, ".ico", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(extension, ".exe", StringComparison.OrdinalIgnoreCase) == 0))
-            return mFileName;
+            return mFilePath;
         else
             return extension;
     }
@@ -613,7 +613,7 @@ public class ImageGalleryItem : ICloneable
     /// </returns>
     public object Clone()
     {
-        var item = new ImageGalleryItem(mFileName, mText)
+        var item = new ImageGalleryItem(mFilePath, mText)
         {
             // File info
             extension = extension,
@@ -626,7 +626,7 @@ public class ImageGalleryItem : ICloneable
         // Current thumbnail
         if (ImageGalleryOwner != null && mAdaptor != null)
         {
-            item.clonedThumbnail = ImageGalleryOwner.thumbnailCache.GetImage(Guid, mAdaptor, mVirtualItemKey, ImageGalleryOwner.ThumbnailSize,
+            item.clonedThumbnail = ImageGalleryOwner.thumbnailCache.GetImage(Guid, mAdaptor, mVirtualKey, ImageGalleryOwner.ThumbnailSize,
                 ImageGalleryOwner.UseEmbeddedThumbnails, ImageGalleryOwner.AutoRotateThumbnails, true);
         }
 

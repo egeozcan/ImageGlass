@@ -383,7 +383,7 @@ public partial class ImageGallery
                         foreach (var item in _imageGallery.SelectedItems)
                         {
                             // Get the source image
-                            var sourceFile = item.Adaptor.GetSourceImage(item.VirtualItemKey);
+                            var sourceFile = item.Adaptor.GetSourceImage(item.VirtualKey);
                             if (!string.IsNullOrEmpty(sourceFile))
                                 filenames.Add(sourceFile);
                         }

@@ -53,16 +53,14 @@ public class FileSystemAdaptor : IAdaptor
     /// <param name="useEmbeddedThumbnails">Embedded thumbnail usage.</param>
     /// <param name="useExifOrientation">true to automatically rotate images based on Exif orientation; otherwise false.</param>
     /// <returns>The thumbnail image from the given item or null if an error occurs.</returns>
-    public override Image? GetThumbnail(object key, Size size, UseEmbeddedThumbnails useEmbeddedThumbnails, bool useExifOrientation)
+    public override Image? GetThumbnail(string filePath, Size size, UseEmbeddedThumbnails useEmbeddedThumbnails, bool useExifOrientation)
     {
         if (_isDisposed) return null;
 
 
         try
         {
-            var filename = (string)key;
-
-            return Extractor.Current.GetThumbnail(filename, size, useEmbeddedThumbnails, useExifOrientation);
+            return Extractor.Current.GetThumbnail(filePath, size, useEmbeddedThumbnails, useExifOrientation);
         }
         catch (Exception)
         {
@@ -79,10 +77,14 @@ public class FileSystemAdaptor : IAdaptor
     /// <param name="useEmbeddedThumbnails">Embedded thumbnail usage.</param>
     /// <param name="useExifOrientation">true to automatically rotate images based on Exif orientation; otherwise false.</param>
     /// <returns>A unique identifier string for the thumnail.</returns>
-    public override string GetUniqueIdentifier(object key, Size size, UseEmbeddedThumbnails useEmbeddedThumbnails, bool useExifOrientation)
+    public override string GetUniqueIdentifier(string filePath, Size size, UseEmbeddedThumbnails useEmbeddedThumbnails, bool useExifOrientation)
     {
+        var fi = new FileInfo(filePath);
         using var sb = ZString.CreateStringBuilder();
-        sb.Append((string)key); // Filename
+
+        sb.Append(filePath);
+        sb.Append(':');
+        sb.Append(fi.LastWriteTimeUtc.ToBinary());
         sb.Append(':');
         sb.Append(size.Width); // Thumbnail size
         sb.Append(',');
@@ -100,11 +102,11 @@ public class FileSystemAdaptor : IAdaptor
     /// </summary>
     /// <param name="key">Item key.</param>
     /// <returns>The path to the source image.</returns>
-    public override string GetSourceImage(object key)
+    public override string GetSourceImage(string filePath)
     {
         if (_isDisposed) return string.Empty;
 
-        return (string)key;
+        return filePath;
     }
 
     /// <summary>
@@ -112,11 +114,9 @@ public class FileSystemAdaptor : IAdaptor
     /// </summary>
     /// <param name="key">Item key.</param>
     /// <returns>An array of tuples containing item details or null if an error occurs.</returns>
-    public override IgMetadata GetDetails(object key)
+    public override IgMetadata GetDetails(string filePath)
     {
         if (_isDisposed) return new IgMetadata();
-
-        var filePath = (string)key;
 
         return PhotoCodec.LoadMetadata(filePath);
     }
