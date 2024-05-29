@@ -566,7 +566,7 @@ public class IgLang : IDictionary<string, string>
             { "FrmAbout._Version", "Version:" },
             { "FrmAbout._License", "Software license" },
             { "FrmAbout._Privacy", "Privacy policy" },
-            { "FrmAbout._Thanks", "Special thanks to:" },
+            { "FrmAbout._Thanks", "Special thanks to" },
             { "FrmAbout._LogoDesigner", "Logo designer:" },
             { "FrmAbout._Collaborator", "Collaborator:" },
             { "FrmAbout._Contact", "Contact" },

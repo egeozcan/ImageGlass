@@ -69,6 +69,7 @@ public partial class FrmAbout : WebForm
                 AppArchitecture: '{archInfo}',
                 AppRuntime: '{Environment.Version}',
                 WebView2Runtime: '{Web2.Webview2Version?.ToString()}',
+                MagickNET: '{ImageMagick.MagickNET.Version}',
             }});
         ");
     }

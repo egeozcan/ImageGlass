@@ -36,6 +36,7 @@ window._page.loadData = (data: Record<string, string> = {}) => {
   query('#Lbl_AppVersion').innerText = data.AppVersion || '';
   query('#Lbl_AppArchitecture').innerText = data.AppArchitecture || '';
   query('#Lbl_AppRuntime').innerText = data.AppRuntime || '';
+  query('#Lbl_MagickNET').innerText = data.MagickNET || '';
   query('#Lbl_WebView2Runtime').innerText = data.WebView2Runtime || '';
 };
 
