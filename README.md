@@ -13,7 +13,7 @@ ImageGlass - A lightweight, versatile image viewer
 ImageGlass is a lightweight software designed for seamless viewing of images in a clean and intuitive interface. With support for over 80 common image formats including `WEBP`, `GIF`, `SVG`, `PNG`, `JXL`, `HEIC`,... ImageGlass also offers advanced features that cater to the needs of both regular users and designers, making it the excellent tool to enhance workflow efficiency.
 
 ## 📥 Download
-<a href="https://www.microsoft.com/store/productId/9N33VZK3C7TH?cid=GitHubRelease&referrer=appbadge&source=GithubD2phap">
+<a href="https://apps.microsoft.com/detail/9N33VZK3C7TH?launch=true&cid=GitHubRelease&mode=full">
   <img height="69" src="https://user-images.githubusercontent.com/3154213/197670614-b9ecc804-ebb2-44cc-88c3-5dd321564a51.svg" /></a>
 
 <br/>
@@ -56,9 +56,9 @@ v9 Official              :active, des2, 2023-12,2025-01
 
 
 ## 🪁 System Requirements
-- Windows 10/11 64-bit, version 2004 or later
+- Windows 10/11 64-bit, version 1809 (build 17763) or later
 - [.NET Desktop Runtime 8 (64-bit)](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
-- [WebView2 Runtime 64-bit](https://developer.microsoft.com/en-us/microsoft-edge/webview2/#download-section)
+- [WebView2 Runtime 64-bit v119.0.2151 or later](https://developer.microsoft.com/en-us/microsoft-edge/webview2/#download-section)
 
 
 ## 👨‍💻 Development
