@@ -865,7 +865,8 @@ public static class PhotoCodec
                     }
                     else
                     {
-                        result.Image = BHelper.ToWicBitmapSource(webp.Load(filePath));
+                        using var webpBmp = webp.Load(filePath);
+                        result.Image = BHelper.ToWicBitmapSource(webpBmp);
                     }
                 }
                 catch

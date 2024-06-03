@@ -149,7 +149,7 @@ public class IgImgData : IDisposable
             else
             {
                 // for lower memory
-                var bmp = data.SingleFrameImage?.ToBitmapWithDensity();
+                using var bmp = data.SingleFrameImage?.ToBitmapWithDensity();
                 Image = BHelper.ToWicBitmapSource(bmp);
             }
         }

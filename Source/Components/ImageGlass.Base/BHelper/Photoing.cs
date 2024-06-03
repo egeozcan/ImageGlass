@@ -111,7 +111,7 @@ public partial class BHelper
     {
         if (img == null) return null;
 
-        var bmp = new Bitmap(img);
+        using var bmp = new Bitmap(img);
         return ToWicBitmapSource(bmp);
     }
 
