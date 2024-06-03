@@ -260,13 +260,11 @@ public class IgTheme : IDisposable
                 // property is WicBitmapSource
                 if (prop?.PropertyType == typeof(WicBitmapSource))
                 {
-                    var data = await PhotoCodec.LoadAsync(Path.Combine(FolderPath, value), new()
-                    {
-                        Width = _iconHeight * 2,
-                        Height = _iconHeight * 2,
-                    });
+                    using var bmp = await PhotoCodec.GetThumbnailAsync(Path.Combine(FolderPath, value), _iconHeight, _iconHeight);
+                    var wicBmp = BHelper.ToWicBitmapSource(bmp);
 
-                    prop.SetValue(Settings, data.Image);
+                    prop.SetValue(Settings, wicBmp);
+
                     return;
                 }
 
@@ -312,6 +310,7 @@ public class IgTheme : IDisposable
         // dispose the current values
         Colors = new IgThemeColors();
         var systemAccentColor = WinColorsApi.GetAccentColor(true);
+
 
         foreach (var item in JsonModel.Colors)
         {
