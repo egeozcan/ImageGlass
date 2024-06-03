@@ -24,6 +24,7 @@ using ImageGlass.Base.WinApi;
 using ImageGlass.Settings;
 using ImageGlass.Tools;
 using System.Collections.Frozen;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO.Pipes;
 using System.Runtime;
@@ -229,7 +230,7 @@ public class Local
     /// <summary>
     /// Gets the default toolbar button IDs.
     /// </summary>
-    public static readonly FrozenSet<string> DefaultToolbarItemIds = FrozenSet.ToFrozenSet<string>([
+    public static readonly ReadOnlyCollection<string> DefaultToolbarItemIds = new([
         $"Btn_{nameof(FrmMain.MnuOpenFile)}",
         $"Btn_{nameof(FrmMain.MnuViewPrevious)}",
         $"Btn_{nameof(FrmMain.MnuViewNext)}",
@@ -318,7 +319,7 @@ public class Local
     /// Occurs when the FrmMain's state needs to be updated.
     /// </summary>
     public static event FrmMainUpdateRequestedHandler? FrmMainUpdateRequested;
-    public delegate void FrmMainUpdateRequestedHandler(UpdateRequestEventArgs e);
+    public delegate Task FrmMainUpdateRequestedHandler(UpdateRequestEventArgs e);
 
     /// <summary>
     /// Occurs when the FrmMain's state needs to be updated.

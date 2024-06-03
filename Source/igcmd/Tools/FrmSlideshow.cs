@@ -304,12 +304,6 @@ public partial class FrmSlideshow : ThemedForm
         base.OnDpiChanged();
         SuspendLayout();
 
-        // scale toolbar icons corresponding to DPI
-        var newIconHeight = DpiApi.Scale(Config.ToolbarIconHeight);
-
-        // reload theme
-        Config.Theme.ToolbarActualIconHeight = newIconHeight;
-
         // update picmain scaling
         PicMain.NavButtonSize = this.ScaleToDpi(new SizeF(50f, 50f));
         PicMain.CheckerboardCellSize = this.ScaleToDpi(Const.VIEWER_GRID_SIZE);
@@ -409,7 +403,8 @@ public partial class FrmSlideshow : ThemedForm
         // update theme
         if (e.MessageName.Equals(ImageGlassEvents.THEME_UPDATED, StringComparison.InvariantCultureIgnoreCase))
         {
-            Config.Theme = new IgTheme(e.MessageData, Config.ToolbarIconHeight);
+            var iconHeight = Config.ToolbarIconHeight * 4;
+            Config.Theme = new IgTheme(e.MessageData, iconHeight);
 
             ApplyTheme(Config.Theme.Settings.IsDarkMode);
             return;

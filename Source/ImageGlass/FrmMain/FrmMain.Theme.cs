@@ -62,13 +62,13 @@ public partial class FrmMain
         // toolbar
         Toolbar.EnableTransparent = hasTransparency;
         Toolbar.Theme = Config.Theme;
-        Toolbar.UpdateTheme(this.ScaleToDpi(Config.ToolbarIconHeight));
+        _ = Toolbar.UpdateThemeAsync(Config.ToolbarIconHeight);
 
 
         // toolbar context
         ToolbarContext.EnableTransparent = hasTransparency;
         ToolbarContext.Theme = Config.Theme;
-        ToolbarContext.UpdateTheme(this.ScaleToDpi(Config.ToolbarIconHeight));
+        _ = ToolbarContext.UpdateThemeAsync(Config.ToolbarIconHeight);
 
 
         // viewer

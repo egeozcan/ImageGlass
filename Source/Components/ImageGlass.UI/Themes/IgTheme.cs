@@ -73,23 +73,6 @@ public class IgTheme : IDisposable
 
 
     /// <summary>
-    /// Gets, sets the height of toolbar icons, also disposes all icons if new height is set.
-    /// </summary>
-    public int ToolbarActualIconHeight
-    {
-        get => DpiApi.Scale(_iconHeight);
-        set
-        {
-            if (_iconHeight == value) return;
-
-            // dispose the current icons
-            ToolbarIcons.Dispose();
-
-            _iconHeight = value;
-        }
-    }
-
-    /// <summary>
     /// Theme API version, to check compatibility.
     /// </summary>
     public string CONFIG_VERSION { get; } = "9";
@@ -195,9 +178,9 @@ public class IgTheme : IDisposable
     /// </summary>
     public IgTheme(
         string themeFolderPath = "",
-        int iconHeight = Const.TOOLBAR_ICON_HEIGHT)
+        int? iconHeight = null)
     {
-        ToolbarActualIconHeight = iconHeight;
+        _iconHeight = iconHeight ?? _iconHeight;
 
         // read theme config
         _ = ReadThemeConfig(themeFolderPath);
@@ -279,8 +262,8 @@ public class IgTheme : IDisposable
                 {
                     var data = await PhotoCodec.LoadAsync(Path.Combine(FolderPath, value), new()
                     {
-                        Width = ToolbarActualIconHeight * 2,
-                        Height = ToolbarActualIconHeight * 2,
+                        Width = _iconHeight * 2,
+                        Height = _iconHeight * 2,
                     });
 
                     prop.SetValue(Settings, data.Image);
@@ -290,7 +273,7 @@ public class IgTheme : IDisposable
                 // property is Bitmap
                 if (prop?.PropertyType == typeof(Bitmap))
                 {
-                    var bmp = PhotoCodec.GetThumbnail(Path.Combine(FolderPath, value), 256, 256);
+                    var bmp = await PhotoCodec.GetThumbnailAsync(Path.Combine(FolderPath, value), 256, 256);
 
                     prop.SetValue(Settings, bmp);
                     return;
@@ -406,7 +389,7 @@ public class IgTheme : IDisposable
     /// Theme pack's icon name or image file path.
     /// Example: <c>OpenFile</c>, or <c>.\Themes\Kobe\OpenFile.svg</c>
     /// </param>
-    public Bitmap GetToolbarIcon(string? name)
+    public async Task<Bitmap> GetToolbarIconAsync(string? name)
     {
         if (string.IsNullOrEmpty(name)) return null;
 
@@ -421,18 +404,31 @@ public class IgTheme : IDisposable
             var iconPath = GetToolbarIconFilePath(name);
 
             // load icon from full path
-            icon = PhotoCodec.GetThumbnail(
+            icon = await PhotoCodec.GetThumbnailAsync(
                 !string.IsNullOrEmpty(iconPath) ? iconPath : name,
-                ToolbarActualIconHeight, ToolbarActualIconHeight);
+                _iconHeight, _iconHeight);
         }
         catch
         {
             // set empty icon
-            _defaultIcon ??= BHelper.CreateDefaultToolbarIcon(ToolbarActualIconHeight, Settings.IsDarkMode);
+            _defaultIcon ??= BHelper.CreateDefaultToolbarIcon(_iconHeight, Settings.IsDarkMode);
             icon = _defaultIcon;
         }
 
         return icon as Bitmap;
+    }
+
+
+    /// <summary>
+    /// Gets toolbar icon from theme property name or image file path.
+    /// </summary>
+    /// <param name="name">
+    /// Theme pack's icon name or image file path.
+    /// Example: <c>OpenFile</c>, or <c>.\Themes\Kobe\OpenFile.svg</c>
+    /// </param>
+    public Bitmap GetToolbarIcon(string? name)
+    {
+        return BHelper.RunSync(() => GetToolbarIconAsync(name));
     }
 
 }

@@ -137,7 +137,7 @@ public class ModernToolbar : ToolStrip
         get => _iconHeight;
         set
         {
-            _iconHeight = value;
+            _iconHeight = DpiApi.Scale(value);
             ImageScalingSize = new(_iconHeight, _iconHeight);
         }
     }
@@ -506,64 +506,65 @@ public class ModernToolbar : ToolStrip
         // reset the alignment to left
         firstBtn.Margin = defaultMargin;
 
-        if (Alignment == ToolbarAlignment.Center)
+        if (Alignment != ToolbarAlignment.Center) return;
+
+
+
+        // get the correct content width, excluding the sticky right items
+        var toolbarContentWidth = 0;
+        var rightContentWidth = 0;
+        foreach (ToolStripItem item in Items)
         {
-            // get the correct content width, excluding the sticky right items
-            var toolbarContentWidth = 0;
-            var rightContentWidth = 0;
-            foreach (ToolStripItem item in Items)
+            toolbarContentWidth += item.Width;
+
+            if (item.Alignment == ToolStripItemAlignment.Right)
             {
-                toolbarContentWidth += item.Width;
-
-                if (item.Alignment == ToolStripItemAlignment.Right)
-                {
-                    rightContentWidth += item.Width;
-                }
-
-                // reset margin
-                item.Margin = defaultMargin;
+                rightContentWidth += item.Width;
             }
 
-            if (ShowMainMenuButton)
-            {
-                toolbarContentWidth += MainMenuButton.Width;
-            }
-            else
-            {
-                rightContentWidth -= MainMenuButton.Width;
-                toolbarContentWidth -= MainMenuButton.Width;
-            }
-
-
-            // if the content cannot fit the toolbar size:
-            if (rightContentWidth + toolbarContentWidth >= Width)
-            //if (OverflowButton.Visible)
-            {
-                // align left
-                firstBtn.Margin = defaultMargin;
-            }
-            else
-            {
-                // the default margin (left alignment)
-                var margin = defaultMargin;
-
-                // get the gap of content width and toolbar width
-                var gap = Math.Abs(Width - toolbarContentWidth);
-
-                // update the left margin value
-                margin.Left = gap / 2;
-
-                // align the first item
-                firstBtn.Margin = margin;
-            }
+            // reset margin
+            item.Margin = defaultMargin;
         }
+
+        if (ShowMainMenuButton)
+        {
+            toolbarContentWidth += MainMenuButton.Width;
+        }
+        else
+        {
+            rightContentWidth -= MainMenuButton.Width;
+            toolbarContentWidth -= MainMenuButton.Width;
+        }
+
+
+        // if the content cannot fit the toolbar size:
+        if (rightContentWidth + toolbarContentWidth >= Width)
+        {
+            // align left
+            firstBtn.Margin = defaultMargin;
+        }
+        else
+        {
+            // the default margin (left alignment)
+            var margin = defaultMargin;
+
+            // get the gap of content width and toolbar width
+            var gap = Math.Abs(Width - toolbarContentWidth);
+
+            // update the left margin value
+            margin.Left = gap / 2;
+
+            // align the first item
+            firstBtn.Margin = margin;
+        }
+
     }
 
 
     /// <summary>
     /// Update toolbar theme
     /// </summary>
-    public void UpdateTheme(int? iconHeight = null)
+    public async Task UpdateThemeAsync(int? iconHeight = null)
     {
         if (iconHeight is not null)
         {
@@ -583,36 +584,33 @@ public class ModernToolbar : ToolStrip
         // Overflow button and Overflow dropdown
         UpdateOverflow();
 
-        // Toolbar items
-        foreach (var item in Items)
-        {
-            if (item.GetType() == typeof(ToolStripSeparator))
-            {
-                var tItem = item as ToolStripSeparator;
-                if (tItem is null) continue;
 
+        // load toolbar button icons
+        await Parallel.ForAsync(0, Items.Count, async (i, _) =>
+        {
+            if (Items[i] is ToolStripSeparator tItem)
+            {
                 tItem.AutoSize = false;
                 tItem.Height = IconHeight;
                 tItem.Width = IconHeight / 2;
             }
 
-            if (item.GetType() == typeof(ToolStripButton))
+            if (Items[i] is ToolStripButton bItem)
             {
-                var tItem = item as ToolStripButton;
-                if (tItem is null) continue;
-
                 // update font and alignment
-                tItem.ForeColor = Theme.Colors.ToolbarTextColor;
-                tItem.Padding = new(DefaultGap);
-                tItem.Margin = new(0, DefaultGap, DefaultGap / 2, DefaultGap);
+                bItem.ForeColor = Theme.Colors.ToolbarTextColor;
+                bItem.Padding = new(DefaultGap);
+                bItem.Margin = new(0, DefaultGap, DefaultGap / 2, DefaultGap);
 
                 // update item from metadata
-                var tagModel = tItem.Tag as ToolbarItemTagModel;
-                tItem.Image = Theme.GetToolbarIcon(tagModel?.Image);
+                var tagModel = bItem.Tag as ToolbarItemTagModel;
+                bItem.Image = await Theme.GetToolbarIconAsync(tagModel?.Image);
             }
-        }
+
+        });
 
         ResumeLayout(false);
+
 
         // update items alignment
         UpdateAlignment();
@@ -743,10 +741,14 @@ public class ModernToolbar : ToolStrip
     public void AddItems(IEnumerable<ToolbarItemModel> list,
         Action<ToolStripItem>? modifier = null)
     {
+        SuspendLayout();
+
         foreach (var item in list)
         {
             _ = AddItem(item, null, modifier);
         }
+
+        ResumeLayout(false);
     }
 
 

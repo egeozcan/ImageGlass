@@ -235,7 +235,7 @@ public partial class FrmMain
 
     private void FrmMain_Load(object sender, EventArgs e)
     {
-        Local.FrmMainUpdateRequested += Local_FrmMainUpdateRequested;
+        Local.FrmMainUpdateRequested += Local_FrmMainUpdateRequestedAsync;
 
 
         // IsWindowAlwaysOnTop
@@ -408,7 +408,7 @@ public partial class FrmMain
     /// <summary>
     /// Processes internal update requests
     /// </summary>
-    private void Local_FrmMainUpdateRequested(UpdateRequestEventArgs e)
+    private async Task Local_FrmMainUpdateRequestedAsync(UpdateRequestEventArgs e)
     {
         if (e.Requests.HasFlag(UpdateRequests.ReloadImage))
         {
@@ -439,8 +439,8 @@ public partial class FrmMain
         if (e.Requests.HasFlag(UpdateRequests.ToolbarIcons)
             || e.Requests.HasFlag(UpdateRequests.ToolbarButtons))
         {
-            Toolbar.UpdateTheme(this.ScaleToDpi(Config.ToolbarIconHeight));
-            ToolbarContext.UpdateTheme(this.ScaleToDpi(Config.ToolbarIconHeight));
+            await Toolbar.UpdateThemeAsync(Config.ToolbarIconHeight);
+            await ToolbarContext.UpdateThemeAsync(Config.ToolbarIconHeight);
         }
 
         if (e.Requests.HasFlag(UpdateRequests.ToolbarIcons)
@@ -876,40 +876,37 @@ public partial class FrmMain
     /// </summary>
     public void LoadToolbarItemsText(ModernToolbar modernToolbar)
     {
-        foreach (var item in modernToolbar.Items)
+        Parallel.For(0, modernToolbar.Items.Count, (i) =>
         {
-            if (item.GetType() == typeof(ToolStripButton))
+            if (modernToolbar.Items[i] is ToolStripButton tItem)
             {
-                var tItem = item as ToolStripButton;
-                if (tItem is null) continue;
-
-                var tagModel = tItem.Tag as ToolbarItemTagModel;
-                if (tagModel is null) continue;
-
-                string langKey;
-                string hotkey;
-                if (tItem.Name == Toolbar.MainMenuButton.Name)
+                if (tItem.Tag is ToolbarItemTagModel tagModel)
                 {
-                    langKey = $"{Name}.MnuMain";
-                    hotkey = Config.GetHotkeyString(CurrentMenuHotkeys, nameof(MnuMain));
-                }
-                else
-                {
-                    langKey = $"{Name}.{tagModel.OnClick.Executable}";
-                    hotkey = Config.GetHotkeyString(CurrentMenuHotkeys, tagModel.OnClick.Executable);
-                }
-
-                if (Config.Language.TryGetValue(langKey, out string? value))
-                {
-                    tItem.Text = tItem.ToolTipText = value;
-
-                    if (!string.IsNullOrEmpty(hotkey))
+                    string langKey;
+                    string hotkey;
+                    if (tItem.Name == Toolbar.MainMenuButton.Name)
                     {
-                        tItem.ToolTipText += $" ({hotkey})";
+                        langKey = $"{Name}.MnuMain";
+                        hotkey = Config.GetHotkeyString(CurrentMenuHotkeys, nameof(MnuMain));
+                    }
+                    else
+                    {
+                        langKey = $"{Name}.{tagModel.OnClick.Executable}";
+                        hotkey = Config.GetHotkeyString(CurrentMenuHotkeys, tagModel.OnClick.Executable);
+                    }
+
+                    if (Config.Language.TryGetValue(langKey, out string? value))
+                    {
+                        tItem.Text = tItem.ToolTipText = value;
+
+                        if (!string.IsNullOrEmpty(hotkey))
+                        {
+                            tItem.ToolTipText += $" ({hotkey})";
+                        }
                     }
                 }
             }
-        }
+        });
     }
 
 

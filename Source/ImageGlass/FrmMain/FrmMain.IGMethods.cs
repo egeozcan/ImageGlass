@@ -1206,7 +1206,7 @@ public partial class FrmMain
         {
             bitmap = BHelper.CropImage(bitmap, PicMain.SourceSelection);
         }
-        
+
         await Task.Run(() => ClipboardEx.SetClipboardImage(bitmap));
 
         PicMain.ShowMessage(Config.Language[$"{langPath}._Success"], Config.InAppMessageDuration);
@@ -3042,13 +3042,13 @@ public partial class FrmMain
         UpdateToolbarItemsState();
 
         // toggle frame nav toolbar
-        ToggleFrameNavToolbar(visible.Value);
+        ToggleFrameNavToolbarAsync(visible.Value);
 
         return visible.Value;
     }
 
 
-    private void ToggleFrameNavToolbar(bool visible)
+    private async Task ToggleFrameNavToolbarAsync(bool visible)
     {
         ToolbarContext.SuspendLayout();
         ToolbarContext.ClearItems();
@@ -3056,68 +3056,70 @@ public partial class FrmMain
 
         if (visible)
         {
-            // display frame info
-            ToolbarContext.AddItem(new()
-            {
-                Id = Const.FRAME_NAV_TOOLBAR_FRAME_INFO,
-                DisplayStyle = ToolStripItemDisplayStyle.Text,
-            });
+            ToolbarContext.AddItems([
+                // display frame info
+                new()
+                {
+                    Id = Const.FRAME_NAV_TOOLBAR_FRAME_INFO,
+                    DisplayStyle = ToolStripItemDisplayStyle.Text,
+                },
 
-            // view first frame
-            ToolbarContext.AddItem(new()
-            {
-                Id = "Btn_ViewLastFrame",
-                Image = nameof(Config.Theme.ToolbarIcons.ViewFirstImage),
-                OnClick = new(nameof(MnuViewFirstFrame)),
-            });
+                // view first frame
+                new()
+                {
+                    Id = "Btn_ViewLastFrame",
+                    Image = nameof(Config.Theme.ToolbarIcons.ViewFirstImage),
+                    OnClick = new(nameof(MnuViewFirstFrame)),
+                },
 
-            // view previous frame
-            ToolbarContext.AddItem(new()
-            {
-                Id = "Btn_ViewPreviousFrame",
-                Image = nameof(Config.Theme.ToolbarIcons.ViewPreviousImage),
-                OnClick = new(nameof(MnuViewPreviousFrame)),
-            });
-
-
-            // play/pause frame animation
-            ToolbarContext.AddItem(new()
-            {
-                Id = Const.FRAME_NAV_TOOLBAR_TOGGLE_ANIMATION,
-                Image = nameof(Config.Theme.ToolbarIcons.Play),
-                OnClick = new(nameof(MnuToggleImageAnimation)),
-            });
-
-            // view next frame
-            ToolbarContext.AddItem(new()
-            {
-                Id = "Btn_ViewNextFrame",
-                Image = nameof(Config.Theme.ToolbarIcons.ViewNextImage),
-                OnClick = new(nameof(MnuViewNextFrame)),
-            });
-
-            // view last frame
-            ToolbarContext.AddItem(new()
-            {
-                Id = "Btn_ViewLastFrame",
-                Image = nameof(Config.Theme.ToolbarIcons.ViewLastImage),
-                OnClick = new(nameof(MnuViewLastFrame)),
-            });
+                // view previous frame
+                new()
+                {
+                    Id = "Btn_ViewPreviousFrame",
+                    Image = nameof(Config.Theme.ToolbarIcons.ViewPreviousImage),
+                    OnClick = new(nameof(MnuViewPreviousFrame)),
+                },
 
 
-            // export all frames
-            ToolbarContext.AddItem(new()
-            {
-                Id = "Btn_ExportAllFrames",
-                Image = nameof(Config.Theme.ToolbarIcons.Export),
-                OnClick = new(nameof(MnuExportFrames)),
-            });
+                // play/pause frame animation
+                new()
+                {
+                    Id = Const.FRAME_NAV_TOOLBAR_TOGGLE_ANIMATION,
+                    Image = nameof(Config.Theme.ToolbarIcons.Play),
+                    OnClick = new(nameof(MnuToggleImageAnimation)),
+                },
+
+                // view next frame
+                new()
+                {
+                    Id = "Btn_ViewNextFrame",
+                    Image = nameof(Config.Theme.ToolbarIcons.ViewNextImage),
+                    OnClick = new(nameof(MnuViewNextFrame)),
+                },
+
+                // view last frame
+                new()
+                {
+                    Id = "Btn_ViewLastFrame",
+                    Image = nameof(Config.Theme.ToolbarIcons.ViewLastImage),
+                    OnClick = new(nameof(MnuViewLastFrame)),
+                },
+
+
+                // export all frames
+                new()
+                {
+                    Id = "Btn_ExportAllFrames",
+                    Image = nameof(Config.Theme.ToolbarIcons.Export),
+                    OnClick = new(nameof(MnuExportFrames)),
+                }
+            ]);
 
             LoadToolbarItemsText(ToolbarContext);
         }
 
         ToolbarContext.Visible = visible;
-        ToolbarContext.UpdateTheme();
+        await ToolbarContext.UpdateThemeAsync();
         ToolbarContext.ResumeLayout(true);
 
 

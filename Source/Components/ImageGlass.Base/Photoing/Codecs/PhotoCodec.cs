@@ -255,7 +255,7 @@ public static class PhotoCodec
     /// <summary>
     /// Gets thumbnail from image.
     /// </summary>
-    public static Bitmap? GetThumbnail(string filePath, int width, int height)
+    public static async Task<Bitmap?> GetThumbnailAsync(string filePath, int width, int height)
     {
         if (string.IsNullOrEmpty(filePath) || width == 0 || height == 0) return null;
 
@@ -273,7 +273,7 @@ public static class PhotoCodec
         var ext = Path.GetExtension(filePath).ToLowerInvariant();
 
 
-        var imgData = BHelper.RunSync(() => ReadMagickImageAsync(filePath, ext, settings, options, null, new()));
+        var imgData = await ReadMagickImageAsync(filePath, ext, settings, options, null, new());
 
         if (imgData?.SingleFrameImage != null)
         {
@@ -281,6 +281,15 @@ public static class PhotoCodec
         }
 
         return null;
+    }
+
+
+    /// <summary>
+    /// Gets thumbnail from image.
+    /// </summary>
+    public static Bitmap? GetThumbnail(string filePath, int width, int height)
+    {
+        return BHelper.RunSync(() => GetThumbnailAsync(filePath, width, height));
     }
 
 

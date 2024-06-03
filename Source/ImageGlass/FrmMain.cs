@@ -80,23 +80,13 @@ public partial class FrmMain : ThemedForm
         base.OnDpiChanged();
         SuspendLayout();
 
-        // scale toolbar icons corresponding to DPI
-        var newIconHeight = this.ScaleToDpi(Config.ToolbarIconHeight);
 
-        // reload theme
-        Config.Theme.ToolbarActualIconHeight = newIconHeight;
-
-        // update toolbar theme
-        Toolbar.UpdateTheme(newIconHeight);
-        ToolbarContext.UpdateTheme(newIconHeight);
+        // update Frame Navigation toolbar state
         UpdateFrameNavToolbarButtonState();
 
         // update picmain scaling
         PicMain.NavButtonSize = this.ScaleToDpi(new SizeF(50f, 50f));
         PicMain.CheckerboardCellSize = this.ScaleToDpi(Const.VIEWER_GRID_SIZE);
-
-        // gallery
-        UpdateGallerySize();
 
         ResumeLayout(true);
     }
