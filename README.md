@@ -13,11 +13,11 @@ ImageGlass - A lightweight, versatile image viewer
 ImageGlass is a lightweight software designed for seamless viewing of images in a clean and intuitive interface. With support for over 80 common image formats including `WEBP`, `GIF`, `SVG`, `PNG`, `JXL`, `HEIC`,... ImageGlass also offers advanced features that cater to the needs of both regular users and designers, making it the excellent tool to enhance workflow efficiency.
 
 
-## ⭐ Visit Us at [The Merge Conference](https://merge.berlin) on June 12, 2024
+## ⭐ Visit Us at [The Merge Conference](https://merge.berlin) on June 14, 2024
 <img src="https://github.com/d2phap/ImageGlass/assets/3154213/4ce5ccc7-0964-4a8a-a6ab-71e49bd2f5bd" height="200" />
 
 ImageGlass is proud to be one of the open-source projects that will be exhibiting at **[The Merge Conference](https://merge.berlin)** in Berlin, Germany. If you're attending, be sure to visit our booth and explore other amazing open-source projects!
-- 📅 **Date & Time: June 12, 2024 10:00 AM - 2:00 PM**
+- 📅 **Date & Time: June 14, 2024 10:00 AM - 2:00 PM**
 - 🌐 https://merge.berlin
 
 
