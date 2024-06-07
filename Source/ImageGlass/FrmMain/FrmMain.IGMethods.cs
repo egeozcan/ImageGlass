@@ -3042,7 +3042,7 @@ public partial class FrmMain
         UpdateToolbarItemsState();
 
         // toggle frame nav toolbar
-        ToggleFrameNavToolbarAsync(visible.Value);
+        _ = ToggleFrameNavToolbarAsync(visible.Value);
 
         return visible.Value;
     }
