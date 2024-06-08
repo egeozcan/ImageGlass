@@ -44,7 +44,6 @@ public static class Config
 {
 
     #region Internal properties
-    private static readonly Source _source = new();
     private static CancellationTokenSource _requestUpdatingColorModeCancelToken = new();
     private static bool _isDarkMode = WinColorsApi.IsDarkMode;
     private static float Version = 9;
