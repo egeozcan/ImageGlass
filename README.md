@@ -23,12 +23,12 @@ ImageGlass is proud to be one of the open-source projects that will be exhibitin
 
 ## 📥 Download
 <a href="https://apps.microsoft.com/detail/9N33VZK3C7TH?launch=true&cid=GitHubRelease&mode=full">
-  <img height="69" src="https://user-images.githubusercontent.com/3154213/197670614-b9ecc804-ebb2-44cc-88c3-5dd321564a51.svg" /></a>
+  <img  height="58" src="https://github.com/d2phap/ImageGlass/assets/3154213/08a071bb-a6ae-420c-b53b-2317004570d4" />
+</a>
 
 <br/>
 <a href="https://imageglass.org/download">
   <img src="https://img.shields.io/github/downloads/d2phap/imageglass/total?color=%232A7C91&label=total%20downloads&style=for-the-badge" /></a>
-  
 <a href="https://imageglass.org/download">
   <img src="https://img.shields.io/github/downloads/d2phap/imageglass/latest/total?color=%232A7C91&label=latest%20version&style=for-the-badge" /></a>
 
