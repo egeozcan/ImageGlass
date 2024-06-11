@@ -1568,11 +1568,8 @@ public static class Config
     /// <exception cref="InvalidDataException"></exception>
     private static IgTheme? FindAndLoadThemePack(string themeFolderName, bool useFallBackTheme, bool throwIfThemeInvalid)
     {
-        // support 400% DPI
-        var iconHeight = Config.ToolbarIconHeight * 4;
-
         // look for theme pack in the Config dir
-        var th = new IgTheme(App.ConfigDir(PathType.Dir, Dir.Themes, themeFolderName), iconHeight);
+        var th = new IgTheme(App.ConfigDir(PathType.Dir, Dir.Themes, themeFolderName));
         var themeConfigPath = th.ConfigFilePath;
 
         if (!th.IsValid)
@@ -1580,7 +1577,7 @@ public static class Config
             // look for theme pack in the Startup dir
             th.Dispose();
             th = null;
-            th = new(App.StartUpDir(Dir.Themes, themeFolderName), iconHeight);
+            th = new(App.StartUpDir(Dir.Themes, themeFolderName));
 
             // cannot find theme, use fall back theme
             if (!th.IsValid && useFallBackTheme)
@@ -1589,7 +1586,7 @@ public static class Config
                 th = null;
 
                 // load default theme
-                th = new(App.StartUpDir(Dir.Themes, Const.DEFAULT_THEME), iconHeight);
+                th = new(App.StartUpDir(Dir.Themes, Const.DEFAULT_THEME));
             }
         }
 

@@ -80,9 +80,14 @@ public partial class FrmMain : ThemedForm
         base.OnDpiChanged();
         SuspendLayout();
 
+        // update toolbar icon size
+        _ = Toolbar.UpdateThemeAsync(Config.ToolbarIconHeight);
+        _ = ToolbarContext.UpdateThemeAsync(Config.ToolbarIconHeight);
 
         // update Frame Navigation toolbar state
         UpdateFrameNavToolbarButtonState();
+
+        UpdateGallerySize();
 
         // update picmain scaling
         PicMain.NavButtonSize = this.ScaleToDpi(new SizeF(50f, 50f));

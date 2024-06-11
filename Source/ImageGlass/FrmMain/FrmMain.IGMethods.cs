@@ -3166,7 +3166,7 @@ public partial class FrmMain
                     model.Image = nameof(Config.Theme.ToolbarIcons.Pause);
                 }
 
-                btn.Image = Config.Theme.GetToolbarIcon(model.Image);
+                btn.Image = Config.Theme.GetToolbarIcon(model.Image, ToolbarContext.IconHeight);
             }
 
         }

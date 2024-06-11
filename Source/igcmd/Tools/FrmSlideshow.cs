@@ -403,8 +403,7 @@ public partial class FrmSlideshow : ThemedForm
         // update theme
         if (e.MessageName.Equals(ImageGlassEvents.THEME_UPDATED, StringComparison.InvariantCultureIgnoreCase))
         {
-            var iconHeight = Config.ToolbarIconHeight * 4;
-            Config.Theme = new IgTheme(e.MessageData, iconHeight);
+            Config.Theme = new IgTheme(e.MessageData);
 
             ApplyTheme(Config.Theme.Settings.IsDarkMode);
             return;
@@ -480,9 +479,9 @@ public partial class FrmSlideshow : ThemedForm
         #region Get mouse wheel action
 
         // get user-defined mouse wheel action
-        if (Config.MouseWheelActions.ContainsKey(eventType))
+        if (Config.MouseWheelActions.TryGetValue(eventType, out MouseWheelAction value))
         {
-            action = Config.MouseWheelActions[eventType];
+            action = value;
         }
         // if not found, use the defaut mouse wheel action
         else

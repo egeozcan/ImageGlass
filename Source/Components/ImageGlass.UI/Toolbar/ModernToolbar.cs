@@ -604,7 +604,7 @@ public class ModernToolbar : ToolStrip
 
                 // update item from metadata
                 var tagModel = bItem.Tag as ToolbarItemTagModel;
-                bItem.Image = await Theme.GetToolbarIconAsync(tagModel?.Image);
+                bItem.Image = await Theme.GetToolbarIconAsync(tagModel?.Image, IconHeight);
             }
 
         });
@@ -717,7 +717,7 @@ public class ModernToolbar : ToolStrip
                     OnClick = model.OnClick,
                 },
 
-                Image = Theme?.GetToolbarIcon(model.Image),
+                Image = Theme?.GetToolbarIcon(model.Image, IconHeight),
             };
         }
 
