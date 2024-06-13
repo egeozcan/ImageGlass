@@ -3166,7 +3166,7 @@ public partial class DXCanvas : DXControl
         // render the transformation
         if (requestRerender)
         {
-            Refresh(resetZoom: false);
+            Refresh();
         }
 
         return true;
