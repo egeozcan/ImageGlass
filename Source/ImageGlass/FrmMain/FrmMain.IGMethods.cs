@@ -2418,6 +2418,13 @@ public partial class FrmMain
             WindowApi.SetRoundCorner(Handle);
         }
 
+        // enable mover control
+        if (_movableForm != null)
+        {
+            _movableForm.ShowMover = Config.EnableFrameless;
+        }
+        
+
         // update toolbar items state
         UpdateToolbarItemsState();
 
@@ -2775,13 +2782,11 @@ public partial class FrmMain
 
         if (enable.Value)
         {
-            _movableForm.Enable();
-            _movableForm.Enable(Toolbar, ToolbarContext, PicMain);
+            _movableForm.Enable(Toolbar, ToolbarContext);
         }
         else
         {
-            _movableForm.Disable();
-            _movableForm.Disable(Toolbar, ToolbarContext, PicMain);
+            _movableForm.Disable(Toolbar, ToolbarContext);
         }
     }
 

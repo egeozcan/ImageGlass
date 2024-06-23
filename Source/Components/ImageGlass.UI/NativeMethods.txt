@@ -2,3 +2,5 @@
 DwmIsCompositionEnabled
 DwmSetWindowAttribute
 DwmExtendFrameIntoClientArea
+ReleaseCapture
+SendMessage

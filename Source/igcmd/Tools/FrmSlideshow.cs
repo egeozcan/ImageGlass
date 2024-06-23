@@ -1771,6 +1771,12 @@ public partial class FrmSlideshow : ThemedForm
         // update menu item state
         MnuFrameless.Checked = Config.EnableFrameless;
 
+        // enable mover control
+        if (_movableForm != null)
+        {
+            _movableForm.ShowMover = Config.EnableFrameless;
+        }
+
         if (showInAppMessage)
         {
             var langPath = $"FrmMain.{nameof(MnuFrameless)}";
@@ -1803,12 +1809,10 @@ public partial class FrmSlideshow : ThemedForm
         if (enable.Value)
         {
             _movableForm.Enable();
-            _movableForm.Enable(PicMain);
         }
         else
         {
             _movableForm.Disable();
-            _movableForm.Disable(PicMain);
         }
 
     }
