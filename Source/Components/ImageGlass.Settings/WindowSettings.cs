@@ -90,12 +90,25 @@ public partial class WindowSettings
     /// <param name="frm"></param>
     public static void SaveFrmMainPlacementToConfig(Form frm)
     {
+        var extraW = 0;
+        var extraH = 0;
+
+        // if window is borderless, we need to get the size of bordered window.
+        // if not, the frameless window size in next launch will be shrunk
+        // https://github.com/d2phap/ImageGlass/issues/1924
+        if (frm.FormBorderStyle == FormBorderStyle.None)
+        {
+            using var tempFrm = new Form();
+            extraW = tempFrm.Bounds.Width - tempFrm.ClientSize.Width;
+            extraH = tempFrm.Bounds.Height - tempFrm.ClientSize.Height;
+        }
+
         var placement = WindowApi.GetWindowPlacement(frm);
 
         Config.FrmMainPositionX = placement.Bounds.Left;
         Config.FrmMainPositionY = placement.Bounds.Top;
-        Config.FrmMainWidth = placement.Bounds.Width;
-        Config.FrmMainHeight = placement.Bounds.Height;
+        Config.FrmMainWidth = placement.Bounds.Width + extraW;
+        Config.FrmMainHeight = placement.Bounds.Height + extraH;
 
         Config.FrmMainState = placement.State;
     }
