@@ -19,6 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 using ImageGlass.Base;
 using ImageGlass.Base.Photoing.Codecs;
 using ImageGlass.Base.WinApi;
+using ImageMagick;
 using WicNet;
 
 namespace ImageGlass.UI;
@@ -397,11 +398,11 @@ public class IgTheme : IDisposable
         try
         {
             var iconPath = GetToolbarIconFilePath(name);
+            var iconFile = !string.IsNullOrEmpty(iconPath) ? iconPath : name;
 
             // load icon from full path
-            icon = await PhotoCodec.GetThumbnailAsync(
-                !string.IsNullOrEmpty(iconPath) ? iconPath : name,
-                iconHeight, iconHeight);
+            using var imgM = await PhotoCodec.ReadSvgWithMagickAsync(iconFile, null, iconHeight, iconHeight);
+            icon = imgM.ToBitmap();
         }
         catch
         {

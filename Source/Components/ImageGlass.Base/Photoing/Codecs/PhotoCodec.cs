@@ -383,41 +383,42 @@ public static class PhotoCodec
     /// Reads and processes the SVG file, replaces <c>#000</c> or <c>#fff</c>
     /// by the corresponding hex color value of the <paramref name="darkMode"/>.
     /// </summary>
-    public static MagickImage? ReadSvgWithMagick(string svgFilePath, bool darkMode, int? width, int? height)
+    public static async Task<MagickImage?> ReadSvgWithMagickAsync(string svgFilePath, bool? darkMode, int? width, int? height, CancellationToken token = default)
     {
-        // preprocess SVG content
-        var svg = string.Empty;
-        using var fs = new StreamReader(svgFilePath);
-        svg = fs.ReadToEnd();
-
-
-        if (darkMode)
+        // set up Magick settings
+        var settings = ParseSettings(new CodecReadOptions()
         {
-            svg = svg.Replace("#000", "#fff");
+            Width = width ?? 0,
+            Height = height ?? 0,
+        }, false, svgFilePath);
+
+        var imgM = new MagickImage();
+
+
+        // change SVG icon color if requested
+        if (darkMode != null)
+        {
+            // preprocess SVG content
+            using var fs = new StreamReader(svgFilePath);
+            var svg = await fs.ReadToEndAsync(token);
+
+            if (darkMode.Value)
+            {
+                svg = svg.Replace("#000", "#fff");
+            }
+            else
+            {
+                svg = svg.Replace("#fff", "#000");
+            }
+
+            using var ms = new MemoryStream(Encoding.UTF8.GetBytes(svg));
+            imgM.Read(ms, settings);
         }
         else
         {
-            svg = svg.Replace("#fff", "#000");
+            await imgM.ReadAsync(svgFilePath, settings, token);
         }
-
-        using var ms = new MemoryStream(Encoding.UTF8.GetBytes(svg));
-
-
-        // set up Magick settings
-        var settings = new MagickReadSettings();
-        settings.SetDefine("svg:xml-parse-huge", "true");
-        settings.Format = MagickFormat.Svg;
-        settings.BackgroundColor = MagickColors.Transparent;
-
-        if (width > 0 && height > 0)
-        {
-            settings.Width = width;
-            settings.Height = height;
-        }
-
-
-        var imgM = new MagickImage();
-        imgM.Read(ms, settings);
+        
 
         return imgM;
     }
@@ -1289,8 +1290,9 @@ public static class PhotoCodec
 
         if (ext.Equals(".SVG", StringComparison.OrdinalIgnoreCase))
         {
-            settings.BackgroundColor = MagickColors.Transparent;
             settings.SetDefine("svg:xml-parse-huge", "true");
+            settings.Format = MagickFormat.Rsvg;
+            settings.BackgroundColor = MagickColors.Transparent;
         }
         else if (ext.Equals(".HEIC", StringComparison.OrdinalIgnoreCase)
             || ext.Equals(".HEIF", StringComparison.OrdinalIgnoreCase))

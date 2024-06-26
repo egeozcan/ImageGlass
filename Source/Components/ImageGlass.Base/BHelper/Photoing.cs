@@ -372,7 +372,8 @@ public partial class BHelper
     {
         if (string.IsNullOrEmpty(svgFilePath)) return null;
 
-        using var imgM = PhotoCodec.ReadSvgWithMagick(svgFilePath, darkMode, width, height);
+        using var imgM = BHelper.RunSync(() => PhotoCodec.ReadSvgWithMagickAsync(svgFilePath, darkMode, width, height));
+
         return imgM.ToBitmap(ImageFormat.Png);
     }
 
