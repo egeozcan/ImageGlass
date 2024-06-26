@@ -13,14 +13,6 @@ ImageGlass - A lightweight, versatile image viewer
 ImageGlass is a lightweight software designed for seamless viewing of images in a clean and intuitive interface. With support for over 80 common image formats including `WEBP`, `GIF`, `SVG`, `PNG`, `JXL`, `HEIC`,... ImageGlass also offers advanced features that cater to the needs of both regular users and designers, making it the excellent tool to enhance workflow efficiency.
 
 
-## ⭐ Visit Us at [The Merge Conference](https://merge.berlin) on June 14, 2024
-<img src="https://github.com/d2phap/ImageGlass/assets/3154213/4ce5ccc7-0964-4a8a-a6ab-71e49bd2f5bd" height="200" />
-
-ImageGlass is proud to be one of the open-source projects that will be exhibiting at **[The Merge Conference](https://merge.berlin)** in Berlin, Germany. If you're attending, be sure to visit our booth and explore other amazing open-source projects!
-- 📅 **Date & Time: June 14, 2024 10:00 AM - 2:00 PM**
-- 🌐 https://merge.berlin
-
-
 ## 📥 Download
 <a href="https://apps.microsoft.com/detail/9N33VZK3C7TH?launch=true&cid=GitHubRelease&mode=full">
   <img  height="58" src="https://github.com/d2phap/ImageGlass/assets/3154213/08a071bb-a6ae-420c-b53b-2317004570d4" />
@@ -116,9 +108,5 @@ Your support is greatly appreciated!
 
 <a href="https://www.paypal.me/d2phap" target="_blank" title="Buy me a beer?">
 <img src="https://img.shields.io/badge/PayPal-Donate%20$10%20-0070ba.svg?maxAge=3600&logo=paypal" height="30" alt="Buy me a beer?">
-</a>
-
-<a href="https://donorbox.org/imageglass" target="_blank" title="Wire transfer">
-<img src="https://img.shields.io/badge/DonorBox-@imageglass%20-005384.svg?maxAge=3600&logo=donorbox" height="30" alt="Wire transfer">
 </a>
 
