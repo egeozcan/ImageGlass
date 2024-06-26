@@ -7,7 +7,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <Platforms>x64;ARM64</Platforms>
-        <Version>9.1.6.14</Version>
+        <Version>9.1.7.627</Version>
         <FileVersion>$(Version)</FileVersion>
         <Copyright>Copyright © 2010 - 2024 Duong Dieu Phap</Copyright>
         <Configurations>Debug;Release;Publish_Release</Configurations>
@@ -89,7 +89,7 @@
     <ItemGroup>
         <PackageReference Include="DirectNStandard" Version="1.16.0" />
         <PackageReference Include="Magick.NET-Q16-HDRI-OpenMP-x64" Version="13.9.1" Condition="'$(Platform)' == 'x64'" />
-        <PackageReference Include="Magick.NET-Q16-HDRI-OpenMP-arm64" Version="13.4.0" Condition="'$(Platform)' == 'ARM64'" />
+        <PackageReference Include="Magick.NET-Q16-HDRI-OpenMP-arm64" Version="13.9.1" Condition="'$(Platform)' == 'ARM64'" />
         <PackageReference Include="Magick.NET.SystemDrawing" Version="7.2.6" />
         <PackageReference Include="Magick.NET.SystemWindowsMedia" Version="7.2.6" />
         <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2151.40" />
