@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<DOCUMENT Type="Advanced Installer" CreateVersion="16.6.1" version="21.8.2" Modules="architect" RootPath="." Language="en" Id="{F94250A5-86CD-4D74-BDB8-560C4CA1354D}">
+<DOCUMENT Type="Advanced Installer" CreateVersion="16.6.1" version="21.7.1" Modules="architect" RootPath="." Language="en" Id="{F94250A5-86CD-4D74-BDB8-560C4CA1354D}">
+  <COMPONENT cid="caphyon.advinst.msicomp.ProjectOptionsComponent">
+    <ROW Name="HiddenItems" Value="AppXProductDetailsComponent;AppXDependenciesComponent;AppXAppDetailsComponent;AppXVisualAssetsComponent;AppXCapabilitiesComponent;AppXAppDeclarationsComponent;AppXUriRulesComponent;FixupComponent;MsiXDiffComponent;MsixManifestEditorComponent"/>
+  </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiPropsComponent">
     <ROW Property="AI_APP_FILE" Value="[#ImageGlass.exe]"/>
     <ROW Property="AI_BITMAP_DISPLAY_MODE" Value="0"/>
@@ -22,10 +25,10 @@
     <ROW Property="MSIFASTINSTALL" MultiBuildValue="DefaultBuild:3"/>
     <ROW Property="Manufacturer" Value="Duong Dieu Phap"/>
     <ROW Property="MsiLogging" MultiBuildValue="DefaultBuild:vp"/>
-    <ROW Property="ProductCode" Value="1033:{8E74F7F4-A6E9-45C1-8E41-BDDF2A40A53B} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{A0A1D7F6-69DD-422C-913A-5C9A9A4B9953} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="ImageGlass"/>
-    <ROW Property="ProductVersion" Value="9.1.7.627" Options="32"/>
+    <ROW Property="ProductVersion" Value="9.1.6.14" Options="32"/>
     <ROW Property="RUNAPPLICATION" Value="1" Type="4"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{877DB994-AB03-4025-B99D-41CE565E810B}"/>
@@ -485,7 +488,6 @@
     <ROW File="Indonesian.iglang.json" Component_="Vietnamese.iglang.json" FileName="INDONE~1.JSO|Indonesian.iglang.json" Attributes="0" SourcePath="..\Assets\Language\Indonesian.iglang.json" SelfReg="false"/>
     <ROW File="Irish.iglang.json" Component_="Vietnamese.iglang.json" FileName="IRISHI~1.JSO|Irish.iglang.json" Attributes="0" SourcePath="..\Assets\Language\Irish.iglang.json" SelfReg="false"/>
     <ROW File="Kyrgyz.iglang.json" Component_="Vietnamese.iglang.json" FileName="KYRGYZ~1.JSO|Kyrgyz.iglang.json" Attributes="0" SourcePath="..\Assets\Language\Kyrgyz.iglang.json" SelfReg="false"/>
-    <ROW File="ArrowMove.svg" Component_="ArrowDown.svg" FileName="ARROWM~1.SVG|ArrowMove.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\Icons\ArrowMove.svg" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.AiPersistentPropComponent">
     <ROW Property="AI_INSTALLPERUSER" Registry="AI_INSTALLPERUSER" HklmSearch="AI_INSTALLPERUSER" HkcuSearch="AI_INSTALLPERUSER_1" Hklm64Search="AI_INSTALLPERUSER_2" Hkcu64Search="AI_INSTALLPERUSER_3"/>
