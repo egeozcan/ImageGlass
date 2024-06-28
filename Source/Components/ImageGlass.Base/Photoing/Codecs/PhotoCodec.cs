@@ -120,10 +120,7 @@ public static class PhotoCodec
                 // image color
                 meta.HasAlpha = imgC.Any(i => i.HasAlpha);
                 meta.ColorSpace = imgM.ColorSpace.ToString();
-
-                var isAnimatedExtension = ext == ".GIF" || ext == ".GIFV" || ext == ".WEBP";
-                meta.CanAnimate = imgC.Count > 1
-                    && (isAnimatedExtension || imgC.Any(i => i.GifDisposeMethod != GifDisposeMethod.Undefined));
+                meta.CanAnimate = CheckAnimatedFormat(imgC, ext);
 
 
                 // EXIF profile
@@ -782,14 +779,30 @@ public static class PhotoCodec
     #region Private functions
 
     /// <summary>
+    /// Checks if the image data is animated format.
+    /// </summary>
+    /// <param name="imgC"></param>
+    /// <param name="ext">File extension, e.g: <c>.gif</c></param>
+    private static bool CheckAnimatedFormat(MagickImageCollection imgC, string? ext)
+    {
+        var isAnimatedExtension = ext == ".GIF" || ext == ".GIFV" || ext == ".WEBP" || ext == ".JXL";
+
+        var canAnimate = imgC.Count > 1
+            && (isAnimatedExtension || imgC.Any(i => i.GifDisposeMethod != GifDisposeMethod.Undefined));
+
+        return canAnimate;
+    }
+
+
+    /// <summary>
     /// Read image file using stream
     /// </summary>
-    private static (bool loadSuccessful, IgImgData result, string ext, MagickReadSettings settings) ReadWithStream(string filePath, CodecReadOptions? options = null, ImgTransform? transform = null)
+    private static (bool loadSuccessful, IgImgData result, string ext, MagickReadSettings settings) ReadWithStream(string filePath, CodecReadOptions? options = null, ImgTransform? transform = null, IgMetadata? metadata = null)
     {
         options ??= new();
         var loadSuccessful = true;
 
-        var metadata = LoadMetadata(filePath, options);
+        metadata ??= LoadMetadata(filePath, options);
         var ext = Path.GetExtension(filePath).ToUpperInvariant();
         var settings = ParseSettings(options, false, filePath);
 
@@ -862,7 +875,7 @@ public static class PhotoCodec
                             return new AnimatedImgFrame(frame.Bitmap, duration);
                         });
 
-                        result.Source = new AnimatedImg(frames);
+                        result.Source = new AnimatedImg(frames, result.FrameCount);
                     }
                     else
                     {
@@ -944,6 +957,7 @@ public static class PhotoCodec
 
         // standardize first frame reading option
         result.FrameCount = imgColl.Count;
+        result.CanAnimate = CheckAnimatedFormat(imgColl, ext);
         bool readFirstFrameOnly;
 
         if (options.FirstFrameOnly == null)

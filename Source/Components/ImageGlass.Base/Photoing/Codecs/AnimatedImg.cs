@@ -21,7 +21,7 @@ namespace ImageGlass.Base.Photoing.Codecs;
 /// <summary>
 /// Initialize new instance of <see cref="AnimatedImg"/>.
 /// </summary>
-public class AnimatedImg(IEnumerable<AnimatedImgFrame> frames) : IDisposable
+public class AnimatedImg(IEnumerable<AnimatedImgFrame> frames, int? frameCount) : IDisposable
 {
 
     #region IDisposable Disposing
@@ -66,7 +66,7 @@ public class AnimatedImg(IEnumerable<AnimatedImgFrame> frames) : IDisposable
     /// <summary>
     /// Gets frams count.
     /// </summary>
-    public int FrameCount { get; private set; } = frames.Count();
+    public int FrameCount { get; private set; } = frameCount ?? frames.Count();
 
 
     /// <summary>

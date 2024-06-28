@@ -114,7 +114,7 @@ public class IgImgData : IDisposable
         if (data.MultiFrameImage != null)
         {
             HasAlpha = data.MultiFrameImage.Any(imgM => imgM.HasAlpha);
-            CanAnimate = data.MultiFrameImage.Any(imgM => imgM.GifDisposeMethod != GifDisposeMethod.Undefined);
+            CanAnimate = data.CanAnimate;
 
             if (CanAnimate)
             {
@@ -128,7 +128,7 @@ public class IgImgData : IDisposable
                     return new AnimatedImgFrame(frame.ToBitmap(), duration);
                 });
 
-                Source = new AnimatedImg(frames);
+                Source = new AnimatedImg(frames, data.FrameCount);
             }
             else
             {

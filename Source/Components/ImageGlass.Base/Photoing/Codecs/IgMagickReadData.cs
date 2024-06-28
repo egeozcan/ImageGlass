@@ -68,6 +68,8 @@ public class IgMagickReadData : IDisposable
     public int FrameCount { get; set; } = 0;
     public string Extension { get; set; } = string.Empty;
 
+    public bool CanAnimate { get; set; } = false;
+
     public MagickImageCollection? MultiFrameImage { get; set; } = null;
     public MagickImage? SingleFrameImage { get; set; } = null;
 
