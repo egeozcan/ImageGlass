@@ -26,41 +26,6 @@ namespace ImageGlass.Base;
 public partial class BHelper
 {
     /// <summary>
-    /// Convert string to float array, where numbers are separated by semicolons
-    /// </summary>
-    /// <param name="str">Input string. E.g. "12; -40; 50"</param>
-    /// <param name="unsignedOnly">whether negative numbers are allowed</param>
-    /// <param name="distinct">whether repitition of values is allowed</param>
-    public static IEnumerable<float> StringToFloatArray(string str, bool unsignedOnly = false, bool distinct = false)
-    {
-        var numberStrings = str.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-        var numbers = new List<float>();
-
-        foreach (var item in numberStrings)
-        {
-            // Issue #677: don't throw exception if we encounter invalid number,
-            // e.g. the comma-separated zoom values from pre-V7.5
-            if (!float.TryParse(item, NumberStyles.Float, Const.NumberFormat, out var num))
-                continue;
-
-            if (unsignedOnly && num < 0)
-            {
-                continue;
-            }
-
-            numbers.Add(num);
-        }
-
-        if (distinct)
-        {
-            return numbers.Distinct();
-        }
-
-        return numbers;
-    }
-
-
-    /// <summary>
     /// Center the given rectangle to the rectangle.
     /// </summary>
     /// <param name="rect1"></param>

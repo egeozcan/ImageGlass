@@ -349,7 +349,7 @@ public static class Config
     /// <summary>
     /// Gets, sets the version that requires to open Quick setup ImageGlass dialog.
     /// </summary>
-    public static int QuickSetupVersion { get; set; } = 0;
+    public static float QuickSetupVersion { get; set; } = 0f;
 
     /// <summary>
     /// Gets, sets 'Left' position of main window
