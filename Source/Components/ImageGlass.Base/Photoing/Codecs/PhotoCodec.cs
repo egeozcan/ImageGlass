@@ -1217,6 +1217,8 @@ public static class PhotoCodec
             // resize the image
             ApplySizeSettings(refImgM, options);
 
+            // for HEIC/HEIF, PreserveOrientation must be false
+            // see https://github.com/d2phap/ImageGlass/issues/1928
             if (options.CorrectRotation) refImgM.AutoOrient();
 
             // if always apply color profile
@@ -1307,15 +1309,6 @@ public static class PhotoCodec
             settings.SetDefine("svg:xml-parse-huge", "true");
             settings.Format = MagickFormat.Rsvg;
             settings.BackgroundColor = MagickColors.Transparent;
-        }
-        else if (ext.Equals(".HEIC", StringComparison.OrdinalIgnoreCase)
-            || ext.Equals(".HEIF", StringComparison.OrdinalIgnoreCase))
-        {
-            settings.SetDefines(new HeicReadDefines
-            {
-                PreserveOrientation = true,
-                DepthImage = true,
-            });
         }
         else if (ext.Equals(".JP2", StringComparison.OrdinalIgnoreCase))
         {
