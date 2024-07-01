@@ -22,6 +22,7 @@ using ImageGlass.Base.Update;
 using ImageGlass.Base.WinApi;
 using ImageGlass.Settings;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace ImageGlass;
 
@@ -46,9 +47,14 @@ internal static class Program
     {
         #region App configs
 
+        // use independent culture for formatting or parsing a string
+        CultureInfo.DefaultThreadCurrentCulture =
+            CultureInfo.DefaultThreadCurrentUICulture =
+            Thread.CurrentThread.CurrentCulture =
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
+
         // Issue #360: IG periodically searching for dismounted device.
         WindowApi.SetAppErrorMode();
-
         ApplicationConfiguration.Initialize();
 
 

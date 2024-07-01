@@ -21,6 +21,7 @@ using ImageGlass.Base;
 using ImageGlass.Base.WinApi;
 using ImageGlass.Settings;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace igcmd;
 
@@ -67,7 +68,13 @@ internal static class Program
     [STAThread]
     private static int Main(string[] args)
     {
-        #region Form configs
+        #region App configs
+
+        // use independent culture for formatting or parsing a string
+        CultureInfo.DefaultThreadCurrentCulture =
+            CultureInfo.DefaultThreadCurrentUICulture =
+            Thread.CurrentThread.CurrentCulture =
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
 
         // Issue #360: IG periodically searching for dismounted device.
         WindowApi.SetAppErrorMode();
