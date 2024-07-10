@@ -71,6 +71,7 @@ namespace ImageGlass.Heart {
             #region Settings
             if (ext.Equals(".SVG", StringComparison.OrdinalIgnoreCase)) {
                 settings.BackgroundColor = MagickColors.Transparent;
+                settings.Format = MagickFormat.Rsvg;
                 settings.SetDefine("svg:xml-parse-huge", "true");
             }
             else if (ext.Equals(".HEIC", StringComparison.OrdinalIgnoreCase)

@@ -2540,11 +2540,11 @@ namespace ImageGlass {
             var width = Math.Max(Configs.Theme.NavArrowLeft.Height, picMain.Width / 10);
 
             return new List<NavigationRegion> {
-                new NavigationRegion() {
+                new() {
                     Type = NavigationRegionType.Left,
                     Region = new Rectangle(0, 0, width, picMain.Height),
                 },
-                new NavigationRegion() {
+                new() {
                     Type = NavigationRegionType.Right,
                     Region = new Rectangle(picMain.Width - width, 0, width, picMain.Height),
                 }
@@ -4933,8 +4933,7 @@ namespace ImageGlass {
 
 
         private void mnuMainShare_Click(object sender, EventArgs e) {
-            var filename = "";
-
+            string filename;
             if (Local.IsTempMemoryData) {
                 filename = SaveTemporaryMemoryData();
             }
