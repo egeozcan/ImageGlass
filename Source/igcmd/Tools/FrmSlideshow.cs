@@ -93,6 +93,8 @@ public partial class FrmSlideshow : ThemedForm
         { nameof(MnuOpenWith),              new() { new (Keys.D) } },
         { nameof(MnuOpenLocation),          new() { new (Keys.L) } },
         { nameof(MnuCopyPath),              new() { new (Keys.Control | Keys.L) } },
+        { nameof(MnuMoveToRecycleBin),      new() { new (Keys.Delete) } },
+        { nameof(MnuDeleteFromHardDisk),    new() { new (Keys.Shift | Keys.Delete) } },
 
         { nameof(MnuExitSlideshow),         new() { new(Keys.Escape) } },
     };
@@ -1421,6 +1423,9 @@ public partial class FrmSlideshow : ThemedForm
         MnuOpenLocation.Text = lang[$"FrmMain.{nameof(MnuOpenLocation)}"];
         MnuCopyPath.Text = lang[$"FrmMain.{nameof(MnuCopyPath)}"];
 
+        MnuMoveToRecycleBin.Text = lang[$"FrmMain.{nameof(MnuMoveToRecycleBin)}"];
+        MnuDeleteFromHardDisk.Text = lang[$"FrmMain.{nameof(MnuDeleteFromHardDisk)}"];
+
     }
 
 
@@ -2139,6 +2144,95 @@ public partial class FrmSlideshow : ThemedForm
         catch { }
     }
 
+
+    private void MnuMoveToRecycleBin_Click(object sender, EventArgs e)
+    {
+        IG_Delete(true);
+    }
+
+
+    private void MnuDeleteFromHardDisk_Click(object sender, EventArgs e)
+    {
+        IG_Delete(false);
+    }
+
+
+    /// <summary>
+    /// Sends or permenantly deletes the current image.
+    /// </summary>
+    public void IG_Delete(bool moveToRecycleBin = true)
+    {
+        var filePath = _images.GetFilePath(_currentIndex);
+        if (!File.Exists(filePath)) return;
+
+        PopupResult? result = null;
+
+        var title = moveToRecycleBin
+            ? Config.Language[$"FrmMain.{nameof(MnuMoveToRecycleBin)}"]
+            : Config.Language[$"FrmMain.{nameof(MnuDeleteFromHardDisk)}"];
+
+        // pause slideshow
+        if (Config.EnableSlideshow)
+        {
+            SetSlideshowState(false, false);
+        }
+
+
+        if (Config.ShowDeleteConfirmation)
+        {
+            var heading = moveToRecycleBin
+                ? Config.Language[$"FrmMain.{nameof(MnuMoveToRecycleBin)}._Description"]
+                : Config.Language[$"FrmMain.{nameof(MnuDeleteFromHardDisk)}._Description"];
+
+            var overlayIcon = moveToRecycleBin
+                ? ShellStockIcon.SIID_RECYCLER
+                : ShellStockIcon.SIID_DELETE;
+
+            var fi = new FileInfo(filePath);
+            var description = filePath + "\r\n" +
+                    BHelper.FormatSize(fi.Length);
+
+            result = Config.ShowWarning(
+                description: description,
+                title: title,
+                heading: heading,
+                buttons: PopupButton.Yes_No,
+                icon: overlayIcon,
+                optionText: Config.Language["_._DoNotShowThisMessageAgain"],
+                formOwner: this);
+
+            // update the delete confirm setting
+            Config.ShowDeleteConfirmation = !result.IsOptionChecked;
+        }
+
+        if (result == null || result.ExitResult == PopupExitResult.OK)
+        {
+            try
+            {
+                BHelper.DeleteFile(filePath, moveToRecycleBin);
+
+                _images.Remove(_currentIndex);
+                _currentIndex = Math.Min(_images.Length - 1, _currentIndex);
+
+                _ = ViewNextImageAsync(0);
+            }
+            catch (Exception ex)
+            {
+                Config.ShowError(this, ex.Message, title);
+            }
+        }
+
+
+        // resume slideshow
+        if (Config.EnableSlideshow)
+        {
+            SetSlideshowState(true, false);
+        }
+    }
+
+
     #endregion // Menu events
 
+
+    
 }

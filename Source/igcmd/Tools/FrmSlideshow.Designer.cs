@@ -59,8 +59,11 @@
             MnuOpenWith = new ToolStripMenuItem();
             MnuOpenLocation = new ToolStripMenuItem();
             MnuCopyPath = new ToolStripMenuItem();
+            MnuMoveToRecycleBin = new ToolStripMenuItem();
             toolStripMenuItem5 = new ToolStripSeparator();
             MnuExitSlideshow = new ToolStripMenuItem();
+            MnuDeleteFromHardDisk = new ToolStripMenuItem();
+            toolStripSeparator1 = new ToolStripSeparator();
             MnuContext.SuspendLayout();
             SuspendLayout();
             // 
@@ -70,6 +73,7 @@
             PicMain.CheckFPS = false;
             PicMain.ContextMenuStrip = MnuContext;
             PicMain.Dock = DockStyle.Fill;
+            PicMain.EnableTransparent = true;
             PicMain.Location = new Point(0, 0);
             PicMain.Margin = new Padding(0);
             PicMain.Name = "PicMain";
@@ -93,9 +97,9 @@
             // 
             MnuContext.CurrentDpi = 96;
             MnuContext.ImageScalingSize = new Size(22, 22);
-            MnuContext.Items.AddRange(new ToolStripItem[] { MnuPauseResumeSlideshow, toolStripMenuItem1, MnuWindowFit, MnuFrameless, MnuFullScreen, MnuToggleCountdown, MnuToggleCheckerboard, toolStripMenuItem3, MnuChangeBackgroundColor, MnuNavigation, MnuActualSize, MnuZoomModes, MnuLoadingOrders, toolStripMenuItem2, MnuOpenWith, MnuOpenLocation, MnuCopyPath, toolStripMenuItem5, MnuExitSlideshow });
+            MnuContext.Items.AddRange(new ToolStripItem[] { MnuPauseResumeSlideshow, toolStripMenuItem1, MnuWindowFit, MnuFrameless, MnuFullScreen, MnuToggleCountdown, MnuToggleCheckerboard, toolStripMenuItem3, MnuChangeBackgroundColor, MnuNavigation, MnuActualSize, MnuZoomModes, MnuLoadingOrders, toolStripMenuItem2, MnuCopyPath, MnuMoveToRecycleBin, MnuDeleteFromHardDisk, toolStripSeparator1, MnuOpenWith, MnuOpenLocation, toolStripMenuItem5, MnuExitSlideshow });
             MnuContext.Name = "MnuContext";
-            MnuContext.Size = new Size(246, 358);
+            MnuContext.Size = new Size(246, 430);
             MnuContext.Opening += MnuContext_Opening;
             // 
             // MnuPauseResumeSlideshow
@@ -324,6 +328,15 @@
             MnuCopyPath.Text = "[Copy image path]";
             MnuCopyPath.Click += MnuCopyPath_Click;
             // 
+            // MnuMoveToRecycleBin
+            // 
+            MnuMoveToRecycleBin.ImageAlign = ContentAlignment.MiddleLeft;
+            MnuMoveToRecycleBin.ImageScaling = ToolStripItemImageScaling.None;
+            MnuMoveToRecycleBin.Name = "MnuMoveToRecycleBin";
+            MnuMoveToRecycleBin.Size = new Size(245, 22);
+            MnuMoveToRecycleBin.Text = "[Move to Recycle bin]";
+            MnuMoveToRecycleBin.Click += MnuMoveToRecycleBin_Click;
+            // 
             // toolStripMenuItem5
             // 
             toolStripMenuItem5.Name = "toolStripMenuItem5";
@@ -338,6 +351,20 @@
             MnuExitSlideshow.Text = "[Exit slideshow]";
             MnuExitSlideshow.Click += MnuExitSlideshow_Click;
             // 
+            // MnuDeleteFromHardDisk
+            // 
+            MnuDeleteFromHardDisk.ImageAlign = ContentAlignment.MiddleLeft;
+            MnuDeleteFromHardDisk.ImageScaling = ToolStripItemImageScaling.None;
+            MnuDeleteFromHardDisk.Name = "MnuDeleteFromHardDisk";
+            MnuDeleteFromHardDisk.Size = new Size(245, 22);
+            MnuDeleteFromHardDisk.Text = "[Delete from hard disk]";
+            MnuDeleteFromHardDisk.Click += MnuDeleteFromHardDisk_Click;
+            // 
+            // toolStripSeparator1
+            // 
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new Size(242, 6);
+            // 
             // FrmSlideshow
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
@@ -345,7 +372,7 @@
             ClientSize = new Size(628, 388);
             Controls.Add(PicMain);
             KeyPreview = true;
-            Margin = new Padding(2, 2, 2, 2);
+            Margin = new Padding(2);
             Name = "FrmSlideshow";
             KeyDown += FrmSlideshow_KeyDown;
             MnuContext.ResumeLayout(false);
@@ -386,5 +413,8 @@
         private ToolStripMenuItem MnuToggleCountdown;
         private ToolStripMenuItem MnuChangeBackgroundColor;
         private ToolStripSeparator toolStripMenuItem5;
+        private ToolStripMenuItem MnuMoveToRecycleBin;
+        private ToolStripMenuItem MnuDeleteFromHardDisk;
+        private ToolStripSeparator toolStripSeparator1;
     }
 }
