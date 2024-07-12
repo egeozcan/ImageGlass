@@ -472,6 +472,20 @@ public static class PhotoCodec
             {
                 imgData.SingleFrameImage.Quality = quality;
 
+                // resize ICO file if it's larger than 256
+                if (ext == ".ICO")
+                {
+                    var imgW = imgData.SingleFrameImage.Width;
+                    var imgH = imgData.SingleFrameImage.Height;
+                    const int MAX_ICON_SIZE = 256;
+
+                    if (imgW > MAX_ICON_SIZE || imgH > MAX_ICON_SIZE)
+                    {
+                        var iconSize = GetMaxImageRenderSize(imgW, imgH, MAX_ICON_SIZE);
+                        imgData.SingleFrameImage.Scale(iconSize.Width, iconSize.Height);
+                    }
+                }
+
                 await imgData.SingleFrameImage.WriteAsync(destFilePath, token);
             }
         }
@@ -1145,19 +1159,19 @@ public static class PhotoCodec
     /// <summary>
     /// Gets maximum image dimention.
     /// </summary>
-    private static Size GetMaxImageRenderSize(int srcWidth, int srcHeight)
+    private static Size GetMaxImageRenderSize(int srcWidth, int srcHeight, int maxSize = Const.MAX_IMAGE_DIMENSION)
     {
         var widthScale = 1f;
         var heightScale = 1f;
 
-        if (srcWidth > Const.MAX_IMAGE_DIMENSION)
+        if (srcWidth > maxSize)
         {
-            widthScale = 1f * Const.MAX_IMAGE_DIMENSION / srcWidth;
+            widthScale = 1f * maxSize / srcWidth;
         }
 
-        if (srcHeight > Const.MAX_IMAGE_DIMENSION)
+        if (srcHeight > maxSize)
         {
-            heightScale = 1f * Const.MAX_IMAGE_DIMENSION / srcHeight;
+            heightScale = 1f * maxSize / srcHeight;
         }
 
         var scale = Math.Min(widthScale, heightScale);
