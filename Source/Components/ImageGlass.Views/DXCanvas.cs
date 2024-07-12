@@ -1232,30 +1232,40 @@ public partial class DXCanvas : DXControl
         #region Distinguish between clicks
         if (_mouseDownButton != MouseButtons.None)
         {
-            if (_isDoubleClick)
+            // always treat Middle & XButtons as single click
+            if (_mouseDownButton == MouseButtons.Middle
+                || _mouseDownButton == MouseButtons.XButton1
+                || _mouseDownButton == MouseButtons.XButton2)
             {
-                _isDoubleClick = false;
-
-                var length = DateTime.UtcNow - _lastClick;
-
-                // If double click is valid, respond
-                if (_doubleClickArea.Contains(e.Location) && length < _doubleClickMaxTime)
-                {
-                    _clickTimer.Stop();
-                    if (this.CheckWhichNav(e.Location) == MouseAndNavLocation.Outside)
-                    {
-                        base.OnMouseDoubleClick(e);
-                    }
-                }
+                base.OnMouseClick(e);
             }
             else
             {
-                // Double click was invalid, restart 
-                _clickTimer.Stop();
-                _clickTimer.Start();
-                _lastClick = DateTime.UtcNow;
-                _isDoubleClick = true;
-                _doubleClickArea = new(e.Location - (SystemInformation.DoubleClickSize / 2), SystemInformation.DoubleClickSize);
+                if (_isDoubleClick)
+                {
+                    _isDoubleClick = false;
+
+                    var length = DateTime.UtcNow - _lastClick;
+
+                    // If double click is valid, respond
+                    if (_doubleClickArea.Contains(e.Location) && length < _doubleClickMaxTime)
+                    {
+                        _clickTimer.Stop();
+                        if (this.CheckWhichNav(e.Location) == MouseAndNavLocation.Outside)
+                        {
+                            base.OnMouseDoubleClick(e);
+                        }
+                    }
+                }
+                else
+                {
+                    // Double click was invalid, restart 
+                    _clickTimer.Stop();
+                    _clickTimer.Start();
+                    _lastClick = DateTime.UtcNow;
+                    _isDoubleClick = true;
+                    _doubleClickArea = new(e.Location - (SystemInformation.DoubleClickSize / 2), SystemInformation.DoubleClickSize);
+                }
             }
 
 

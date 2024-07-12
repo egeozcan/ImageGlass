@@ -274,18 +274,6 @@ public partial class FrmMain
         {
             ExecuteMouseAction(MouseClickEvent.RightDoubleClick);
         }
-        else if (e.Button == MouseButtons.Middle)
-        {
-            ExecuteMouseAction(MouseClickEvent.WheelDoubleClick);
-        }
-        else if (e.Button == MouseButtons.XButton1)
-        {
-            ExecuteMouseAction(MouseClickEvent.XButton1DoubleClick);
-        }
-        else if (e.Button == MouseButtons.XButton2)
-        {
-            ExecuteMouseAction(MouseClickEvent.XButton2DoubleClick);
-        }
     }
 
 

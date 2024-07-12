@@ -32,13 +32,9 @@ public enum MouseClickEvent
     RightDoubleClick = 4,
 
     XButton1Click = 5,
-    XButton1DoubleClick = 6,
+    XButton2Click = 6,
 
-    XButton2Click = 7,
-    XButton2DoubleClick = 8,
-
-    WheelClick = 9,
-    WheelDoubleClick = 10,
+    WheelClick = 7,
 }
 
 
