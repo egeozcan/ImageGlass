@@ -704,11 +704,11 @@ public partial class FrmSettings : WebForm
 
     private static async Task OpenUserConfigFileAsync(string filePath)
     {
-        var result = await BHelper.RunExeCmd($"\"{filePath}\"", "", false);
+        var result = await BHelper.RunExeCmd($"\"{filePath}\"", "", false, false);
 
         if (result == IgExitCode.Error)
         {
-            result = await BHelper.RunExeCmd("notepad", $"\"{filePath}\"", false);
+            result = await BHelper.RunExeCmd("notepad", $"\"{filePath}\"", false, false);
         }
     }
 

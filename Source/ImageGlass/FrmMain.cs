@@ -1697,7 +1697,7 @@ public partial class FrmMain : ThemedForm
                     .Select(i => $"{i}".Replace(Const.FILE_MACRO, $"\"{currentFilePath}\""))
                     .ToArray()) ?? string.Empty;
 
-            var result = await BHelper.RunExeCmd(ac.Executable, procArgs, true);
+            var result = await BHelper.RunExeCmd(ac.Executable, procArgs, false, false);
             if (result != IgExitCode.Done)
             {
                 error = new Exception(ZString.Format(Config.Language[$"{langPath}._Win32ExeError"], ac.Executable));

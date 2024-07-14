@@ -1916,7 +1916,7 @@ public static class Config
 
         var allArgs = $"{args} {lightThemeCmd} {darkThemeCmd} {langCmd}";
 
-        return await BHelper.RunExeCmd(exePath, allArgs, waitForExit);
+        return await BHelper.RunExeCmd(exePath, allArgs, waitForExit, true);
     }
 
 

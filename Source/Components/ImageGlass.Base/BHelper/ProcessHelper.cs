@@ -126,14 +126,18 @@ public partial class BHelper
     /// Run a command, supports auto-elevating process privilege
     /// if admin permission is required.
     /// </summary>
-    /// <returns></returns>
-    public static async Task<IgExitCode> RunExeCmd(string exePath, string args, bool waitForExit = true)
+    public static async Task<IgExitCode> RunExeCmd(string exePath, string args, bool waitForExit = true, bool appendIgArgs = true)
     {
         IgExitCode code;
 
         try
         {
-            code = (IgExitCode)await RunExeAsync(exePath, $"{args} {IgCommands.HIDE_ADMIN_REQUIRED_ERROR_UI}", false, waitForExit);
+            if (appendIgArgs)
+            {
+                args += $" {IgCommands.HIDE_ADMIN_REQUIRED_ERROR_UI}";
+            }
+
+            code = (IgExitCode)await RunExeAsync(exePath, args, false, waitForExit);
 
 
             // If that fails due to privs error, re-attempt with admin privs.
