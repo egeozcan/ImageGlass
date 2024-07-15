@@ -129,6 +129,7 @@ public static class ID2D1Bitmap1Extensions
     {
         if (srcBitmap1 == null) return null;
 
+
         var bmpProps = new D2D1_BITMAP_PROPERTIES1()
         {
             bitmapOptions = D2D1_BITMAP_OPTIONS.D2D1_BITMAP_OPTIONS_TARGET,
@@ -145,25 +146,8 @@ public static class ID2D1Bitmap1Extensions
         dc.Object.GetImageLocalBounds(srcBitmap1.Object, out var outputRect);
         var newD2dBitmap = dc.CreateBitmap<ID2D1Bitmap1>(outputRect.SizeU, bmpProps);
 
-
-        // save current Target, replace by ID2D1Bitmap
-        dc.Object.GetTarget(out var oldTarget);
-        var oldTargetObj = new ComObject<ID2D1Image>(oldTarget);
-        dc.SetTarget(newD2dBitmap);
-
-
-        // draw Image on Target
-        dc.BeginDraw();
-        dc.DrawImage(srcBitmap1, D2D1_INTERPOLATION_MODE.D2D1_INTERPOLATION_MODE_NEAREST_NEIGHBOR, D2D1_COMPOSITE_MODE.D2D1_COMPOSITE_MODE_SOURCE_OVER);
-        dc.EndDraw();
-
-
-        // set previous Target
-        dc.SetTarget(oldTargetObj);
-
-
-        // release resources
-        oldTargetObj.Dispose();
+        // copy bitmap source
+        newD2dBitmap.CopyFromBitmap(srcBitmap1);
 
         return newD2dBitmap;
     }
