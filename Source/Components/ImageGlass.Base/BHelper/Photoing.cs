@@ -154,7 +154,7 @@ public partial class BHelper
             Format = MimeTypeToMagickFormat(MimeType)
         };
 
-        if (settings.Format == MagickFormat.Svg)
+        if (settings.Format == MagickFormat.Rsvg)
         {
             settings.BackgroundColor = MagickColors.Transparent;
         }
@@ -329,7 +329,7 @@ public partial class BHelper
             Format = MimeTypeToMagickFormat(MimeType)
         };
 
-        if (settings.Format == MagickFormat.Svg)
+        if (settings.Format == MagickFormat.Rsvg)
         {
             settings.BackgroundColor = MagickColors.Transparent;
         }
@@ -651,7 +651,7 @@ public partial class BHelper
             "image/gif" => MagickFormat.Gif,
             "image/tiff" => MagickFormat.Tiff,
             "image/jpeg" => MagickFormat.Jpeg,
-            "image/svg+xml" => MagickFormat.Svg,
+            "image/svg+xml" => MagickFormat.Rsvg,
             "image/x-icon" => MagickFormat.Ico,
             "image/x-portable-anymap" => MagickFormat.Pnm,
             "image/x-portable-bitmap" => MagickFormat.Pbm,
