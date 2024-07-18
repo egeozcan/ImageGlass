@@ -1380,7 +1380,7 @@ public static class PhotoCodec
         // Fix RAW color
         settings.SetDefines(new DngReadDefines()
         {
-            UseCameraWhitebalance = true,
+            UseCameraWhiteBalance = true,
             OutputColor = DngOutputColor.SRGB,
             ReadThumbnail = true,
         });
