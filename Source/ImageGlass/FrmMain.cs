@@ -29,6 +29,7 @@ using ImageGlass.UI;
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Text.Json;
 using WicNet;
 
 namespace ImageGlass;
@@ -1634,13 +1635,10 @@ public partial class FrmMain : ThemedForm
 
                     // get argument value
                     var argument = ac.Arguments.Skip(i).Take(1).FirstOrDefault();
+                    if (argument is JsonElement) argument = argument.ToString();
 
 
-                    if (type.Equals(typeof(string)))
-                    {
-                        mParamValue = argument?.ToString();
-                    }
-                    else if (type.IsPrimitive)
+                    if (type.IsPrimitive || type.Equals(typeof(string)))
                     {
                         if (string.IsNullOrEmpty(argument?.ToString()))
                         {
