@@ -1635,7 +1635,12 @@ public partial class FrmMain : ThemedForm
                     // get argument value
                     var argument = ac.Arguments.Skip(i).Take(1).FirstOrDefault();
 
-                    if (type.IsPrimitive || type.Equals(typeof(string)))
+
+                    if (type.Equals(typeof(string)))
+                    {
+                        mParamValue = argument?.ToString();
+                    }
+                    else if (type.IsPrimitive)
                     {
                         if (string.IsNullOrEmpty(argument?.ToString()))
                         {
