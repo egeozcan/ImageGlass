@@ -1,10 +1,12 @@
 select {
   @include baseControl();
 
-  padding-top: calc(0.325rem - 1px);
-  padding-right: calc(0.5rem - 4px);
-  padding-bottom: calc(0.325rem - 1px);
-  padding-left: calc(0.325rem - 4px);
+  & {
+    padding-top: calc(0.325rem - 1px);
+    padding-right: calc(0.5rem - 4px);
+    padding-bottom: calc(0.325rem - 1px);
+    padding-left: calc(0.325rem - 4px);
+  }
 
   // list box interface
   &[size]:not(:disabled) {

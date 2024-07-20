@@ -7,8 +7,10 @@ input[type=color],
 textarea {
   @include baseControl();
 
-  font-size: 95%;
-  padding: 0.325rem;
+  & {
+    font-size: 95%;
+    padding: 0.325rem;
+  }
 
   &:focus {
     background-color: rgb(var(--ControlBgPressed));

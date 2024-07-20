@@ -3,11 +3,13 @@ button,
   --controlWidth: none;
   @include baseControl();
 
-  overflow: hidden;
-  position: relative;
-  font-size: 95%;
-  white-space: nowrap;
-  padding: 0.3rem 1rem 0.35rem 1rem;
+  & {
+    overflow: hidden;
+    position: relative;
+    font-size: 95%;
+    white-space: nowrap;
+    padding: 0.3rem 1rem 0.35rem 1rem;
+  }
 
   * {
     pointer-events: none;
