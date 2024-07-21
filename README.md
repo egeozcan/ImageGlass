@@ -38,7 +38,7 @@ ImageGlass is a lightweight software designed for seamless viewing of images in 
 ### Difference Between ImageGlass Classic and Store Release
 |  | ImageGlass Classic | [ImageGlass Store](https://apps.microsoft.com/detail/9N33VZK3C7TH?launch=true&cid=GitHubRelease&mode=full) | 
 | -- | -- | -- |
-| [All features](https://imageglass.org/docs/features), including<br/>- Explorer sort order<br/>- Color management<br/>- Window modes<br/>- Slideshow mode<br/>- App customization | ✅ | ✅ |
+| [All features](https://imageglass.org/docs/features), <br/>including Explorer sort order | ✅ | ✅ |
 | [Advanced configs<br/>for Power users](https://imageglass.org/docs/app-configs) | ✅ | ✅ |
 | Distribution | 🌐[ImageGlass.org](https://imageglass.org) and various sources | 🛍️[Microsoft Store](https://apps.microsoft.com/detail/9N33VZK3C7TH?launch=true&cid=GitHubRelease&mode=full) only |
 | Price | 🆓 Free | 🪙Fee, with a 7-day trial |
