@@ -30,6 +30,13 @@ public partial class FrmUpdate : WebForm
     public FrmUpdate()
     {
         InitializeComponent();
+
+        // if WebView2 not installed
+        if (Web2.Webview2Version == null)
+        {
+            Opacity = 0;
+            _ = ShowNativeUpdateDialogAsync();
+        }
     }
 
 
@@ -79,26 +86,19 @@ public partial class FrmUpdate : WebForm
 
 
         // check for update
-        await _updater.GetUpdatesAsync();
-        await Task.Delay(1000);
-
+        var release = await GetUpdateInfoAsync(1000);
 
         // show result
         var status = _updater.HasNewUpdate ? "outdated" : "updated";
-        var newVersion = _updater.CurrentReleaseInfo?.Version ?? "";
-        var releasedDate = _updater.CurrentReleaseInfo?.PublishedDate.ToString(Const.DATETIME_FORMAT) ?? "";
-        var releaseTitle = _updater.CurrentReleaseInfo?.Title ?? "";
-        var releaseLink = _updater.CurrentReleaseInfo?.ChangelogUrl.ToString() ?? "";
-        var releaseDetails = _updater.CurrentReleaseInfo?.Description?.Replace("\r\n", "<br/>") ?? "";
 
         await Web2.ExecuteScriptAsync(@$"
             window._page.loadData({{
                 CurrentVersion: '{App.Version} ({archInfo})',
-                LatestVersion: '{newVersion}',
-                PublishedDate: '{releasedDate}',
-                ReleaseTitle: '{releaseTitle}',
-                ReleaseLink: '{releaseLink}',
-                ReleaseDetails: `{releaseDetails}`,
+                LatestVersion: '{release.NewVersion}',
+                PublishedDate: '{release.ReleasedDate}',
+                ReleaseTitle: '{release.Title}',
+                ReleaseLink: '{release.Link}',
+                ReleaseDetails: `{release.Details}`,
             }});
 
             document.documentElement.setAttribute('app-status', '{status}');
@@ -133,5 +133,95 @@ public partial class FrmUpdate : WebForm
 
     #endregion // Protected / override methods
 
+
+    public async Task<(string NewVersion, string ReleasedDate, string Title, string Link, string Details)> GetUpdateInfoAsync(int delayMs = 0)
+    {
+        // check for update
+        await _updater.GetUpdatesAsync();
+        await Task.Delay(delayMs);
+
+
+        // show results
+        var status = _updater.HasNewUpdate ? "outdated" : "updated";
+        var newVersion = _updater.CurrentReleaseInfo?.Version ?? "";
+        var releasedDate = _updater.CurrentReleaseInfo?.PublishedDate.ToString(Const.DATETIME_FORMAT) ?? "";
+        var releaseTitle = _updater.CurrentReleaseInfo?.Title ?? "";
+        var releaseLink = _updater.CurrentReleaseInfo?.ChangelogUrl.ToString() ?? "";
+        var releaseDetails = _updater.CurrentReleaseInfo?.Description?.Replace("\r\n", "<br/>") ?? "";
+
+
+        return (newVersion, releasedDate, releaseTitle, releaseLink, releaseDetails);
+    }
+
+
+    private async Task ShowNativeUpdateDialogAsync()
+    {
+        // get release info
+        var release = await GetUpdateInfoAsync();
+
+        var langPath = nameof(FrmUpdate);
+        var archInfo = Environment.Is64BitOperatingSystem ? "64-bit" : "32-bit";
+        var appVersion = App.Version + $" ({archInfo})";
+
+        // footer buttons
+        var btnIgStore = new TaskDialogButton("Get ImageGlass Store", allowCloseDialog: false);
+        var btnUpdate = new TaskDialogButton(Config.Language["_._Update"], allowCloseDialog: false);
+        var btnClose = new TaskDialogButton(Config.Language["_._Close"], allowCloseDialog: true);
+
+        btnIgStore.Click += (_, _) => BHelper.OpenImageGlassMsStore();
+        btnUpdate.Click += async (_, _) => await BHelper.OpenUrlAsync(release.Link, "from_update");
+
+
+        var btns = new TaskDialogButtonCollection()
+        {
+            btnUpdate, btnClose,
+        };
+        if (!BHelper.IsRunningAsUwp())
+        {
+            btns.Insert(0, btnIgStore);
+        }
+
+        // content
+        var page = new TaskDialogPage()
+        {
+            Icon = new TaskDialogIcon(Icon),
+            Buttons = btns,
+            SizeToContent = true,
+            AllowCancel = true,
+            EnableLinks = true,
+            Caption = Config.Language["_._CheckForUpdate"],
+
+            Heading = _updater.HasNewUpdate
+                ? Config.Language[$"{langPath}._StatusOutdated"]
+                : Config.Language[$"{langPath}._StatusUpdated"],
+
+            Text = $"{string.Format(Config.Language[$"{langPath}._CurrentVersion"], appVersion)}\r\n" +
+                $"{string.Format(Config.Language[$"{langPath}._LatestVersion"], release.NewVersion)}\r\n" +
+                $"{string.Format(Config.Language[$"{langPath}._PublishedDate"], release.ReleasedDate)}\r\n" +
+                $"\r\n" +
+                $"<a href=\"{release.Link}\">{release.Title}</a>\r\n" +
+                $"\r\n" +
+                $"{release.Details}",
+
+            Footnote = new()
+            {
+                Icon = TaskDialogIcon.ShieldSuccessGreenBar,
+                Text = "" +
+                    $"{Config.Language["FrmAbout._License"]}: <a href=\"https://imageglass.org/license\">https://imageglass.org/license</a>\r\n" +
+                    $"Copyright © 2010-{DateTime.Now.Year} by Dương Diệu Pháp. All rights reserved.",
+            },
+        };
+
+        page.LinkClicked += async (object? sender, TaskDialogLinkClickedEventArgs e) =>
+        {
+            await BHelper.OpenUrlAsync(e.LinkHref, "from_update");
+        };
+
+
+        // show dialog
+        _ = TaskDialog.ShowDialog(this, page);
+
+        Close();
+    }
 
 }
