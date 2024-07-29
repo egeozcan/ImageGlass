@@ -3,10 +3,9 @@ ImageGlass Software End-User License Agreement (EULA)
 This is a legal agreement between you and ImageGlass Software
 (Duong Dieu Phap) covering the use of ImageGlass (the "Software").
 
-ImageGlass is copyright (c) 2010 - 2023 by Duong Dieu Phap.
+ImageGlass is copyright (c) 2010 - 2024 by Duong Dieu Phap.
 - Official website: https://imageglass.org
-- Source code: https://imageglass.org/source or
-  https://github.com/d2phap/ImageGlass
+- Source code: https://github.com/d2phap/ImageGlass
 
 1) ImageGlass is an open-source software available in two main releases:
 ImageGlass Store and ImageGlass Classic.
@@ -14,18 +13,15 @@ ImageGlass Store and ImageGlass Classic.
       paid version.
   1b) ImageGlass Classic is free for both personal and commercial use.
       It is not available on Microsoft Store.
-  1c) If you intend to use ImageGlass Classic at your place of business or for
-      commercial purposes, it's recommended but not enforced to register
-      at https://imageglass.org/license.
+  1c) If you intend to use ImageGlass Classic at your place of business
+      or for commercial purposes, submitting an optional registration
+      at https://imageglass.org/license would be appreciated.
   1d) By installing, copying, or otherwise using the Software, you agree to
       be bound by the terms of this EULA.
 
-2) The name and logo of ImageGlass Software are the property of Duong
-Dieu Phap and are protected by copyright laws and international treaty
-provisions. Therefore, the Software must be treated as any other
-copyrighted material. Any software utilizing the ImageGlass source code
-must obtain written permission from the author before using the ImageGlass
-Software name and logo.
+2) The ImageGlass name and logo are trademarks of Duong Dieu Phap.
+Written permission must be obtained prior to using the ImageGlass name
+or logo in any distributed works.
 
 3) Warranty Disclaimer: ImageGlass and documentation are provided "as is"
 without any warranty, express or implied, including, but not limited to,
