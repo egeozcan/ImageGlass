@@ -846,7 +846,8 @@ public partial class FrmMain : ThemedForm
 
             // check if we should use Webview2 viewer
             var useWebview2 = Config.UseWebview2ForSvg
-                && imgFilePath.EndsWith(".svg", StringComparison.InvariantCultureIgnoreCase);
+                && imgFilePath.EndsWith(".svg", StringComparison.InvariantCultureIgnoreCase)
+                && Web2.CheckWebview2Installed();
 
 
             // set busy state
