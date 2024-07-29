@@ -858,13 +858,85 @@ public partial class FrmMain
     /// <summary>
     /// Open About dialog
     /// </summary>
-    public static void IG_About()
+    public void IG_About()
     {
+        // if WebView2 not installed
+        if (Web2.Webview2Version == null)
+        {
+            ShowNativeAboutDialog();
+            return;
+        }
+        
+        
         using var frm = new FrmAbout()
         {
             StartPosition = FormStartPosition.CenterParent,
         };
         frm.ShowDialog();
+    }
+    private void ShowNativeAboutDialog()
+    {
+        var langPath = nameof(FrmAbout);
+
+        var archInfo = Environment.Is64BitOperatingSystem ? "64-bit" : "32-bit";
+        var appVersion = App.Version + $" ({archInfo})";
+
+
+        // footer buttons
+        var btnDonate = new TaskDialogButton(Config.Language[$"{langPath}._Donate"], allowCloseDialog: false);
+        var btnCheckForUpdate = new TaskDialogButton(Config.Language["_._CheckForUpdate"], allowCloseDialog: false);
+        var btnClose = new TaskDialogButton(Config.Language["_._Close"], allowCloseDialog: true);
+
+        btnDonate.Click += async (_, _) => await BHelper.OpenUrlAsync("https://imageglass.org/support", "from_about_donate");
+        btnCheckForUpdate.Click += (_, _) => IG_CheckForUpdate(true);
+
+
+        // content
+        var page = new TaskDialogPage()
+        {
+            Icon = new TaskDialogIcon(Icon),
+            Buttons = [btnDonate, btnCheckForUpdate, btnClose],
+            SizeToContent = true,
+            AllowCancel = true,
+            EnableLinks = true,
+            Caption = Config.Language[$"{nameof(FrmMain)}.{nameof(MnuAbout)}"],
+
+            Heading = $"{Application.ProductName} {Const.APP_CODE.CapitalizeFirst()}\r\n" +
+                $"{Config.Language[$"{langPath}._Slogan"]}\r\n" +
+                $"\r\n" +
+                $"{Config.Language[$"{langPath}._Version"]} {appVersion}\r\n" +
+                $".NET Runtime: {Environment.Version}\r\n" +
+                $"WebView2 Runtime: {Web2.Webview2Version}\r\n" +
+                $"\r\n" +
+                $"{ImageMagick.MagickNET.Version}",
+
+            Text = $"{Config.Language[$"{langPath}._Thanks"]}\r\n" +
+                    $"◾ {Config.Language[$"{langPath}._LogoDesigner"]} Nguyễn Quốc Tuấn.\r\n" +
+                    $"◾ {Config.Language[$"{langPath}._Collaborator"]} Kevin Routley (<a href=\"https://github.com/fire-eggs\">https://github.com/fire-eggs</a>).\r\n" +
+                    $"\r\n" +
+
+                    $"{Config.Language[$"{langPath}._Contact"]}\r\n" +
+                    $"◾ {Config.Language[$"{langPath}._Homepage"]} <a href=\"https://imageglass.org\">https://imageglass.org</a>\r\n" +
+                    $"◾ GitHub: <a href=\"https://github.com/d2phap/ImageGlass\">https://github.com/d2phap/ImageGlass</a>\r\n" +
+                    $"◾ {Config.Language[$"{langPath}._Email"]} phap@imageglass.org",
+
+            Footnote = new()
+            {
+                Icon = TaskDialogIcon.ShieldSuccessGreenBar,
+                Text = "" +
+                    $"{Config.Language[$"{langPath}._License"]}: <a href=\"https://imageglass.org/license\">https://imageglass.org/license</a>\r\n" +
+                    $"Copyright © 2010-{DateTime.Now.Year} by Dương Diệu Pháp. All rights reserved.",
+            },
+        };
+
+        page.LinkClicked += async (object? sender, TaskDialogLinkClickedEventArgs e) =>
+        {
+            await BHelper.OpenUrlAsync(e.LinkHref, "from_about");
+        };
+
+
+        // show dialog
+        _ = TaskDialog.ShowDialog(this, page);
     }
 
 
