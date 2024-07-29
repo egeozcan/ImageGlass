@@ -861,7 +861,7 @@ public partial class FrmMain
     public void IG_About()
     {
         // if WebView2 not installed
-        if (Web2.Webview2Version == null)
+        if (!Web2.CheckWebview2Installed())
         {
             ShowNativeAboutDialog();
             return;
@@ -956,7 +956,7 @@ public partial class FrmMain
     public void IG_OpenSettings()
     {
         // if WebView2 not installed, open config.json file
-        if (Web2.Webview2Version == null)
+        if (!Web2.CheckWebview2Installed())
         {
             var configFilePath = App.ConfigDir(PathType.File, Source.UserFilename);
             _ = FrmSettings.OpenUserConfigFileAsync(configFilePath);

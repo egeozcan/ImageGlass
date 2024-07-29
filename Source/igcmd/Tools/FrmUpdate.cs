@@ -32,7 +32,7 @@ public partial class FrmUpdate : WebForm
         InitializeComponent();
 
         // if WebView2 not installed
-        if (Web2.Webview2Version == null)
+        if (!Web2.CheckWebview2Installed())
         {
             Opacity = 0;
             _ = ShowNativeUpdateDialogAsync();

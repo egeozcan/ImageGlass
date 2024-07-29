@@ -30,7 +30,7 @@ public partial class FrmQuickSetup : WebForm
 
 
         // if WebView2 not installed, skip the Quick setup
-        if (Web2.Webview2Version == null)
+        if (!Web2.CheckWebview2Installed())
         {
             _ = SkipAndLaunchAsync();
         }
