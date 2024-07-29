@@ -883,6 +883,16 @@ public partial class FrmMain
     /// </summary>
     public void IG_OpenSettings()
     {
+        // if WebView2 not installed, open config.json file
+        if (Web2.Webview2Version == null)
+        {
+            var configFilePath = App.ConfigDir(PathType.File, Source.UserFilename);
+            _ = FrmSettings.OpenUserConfigFileAsync(configFilePath);
+
+            return;
+        }
+
+
         if (Local.FrmSettings.IsDisposed)
         {
             Local.FrmSettings = new();

@@ -702,7 +702,7 @@ public partial class FrmSettings : WebForm
     }
 
 
-    private static async Task OpenUserConfigFileAsync(string filePath)
+    public static async Task OpenUserConfigFileAsync(string filePath)
     {
         var result = await BHelper.RunExeCmd($"\"{filePath}\"", "", false, false);
 
