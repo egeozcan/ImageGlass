@@ -27,6 +27,13 @@ public partial class FrmQuickSetup : WebForm
     public FrmQuickSetup()
     {
         InitializeComponent();
+
+
+        // if WebView2 not installed, skip the Quick setup
+        if (Web2.Webview2Version == null)
+        {
+            _ = SkipAndLaunchAsync();
+        }
     }
 
 
@@ -97,11 +104,7 @@ public partial class FrmQuickSetup : WebForm
         }
         else if (e.Name.Equals("SKIP_AND_LAUNCH", StringComparison.InvariantCultureIgnoreCase))
         {
-            Config.QuickSetupVersion = Const.QUICK_SETUP_VERSION;
-            await Config.WriteAsync();
-
-            CmdHelper.LaunchImageGlass();
-            Close();
+            await SkipAndLaunchAsync();
         }
         else if (e.Name.Equals("LOAD_LANGUAGE", StringComparison.InvariantCultureIgnoreCase))
         {
@@ -162,6 +165,16 @@ public partial class FrmQuickSetup : WebForm
     private async Task ApplyAndCloseAsync()
     {
         // write settings
+        await Config.WriteAsync();
+
+        CmdHelper.LaunchImageGlass();
+        Close();
+    }
+
+
+    private async Task SkipAndLaunchAsync()
+    {
+        Config.QuickSetupVersion = Const.QUICK_SETUP_VERSION;
         await Config.WriteAsync();
 
         CmdHelper.LaunchImageGlass();
