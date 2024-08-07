@@ -7,6 +7,8 @@
     "MinVersion": "9.1"
   },
   "Items": {
+    "FrmSettings._ImageInterpolation._MoreInfo": "More Info",
+    "FrmSettings._ImageInterpolation._MoreInfoLink": "https://learn.microsoft.com/ms-my/windows/win32/api/d2d1_1/ne-d2d1_1-d2d1_interpolation_mode#constants",
     "FrmCrop.SelectionAspectRatio._Original": "Asal",
     "FrmMain.MnuShare._Error": "Tidak dapat membuka dialog Kongsi.",
     "_.Metadata._FileLastAccessTime": "Tarikh dicapai",

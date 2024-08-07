@@ -7,6 +7,8 @@
     "MinVersion": "9.1"
   },
   "Items": {
+    "FrmSettings._ImageInterpolation._MoreInfo": "More Info",
+    "FrmSettings._ImageInterpolation._MoreInfoLink": "https://learn.microsoft.com/ko-kr/windows/win32/api/d2d1_1/ne-d2d1_1-d2d1_interpolation_mode#constants",
     "FrmCrop.SelectionAspectRatio._Original": "원본",
     "FrmMain.MnuShare._Error": "공유 대화 상자를 열 수 없습니다.",
     "_.Metadata._FileLastAccessTime": "접근 날짜",

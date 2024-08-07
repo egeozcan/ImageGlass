@@ -7,6 +7,8 @@
     "MinVersion": "9.1"
   },
   "Items": {
+    "FrmSettings._ImageInterpolation._MoreInfo": "More Info",
+    "FrmSettings._ImageInterpolation._MoreInfoLink": "https://learn.microsoft.com/nl-nl/windows/win32/api/d2d1_1/ne-d2d1_1-d2d1_interpolation_mode#constants",
     "FrmCrop.SelectionAspectRatio._Original": "Origineel",
     "FrmMain.MnuShare._Error": "De dialoog Delen kon niet worden geopend.",
     "_.Metadata._FileLastAccessTime": "Datum laatst geopend",

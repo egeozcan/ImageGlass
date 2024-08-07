@@ -734,6 +734,8 @@ public class IgLang : IDictionary<string, string>
             // Viewer > Zooming
             { "FrmSettings._Zooming", "Zooming" },
             { "FrmSettings._ImageInterpolation", "Image interpolation" },
+            { "FrmSettings._ImageInterpolation._MoreInfo", "More Info" },
+            { "FrmSettings._ImageInterpolation._MoreInfoLink", "https://learn.microsoft.com/en-us/windows/win32/api/d2d1_1/ne-d2d1_1-d2d1_interpolation_mode#constants" },
             { "FrmSettings._ImageInterpolation._ScaleDown", "When zoom < 100%" },
             { "FrmSettings._ImageInterpolation._ScaleUp", "When zoom > 100%" },
             { "FrmSettings._ZoomSpeed", "Zoom speed" },
