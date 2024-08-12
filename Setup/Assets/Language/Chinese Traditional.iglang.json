@@ -7,8 +7,6 @@
     "MinVersion": "9.1"
   },
   "Items": {
-    "FrmSettings._ImageInterpolation._MoreInfo": "More Info",
-    "FrmSettings._ImageInterpolation._MoreInfoLink": "https://learn.microsoft.com/zh-tw/windows/win32/api/d2d1_1/ne-d2d1_1-d2d1_interpolation_mode#constants",
     "FrmCrop.SelectionAspectRatio._Original": "原始",
     "FrmMain.MnuShare._Error": "無法開啟分享對話方塊。",
     "_.Metadata._FileLastAccessTime": "存取日期",
