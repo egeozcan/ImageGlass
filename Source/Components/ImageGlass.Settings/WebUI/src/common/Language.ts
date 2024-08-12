@@ -19,12 +19,6 @@ export default class Language {
         el.title = langValue;
       });
 
-      queryAll(`a[lang-href="${langKey}"]`, null, true).forEach(el => {
-        if(el instanceof HTMLAnchorElement){
-          el.href = langValue;
-        }
-      });
-
       queryAll(`[lang-html="${langKey}"]`, null, true).forEach(el => {
         let html = langValue;
 
