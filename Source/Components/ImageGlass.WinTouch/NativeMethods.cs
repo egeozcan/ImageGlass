@@ -71,6 +71,11 @@ internal static class NativeMethods
     }
 
 
+    [DllImport("user32", SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    static extern bool GetGestureInfo(HGESTUREINFO hGestureInfo, ref GESTUREINFO pGestureInfo);
+
+
     /// <summary>
     /// Gets the gesture info.
     /// </summary>
@@ -80,8 +85,8 @@ internal static class NativeMethods
         var pGestureInfo = new GESTUREINFO();
         pGestureInfo.cbSize = (uint)Marshal.SizeOf(pGestureInfo);
 
-        var result = PInvoke.GetGestureInfo(new HGESTUREINFO(gestureInfoHandle), out pGestureInfo);
-        if (result.Value == new BOOL(false)) return null;
+        var result = GetGestureInfo(new HGESTUREINFO(gestureInfoHandle), ref pGestureInfo);
+        if (!result) return null;
 
         return new GestureInfo()
         {
