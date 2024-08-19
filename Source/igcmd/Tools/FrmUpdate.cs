@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+using Cysharp.Text;
 using ImageGlass;
 using ImageGlass.Base;
 using ImageGlass.Base.Update;
@@ -181,21 +182,33 @@ public partial class FrmUpdate : WebForm
             btns.Insert(0, btnIgStore);
         }
 
+        var heading = "";
+        if (Web2.Webview2Version == null)
+        {
+            heading = Config.Language["_._Webview2._NotFound"];
+        }
+        else if (Web2.Webview2Version < Web2.MIN_VERSION)
+        {
+            heading = ZString.Format(Config.Language["_._Webview2._Outdated"], Web2.MIN_VERSION);
+        }
+
         // content
         var page = new TaskDialogPage()
         {
-            Icon = new TaskDialogIcon(Icon),
+            Icon = TaskDialogIcon.ShieldWarningYellowBar,
             Buttons = btns,
             SizeToContent = true,
             AllowCancel = true,
             EnableLinks = true,
             Caption = Config.Language["_._CheckForUpdate"],
 
-            Heading = _updater.HasNewUpdate
-                ? Config.Language[$"{langPath}._StatusOutdated"]
-                : Config.Language[$"{langPath}._StatusUpdated"],
+            Heading = heading,
 
-            Text = $"{string.Format(Config.Language[$"{langPath}._CurrentVersion"], appVersion)}\r\n" +
+            Text = _updater.HasNewUpdate
+                ? Config.Language[$"{langPath}._StatusOutdated"]
+                : Config.Language[$"{langPath}._StatusUpdated"] +
+                "\r\n\r\n" +
+                $"{string.Format(Config.Language[$"{langPath}._CurrentVersion"], appVersion)}\r\n" +
                 $"{string.Format(Config.Language[$"{langPath}._LatestVersion"], release.NewVersion)}\r\n" +
                 $"{string.Format(Config.Language[$"{langPath}._PublishedDate"], release.ReleasedDate)}\r\n" +
                 $"\r\n" +

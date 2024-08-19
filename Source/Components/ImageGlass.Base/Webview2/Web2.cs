@@ -26,6 +26,8 @@ namespace ImageGlass.Base;
 /// </summary>
 public class Web2 : WebView2
 {
+    public static readonly Version MIN_VERSION = new Version(119, 0, 2151);
+
     private bool _darkMode = true;
     private Color _accentColor = Color.FromArgb(28, 146, 255);
 
@@ -110,7 +112,6 @@ public class Web2 : WebView2
             return null;
         }
     }
-
 
     #endregion // Properties
 
@@ -377,7 +378,7 @@ public class Web2 : WebView2
     /// </summary>
     public static bool CheckWebview2Installed()
     {
-        return Web2.Webview2Version != null;
+        return Web2.Webview2Version != null && Web2.Webview2Version >= MIN_VERSION;
     }
 
 

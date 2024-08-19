@@ -866,8 +866,8 @@ public partial class FrmMain
             ShowNativeAboutDialog();
             return;
         }
-        
-        
+
+
         using var frm = new FrmAbout()
         {
             StartPosition = FormStartPosition.CenterParent,
@@ -890,27 +890,38 @@ public partial class FrmMain
         btnDonate.Click += async (_, _) => await BHelper.OpenUrlAsync("https://imageglass.org/support", "from_about_donate");
         btnCheckForUpdate.Click += (_, _) => IG_CheckForUpdate(true);
 
+        var heading = "";
+        if (Web2.Webview2Version == null)
+        {
+            heading = Config.Language["_._Webview2._NotFound"];
+        }
+        else if (Web2.Webview2Version < Web2.MIN_VERSION)
+        {
+            heading = ZString.Format(Config.Language["_._Webview2._Outdated"], Web2.MIN_VERSION);
+        }
 
         // content
         var page = new TaskDialogPage()
         {
-            Icon = new TaskDialogIcon(Icon),
+            Icon = TaskDialogIcon.ShieldWarningYellowBar,
             Buttons = [btnDonate, btnCheckForUpdate, btnClose],
             SizeToContent = true,
             AllowCancel = true,
             EnableLinks = true,
             Caption = Config.Language[$"{nameof(FrmMain)}.{nameof(MnuAbout)}"],
 
-            Heading = $"{Application.ProductName} {Const.APP_CODE.CapitalizeFirst()}\r\n" +
+            Heading = heading,
+
+            Text = $"{Application.ProductName} {Const.APP_CODE.CapitalizeFirst()}\r\n" +
                 $"{Config.Language[$"{langPath}._Slogan"]}\r\n" +
                 $"\r\n" +
                 $"{Config.Language[$"{langPath}._Version"]} {appVersion}\r\n" +
                 $".NET Runtime: {Environment.Version}\r\n" +
                 $"WebView2 Runtime: {Web2.Webview2Version}\r\n" +
                 $"\r\n" +
-                $"{ImageMagick.MagickNET.Version}",
+                $"{ImageMagick.MagickNET.Version}\r\n\r\n" +
 
-            Text = $"{Config.Language[$"{langPath}._Thanks"]}\r\n" +
+                $"{Config.Language[$"{langPath}._Thanks"]}\r\n" +
                     $"◾ {Config.Language[$"{langPath}._LogoDesigner"]} Nguyễn Quốc Tuấn.\r\n" +
                     $"◾ {Config.Language[$"{langPath}._Collaborator"]} Kevin Routley (<a href=\"https://github.com/fire-eggs\">https://github.com/fire-eggs</a>).\r\n" +
                     $"\r\n" +
@@ -2505,7 +2516,7 @@ public partial class FrmMain
         {
             _movableForm.ShowMover = Config.EnableFrameless;
         }
-        
+
 
         // update toolbar items state
         UpdateToolbarItemsState();
