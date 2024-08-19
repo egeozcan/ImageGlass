@@ -39,10 +39,6 @@ namespace ImageGlass;
 
 public partial class FrmMain
 {
-    // to delay the cleaning task when disconnecting multiple slideshows
-    private CancellationTokenSource _cleanSlideshowServerCancelToken = new();
-
-
     /// <summary>
     /// Opens file picker to choose an image
     /// </summary>
@@ -716,7 +712,7 @@ public partial class FrmMain
             Gallery.Height = Gallery.ThumbnailSize.Height
                 + Gallery.Padding.Vertical
                 + (int)gapWidth + scrollBarSize
-                + (int)(Gallery.Renderer.MeasureItemMargin(Gallery.View).Height);
+                + (int)Gallery.Renderer.MeasureItemMargin(Gallery.View).Height;
         }
 
         Gallery.ResumeLayout(false);
@@ -2214,11 +2210,11 @@ public partial class FrmMain
             // save image to temp file
             filePath = await Local.SaveImageAsTempFileAsync(defaultExt);
         }
-        else if (ext != ".BMP"
-            && ext != ".JPG"
-            && ext != ".JPEG"
-            && ext != ".PNG"
-            && ext != ".GIF")
+        else if (ext is not ".BMP"
+            and not ".JPG"
+            and not ".JPEG"
+            and not ".PNG"
+            and not ".GIF")
         {
             // save image to temp file
             filePath = await Local.SaveImageAsTempFileAsync(defaultExt);
@@ -2373,7 +2369,7 @@ public partial class FrmMain
 
         if (Config.ShowGallery)
         {
-            if (Gallery.Dock == DockStyle.Left || Gallery.Dock == DockStyle.Right)
+            if (Gallery.Dock is DockStyle.Left or DockStyle.Right)
             {
                 horzGap += Gallery.Width;
             }
@@ -2384,7 +2380,7 @@ public partial class FrmMain
         }
         if (Config.ShowToolbar)
         {
-            if (Toolbar.Dock == DockStyle.Left || Toolbar.Dock == DockStyle.Right)
+            if (Toolbar.Dock is DockStyle.Left or DockStyle.Right)
             {
                 horzGap += Toolbar.Width;
             }
@@ -2395,7 +2391,7 @@ public partial class FrmMain
         }
         if (ToolbarContext.Visible)
         {
-            if (ToolbarContext.Dock == DockStyle.Left || ToolbarContext.Dock == DockStyle.Right)
+            if (ToolbarContext.Dock is DockStyle.Left or DockStyle.Right)
             {
                 horzGap += ToolbarContext.Width;
             }
@@ -3319,7 +3315,6 @@ public partial class FrmMain
     {
         PicMain.ShowMessage(Config.Language[$"{Name}.{nameof(MnuLosslessCompression)}._Compressing"], null);
 
-        var oldIndex = Local.CurrentIndex;
         var oldFileSize = new FileInfo(filePath).Length;
         Local.IsBusy = true;
 

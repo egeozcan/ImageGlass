@@ -582,12 +582,10 @@ public partial class FrmMain
         {
             if (item.GetType() == typeof(ToolStripButton))
             {
-                var tItem = item as ToolStripButton;
-                if (tItem is null) continue;
+                if (item is not ToolStripButton tItem) continue;
 
                 // update item from metadata
-                var tagModel = tItem.Tag as ToolbarItemTagModel;
-                if (tagModel is null) continue;
+                if (tItem.Tag is not ToolbarItemTagModel tagModel) continue;
 
                 // load check state:
                 // Executable is menu item
@@ -921,9 +919,9 @@ public partial class FrmMain
         var newMenuIconHeight = this.ScaleToDpi(Const.MENU_ICON_HEIGHT);
 
         // add ImageOrderBy items
-        foreach (var order in Enum.GetValues(typeof(ImageOrderBy)))
+        foreach (var order in Enum.GetValues<ImageOrderBy>())
         {
-            var orderName = Enum.GetName(typeof(ImageOrderBy), order);
+            var orderName = Enum.GetName(order);
             var mnu = new ToolStripRadioButtonMenuItem()
             {
                 Text = Config.Language[$"_.{nameof(ImageOrderBy)}._{orderName}"],
@@ -945,9 +943,9 @@ public partial class FrmMain
         MnuLoadingOrders.DropDown.Items.Add(new ToolStripSeparator());
 
         // add ImageOrderType items
-        foreach (var orderType in Enum.GetValues(typeof(ImageOrderType)))
+        foreach (var orderType in Enum.GetValues<ImageOrderType>())
         {
-            var typeName = Enum.GetName(typeof(ImageOrderType), orderType);
+            var typeName = Enum.GetName(orderType);
             var mnu = new ToolStripRadioButtonMenuItem()
             {
                 Text = Config.Language[$"_.{nameof(ImageOrderType)}._{typeName}"],
@@ -970,8 +968,7 @@ public partial class FrmMain
 
     private void MnuLoadingOrderItem_Click(object? sender, EventArgs e)
     {
-        var mnu = sender as ToolStripMenuItem;
-        if (mnu is null) return;
+        if (sender is not ToolStripMenuItem mnu) return;
 
         if (mnu.Tag is ModernMenuItemTag tag
             && tag.ImageOrderBy != null
@@ -990,8 +987,7 @@ public partial class FrmMain
 
     private void MnuLoadingOrderTypeItem_Click(object? sender, EventArgs e)
     {
-        var mnu = sender as ToolStripMenuItem;
-        if (mnu is null) return;
+        if (sender is not ToolStripMenuItem mnu) return;
 
         if (mnu.Tag is ModernMenuItemTag tag
             && tag.ImageOrderType != null
@@ -1205,7 +1201,7 @@ public partial class FrmMain
 
 
         // update Gallery bar layout
-        if (Gallery.Dock == DockStyle.Left || Gallery.Dock == DockStyle.Right)
+        if (Gallery.Dock is DockStyle.Left or DockStyle.Right)
         {
             Gallery.View = ImageGlass.Gallery.View.Thumbnails;
             Gallery.ScrollBars = true;
@@ -1252,7 +1248,7 @@ public partial class FrmMain
 
 
         // make sure Gallery does not cover toolbar in vertical layout
-        if (Gallery.Dock == DockStyle.Left || Gallery.Dock == DockStyle.Right)
+        if (Gallery.Dock is DockStyle.Left or DockStyle.Right)
         {
             Gallery.BringToFront();
         }

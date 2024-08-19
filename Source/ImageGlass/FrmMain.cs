@@ -109,10 +109,10 @@ public partial class FrmMain : ThemedForm
     protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
     {
         // to fix arrow keys sometimes does not regconize
-        if (keyData == Keys.Up
-            || keyData == Keys.Down
-            || keyData == Keys.Left
-            || keyData == Keys.Right)
+        if (keyData is Keys.Up
+            or Keys.Down
+            or Keys.Left
+            or Keys.Right)
         {
             FrmMain_KeyDown(this, new KeyEventArgs(keyData));
 
@@ -1748,8 +1748,8 @@ public partial class FrmMain : ThemedForm
                 // update PicMain's context menu
                 Local.UpdateFrmMain(UpdateRequests.MouseActions);
 
-                if (executable != nameof(IG_OpenContextMenu)
-                    && executable != nameof(IG_OpenMainMenu))
+                if (executable is not (nameof(IG_OpenContextMenu))
+                    and not (nameof(IG_OpenMainMenu)))
                 {
                     _ = ExecuteUserActionAsync(action);
                 }
@@ -2484,5 +2484,4 @@ public partial class FrmMain : ThemedForm
     #endregion // Main Menu component
 
 
-    
 }

@@ -180,10 +180,10 @@ public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
 
 
         // save settings
-        Settings.AspectRatioValues = new int[2] {
+        Settings.AspectRatioValues = [
             (int)NumRatioFrom.Value,
             (int)NumRatioTo.Value,
-        };
+        ];
 
         Settings.SaveToAppConfig();
         Local.FrmMain.Activate();
@@ -273,7 +273,7 @@ public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
         var i = 0;
         var cmbIndex = 0;
 
-        foreach (SelectionAspectRatio arValue in Enum.GetValues(typeof(SelectionAspectRatio)))
+        foreach (SelectionAspectRatio arValue in Enum.GetValues<SelectionAspectRatio>())
         {
             if (arValue == Settings.AspectRatio)
             {
@@ -288,7 +288,7 @@ public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
             }
             else
             {
-                var arName = Enum.GetName(typeof(SelectionAspectRatio), arValue);
+                var arName = Enum.GetName(arValue);
                 var langPath = $"{Name}.{nameof(SelectionAspectRatio)}._{arName}";
 
                 if (!Config.Language.TryGetValue(langPath, out displayName))
@@ -337,7 +337,7 @@ public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
         NumRatioTo.Value = ratioTo;
 
         NumRatioFrom.Visible = NumRatioTo.Visible =
-            ratio == SelectionAspectRatio.Original || ratio == SelectionAspectRatio.Custom;
+            ratio is SelectionAspectRatio.Original or SelectionAspectRatio.Custom;
         NumRatioFrom.Enabled = NumRatioTo.Enabled = ratio == SelectionAspectRatio.Custom;
 
         // adjust form size
@@ -352,7 +352,7 @@ public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
 
 
         Settings.AspectRatio = ratio;
-        Settings.AspectRatioValues = new int[2] { (int)ratioFrom, (int)ratioTo };
+        Settings.AspectRatioValues = [(int)ratioFrom, (int)ratioTo];
         if (ratio == SelectionAspectRatio.FreeRatio)
         {
             Local.FrmMain.PicMain.SelectionAspectRatio = new SizeF();

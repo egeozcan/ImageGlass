@@ -152,7 +152,7 @@ public partial class FrmCropSettings : DialogForm
         var i = 0;
         var cmbIndex = 0;
 
-        foreach (DefaultSelectionType enumValue in Enum.GetValues(typeof(DefaultSelectionType)))
+        foreach (DefaultSelectionType enumValue in Enum.GetValues<DefaultSelectionType>())
         {
             if (enumValue == Settings.InitSelectionType)
             {
@@ -160,7 +160,7 @@ public partial class FrmCropSettings : DialogForm
             }
 
 
-            var enumName = Enum.GetName(typeof(DefaultSelectionType), enumValue);
+            var enumName = Enum.GetName(enumValue);
             if (!Config.Language.TryGetValue($"{langPath}._{enumName}", out var displayName))
             {
                 Config.Language.TryGetValue($"{langPath}._SelectX", out displayName);
@@ -198,9 +198,9 @@ public partial class FrmCropSettings : DialogForm
     {
         var selectionType = (DefaultSelectionType)CmbSelectionType.SelectedIndex;
 
-        ChkAutoCenterSelection.Visible = selectionType != DefaultSelectionType.SelectNone
-            && selectionType != DefaultSelectionType.SelectAll
-            && selectionType != DefaultSelectionType.UseTheLastSelection;
+        ChkAutoCenterSelection.Visible = selectionType is not DefaultSelectionType.SelectNone
+            and not DefaultSelectionType.SelectAll
+            and not DefaultSelectionType.UseTheLastSelection;
 
 
         LblLocation.Visible =
