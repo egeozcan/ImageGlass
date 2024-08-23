@@ -6,9 +6,6 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: [
-    'airbnb-typescript',
-  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 12,
@@ -16,9 +13,6 @@ module.exports = {
     tsconfigRootDir: './',
     project: 'tsconfig.json',
   },
-  plugins: [
-    'import',
-  ],
   settings: {
     // To kill annoyed React warning:
     // https://github.com/DRD4-7R/eslint-config-7r-building/issues/1#issuecomment-714491844
@@ -39,7 +33,6 @@ module.exports = {
     '@typescript-eslint/lines-between-class-members': 'off',
     '@typescript-eslint/naming-convention': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/no-unused-vars': isProduction ? 'error' : 'warn',
     'arrow-parens': 'off',
     'brace-style': ['error', 'stroustrup', { allowSingleLine: true }],
     camelcase: 'off',
