@@ -165,12 +165,16 @@ public partial class FrmUpdate : WebForm
         var appVersion = App.Version + $" ({archInfo})";
 
         // footer buttons
-        var btnIgStore = new TaskDialogButton("Get ImageGlass Store", allowCloseDialog: false);
         var btnUpdate = new TaskDialogButton(Config.Language["_._Update"], allowCloseDialog: false);
-        var btnClose = new TaskDialogButton(Config.Language["_._Close"], allowCloseDialog: true);
+        var btnIgStore = new TaskDialogButton("Get ImageGlass Store");
+        var btnClose = new TaskDialogButton(Config.Language["_._Close"]);
 
         btnIgStore.Click += (_, _) => BHelper.OpenImageGlassMsStore();
-        btnUpdate.Click += async (_, _) => await BHelper.OpenUrlAsync(release.Link, "from_update");
+        btnUpdate.Click += async (_, _) =>
+        {
+            await BHelper.OpenUrlAsync(release.Link, "from_update");
+            Close();
+        };
 
 
         var btns = new TaskDialogButtonCollection()
@@ -179,7 +183,7 @@ public partial class FrmUpdate : WebForm
         };
         if (!BHelper.IsRunningAsUwp())
         {
-            btns.Insert(0, btnIgStore);
+            btns.Insert(1, btnIgStore);
         }
 
         var heading = "";
@@ -191,6 +195,12 @@ public partial class FrmUpdate : WebForm
         {
             heading = ZString.Format(Config.Language["_._Webview2._Outdated"], Web2.MIN_VERSION);
         }
+
+        var details = release.Details
+            .Replace("<br/>", "\r\n")
+            .Replace("<b>", "").Replace("</b>", "")
+            .Replace("<div>", "").Replace("</div>", "\r\n")
+            .Replace("<p>", "").Replace("</p>", "\r\n");
 
         // content
         var page = new TaskDialogPage()
@@ -213,8 +223,7 @@ public partial class FrmUpdate : WebForm
                 $"{string.Format(Config.Language[$"{langPath}._PublishedDate"], release.ReleasedDate)}\r\n" +
                 $"\r\n" +
                 $"<a href=\"{release.Link}\">{release.Title}</a>\r\n" +
-                $"\r\n" +
-                $"{release.Details}",
+                $"{details}",
 
             Footnote = new()
             {
