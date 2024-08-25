@@ -106,7 +106,7 @@ public partial class WebForm : ThemedForm
 
     private void LnkWebView2NotFound_LinkClicked(object? sender, LinkLabelLinkClickedEventArgs e)
     {
-        _ = BHelper.OpenUrlAsync("https://developer.microsoft.com/en-us/microsoft-edge/webview2");
+        _ = BHelper.OpenUrlAsync("https://developer.microsoft.com/microsoft-edge/webview2");
     }
 
 
