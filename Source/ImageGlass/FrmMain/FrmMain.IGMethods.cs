@@ -976,8 +976,14 @@ public partial class FrmMain
             Local.FrmSettings = new();
         }
 
+        if (Local.FrmSettings.WindowState == FormWindowState.Minimized)
+        {
+            Local.FrmSettings.WindowState = FormWindowState.Normal;
+        }
+
         Local.FrmSettings.TopMost = TopMost;
         Local.FrmSettings.Show();
+        Local.FrmSettings.Activate();
     }
 
 
