@@ -285,7 +285,7 @@ public class IgLang : IDictionary<string, string>
             { "_._UserAction._Win32ExeError", "Cannot execute command '{0}'. Make sure the name is correct." }, // v9.0
 
             { "_._Webview2._NotFound", "Please install WebView2 Runtime to access full features of ImageGlass." }, // 9.2
-            { "_._Webview2._Outdated", "Your WebView2 Runtime is outdated. Please update to version {0} or later." }, // 9.2
+            { "_._Webview2._Outdated", "Your WebView2 Runtime is not supported. Please update to version {0} or later." }, // 9.2
 
             // Gallery tooltip
             { $"_.Metadata._{nameof(IgMetadata.FileSize)}", "File size" }, //v9.0

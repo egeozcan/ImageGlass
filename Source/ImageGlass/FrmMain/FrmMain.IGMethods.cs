@@ -886,36 +886,35 @@ public partial class FrmMain
         btnDonate.Click += async (_, _) => await BHelper.OpenUrlAsync("https://imageglass.org/support", "from_about_donate");
         btnCheckForUpdate.Click += (_, _) => IG_CheckForUpdate(true);
 
-        var heading = "";
+        // WebView2 warning
+        var webview2Warning = "";
         if (Web2.Webview2Version == null)
         {
-            heading = Config.Language["_._Webview2._NotFound"];
+            webview2Warning = Config.Language["_._Webview2._NotFound"];
         }
         else if (Web2.Webview2Version < Web2.MIN_VERSION)
         {
-            heading = ZString.Format(Config.Language["_._Webview2._Outdated"], Web2.MIN_VERSION);
+            webview2Warning = ZString.Format(Config.Language["_._Webview2._Outdated"], Web2.MIN_VERSION);
         }
 
         // content
         var page = new TaskDialogPage()
         {
-            Icon = TaskDialogIcon.ShieldWarningYellowBar,
+            Icon = new TaskDialogIcon(this.Icon),
             Buttons = [btnDonate, btnCheckForUpdate, btnClose],
             SizeToContent = true,
             AllowCancel = true,
             EnableLinks = true,
             Caption = Config.Language[$"{nameof(FrmMain)}.{nameof(MnuAbout)}"],
 
-            Heading = heading,
+            Heading = $"{Application.ProductName} {Const.APP_CODE.CapitalizeFirst()}\r\n" +
+                $"{Config.Language[$"{langPath}._Slogan"]}",
 
-            Text = $"{Application.ProductName} {Const.APP_CODE.CapitalizeFirst()}\r\n" +
-                $"{Config.Language[$"{langPath}._Slogan"]}\r\n" +
-                $"\r\n" +
+            Text =
                 $"{Config.Language[$"{langPath}._Version"]} {appVersion}\r\n" +
+                $"{ImageMagick.MagickNET.Version}\r\n" +
                 $".NET Runtime: {Environment.Version}\r\n" +
-                $"WebView2 Runtime: {Web2.Webview2Version}\r\n" +
-                $"\r\n" +
-                $"{ImageMagick.MagickNET.Version}\r\n\r\n" +
+                $"WebView2 Runtime: {Web2.Webview2Version}\r\n\r\n" +
 
                 $"{Config.Language[$"{langPath}._Thanks"]}\r\n" +
                     $"◾ {Config.Language[$"{langPath}._LogoDesigner"]} Nguyễn Quốc Tuấn.\r\n" +
@@ -929,8 +928,8 @@ public partial class FrmMain
 
             Footnote = new()
             {
-                Icon = TaskDialogIcon.ShieldSuccessGreenBar,
-                Text = "" +
+                Icon = TaskDialogIcon.Warning,
+                Text = $"{webview2Warning}\r\n\r\n" +
                     $"{Config.Language[$"{langPath}._License"]}: <a href=\"https://imageglass.org/license\">https://imageglass.org/license</a>\r\n" +
                     $"Copyright © 2010-{DateTime.Now.Year} by Dương Diệu Pháp. All rights reserved.",
             },

@@ -186,14 +186,15 @@ public partial class FrmUpdate : WebForm
             btns.Insert(1, btnIgStore);
         }
 
-        var heading = "";
+        // WebView2 warning
+        var webview2Warning = "";
         if (Web2.Webview2Version == null)
         {
-            heading = Config.Language["_._Webview2._NotFound"];
+            webview2Warning = Config.Language["_._Webview2._NotFound"];
         }
         else if (Web2.Webview2Version < Web2.MIN_VERSION)
         {
-            heading = ZString.Format(Config.Language["_._Webview2._Outdated"], Web2.MIN_VERSION);
+            webview2Warning = ZString.Format(Config.Language["_._Webview2._Outdated"], Web2.MIN_VERSION);
         }
 
         var details = release.Details
@@ -205,19 +206,18 @@ public partial class FrmUpdate : WebForm
         // content
         var page = new TaskDialogPage()
         {
-            Icon = TaskDialogIcon.ShieldWarningYellowBar,
+            Icon = _updater.HasNewUpdate ? TaskDialogIcon.Information : TaskDialogIcon.ShieldSuccessGreenBar,
             Buttons = btns,
             SizeToContent = true,
             AllowCancel = true,
             EnableLinks = true,
             Caption = Config.Language["_._CheckForUpdate"],
 
-            Heading = heading,
-
-            Text = _updater.HasNewUpdate
+            Heading = _updater.HasNewUpdate
                 ? Config.Language[$"{langPath}._StatusOutdated"]
-                : Config.Language[$"{langPath}._StatusUpdated"] +
-                "\r\n\r\n" +
+                : Config.Language[$"{langPath}._StatusUpdated"],
+
+            Text = 
                 $"{string.Format(Config.Language[$"{langPath}._CurrentVersion"], appVersion)}\r\n" +
                 $"{string.Format(Config.Language[$"{langPath}._LatestVersion"], release.NewVersion)}\r\n" +
                 $"{string.Format(Config.Language[$"{langPath}._PublishedDate"], release.ReleasedDate)}\r\n" +
@@ -227,8 +227,8 @@ public partial class FrmUpdate : WebForm
 
             Footnote = new()
             {
-                Icon = TaskDialogIcon.ShieldSuccessGreenBar,
-                Text = "" +
+                Icon = TaskDialogIcon.ShieldWarningYellowBar,
+                Text = $"{webview2Warning}\r\n\r\n" +
                     $"{Config.Language["FrmAbout._License"]}: <a href=\"https://imageglass.org/license\">https://imageglass.org/license</a>\r\n" +
                     $"Copyright © 2010-{DateTime.Now.Year} by Dương Diệu Pháp. All rights reserved.",
             },
