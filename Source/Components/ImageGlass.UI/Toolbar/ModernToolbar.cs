@@ -33,7 +33,7 @@ public class ModernToolbar : ToolStrip
     private const uint MA_ACTIVATEANDEAT = 2;
 
     private ToolbarAlignment _alignment = ToolbarAlignment.Center;
-    private int _iconHeight = Const.TOOLBAR_ICON_HEIGHT;
+    private uint _iconHeight = Const.TOOLBAR_ICON_HEIGHT;
 
     private readonly ModernTooltip _tooltip = new();
     private CancellationTokenSource _tooltipTokenSrc = new();
@@ -132,13 +132,13 @@ public class ModernToolbar : ToolStrip
     /// <summary>
     /// Gets, sets icons height
     /// </summary>
-    public int IconHeight
+    public uint IconHeight
     {
         get => _iconHeight;
         set
         {
             _iconHeight = DpiApi.Scale(value);
-            ImageScalingSize = new(_iconHeight, _iconHeight);
+            ImageScalingSize = new((int)_iconHeight, (int)_iconHeight);
         }
     }
 
@@ -564,7 +564,7 @@ public class ModernToolbar : ToolStrip
     /// <summary>
     /// Update toolbar theme
     /// </summary>
-    public async Task UpdateThemeAsync(int? iconHeight = null)
+    public async Task UpdateThemeAsync(uint? iconHeight = null)
     {
         if (iconHeight is not null)
         {
@@ -591,8 +591,8 @@ public class ModernToolbar : ToolStrip
             if (Items[i] is ToolStripSeparator tItem)
             {
                 tItem.AutoSize = false;
-                tItem.Height = IconHeight;
-                tItem.Width = IconHeight / 2;
+                tItem.Height = (int)IconHeight;
+                tItem.Width = (int)IconHeight / 2;
             }
 
             if (Items[i] is ToolStripButton bItem)

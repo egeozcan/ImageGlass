@@ -47,10 +47,10 @@ public class IgMetadata
 
 
     // Image data
-    public int OriginalWidth { get; set; } = 0;
-    public int OriginalHeight { get; set; } = 0;
-    public int RenderedWidth { get; set; } = 0;
-    public int RenderedHeight { get; set; } = 0;
+    public uint OriginalWidth { get; set; } = 0;
+    public uint OriginalHeight { get; set; } = 0;
+    public uint RenderedWidth { get; set; } = 0;
+    public uint RenderedHeight { get; set; } = 0;
 
     /// <summary>
     /// Gets the frame index of this metadata.

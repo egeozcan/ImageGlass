@@ -1255,7 +1255,7 @@ public partial class FrmMain : ThemedForm
                 // get preview size
                 if (Config.ZoomMode == ZoomMode.LockZoom)
                 {
-                    previewSize = new(Local.Metadata.RenderedWidth, Local.Metadata.RenderedHeight);
+                    previewSize = new((int)Local.Metadata.RenderedWidth, (int)Local.Metadata.RenderedHeight);
                 }
                 else
                 {

@@ -188,7 +188,7 @@ public class MovableForm
             {
                 _isMoverControlDarkMode = _form.DarkMode;
 
-                var iconSize = DpiApi.Scale(50);
+                var iconSize = DpiApi.Scale(50u);
                 var svgPath = IconFile.GetFullPath(IconName.ArrowMove);
                 _moverControl.BackgroundImage?.Dispose();
                 _moverControl.BackgroundImage = BHelper.ToGdiPlusBitmapFromSvg(svgPath, _form.DarkMode, iconSize, iconSize);

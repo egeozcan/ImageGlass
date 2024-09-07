@@ -103,9 +103,10 @@ public static partial class BHelper
     /// <summary>
     /// Creates default toolbar icon.
     /// </summary>
-    public static Bitmap CreateDefaultToolbarIcon(int iconSize, bool darkMode)
+    public static Bitmap CreateDefaultToolbarIcon(uint iconSize, bool darkMode)
     {
-        var bmp = new Bitmap(iconSize, iconSize);
+        var size = (int)iconSize;
+        var bmp = new Bitmap(size, size);
 
         var g = Graphics.FromImage(bmp);
         g.SmoothingMode = SmoothingMode.HighQuality;
@@ -114,7 +115,7 @@ public static partial class BHelper
 
         using var brush = new SolidBrush(darkMode ? Color.White.WithAlpha(100) : Color.Black.WithAlpha(100));
 
-        var rect = new Rectangle(0, 0, iconSize - 1, iconSize - 1);
+        var rect = new Rectangle(0, 0, size - 1, size - 1);
         g.FillEllipse(brush, rect);
 
         return bmp;

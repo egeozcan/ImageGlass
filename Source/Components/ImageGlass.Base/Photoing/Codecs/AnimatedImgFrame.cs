@@ -74,7 +74,7 @@ public class AnimatedImgFrame : IDisposable
     /// </summary>
     /// <param name="bmpSrc"></param>
     /// <param name="duration"></param>
-    public AnimatedImgFrame(IDisposable? bmpSrc, int duration)
+    public AnimatedImgFrame(IDisposable? bmpSrc, uint duration)
     {
         Bitmap = bmpSrc;
         Duration = TimeSpan.FromMilliseconds(duration);

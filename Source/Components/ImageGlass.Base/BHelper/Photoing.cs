@@ -368,7 +368,7 @@ public partial class BHelper
     /// Loads and process the SVG file, replaces <c>#000</c> or <c>#fff</c>
     /// by the corresponding hex color value of the <paramref name="darkMode"/>.
     /// </summary>
-    public static Bitmap? ToGdiPlusBitmapFromSvg(string? svgFilePath, bool darkMode, int? width = null, int? height = null)
+    public static Bitmap? ToGdiPlusBitmapFromSvg(string? svgFilePath, bool darkMode, uint? width = null, uint? height = null)
     {
         if (string.IsNullOrEmpty(svgFilePath)) return null;
 

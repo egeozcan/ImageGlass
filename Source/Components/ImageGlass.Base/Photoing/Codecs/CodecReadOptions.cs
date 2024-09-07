@@ -27,12 +27,12 @@ public record CodecReadOptions
     /// <summary>
     /// Gets, sets the requested width of the image.
     /// </summary>
-    public int Width { get; set; } = 0;
+    public uint Width { get; set; } = 0;
 
     /// <summary>
     /// Gets, sets the requested height of the image.
     /// </summary>
-    public int Height { get; set; } = 0;
+    public uint Height { get; set; } = 0;
 
     /// <summary>
     /// Gets, sets the value indicates whether the color profile should be ignored.

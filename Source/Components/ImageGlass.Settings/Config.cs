@@ -458,12 +458,12 @@ public static class Config
     /// <summary>
     /// Gets, sets toolbar icon height
     /// </summary>
-    public static int ToolbarIconHeight { get; set; } = Const.TOOLBAR_ICON_HEIGHT;
+    public static uint ToolbarIconHeight { get; set; } = Const.TOOLBAR_ICON_HEIGHT;
 
     /// <summary>
     /// Gets, sets value of image quality for editting
     /// </summary>
-    public static int ImageEditQuality { get; set; } = 80;
+    public static uint ImageEditQuality { get; set; } = 80;
 
     /// <summary>
     /// Gets, sets value of duration to display the in-app message

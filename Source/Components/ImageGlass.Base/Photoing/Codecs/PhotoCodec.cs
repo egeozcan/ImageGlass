@@ -107,8 +107,8 @@ public static class PhotoCodec
                 {
                     var newSize = GetMaxImageRenderSize(imgM.BaseWidth, imgM.BaseHeight);
 
-                    meta.RenderedWidth = newSize.Width;
-                    meta.RenderedHeight = newSize.Height;
+                    meta.RenderedWidth = (uint)newSize.Width;
+                    meta.RenderedHeight = (uint)newSize.Height;
                 }
                 else
                 {
@@ -252,7 +252,7 @@ public static class PhotoCodec
     /// <summary>
     /// Gets thumbnail from image.
     /// </summary>
-    public static async Task<Bitmap?> GetThumbnailAsync(string filePath, int width, int height)
+    public static async Task<Bitmap?> GetThumbnailAsync(string filePath, uint width, uint height)
     {
         if (string.IsNullOrEmpty(filePath) || width == 0 || height == 0) return null;
 
@@ -284,7 +284,7 @@ public static class PhotoCodec
     /// <summary>
     /// Gets thumbnail from image.
     /// </summary>
-    public static Bitmap? GetThumbnail(string filePath, int width, int height)
+    public static Bitmap? GetThumbnail(string filePath, uint width, uint height)
     {
         return BHelper.RunSync(() => GetThumbnailAsync(filePath, width, height));
     }
@@ -360,7 +360,7 @@ public static class PhotoCodec
     /// <summary>
     /// Gets base64 thumbnail from image
     /// </summary>
-    public static string GetThumbnailBase64(string filePath, int width, int height)
+    public static string GetThumbnailBase64(string filePath, uint width, uint height)
     {
         var thumbnail = GetThumbnail(filePath, width, height);
 
@@ -380,7 +380,7 @@ public static class PhotoCodec
     /// Reads and processes the SVG file, replaces <c>#000</c> or <c>#fff</c>
     /// by the corresponding hex color value of the <paramref name="darkMode"/>.
     /// </summary>
-    public static async Task<MagickImage?> ReadSvgWithMagickAsync(string svgFilePath, bool? darkMode, int? width, int? height, CancellationToken token = default)
+    public static async Task<MagickImage?> ReadSvgWithMagickAsync(string svgFilePath, bool? darkMode, uint? width, uint? height, CancellationToken token = default)
     {
         // set up Magick settings
         var settings = ParseSettings(new CodecReadOptions()
@@ -439,7 +439,7 @@ public static class PhotoCodec
     /// <param name="transform">Changes for writing image file</param>
     /// <param name="quality">Quality</param>
     /// <exception cref="FileFormatException"></exception>
-    public static async Task SaveAsync(string srcFileName, string destFilePath, CodecReadOptions readOptions, ImgTransform? transform = null, int quality = 100, CancellationToken token = default)
+    public static async Task SaveAsync(string srcFileName, string destFilePath, CodecReadOptions readOptions, ImgTransform? transform = null, uint quality = 100, CancellationToken token = default)
     {
         var ext = Path.GetExtension(destFilePath).ToUpperInvariant();
 
@@ -482,7 +482,7 @@ public static class PhotoCodec
                     if (imgW > MAX_ICON_SIZE || imgH > MAX_ICON_SIZE)
                     {
                         var iconSize = GetMaxImageRenderSize(imgW, imgH, MAX_ICON_SIZE);
-                        imgData.SingleFrameImage.Scale(iconSize.Width, iconSize.Height);
+                        imgData.SingleFrameImage.Scale((uint)iconSize.Width, (uint)iconSize.Height);
                     }
                 }
 
@@ -501,7 +501,7 @@ public static class PhotoCodec
     /// <param name="transform">Image transformation</param>
     /// <param name="quality">JPEG/MIFF/PNG compression level</param>
     /// <param name="format">New image format</param>
-    public static async Task SaveAsync(WicBitmapSource? srcBitmap, string destFilePath, ImgTransform? transform = null, int quality = 100, MagickFormat format = MagickFormat.Unknown, CancellationToken token = default)
+    public static async Task SaveAsync(WicBitmapSource? srcBitmap, string destFilePath, ImgTransform? transform = null, uint quality = 100, MagickFormat format = MagickFormat.Unknown, CancellationToken token = default)
     {
         if (srcBitmap == null) return;
 
@@ -886,7 +886,7 @@ public static class PhotoCodec
                         var frames = aniWebP.Select(frame =>
                         {
                             var duration = frame.Duration > 0 ? frame.Duration : 100;
-                            return new AnimatedImgFrame(frame.Bitmap, duration);
+                            return new AnimatedImgFrame(frame.Bitmap, (uint)duration);
                         });
 
                         result.Source = new AnimatedImg(frames, result.FrameCount);
@@ -1074,7 +1074,7 @@ public static class PhotoCodec
     /// according to the <see cref="CodecReadOptions.AutoScaleDownLargeImage"/>.
     /// </summary>
     public static async Task<IMagickImage> InitializeSingleMagickImageAsync(
-        string srcFilePath, int srcWidth, int srcHeight,
+        string srcFilePath, uint srcWidth, uint srcHeight,
         MagickReadSettings settings, CodecReadOptions options, CancellationToken cancelToken)
     {
         var imgM = new MagickImage();
@@ -1147,7 +1147,7 @@ public static class PhotoCodec
         await imgM.ReadAsync(srcFilePath, settings, cancelToken);
 
         var newSize = GetMaxImageRenderSize(imgM.BaseWidth, imgM.BaseHeight);
-        imgM.Scale(newSize.Width, newSize.Height);
+        imgM.Scale((uint)newSize.Width, (uint)newSize.Height);
 
         return imgM;
 
@@ -1159,7 +1159,7 @@ public static class PhotoCodec
     /// <summary>
     /// Gets maximum image dimention.
     /// </summary>
-    private static Size GetMaxImageRenderSize(int srcWidth, int srcHeight, int maxSize = Const.MAX_IMAGE_DIMENSION)
+    private static Size GetMaxImageRenderSize(uint srcWidth, uint srcHeight, uint maxSize = Const.MAX_IMAGE_DIMENSION)
     {
         var widthScale = 1f;
         var heightScale = 1f;

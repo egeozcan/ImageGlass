@@ -256,7 +256,7 @@ public class IgTheme : IDisposable
                 // property is WicBitmapSource
                 if (prop?.PropertyType == typeof(WicBitmapSource))
                 {
-                    var navBtnSize = Const.TOOLBAR_ICON_HEIGHT * 4;
+                    var navBtnSize = Const.TOOLBAR_ICON_HEIGHT * 4u;
                     using var bmp = await PhotoCodec.GetThumbnailAsync(Path.Combine(FolderPath, value), navBtnSize, navBtnSize);
                     var wicBmp = BHelper.ToWicBitmapSource(bmp);
 
@@ -385,7 +385,7 @@ public class IgTheme : IDisposable
     /// Theme pack's icon name or image file path.
     /// Example: <c>OpenFile</c>, or <c>.\Themes\Kobe\OpenFile.svg</c>
     /// </param>
-    public async Task<Bitmap> GetToolbarIconAsync(string? name, int iconHeight)
+    public async Task<Bitmap> GetToolbarIconAsync(string? name, uint iconHeight)
     {
         if (string.IsNullOrEmpty(name)) return null;
 
@@ -422,7 +422,7 @@ public class IgTheme : IDisposable
     /// Theme pack's icon name or image file path.
     /// Example: <c>OpenFile</c>, or <c>.\Themes\Kobe\OpenFile.svg</c>
     /// </param>
-    public Bitmap GetToolbarIcon(string? name, int iconHeight)
+    public Bitmap GetToolbarIcon(string? name, uint iconHeight)
     {
         return BHelper.RunSync(() => GetToolbarIconAsync(name, iconHeight));
     }

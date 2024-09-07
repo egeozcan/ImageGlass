@@ -582,14 +582,14 @@ public class ModernButton : Button
         var size = Height - Padding.Vertical * 2;
         if (DesignMode && _svgIcon != IconName.None)
         {
-            Image = BHelper.CreateDefaultToolbarIcon(size, darkMode);
+            Image = BHelper.CreateDefaultToolbarIcon((uint)size, darkMode);
             return;
         }
 
         if (SystemIcon == null)
         {
             var svgPath = IconFile.GetFullPath(_svgIcon);
-            Image = BHelper.ToGdiPlusBitmapFromSvg(svgPath, darkMode, size, size);
+            Image = BHelper.ToGdiPlusBitmapFromSvg(svgPath, darkMode, (uint)size, (uint)size);
         }
     }
 

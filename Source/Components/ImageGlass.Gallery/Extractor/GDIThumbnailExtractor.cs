@@ -150,7 +150,7 @@ public partial class GDIExtractor : IExtractor
         // get thumbnail from source file
         else if (useEmbeddedThumbnails == UseEmbeddedThumbnails.Never)
         {
-            thumb = PhotoCodec.GetThumbnail(filename, size.Width, size.Height);
+            thumb = PhotoCodec.GetThumbnail(filename, (uint)size.Width, (uint)size.Height);
         }
         else
         {
@@ -158,7 +158,7 @@ public partial class GDIExtractor : IExtractor
 
             if (thumb == null)
             {
-                thumb = PhotoCodec.GetThumbnail(filename, size.Width, size.Height);
+                thumb = PhotoCodec.GetThumbnail(filename, (uint)size.Width, (uint)size.Height);
             }
         }
 

@@ -123,7 +123,7 @@ public class IgImgData : IDisposable
                 var frames = data.MultiFrameImage.AsEnumerable().Select(frame =>
                 {
                     var duration = frame.AnimationDelay > 0 ? frame.AnimationDelay : 10;
-                    duration = duration * 1000 / frame.AnimationTicksPerSecond;
+                    duration = duration * 1000 / (uint)frame.AnimationTicksPerSecond;
 
                     return new AnimatedImgFrame(frame.ToBitmap(), duration);
                 });
