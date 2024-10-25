@@ -82,6 +82,7 @@ public partial class FrmSlideshow : ThemedForm
 
         { nameof(MnuChangeBackgroundColor), new() { new (Keys.M) } },
 
+        { nameof(MnuCustomZoom),            new() { new (Keys.Z) } },
         { nameof(MnuActualSize),            new() { new (Keys.D0), new (Keys.NumPad0) } },
         { nameof(MnuAutoZoom),              new() { new (Keys.D1), new (Keys.NumPad1) } },
         { nameof(MnuLockZoom),              new() { new (Keys.D2), new (Keys.NumPad2) } },
@@ -1404,6 +1405,7 @@ public partial class FrmSlideshow : ThemedForm
         MnuGoToLast.Text = lang[$"FrmMain.{nameof(MnuGoToLast)}"];
 
         // zoom
+        MnuCustomZoom.Text = lang[$"FrmMain.{nameof(MnuCustomZoom)}"];
         MnuActualSize.Text = lang[$"FrmMain.{nameof(MnuActualSize)}"];
         MnuZoomModes.Text = lang[$"{Name}.{nameof(MnuZoomModes)}"];
 
@@ -2030,6 +2032,41 @@ public partial class FrmSlideshow : ThemedForm
         _ = ViewNextImageAsync(0);
     }
 
+    private void MnuCustomZoom_Click(object sender, EventArgs e)
+    {
+        IG_CustomZoom();
+    }
+
+    /// <summary>
+    /// Shows Input dialog for custom zoom
+    /// </summary>
+    public void IG_CustomZoom()
+    {
+        if (PicMain.Source == ImageSource.Null) return;
+
+        var oldZoom = PicMain.ZoomFactor * 100f;
+        using var frm = new Popup()
+        {
+            Title = Config.Language[$"FrmMain.{nameof(MnuCustomZoom)}"],
+            Value = oldZoom.ToString(),
+            Thumbnail = SystemIconApi.GetSystemIcon(ShellStockIcon.SIID_FIND),
+
+            UnsignedFloatValueOnly = true,
+            TopMost = TopMost,
+
+            Description = Config.Language[$"FrmMain.{nameof(MnuCustomZoom)}._Description"],
+        };
+
+
+        if (frm.ShowDialog(this) != DialogResult.OK) return;
+
+        if (float.TryParse(frm.Value.Trim(), out var newZoom))
+        {
+            PicMain.ZoomFactor = newZoom / 100f;
+        }
+    }
+
+
     private void MnuActualSize_Click(object sender, EventArgs e)
     {
         PicMain.ZoomFactor = 1;
@@ -2234,5 +2271,4 @@ public partial class FrmSlideshow : ThemedForm
     #endregion // Menu events
 
 
-    
 }

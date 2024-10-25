@@ -46,6 +46,7 @@
             toolStripMenuItem4 = new ToolStripSeparator();
             MnuGoToFirst = new ToolStripMenuItem();
             MnuGoToLast = new ToolStripMenuItem();
+            MnuCustomZoom = new ToolStripMenuItem();
             MnuActualSize = new ToolStripMenuItem();
             MnuZoomModes = new ToolStripMenuItem();
             MnuAutoZoom = new ToolStripMenuItem();
@@ -56,14 +57,14 @@
             MnuScaleToFill = new ToolStripMenuItem();
             MnuLoadingOrders = new ToolStripMenuItem();
             toolStripMenuItem2 = new ToolStripSeparator();
-            MnuOpenWith = new ToolStripMenuItem();
-            MnuOpenLocation = new ToolStripMenuItem();
             MnuCopyPath = new ToolStripMenuItem();
             MnuMoveToRecycleBin = new ToolStripMenuItem();
-            toolStripMenuItem5 = new ToolStripSeparator();
-            MnuExitSlideshow = new ToolStripMenuItem();
             MnuDeleteFromHardDisk = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
+            MnuOpenWith = new ToolStripMenuItem();
+            MnuOpenLocation = new ToolStripMenuItem();
+            toolStripMenuItem5 = new ToolStripSeparator();
+            MnuExitSlideshow = new ToolStripMenuItem();
             MnuContext.SuspendLayout();
             SuspendLayout();
             // 
@@ -78,7 +79,7 @@
             PicMain.Margin = new Padding(0);
             PicMain.Name = "PicMain";
             PicMain.RequestUpdateFrame = false;
-            PicMain.Size = new Size(628, 388);
+            PicMain.Size = new Size(628, 342);
             PicMain.TabIndex = 0;
             PicMain.OnZoomChanged += PicMain_OnZoomChanged;
             PicMain.OnNavLeftClicked += PicMain_OnNavLeftClicked;
@@ -97,9 +98,9 @@
             // 
             MnuContext.CurrentDpi = 96;
             MnuContext.ImageScalingSize = new Size(22, 22);
-            MnuContext.Items.AddRange(new ToolStripItem[] { MnuPauseResumeSlideshow, toolStripMenuItem1, MnuWindowFit, MnuFrameless, MnuFullScreen, MnuToggleCountdown, MnuToggleCheckerboard, toolStripMenuItem3, MnuChangeBackgroundColor, MnuNavigation, MnuActualSize, MnuZoomModes, MnuLoadingOrders, toolStripMenuItem2, MnuCopyPath, MnuMoveToRecycleBin, MnuDeleteFromHardDisk, toolStripSeparator1, MnuOpenWith, MnuOpenLocation, toolStripMenuItem5, MnuExitSlideshow });
+            MnuContext.Items.AddRange(new ToolStripItem[] { MnuPauseResumeSlideshow, toolStripMenuItem1, MnuWindowFit, MnuFrameless, MnuFullScreen, MnuToggleCountdown, MnuToggleCheckerboard, toolStripMenuItem3, MnuChangeBackgroundColor, MnuNavigation, MnuCustomZoom, MnuActualSize, MnuZoomModes, MnuLoadingOrders, toolStripMenuItem2, MnuCopyPath, MnuMoveToRecycleBin, MnuDeleteFromHardDisk, toolStripSeparator1, MnuOpenWith, MnuOpenLocation, toolStripMenuItem5, MnuExitSlideshow });
             MnuContext.Name = "MnuContext";
-            MnuContext.Size = new Size(246, 430);
+            MnuContext.Size = new Size(230, 452);
             MnuContext.Opening += MnuContext_Opening;
             // 
             // MnuPauseResumeSlideshow
@@ -107,14 +108,14 @@
             MnuPauseResumeSlideshow.ImageAlign = ContentAlignment.MiddleLeft;
             MnuPauseResumeSlideshow.ImageScaling = ToolStripItemImageScaling.None;
             MnuPauseResumeSlideshow.Name = "MnuPauseResumeSlideshow";
-            MnuPauseResumeSlideshow.Size = new Size(245, 22);
+            MnuPauseResumeSlideshow.Size = new Size(229, 22);
             MnuPauseResumeSlideshow.Text = "[Pause / resume slideshow]";
             MnuPauseResumeSlideshow.Click += MnuPauseResumeSlideshow_Click;
             // 
             // toolStripMenuItem1
             // 
             toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(242, 6);
+            toolStripMenuItem1.Size = new Size(226, 6);
             // 
             // MnuWindowFit
             // 
@@ -122,7 +123,7 @@
             MnuWindowFit.ImageAlign = ContentAlignment.MiddleLeft;
             MnuWindowFit.ImageScaling = ToolStripItemImageScaling.None;
             MnuWindowFit.Name = "MnuWindowFit";
-            MnuWindowFit.Size = new Size(245, 22);
+            MnuWindowFit.Size = new Size(229, 22);
             MnuWindowFit.Text = "[Window fit]";
             MnuWindowFit.Click += MnuWindowFit_Click;
             // 
@@ -132,7 +133,7 @@
             MnuFrameless.ImageAlign = ContentAlignment.MiddleLeft;
             MnuFrameless.ImageScaling = ToolStripItemImageScaling.None;
             MnuFrameless.Name = "MnuFrameless";
-            MnuFrameless.Size = new Size(245, 22);
+            MnuFrameless.Size = new Size(229, 22);
             MnuFrameless.Text = "[Frameless]";
             MnuFrameless.Click += MnuFrameless_Click;
             // 
@@ -142,7 +143,7 @@
             MnuFullScreen.ImageAlign = ContentAlignment.MiddleLeft;
             MnuFullScreen.ImageScaling = ToolStripItemImageScaling.None;
             MnuFullScreen.Name = "MnuFullScreen";
-            MnuFullScreen.Size = new Size(245, 22);
+            MnuFullScreen.Size = new Size(229, 22);
             MnuFullScreen.Text = "[Full screen]";
             MnuFullScreen.Click += MnuFullScreen_Click;
             // 
@@ -152,7 +153,7 @@
             MnuToggleCountdown.ImageAlign = ContentAlignment.MiddleLeft;
             MnuToggleCountdown.ImageScaling = ToolStripItemImageScaling.None;
             MnuToggleCountdown.Name = "MnuToggleCountdown";
-            MnuToggleCountdown.Size = new Size(245, 22);
+            MnuToggleCountdown.Size = new Size(229, 22);
             MnuToggleCountdown.Text = "[Show countdown]";
             MnuToggleCountdown.Click += MnuToggleCountdown_Click;
             // 
@@ -162,21 +163,21 @@
             MnuToggleCheckerboard.ImageAlign = ContentAlignment.MiddleLeft;
             MnuToggleCheckerboard.ImageScaling = ToolStripItemImageScaling.None;
             MnuToggleCheckerboard.Name = "MnuToggleCheckerboard";
-            MnuToggleCheckerboard.Size = new Size(245, 22);
+            MnuToggleCheckerboard.Size = new Size(229, 22);
             MnuToggleCheckerboard.Text = "[Checkerboard background]";
             MnuToggleCheckerboard.Click += MnuToggleCheckerboard_Click;
             // 
             // toolStripMenuItem3
             // 
             toolStripMenuItem3.Name = "toolStripMenuItem3";
-            toolStripMenuItem3.Size = new Size(242, 6);
+            toolStripMenuItem3.Size = new Size(226, 6);
             // 
             // MnuChangeBackgroundColor
             // 
             MnuChangeBackgroundColor.ImageAlign = ContentAlignment.MiddleLeft;
             MnuChangeBackgroundColor.ImageScaling = ToolStripItemImageScaling.None;
             MnuChangeBackgroundColor.Name = "MnuChangeBackgroundColor";
-            MnuChangeBackgroundColor.Size = new Size(245, 22);
+            MnuChangeBackgroundColor.Size = new Size(229, 22);
             MnuChangeBackgroundColor.Text = "[Change background color...]";
             MnuChangeBackgroundColor.Click += MnuChangeBackgroundColor_Click;
             // 
@@ -186,48 +187,57 @@
             MnuNavigation.ImageAlign = ContentAlignment.MiddleLeft;
             MnuNavigation.ImageScaling = ToolStripItemImageScaling.None;
             MnuNavigation.Name = "MnuNavigation";
-            MnuNavigation.Size = new Size(245, 22);
+            MnuNavigation.Size = new Size(229, 22);
             MnuNavigation.Text = "[Navigation]";
             // 
             // MnuViewNext
             // 
             MnuViewNext.Name = "MnuViewNext";
-            MnuViewNext.Size = new Size(205, 22);
+            MnuViewNext.Size = new Size(190, 22);
             MnuViewNext.Text = "[View next image]";
             MnuViewNext.Click += MnuViewNext_Click;
             // 
             // MnuViewPrevious
             // 
             MnuViewPrevious.Name = "MnuViewPrevious";
-            MnuViewPrevious.Size = new Size(205, 22);
+            MnuViewPrevious.Size = new Size(190, 22);
             MnuViewPrevious.Text = "[View previos image]";
             MnuViewPrevious.Click += MnuViewPrevious_Click;
             // 
             // toolStripMenuItem4
             // 
             toolStripMenuItem4.Name = "toolStripMenuItem4";
-            toolStripMenuItem4.Size = new Size(202, 6);
+            toolStripMenuItem4.Size = new Size(187, 6);
             // 
             // MnuGoToFirst
             // 
             MnuGoToFirst.Name = "MnuGoToFirst";
-            MnuGoToFirst.Size = new Size(205, 22);
+            MnuGoToFirst.Size = new Size(190, 22);
             MnuGoToFirst.Text = "[Go to the first image]";
             MnuGoToFirst.Click += MnuGoToFirst_Click;
             // 
             // MnuGoToLast
             // 
             MnuGoToLast.Name = "MnuGoToLast";
-            MnuGoToLast.Size = new Size(205, 22);
+            MnuGoToLast.Size = new Size(190, 22);
             MnuGoToLast.Text = "[Go to the last image]";
             MnuGoToLast.Click += MnuGoToLast_Click;
+            // 
+            // MnuCustomZoom
+            // 
+            MnuCustomZoom.ImageAlign = ContentAlignment.MiddleLeft;
+            MnuCustomZoom.ImageScaling = ToolStripItemImageScaling.None;
+            MnuCustomZoom.Name = "MnuCustomZoom";
+            MnuCustomZoom.Size = new Size(229, 22);
+            MnuCustomZoom.Text = "[Custom zoom...]";
+            MnuCustomZoom.Click += MnuCustomZoom_Click;
             // 
             // MnuActualSize
             // 
             MnuActualSize.ImageAlign = ContentAlignment.MiddleLeft;
             MnuActualSize.ImageScaling = ToolStripItemImageScaling.None;
             MnuActualSize.Name = "MnuActualSize";
-            MnuActualSize.Size = new Size(245, 22);
+            MnuActualSize.Size = new Size(229, 22);
             MnuActualSize.Text = "[View actual size]";
             MnuActualSize.Click += MnuActualSize_Click;
             // 
@@ -237,14 +247,14 @@
             MnuZoomModes.ImageAlign = ContentAlignment.MiddleLeft;
             MnuZoomModes.ImageScaling = ToolStripItemImageScaling.None;
             MnuZoomModes.Name = "MnuZoomModes";
-            MnuZoomModes.Size = new Size(245, 22);
+            MnuZoomModes.Size = new Size(229, 22);
             MnuZoomModes.Text = "[Zoom modes]";
             // 
             // MnuAutoZoom
             // 
             MnuAutoZoom.CheckOnClick = true;
             MnuAutoZoom.Name = "MnuAutoZoom";
-            MnuAutoZoom.Size = new Size(178, 22);
+            MnuAutoZoom.Size = new Size(167, 22);
             MnuAutoZoom.Text = "[Auto Zoom]";
             MnuAutoZoom.Click += MnuAutoZoom_Click;
             // 
@@ -252,7 +262,7 @@
             // 
             MnuLockZoom.CheckOnClick = true;
             MnuLockZoom.Name = "MnuLockZoom";
-            MnuLockZoom.Size = new Size(178, 22);
+            MnuLockZoom.Size = new Size(167, 22);
             MnuLockZoom.Text = "[Lock zoom ratio]";
             MnuLockZoom.Click += MnuLockZoom_Click;
             // 
@@ -260,7 +270,7 @@
             // 
             MnuScaleToWidth.CheckOnClick = true;
             MnuScaleToWidth.Name = "MnuScaleToWidth";
-            MnuScaleToWidth.Size = new Size(178, 22);
+            MnuScaleToWidth.Size = new Size(167, 22);
             MnuScaleToWidth.Text = "[Scale to width]";
             MnuScaleToWidth.Click += MnuScaleToWidth_Click;
             // 
@@ -268,7 +278,7 @@
             // 
             MnuScaleToHeight.CheckOnClick = true;
             MnuScaleToHeight.Name = "MnuScaleToHeight";
-            MnuScaleToHeight.Size = new Size(178, 22);
+            MnuScaleToHeight.Size = new Size(167, 22);
             MnuScaleToHeight.Text = "[Scale to height]";
             MnuScaleToHeight.Click += MnuScaleToHeight_Click;
             // 
@@ -276,7 +286,7 @@
             // 
             MnuScaleToFit.CheckOnClick = true;
             MnuScaleToFit.Name = "MnuScaleToFit";
-            MnuScaleToFit.Size = new Size(178, 22);
+            MnuScaleToFit.Size = new Size(167, 22);
             MnuScaleToFit.Text = "[Scale to fit]";
             MnuScaleToFit.Click += MnuScaleToFit_Click;
             // 
@@ -284,7 +294,7 @@
             // 
             MnuScaleToFill.CheckOnClick = true;
             MnuScaleToFill.Name = "MnuScaleToFill";
-            MnuScaleToFill.Size = new Size(178, 22);
+            MnuScaleToFill.Size = new Size(167, 22);
             MnuScaleToFill.Text = "[Scale to fill]";
             MnuScaleToFill.Click += MnuScaleToFill_Click;
             // 
@@ -293,38 +303,20 @@
             MnuLoadingOrders.ImageAlign = ContentAlignment.MiddleLeft;
             MnuLoadingOrders.ImageScaling = ToolStripItemImageScaling.None;
             MnuLoadingOrders.Name = "MnuLoadingOrders";
-            MnuLoadingOrders.Size = new Size(245, 22);
+            MnuLoadingOrders.Size = new Size(229, 22);
             MnuLoadingOrders.Text = "[Loading orders]";
             // 
             // toolStripMenuItem2
             // 
             toolStripMenuItem2.Name = "toolStripMenuItem2";
-            toolStripMenuItem2.Size = new Size(242, 6);
-            // 
-            // MnuOpenWith
-            // 
-            MnuOpenWith.ImageAlign = ContentAlignment.MiddleLeft;
-            MnuOpenWith.ImageScaling = ToolStripItemImageScaling.None;
-            MnuOpenWith.Name = "MnuOpenWith";
-            MnuOpenWith.Size = new Size(245, 22);
-            MnuOpenWith.Text = "[Open with...]";
-            MnuOpenWith.Click += MnuOpenWith_Click;
-            // 
-            // MnuOpenLocation
-            // 
-            MnuOpenLocation.ImageAlign = ContentAlignment.MiddleLeft;
-            MnuOpenLocation.ImageScaling = ToolStripItemImageScaling.None;
-            MnuOpenLocation.Name = "MnuOpenLocation";
-            MnuOpenLocation.Size = new Size(245, 22);
-            MnuOpenLocation.Text = "[Open image location]";
-            MnuOpenLocation.Click += MnuOpenLocation_Click;
+            toolStripMenuItem2.Size = new Size(226, 6);
             // 
             // MnuCopyPath
             // 
             MnuCopyPath.ImageAlign = ContentAlignment.MiddleLeft;
             MnuCopyPath.ImageScaling = ToolStripItemImageScaling.None;
             MnuCopyPath.Name = "MnuCopyPath";
-            MnuCopyPath.Size = new Size(245, 22);
+            MnuCopyPath.Size = new Size(229, 22);
             MnuCopyPath.Text = "[Copy image path]";
             MnuCopyPath.Click += MnuCopyPath_Click;
             // 
@@ -333,43 +325,61 @@
             MnuMoveToRecycleBin.ImageAlign = ContentAlignment.MiddleLeft;
             MnuMoveToRecycleBin.ImageScaling = ToolStripItemImageScaling.None;
             MnuMoveToRecycleBin.Name = "MnuMoveToRecycleBin";
-            MnuMoveToRecycleBin.Size = new Size(245, 22);
+            MnuMoveToRecycleBin.Size = new Size(229, 22);
             MnuMoveToRecycleBin.Text = "[Move to Recycle bin]";
             MnuMoveToRecycleBin.Click += MnuMoveToRecycleBin_Click;
-            // 
-            // toolStripMenuItem5
-            // 
-            toolStripMenuItem5.Name = "toolStripMenuItem5";
-            toolStripMenuItem5.Size = new Size(242, 6);
-            // 
-            // MnuExitSlideshow
-            // 
-            MnuExitSlideshow.ImageAlign = ContentAlignment.MiddleLeft;
-            MnuExitSlideshow.ImageScaling = ToolStripItemImageScaling.None;
-            MnuExitSlideshow.Name = "MnuExitSlideshow";
-            MnuExitSlideshow.Size = new Size(245, 22);
-            MnuExitSlideshow.Text = "[Exit slideshow]";
-            MnuExitSlideshow.Click += MnuExitSlideshow_Click;
             // 
             // MnuDeleteFromHardDisk
             // 
             MnuDeleteFromHardDisk.ImageAlign = ContentAlignment.MiddleLeft;
             MnuDeleteFromHardDisk.ImageScaling = ToolStripItemImageScaling.None;
             MnuDeleteFromHardDisk.Name = "MnuDeleteFromHardDisk";
-            MnuDeleteFromHardDisk.Size = new Size(245, 22);
+            MnuDeleteFromHardDisk.Size = new Size(229, 22);
             MnuDeleteFromHardDisk.Text = "[Delete from hard disk]";
             MnuDeleteFromHardDisk.Click += MnuDeleteFromHardDisk_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(242, 6);
+            toolStripSeparator1.Size = new Size(226, 6);
+            // 
+            // MnuOpenWith
+            // 
+            MnuOpenWith.ImageAlign = ContentAlignment.MiddleLeft;
+            MnuOpenWith.ImageScaling = ToolStripItemImageScaling.None;
+            MnuOpenWith.Name = "MnuOpenWith";
+            MnuOpenWith.Size = new Size(229, 22);
+            MnuOpenWith.Text = "[Open with...]";
+            MnuOpenWith.Click += MnuOpenWith_Click;
+            // 
+            // MnuOpenLocation
+            // 
+            MnuOpenLocation.ImageAlign = ContentAlignment.MiddleLeft;
+            MnuOpenLocation.ImageScaling = ToolStripItemImageScaling.None;
+            MnuOpenLocation.Name = "MnuOpenLocation";
+            MnuOpenLocation.Size = new Size(229, 22);
+            MnuOpenLocation.Text = "[Open image location]";
+            MnuOpenLocation.Click += MnuOpenLocation_Click;
+            // 
+            // toolStripMenuItem5
+            // 
+            toolStripMenuItem5.Name = "toolStripMenuItem5";
+            toolStripMenuItem5.Size = new Size(226, 6);
+            // 
+            // MnuExitSlideshow
+            // 
+            MnuExitSlideshow.ImageAlign = ContentAlignment.MiddleLeft;
+            MnuExitSlideshow.ImageScaling = ToolStripItemImageScaling.None;
+            MnuExitSlideshow.Name = "MnuExitSlideshow";
+            MnuExitSlideshow.Size = new Size(229, 22);
+            MnuExitSlideshow.Text = "[Exit slideshow]";
+            MnuExitSlideshow.Click += MnuExitSlideshow_Click;
             // 
             // FrmSlideshow
             // 
-            AutoScaleDimensions = new SizeF(7F, 17F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(628, 388);
+            ClientSize = new Size(628, 342);
             Controls.Add(PicMain);
             KeyPreview = true;
             Margin = new Padding(2);
@@ -416,5 +426,6 @@
         private ToolStripMenuItem MnuMoveToRecycleBin;
         private ToolStripMenuItem MnuDeleteFromHardDisk;
         private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem MnuCustomZoom;
     }
 }
