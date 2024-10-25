@@ -1944,8 +1944,6 @@ public static class Config
         PopupButton buttons = PopupButton.OK,
         string optionText = "")
     {
-        SystemSounds.Question.Play();
-
         return Popup.ShowDialog(description, title, heading, details, note, ColorStatusType.Info, buttons, icon, thumbnail, optionText, Config.EnableWindowTopMost, formOwner);
     }
 
@@ -1972,7 +1970,6 @@ public static class Config
         string optionText = "")
     {
         heading ??= Language["_._Warning"];
-        SystemSounds.Exclamation.Play();
 
         return Popup.ShowDialog(description, title, heading, details, note, ColorStatusType.Warning, buttons, icon, thumbnail, optionText, Config.EnableWindowTopMost, formOwner);
     }
@@ -2000,7 +1997,6 @@ public static class Config
         string optionText = "")
     {
         heading ??= Language["_._Error"];
-        SystemSounds.Asterisk.Play();
 
         return Popup.ShowDialog(description, title, heading, details, note, ColorStatusType.Danger, buttons, icon, thumbnail, optionText, Config.EnableWindowTopMost, formOwner);
     }
