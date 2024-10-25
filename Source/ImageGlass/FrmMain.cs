@@ -1695,13 +1695,10 @@ public partial class FrmMain : ThemedForm
         #region Free path executable
         else
         {
-            var currentFilePath = Local.Images.GetFilePath(Local.CurrentIndex);
-            var procArgs = string.Join("",
-                ac.Arguments
-                    .Select(i => $"{i}".Replace(Const.FILE_MACRO, $"\"{currentFilePath}\""))
-                    .ToArray()) ?? string.Empty;
+            var args = string.Join("", ac.Arguments) ?? string.Empty;
+            var (Executable, Args) = BHelper.BuildExeArgs(ac.Executable, args, Local.Images.GetFilePath(Local.CurrentIndex));
 
-            var result = await BHelper.RunExeCmd(ac.Executable, procArgs, false, false);
+            var result = await BHelper.RunExeCmd(Executable, Args, false, false);
             if (result != IgExitCode.Done)
             {
                 error = new Exception(ZString.Format(Config.Language[$"{langPath}._Win32ExeError"], ac.Executable));

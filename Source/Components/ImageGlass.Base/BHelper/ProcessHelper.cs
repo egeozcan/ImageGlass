@@ -91,8 +91,19 @@ public partial class BHelper
     public static async Task<int> RunExeAsync(string filename, string args, bool asAdmin = false, bool waitForExit = false)
     {
         var proc = new Process();
-        proc.StartInfo.FileName = filename;
-        proc.StartInfo.Arguments = args;
+
+        // filename is an app protocal
+        if (filename.EndsWith(':'))
+        {
+            var url = $"{filename}{args}";
+            proc.StartInfo.FileName = url;
+        }
+        // filename is a path
+        else
+        {
+            proc.StartInfo.FileName = filename;
+            proc.StartInfo.Arguments = args;
+        }
 
         proc.StartInfo.Verb = asAdmin ? "runas" : "";
         proc.StartInfo.UseShellExecute = true;
@@ -171,5 +182,22 @@ public partial class BHelper
         catch { }
 
         return false;
+    }
+
+
+    /// <summary>
+    /// Builds correct file path for executable and app protocol.
+    /// </summary>
+    public static (string Executable, string Args) BuildExeArgs(string executable, string arguments, string currentFilePath = "")
+    {
+        var exe = executable.Trim();
+        var isAppProtocol = exe.EndsWith(':');
+
+        // exclude the double quotes if the executable is app protocol
+        var filePath = isAppProtocol ? currentFilePath : $"\"{currentFilePath}\"";
+
+        var args = arguments.Replace(Const.FILE_MACRO, filePath);
+
+        return (Executable: exe, Args: args);
     }
 }

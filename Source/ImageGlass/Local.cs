@@ -658,16 +658,15 @@ public class Local
     public static async Task<PipeServer?> OpenPipedToolAsync(IgTool? tool)
     {
         if (tool == null || tool.IsEmpty) throw new FileNotFoundException();
-        if (ToolPipeServers.TryGetValue(tool.ToolId, out PipeServer? server)) return server;
+        if (ToolPipeServers.TryGetValue(tool.ToolId, out var server)) return server;
 
         var isIntegrated = tool.IsIntegrated ?? false;
-        var filePath = Local.Images.GetFilePath(Local.CurrentIndex);
-        var args = tool.Argument?.Replace(Const.FILE_MACRO, $"\"{filePath}\"");
+        var (Executable, Args) = BHelper.BuildExeArgs(tool.Executable, tool.Argument, Local.Images.GetFilePath(Local.CurrentIndex));
 
         // tool is not integrated
         if (!isIntegrated)
         {
-            using var _ = ImageGlassTool.LaunchTool(tool.Executable, args, false);
+            using var _ = ImageGlassTool.LaunchTool(Executable, Args, false);
             return null;
         }
 
@@ -702,9 +701,7 @@ public class Local
         try
         {
             var pipeCodeCmd = $"{ImageGlassTool.PIPE_CODE_CMD_LINE}{pipeCode}";
-
-            toolProc = ImageGlassTool.LaunchTool(tool.Executable,
-                $"{args} {pipeCodeCmd}", false);
+            toolProc = ImageGlassTool.LaunchTool(Executable, $"{Args} {pipeCodeCmd}", false);
         }
         catch (FileNotFoundException ex)
         {
