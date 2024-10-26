@@ -30,10 +30,7 @@ using Microsoft.Win32;
 using System.Collections.Frozen;
 using System.Diagnostics;
 using System.Dynamic;
-using System.Media;
 using System.Reflection;
-using System.Text;
-using Windows.Globalization;
 
 namespace ImageGlass.Settings;
 
@@ -681,7 +678,7 @@ public static class Config
 
         // get user config version
         Version = items.GetValue<float>($"_Metadata:{nameof(Version)}");
-            
+
 
         // save the config for all tools
         ToolSettings = items.GetValueObj(nameof(ToolSettings)).GetValue(nameof(ToolSettings), new ExpandoObject());

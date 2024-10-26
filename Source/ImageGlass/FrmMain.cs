@@ -664,7 +664,7 @@ public partial class FrmMain : ThemedForm
         Gallery.SuspendLayout();
         Gallery.Items.Clear();
 
-        foreach (string filename in Local.Images.FileNames)
+        foreach (var filename in Local.Images.FileNames)
         {
             Gallery.Items.Add(filename);
         }

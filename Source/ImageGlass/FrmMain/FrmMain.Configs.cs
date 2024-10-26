@@ -615,7 +615,7 @@ public partial class FrmMain
                 // Example: OnClick = new("IG_ToggleToolbar", false)
                 else if (configProp.PropertyType.Equals(typeof(bool)))
                 {
-                    if (bool.TryParse(propValue.ToString(), out bool value))
+                    if (bool.TryParse(propValue.ToString(), out var value))
                     {
                         tItem.Checked = value;
                     }
@@ -893,7 +893,7 @@ public partial class FrmMain
                         hotkey = Config.GetHotkeyString(CurrentMenuHotkeys, tagModel.OnClick.Executable);
                     }
 
-                    if (Config.Language.TryGetValue(langKey, out string? value))
+                    if (Config.Language.TryGetValue(langKey, out var value))
                     {
                         tItem.Text = tItem.ToolTipText = value;
 
