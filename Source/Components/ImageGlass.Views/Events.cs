@@ -17,7 +17,19 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using D2Phap;
+
 namespace ImageGlass.Viewer;
+
+
+public class DrawingEventArgs : EventArgs
+{
+    public IGraphics Graphics { get; init; }
+    public RectangleF DestRect { get; init; }
+    public RectangleF SrcRect { get; init; }
+    public float ZoomFactor { get; init; }
+}
+
 
 /// <summary>
 /// Panning event arguments

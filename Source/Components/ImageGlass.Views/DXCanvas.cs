@@ -998,9 +998,14 @@ public partial class DXCanvas : DXControl
     #region Events
 
     /// <summary>
+    /// Occurs when when image is drawn and before control's controls are drawn.
+    /// </summary>
+    public event EventHandler<DrawingEventArgs>? Drawing;
+
+    /// <summary>
     /// Occurs when <see cref="ZoomFactor"/> value changes.
     /// </summary>
-    public event EventHandler<ZoomEventArgs>? OnZoomChanged = null;
+    public event EventHandler<ZoomEventArgs>? OnZoomChanged;
 
     /// <summary>
     /// Occurs when the host is being panned.
@@ -1553,6 +1558,15 @@ public partial class DXCanvas : DXControl
         {
             ImageDrawn?.Invoke(this, EventArgs.Empty);
         }
+
+        // emit drawing event
+        Drawing?.Invoke(this, new DrawingEventArgs
+        {
+            Graphics = g,
+            SrcRect = _srcRect,
+            DestRect = _destRect,
+            ZoomFactor = _zoomFactor,
+        });
 
 
         // Draw selection layer
