@@ -16,6 +16,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+using ImageGlass.Base.DirectoryComparer;
+using ImageGlass.Base.Photoing.Codecs;
 using ImageGlass.Base.WinApi;
 using Microsoft.VisualBasic.FileIO;
 using System.Diagnostics;
@@ -78,10 +80,7 @@ public partial class BHelper
     /// </summary>
     public static List<string> GetDistinctDirsFromPaths(IEnumerable<string> pathList)
     {
-        if (!pathList.Any())
-        {
-            return [];
-        }
+        if (!pathList.Any()) return [];
 
         var hashedDirsList = new HashSet<string>();
 
@@ -257,6 +256,236 @@ public partial class BHelper
             FileSystem.DeleteFile(filePath, UIOption.OnlyErrorDialogs, option);
         }
         catch (OperationCanceledException) { }
+    }
+
+
+
+    /// <summary>
+    /// Finds all files in the given directories.
+    /// </summary>
+    public static IEnumerable<string> FindFiles(IEnumerable<string> rootDirs,
+        bool searchAllDirectories,
+        bool includeHidden,
+        Predicate<string>? filterFn = null,
+        Func<IEnumerable<string>, IEnumerable<string>>? postProcessFn = null)
+    {
+        var results = Enumerable.Empty<string>();
+
+        Parallel.For(0, rootDirs.Count(), i =>
+        {
+            var filePaths = FindFiles(rootDirs.ElementAt(i),
+                searchAllDirectories,
+                includeHidden,
+                filterFn); // skip postProcessFn
+
+            results = Enumerable.Concat(results, filePaths);
+        });
+
+
+        // post processing
+        if (postProcessFn != null) results = postProcessFn(results);
+
+        return results;
+    }
+
+
+    /// <summary>
+    /// Finds all files in the given directory.
+    /// </summary>
+    public static IEnumerable<string> FindFiles(string rootDir,
+        bool searchAllDirectories,
+        bool includeHidden,
+        Predicate<string>? filterFn = null,
+        Func<IEnumerable<string>, IEnumerable<string>>? postProcessFn = null)
+    {
+        // check attributes to skip
+        var skipAttrs = FileAttributes.System;
+        if (!includeHidden) skipAttrs |= FileAttributes.Hidden;
+
+
+        var filePaths = Directory.EnumerateFiles(rootDir, "*", new EnumerationOptions()
+        {
+            IgnoreInaccessible = true,
+            AttributesToSkip = skipAttrs,
+            RecurseSubdirectories = searchAllDirectories,
+        }).Where(path => filterFn == null ? true : filterFn(path));
+
+
+        // post processing
+        if (postProcessFn != null) filePaths = postProcessFn(filePaths);
+
+        return filePaths;
+    }
+
+
+    /// <summary>
+    /// Sort image list.
+    /// </summary>
+    public static IEnumerable<string> SortFilePathList(IEnumerable<string> fileList,
+        ImageOrderBy orderBy, ImageOrderType orderType, bool groupByDir)
+    {
+        // KBR 20190605
+        // Fix observed limitation: to more closely match the Windows Explorer's sort
+        // order, we must sort by the target column, then by name.
+        var filePathComparer = new StringNaturalComparer(orderType == ImageOrderType.Asc, true);
+
+        // initiate directory sorter to a comparer that does nothing
+        // if user wants to group by directory, we initiate the real comparer
+        var identityComparer = (IComparer<string?>)Comparer<string>.Create((a, b) => 0);
+        var dirPathComparer = groupByDir
+            ? new StringNaturalComparer(orderType == ImageOrderType.Asc, true)
+            : identityComparer;
+
+        // KBR 20190605 Fix observed discrepancy: using UTC for create,
+        // but not for write/access times
+
+        // Sort image file
+        if (orderBy == ImageOrderBy.FileSize)
+        {
+            if (orderType == ImageOrderType.Desc)
+            {
+                return fileList.AsParallel()
+                    .OrderBy(f => Path.GetDirectoryName(f), dirPathComparer)
+                    .ThenByDescending(f => new FileInfo(f).Length)
+                    .ThenBy(f => Path.GetFileName(f), filePathComparer);
+            }
+            else
+            {
+                return fileList.AsParallel()
+                    .OrderBy(f => Path.GetDirectoryName(f), dirPathComparer)
+                    .ThenBy(f => new FileInfo(f).Length)
+                    .ThenBy(f => Path.GetFileName(f), filePathComparer);
+            }
+        }
+
+        // sort by CreationTime
+        if (orderBy == ImageOrderBy.DateCreated)
+        {
+            if (orderType == ImageOrderType.Desc)
+            {
+                return fileList.AsParallel()
+                    .OrderBy(f => Path.GetDirectoryName(f), dirPathComparer)
+                    .ThenByDescending(f => new FileInfo(f).CreationTimeUtc)
+                    .ThenBy(f => Path.GetFileName(f), filePathComparer);
+            }
+            else
+            {
+                return fileList.AsParallel()
+                    .OrderBy(f => Path.GetDirectoryName(f), dirPathComparer)
+                    .ThenBy(f => new FileInfo(f).CreationTimeUtc)
+                    .ThenBy(f => Path.GetFileName(f), filePathComparer);
+            }
+        }
+
+        // sort by Extension
+        if (orderBy == ImageOrderBy.Extension)
+        {
+            if (orderType == ImageOrderType.Desc)
+            {
+                return fileList.AsParallel()
+                    .OrderBy(f => Path.GetDirectoryName(f), dirPathComparer)
+                    .ThenByDescending(f => new FileInfo(f).Extension.ToLowerInvariant())
+                    .ThenBy(f => Path.GetFileName(f), filePathComparer);
+            }
+            else
+            {
+                return fileList.AsParallel()
+                    .OrderBy(f => Path.GetDirectoryName(f), dirPathComparer)
+                    .ThenBy(f => new FileInfo(f).Extension.ToLowerInvariant())
+                    .ThenBy(f => Path.GetFileName(f), filePathComparer);
+            }
+        }
+
+        // sort by LastAccessTime
+        if (orderBy == ImageOrderBy.DateAccessed)
+        {
+            if (orderType == ImageOrderType.Desc)
+            {
+                return fileList.AsParallel()
+                    .OrderBy(f => Path.GetDirectoryName(f), dirPathComparer)
+                    .ThenByDescending(f => new FileInfo(f).LastAccessTimeUtc)
+                    .ThenBy(f => Path.GetFileName(f), filePathComparer);
+            }
+            else
+            {
+                return fileList.AsParallel()
+                    .OrderBy(f => Path.GetDirectoryName(f), dirPathComparer)
+                    .ThenBy(f => new FileInfo(f).LastAccessTimeUtc)
+                    .ThenBy(f => Path.GetFileName(f), filePathComparer);
+            }
+        }
+
+        // sort by LastWriteTime
+        if (orderBy == ImageOrderBy.DateModified)
+        {
+            if (orderType == ImageOrderType.Desc)
+            {
+                return fileList.AsParallel()
+                    .OrderBy(f => Path.GetDirectoryName(f), dirPathComparer)
+                    .ThenByDescending(f => new FileInfo(f).LastWriteTimeUtc)
+                    .ThenBy(f => Path.GetFileName(f), filePathComparer);
+            }
+            else
+            {
+                return fileList.AsParallel()
+                    .OrderBy(f => Path.GetDirectoryName(f), dirPathComparer)
+                    .ThenBy(f => new FileInfo(f).LastWriteTimeUtc)
+                    .ThenBy(f => Path.GetFileName(f), filePathComparer);
+            }
+        }
+
+        // sort by Random
+        if (orderBy == ImageOrderBy.Random)
+        {
+            // NOTE: ignoring the 'descending order' setting
+            return fileList.AsParallel()
+                .OrderBy(f => Path.GetDirectoryName(f), dirPathComparer)
+                .ThenBy(_ => Guid.NewGuid());
+        }
+
+        // sort by DateTaken
+        if (orderBy == ImageOrderBy.ExifDateTaken)
+        {
+            if (orderType == ImageOrderType.Desc)
+            {
+                return fileList
+                    .OrderBy(f => Path.GetDirectoryName(f), dirPathComparer)
+                    .ThenByDescending(f => PhotoCodec.LoadMetadata(f).ExifDateTimeOriginal)
+                    .ThenBy(f => Path.GetFileName(f), new StringNaturalComparer()); // always by ASC
+            }
+            else
+            {
+                return fileList
+                    .OrderBy(f => Path.GetDirectoryName(f), dirPathComparer)
+                    .ThenBy(f => PhotoCodec.LoadMetadata(f).ExifDateTimeOriginal)
+                    .ThenBy(f => Path.GetFileName(f), filePathComparer);
+            }
+        }
+
+        // sort by Rating
+        if (orderBy == ImageOrderBy.ExifRating)
+        {
+            if (orderType == ImageOrderType.Desc)
+            {
+                return fileList
+                    .OrderBy(f => Path.GetDirectoryName(f), dirPathComparer)
+                    .ThenByDescending(f => PhotoCodec.LoadMetadata(f).ExifRatingPercent)
+                    .ThenBy(f => Path.GetFileName(f), new StringNaturalComparer()); // always by ASC
+            }
+            else
+            {
+                return fileList
+                    .OrderBy(f => Path.GetDirectoryName(f), dirPathComparer)
+                    .ThenBy(f => PhotoCodec.LoadMetadata(f).ExifRatingPercent)
+                    .ThenBy(f => Path.GetFileName(f), filePathComparer);
+            }
+        }
+
+
+        // sort by Name (default)
+        return fileList.AsParallel()
+            .OrderBy(f => Path.GetDirectoryName(f), dirPathComparer)
+            .ThenBy(f => Path.GetFileName(f), filePathComparer);
     }
 
 }
