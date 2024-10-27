@@ -708,7 +708,7 @@ public partial class FrmSettings : WebForm
 
         if (result == IgExitCode.Error)
         {
-            result = await BHelper.RunExeCmd("notepad", $"\"{filePath}\"", false, false);
+            _ = await BHelper.RunExeCmd("notepad", $"\"{filePath}\"", false, false);
         }
     }
 

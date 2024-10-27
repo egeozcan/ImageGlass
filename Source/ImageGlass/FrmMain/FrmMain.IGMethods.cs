@@ -1855,22 +1855,15 @@ public partial class FrmMain
         // get app from the extension
         if (Config.GetEditAppFromExtension(ext) is EditApp app)
         {
-            // open configured app for editing
-            using var p = new Process();
-            p.StartInfo.FileName = BHelper.ResolvePath(app.Executable);
-
-            // build the arguments
-            var args = app.Argument.Replace(Const.FILE_MACRO, $"\"{filePath}\"");
-            p.StartInfo.Arguments = $"{args}";
-
-            // show error dialog
-            p.StartInfo.ErrorDialog = true;
-
             try
             {
-                p.Start();
+                var args = BHelper.BuildExeArgs(app.Executable, app.Argument, filePath);
 
-                RunActionAfterEditing();
+                var result = await BHelper.RunExeCmd(args.Executable, args.Args, false, false, true);
+                if (result == IgExitCode.Done)
+                {
+                    RunActionAfterEditing();
+                }
             }
             catch { }
         }

@@ -88,7 +88,7 @@ public partial class BHelper
     /// <summary>
     /// Runs as admin
     /// </summary>
-    public static async Task<int> RunExeAsync(string filename, string args, bool asAdmin = false, bool waitForExit = false)
+    public static async Task<int> RunExeAsync(string filename, string args, bool asAdmin = false, bool waitForExit = false, bool showError = false)
     {
         var proc = new Process();
 
@@ -107,6 +107,7 @@ public partial class BHelper
 
         proc.StartInfo.Verb = asAdmin ? "runas" : "";
         proc.StartInfo.UseShellExecute = true;
+        proc.StartInfo.ErrorDialog = showError;
 
         try
         {
@@ -137,7 +138,7 @@ public partial class BHelper
     /// Run a command, supports auto-elevating process privilege
     /// if admin permission is required.
     /// </summary>
-    public static async Task<IgExitCode> RunExeCmd(string exePath, string args, bool waitForExit = true, bool appendIgArgs = true)
+    public static async Task<IgExitCode> RunExeCmd(string exePath, string args, bool waitForExit = true, bool appendIgArgs = true, bool showError = false)
     {
         IgExitCode code;
 
@@ -148,7 +149,7 @@ public partial class BHelper
                 args += $" {IgCommands.HIDE_ADMIN_REQUIRED_ERROR_UI}";
             }
 
-            code = (IgExitCode)await RunExeAsync(exePath, args, false, waitForExit);
+            code = (IgExitCode)await RunExeAsync(exePath, args, false, waitForExit, showError);
 
 
             // If that fails due to privs error, re-attempt with admin privs.

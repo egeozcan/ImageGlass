@@ -133,13 +133,27 @@ export class EditAppDialogHtmlElement extends HTMLDialogElement {
 
 
   private updateToolCommandPreview() {
+    const fakePath = 'C:\\fake dir\\photo.jpg';
+    let joinChar = ' ';
+
     let executable = query<HTMLInputElement>('[name="_Executable"]', this).value || '';
     executable = executable.trim();
 
     let args = query<HTMLInputElement>('[name="_Argument"]', this).value || '';
-    args = args.trim().replaceAll('<file>', '"C:\\fake dir\\photo.jpg"');
+    args = args.trim();
 
-    query('#App_CommandPreview', this).innerText = [executable, args].filter(Boolean).join(' ');
+    // app protocol
+    if (executable.endsWith(':')) {
+      args = args.replaceAll('<file>', fakePath);
+      joinChar = '';
+    }
+    // app executable file
+    else {
+      args = args.replaceAll('<file>', `"${fakePath}"`);
+      joinChar = ' ';
+    }
+
+    query('#App_CommandPreview', this).innerText = [executable, args].filter(Boolean).join(joinChar);
   }
 
 
