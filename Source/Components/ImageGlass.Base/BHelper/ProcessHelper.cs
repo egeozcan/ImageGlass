@@ -201,4 +201,35 @@ public partial class BHelper
 
         return (Executable: exe, Args: args);
     }
+
+
+    /// <summary>
+    /// Takes the last called action, delays the execution after a certain amount of time has passed.
+    /// </summary>
+    /// <remarks>Example:
+    /// <code>BHelper
+    ///  .Debounce(() => MessageBox.Show(""), TimeSpan.FromSeconds(2))
+    ///  .Invoke();
+    /// </code>
+    /// </remarks>
+    public static Action Debounce(Action action, TimeSpan delay)
+    {
+        CancellationTokenSource? tokenSrc = null;
+
+        return () =>
+        {
+            tokenSrc?.Cancel();
+            tokenSrc = new();
+
+            Task.Delay(delay, tokenSrc.Token)
+                .ContinueWith(task =>
+                {
+                    if (task.IsCompletedSuccessfully)
+                    {
+                        action();
+                    }
+                }, TaskScheduler.Default);
+        };
+    }
+
 }

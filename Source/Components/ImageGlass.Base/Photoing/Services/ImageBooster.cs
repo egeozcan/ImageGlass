@@ -409,20 +409,34 @@ public class ImageBooster : IDisposable
     /// <summary>
     /// Adds a file path
     /// </summary>
-    /// <param name="filePath">Image file path</param>
-    public void Add(string filePath)
+    public void Add(string filePath, int index = -1)
     {
-        ImgList.Add(new IgPhoto(filePath));
+        if (index < 0)
+        {
+            ImgList.Add(new IgPhoto(filePath));
+        }
+        else
+        {
+            ImgList.Insert(index, new IgPhoto(filePath));
+        }
     }
 
 
     /// <summary>
     /// Adds multiple file paths.
     /// </summary>
-    public void Add(IEnumerable<string> filePaths)
+    public void Add(IEnumerable<string> filePaths, int index = -1)
     {
         var items = filePaths.Select(i => new IgPhoto(i));
-        ImgList.AddRange(items);
+
+        if (index < 0)
+        {
+            ImgList.AddRange(items);
+        }
+        else
+        {
+            ImgList.InsertRange(index, items);
+        }
     }
 
 

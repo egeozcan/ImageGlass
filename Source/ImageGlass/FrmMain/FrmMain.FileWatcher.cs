@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using DirectN;
 using FileWatcherEx;
 using ImageGlass.Base;
 using ImageGlass.Settings;
@@ -26,7 +27,7 @@ namespace ImageGlass;
 public partial class FrmMain
 {
     // the list of local deleted files, need to be deleted in the memory list
-    private readonly List<string> _queueListForDeleting = new();
+    private readonly List<string> _queueListForDeleting = [];
 
     // File system watcher
     private FileSystemWatcherEx _fileWatcher = new();
@@ -237,10 +238,7 @@ public partial class FrmMain
     {
         // Only watch the supported file types
         var ext = Path.GetExtension(e.FullPath).ToLowerInvariant();
-        if (!Config.FileFormats.Contains(ext))
-        {
-            return;
-        }
+        if (!Config.FileFormats.Contains(ext)) return;
 
         // add to queue list for deleting
         _queueListForDeleting.Add(e.FullPath);
@@ -249,22 +247,45 @@ public partial class FrmMain
 
     private void FileWatcher_AddNewFileAction(string filePath)
     {
-        // Add the new image to the list
-        Local.Images.Add(filePath);
+        // find the index of the new image
+        var newFileIndex = BHelper.SortFilePathList(
+            [.. Local.Images.FileNames, filePath],
+            Local.ActiveImageLoadingOrder,
+            Local.ActiveImageLoadingOrderType,
+            Config.ShouldGroupImagesByDirectory)
+            .IndexOf(i => i.Equals(filePath, StringComparison.OrdinalIgnoreCase));
 
-        // Add the new image to gallery
-        Gallery.Items.Add(filePath);
-        Gallery.Refresh();
+        // add the new image to the list
+        Local.Images.Add(filePath, newFileIndex);
 
-        // File count has changed - update title bar
-        LoadImageInfo(ImageInfoUpdateTypes.ListCount);
-
-        // display the file just added
-        if (Config.ShouldAutoOpenNewAddedImage)
+        // add the new image to gallery
+        if (newFileIndex < 0)
         {
-            Local.CurrentIndex = Local.Images.Length - 1;
-            _ = ViewNextCancellableAsync(0);
+            Gallery.Items.Add(filePath);
         }
+        else
+        {
+            Gallery.Items.Insert(newFileIndex, filePath);
+        }
+
+
+        // update UI
+        BHelper.Debounce(() =>
+        {
+            UpdateCurrentIndex(Local.Images.GetFilePath(Local.CurrentIndex));
+
+            // file count has changed - update title bar
+            LoadImageInfo(ImageInfoUpdateTypes.ListCount);
+
+            Gallery.Refresh();
+
+            // display the file just added
+            if (Config.ShouldAutoOpenNewAddedImage)
+            {
+                Local.CurrentIndex = newFileIndex;
+                _ = ViewNextCancellableAsync(0);
+            }
+        }, TimeSpan.FromMilliseconds(500)).Invoke();
     }
 
 
@@ -303,29 +324,31 @@ public partial class FrmMain
 
         // Get index of deleted image
         var imgIndex = Local.Images.IndexOf(filePath);
+        if (imgIndex < 0) return;
 
-        if (imgIndex > -1)
+
+        // delete image list
+        Local.Images.Remove(imgIndex);
+
+        // delete thumbnail list
+        Gallery.Items.RemoveAt(imgIndex);
+
+        // change the viewing image to memory data mode
+        if (imgIndex == Local.CurrentIndex)
         {
-            // delete image list
-            Local.Images.Remove(imgIndex);
-
-            // delete thumbnail list
-            Gallery.Items.RemoveAt(imgIndex);
-
-            // change the viewing image to memory data mode
-            if (imgIndex == Local.CurrentIndex)
+            if (_queueListForDeleting.Count == 0)
             {
-                if (_queueListForDeleting.Count == 0)
-                {
-                    _ = ViewNextCancellableAsync(0);
-                }
+                _ = ViewNextCancellableAsync(0);
             }
-
-            // If user deletes the initially loaded image, use the path instead, in case
-            // of list re-load.
-            if (filePath == Local.InitialInputPath)
-                Local.InitialInputPath = Path.GetDirectoryName(filePath) ?? string.Empty;
         }
+
+        // If user deletes the initially loaded image, use the path instead, in case
+        // of list re-load.
+        if (filePath == Local.InitialInputPath)
+            Local.InitialInputPath = Path.GetDirectoryName(filePath) ?? string.Empty;
+
+        // file count has changed - update title bar
+        LoadImageInfo(ImageInfoUpdateTypes.ListCount);
     }
 
     #endregion
