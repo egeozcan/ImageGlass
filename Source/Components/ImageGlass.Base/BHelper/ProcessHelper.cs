@@ -20,6 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // Source:
 // https://github.com/aspnet/AspNetIdentity/blob/b7826741279450c58b230ece98bd04b4815beabf/src/Microsoft.AspNet.Identity.Core/AsyncHelper.cs
 
+using ImageGlass.Base.QueuedWorker;
 using System.Diagnostics;
 using System.Globalization;
 using Windows.ApplicationModel;
@@ -31,6 +32,9 @@ public partial class BHelper
     private static readonly TaskFactory _myTaskFactory = new(
         CancellationToken.None, TaskCreationOptions.None,
         TaskContinuationOptions.None, TaskScheduler.Default);
+
+    private static DebounceDispatcher? _debouncer = null;
+
 
     /// <summary>
     /// Runs an async function synchronous.
@@ -206,30 +210,19 @@ public partial class BHelper
     /// <summary>
     /// Takes the last called action, delays the execution after a certain amount of time has passed.
     /// </summary>
-    /// <remarks>Example:
-    /// <code>BHelper
-    ///  .Debounce(() => MessageBox.Show(""), TimeSpan.FromSeconds(2))
-    ///  .Invoke();
-    /// </code>
-    /// </remarks>
-    public static Action Debounce(Action action, TimeSpan delay)
+    public static void Debounce(int delayMs, Action action)
     {
-        CancellationTokenSource? tokenSrc = null;
+        Debounce(delayMs, (object? param) => action());
+    }
 
-        return () =>
-        {
-            tokenSrc?.Cancel();
-            tokenSrc = new();
 
-            Task.Delay(delay, tokenSrc.Token)
-                .ContinueWith(task =>
-                {
-                    if (task.IsCompletedSuccessfully)
-                    {
-                        action();
-                    }
-                }, TaskScheduler.Default);
-        };
+    /// <summary>
+    /// Takes the last called action, delays the execution after a certain amount of time has passed.
+    /// </summary>
+    public static void Debounce<T>(int delayMs, Action<T> action, T? param = default)
+    {
+        _debouncer ??= new();
+        _debouncer.Debounce(delayMs, action, param);
     }
 
 }

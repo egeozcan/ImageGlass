@@ -48,7 +48,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="ImageGlass.Tools" Version="1.9070.0" />
+        <PackageReference Include="ImageGlass.Tools" Version="1.9200.0" />
     </ItemGroup>
 
     <ItemGroup>

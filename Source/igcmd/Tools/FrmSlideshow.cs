@@ -30,7 +30,6 @@ using ImageGlass.Viewer;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Media;
-using System.Text;
 using Timer = System.Windows.Forms.Timer;
 
 namespace igcmd.Tools;

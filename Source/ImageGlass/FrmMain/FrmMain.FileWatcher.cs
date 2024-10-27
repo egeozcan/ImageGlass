@@ -150,7 +150,7 @@ public partial class FrmMain
                 // ![old] && [new]: add to image list
                 else if (Config.FileFormats.Contains(newExt))
                 {
-                    FileWatcher_AddNewFileAction(newFilePath);
+                    FileWatcher_HandleNewFileAdded(newFilePath);
                 }
             }
         }
@@ -229,7 +229,7 @@ public partial class FrmMain
 
         if (Local.Images.IndexOf(e.FullPath) == -1)
         {
-            FileWatcher_AddNewFileAction(e.FullPath);
+            FileWatcher_HandleNewFileAdded(e.FullPath);
         }
     }
 
@@ -245,7 +245,7 @@ public partial class FrmMain
     }
 
 
-    private void FileWatcher_AddNewFileAction(string filePath)
+    private void FileWatcher_HandleNewFileAdded(string filePath)
     {
         // find the index of the new image
         var newFileIndex = BHelper.SortFilePathList(
@@ -270,22 +270,25 @@ public partial class FrmMain
 
 
         // update UI
-        BHelper.Debounce(() =>
+        BHelper.Debounce(500, UpdateUIWhenNewFilesAdded, newFileIndex);
+    }
+
+
+    private void UpdateUIWhenNewFilesAdded(int newFileIndex)
+    {
+        UpdateCurrentIndex(Local.Images.GetFilePath(Local.CurrentIndex));
+
+        // file count has changed - update title bar
+        LoadImageInfo(ImageInfoUpdateTypes.ListCount);
+
+        Gallery.Refresh();
+
+        // display the file just added
+        if (Config.ShouldAutoOpenNewAddedImage)
         {
-            UpdateCurrentIndex(Local.Images.GetFilePath(Local.CurrentIndex));
-
-            // file count has changed - update title bar
-            LoadImageInfo(ImageInfoUpdateTypes.ListCount);
-
-            Gallery.Refresh();
-
-            // display the file just added
-            if (Config.ShouldAutoOpenNewAddedImage)
-            {
-                Local.CurrentIndex = newFileIndex;
-                _ = ViewNextCancellableAsync(0);
-            }
-        }, TimeSpan.FromMilliseconds(500)).Invoke();
+            Local.CurrentIndex = newFileIndex;
+            _ = ViewNextCancellableAsync(0);
+        }
     }
 
 
