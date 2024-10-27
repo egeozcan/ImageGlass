@@ -517,7 +517,7 @@ export class HapplaBox {
     const needRecenter = this.checkIfNeedRecenter();
 
     // when useDelta = false, we must set an init location for the matrix
-    const setInitLocation = !options.useDelta ?? true;
+    const setInitLocation = !(options.useDelta ?? true);
 
     // restrict the zoom factor
     newZoomFactor = Math.min(
