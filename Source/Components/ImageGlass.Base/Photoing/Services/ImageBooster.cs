@@ -417,16 +417,12 @@ public class ImageBooster : IDisposable
 
 
     /// <summary>
-    /// Adds multiple file paths
+    /// Adds multiple file paths.
     /// </summary>
-    /// <param name="filePaths"></param>
     public void Add(IEnumerable<string> filePaths)
     {
-        // import filenames to the list
-        foreach (var filename in filePaths)
-        {
-            Add(filename);
-        }
+        var items = filePaths.Select(i => new IgPhoto(i));
+        ImgList.AddRange(items);
     }
 
 

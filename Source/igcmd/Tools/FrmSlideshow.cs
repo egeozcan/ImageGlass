@@ -671,7 +671,7 @@ public partial class FrmSlideshow : ThemedForm
     {
         await Task.Run(() =>
         {
-            var list = BHelper.SortImageList(fileList,
+            var list = BHelper.SortFilePathList(fileList,
                 Config.ImageLoadingOrder,
                 Config.ImageLoadingOrderType,
                 Config.ShouldGroupImagesByDirectory);

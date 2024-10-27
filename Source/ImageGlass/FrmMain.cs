@@ -435,20 +435,18 @@ public partial class FrmMain : ThemedForm
         string? currentFilePath)
     {
         if (!inputPaths.Any()) return;
+
         currentFilePath ??= string.Empty;
+        var hasInitFile = !string.IsNullOrEmpty(currentFilePath);
+
 
         await Task.Run(() =>
         {
-            var allFilesToLoad = new HashSet<string>();
-            var currentFile = currentFilePath;
-            var hasInitFile = !string.IsNullOrEmpty(currentFile);
-
-
             // track paths loaded to prevent duplicates
-            var pathsLoaded = new HashSet<string>();
-            var firstPath = true;
+            var dirPaths = new HashSet<string>();
+            var isFirstPath = true;
 
-            // Parse string to absolute path
+            // parse string to absolute path
             var paths = inputPaths.Select(item => BHelper.ResolvePath(item));
 
             // prepare the distinct dir list
@@ -486,9 +484,9 @@ public partial class FrmMain : ThemedForm
 
 
                 // TODO: Currently only have the ability to watch a single path for changes!
-                if (firstPath)
+                if (isFirstPath)
                 {
-                    firstPath = false;
+                    isFirstPath = false;
                     StartFileWatcher(dirPath);
 
                     // Seek for explorer sort order
@@ -498,31 +496,34 @@ public partial class FrmMain : ThemedForm
                 // KBR 20181004 Fix observed bug: dropping multiple files from the same path
                 // would load ALL files in said path multiple times! Prevent loading the same
                 // path more than once.
-                if (pathsLoaded.Add(dirPath))
-                {
-                    var imageFilenameList = LoadImageFilesFromDirectory(dirPath);
-                    allFilesToLoad.UnionWith(imageFilenameList);
-                }
+                dirPaths.Add(dirPath);
             }
 
 
             Local.InitialInputPath = hasInitFile
                 ? (distinctDirsList.Count > 0 ? distinctDirsList[0] : string.Empty)
-                : currentFile;
+                : currentFilePath;
 
 
-            // sort list
-            // NOTE: relies on LocalSetting.ActiveImageLoadingOrder been updated first!
-            var sortedFilesList = BHelper.SortImageList(allFilesToLoad,
-                Local.ActiveImageLoadingOrder,
-                Local.ActiveImageLoadingOrderType,
-                Config.ShouldGroupImagesByDirectory);
+            // get image files
+            var allFilePaths = BHelper.FindFiles(dirPaths,
+                Config.EnableRecursiveLoading,
+                Config.ShouldLoadHiddenImages,
+                filePath =>
+                {
+                    if (string.IsNullOrWhiteSpace(filePath)) return false;
+
+                    var ext = Path.GetExtension(filePath).ToLowerInvariant();
+                    return ext.Length > 0 && Config.FileFormats.Contains(ext);
+                },
+                filePaths => BHelper.SortFilePathList(filePaths,
+                    Local.ActiveImageLoadingOrder,
+                    Local.ActiveImageLoadingOrderType,
+                    Config.ShouldGroupImagesByDirectory));
+
 
             // add to image list
-            Local.InitImageList(sortedFilesList, distinctDirsList);
-
-            // Find the index of current image
-            UpdateCurrentIndex(currentFilePath);
+            Local.InitImageList(allFilePaths, distinctDirsList);
 
 
             _uiReporter.Report(new(new ImageListLoadedEventArgs()
@@ -536,7 +537,6 @@ public partial class FrmMain : ThemedForm
     /// <summary>
     /// Updates <see cref="Local.CurrentIndex"/> according to the context.
     /// </summary>
-    /// <param name="currentFilePath"></param>
     private static void UpdateCurrentIndex(string? currentFilePath)
     {
         if (string.IsNullOrEmpty(currentFilePath))
@@ -595,58 +595,20 @@ public partial class FrmMain : ThemedForm
         Local.ActiveImageLoadingOrderType = Config.ImageLoadingOrderType;
 
         // Use File Explorer sort order if possible
-        if (Config.ShouldUseExplorerSortOrder)
-        {
-            if (ExplorerSortOrder.GetExplorerSortOrder(fullPath, out var explorerOrder, out var isAscending))
-            {
-                if (explorerOrder != null)
-                {
-                    Local.ActiveImageLoadingOrder = explorerOrder.Value;
-                }
+        if (!Config.ShouldUseExplorerSortOrder) return;
 
-                if (isAscending != null)
-                {
-                    Local.ActiveImageLoadingOrderType = isAscending.Value ? ImageOrderType.Asc : ImageOrderType.Desc;
-                }
+        if (ExplorerSortOrder.GetExplorerSortOrder(fullPath, out var order, out var isAscending))
+        {
+            if (order != null)
+            {
+                Local.ActiveImageLoadingOrder = order.Value;
+            }
+
+            if (isAscending != null)
+            {
+                Local.ActiveImageLoadingOrderType = isAscending.Value ? ImageOrderType.Asc : ImageOrderType.Desc;
             }
         }
-    }
-
-
-    /// <summary>
-    /// Sort and find all supported image from directory
-    /// </summary>
-    /// <param name="path">Image folder path</param>
-    private static ConcurrentBag<string> LoadImageFilesFromDirectory(string path)
-    {
-        // Get files from dir
-        return DirectoryFinder.FindFiles(path,
-            Config.EnableRecursiveLoading,
-            new Predicate<FileInfo>((FileInfo fi) =>
-            {
-                // KBR 20180607 Rework predicate to use a FileInfo instead of the filename.
-                // By doing so, can use the attribute data already loaded into memory, 
-                // instead of fetching it again (via File.GetAttributes). A re-fetch is
-                // very slow across network paths. For me, improves image load from 4+ 
-                // seconds to 0.4 seconds for a specific network path.
-                if (fi.FullName == null)
-                    return false;
-
-                var extension = fi.Extension.ToLowerInvariant();
-
-                // checks if image is hidden and ignores it if so
-                if (!Config.ShouldLoadHiddenImages)
-                {
-                    var attributes = fi.Attributes;
-                    var isHidden = (attributes & FileAttributes.Hidden) != 0;
-                    if (isHidden)
-                    {
-                        return false;
-                    }
-                }
-
-                return extension.Length > 0 && Config.FileFormats.Contains(extension);
-            }));
     }
 
 
@@ -664,10 +626,7 @@ public partial class FrmMain : ThemedForm
         Gallery.SuspendLayout();
         Gallery.Items.Clear();
 
-        foreach (var filename in Local.Images.FileNames)
-        {
-            Gallery.Items.Add(filename);
-        }
+        Gallery.Items.AddRange(Local.Images.FileNames.ToArray());
 
         Gallery.ResumeLayout();
         UpdateGallerySize();
