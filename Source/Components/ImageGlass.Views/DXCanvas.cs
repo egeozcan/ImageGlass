@@ -332,48 +332,14 @@ public partial class DXCanvas : DXControl
     {
         get
         {
-            var p1 = this.PointClientToSource(ClientSelection.Location);
-            var p2 = this.PointClientToSource(new PointF(ClientSelection.Right, ClientSelection.Bottom));
-
-
-            // get the min int value
-            var floorP1 = new PointF(
-                (float)Math.Floor(Math.Round(p1.X, 1)),
-                (float)Math.Floor(Math.Round(p1.Y, 1)));
-            if (floorP1.X < 0) floorP1.X = 0;
-            if (floorP1.Y < 0) floorP1.Y = 0;
-            if (floorP1.X > SourceWidth) floorP1.X = SourceWidth;
-            if (floorP1.Y > SourceHeight) floorP1.Y = SourceHeight;
-
-            if (p1 == p2)
-            {
-                return new RectangleF(floorP1, new SizeF(0, 0));
-            }
-
-
-            // get the max int value
-            var ceilP2 = new PointF(
-                (float)Math.Ceiling(Math.Round(p2.X, 1)),
-                (float)Math.Ceiling(Math.Round(p2.Y, 1)));
-            if (ceilP2.X < 0) ceilP2.X = 0;
-            if (ceilP2.Y < 0) ceilP2.Y = 0;
-            if (ceilP2.X > SourceWidth) ceilP2.X = SourceWidth;
-            if (ceilP2.Y > SourceHeight) ceilP2.Y = SourceHeight;
-
-
-            // the selection area is where the p1 and p2 intersected.
-            return new RectangleF(
-                floorP1,
-                new SizeF(ceilP2.X - floorP1.X, ceilP2.Y - floorP1.Y));
+            return this.RectClientToSource(ClientSelection);
         }
         set
         {
-            var loc = this.PointSourceToClient(value.Location);
-            var size = new SizeF(value.Width * ZoomFactor, value.Height * ZoomFactor);
+            var clientRect = this.RectSourceToClient(value);
+            clientRect.Intersect(_destRect);
 
-            var newClientSelection = new RectangleF(loc, size);
-            newClientSelection.Intersect(_destRect);
-            _clientSelection = newClientSelection;
+            _clientSelection = clientRect;
         }
     }
 

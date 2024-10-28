@@ -93,7 +93,7 @@ public static class DXCanvasExtensions
 
 
     /// <summary>
-    /// Computes the location of the client point into source coords.
+    /// Computes the location of the client point into image source coords.
     /// </summary>
     public static PointF PointClientToSource(this DXCanvas c, PointF clientPoint)
     {
@@ -105,7 +105,54 @@ public static class DXCanvasExtensions
 
 
     /// <summary>
-    /// Computes the location of the source point into client coords.
+    /// Computes and scale the rectangle of the client to image source coords
+    /// </summary>
+    public static RectangleF RectClientToSource(this DXCanvas c, RectangleF rect)
+    {
+        //var loc = c.PointSourceToClient(rect.Location);
+        //var size = new SizeF(rect.Width * c.ZoomFactor, rect.Height * c.ZoomFactor);
+
+        //return new RectangleF(loc, size);
+
+
+        var p1 = c.PointClientToSource(rect.Location);
+        var p2 = c.PointClientToSource(new PointF(rect.Right, rect.Bottom));
+
+
+        // get the min int value
+        var floorP1 = new PointF(
+            (float)Math.Floor(Math.Round(p1.X, 1)),
+            (float)Math.Floor(Math.Round(p1.Y, 1)));
+        if (floorP1.X < 0) floorP1.X = 0;
+        if (floorP1.Y < 0) floorP1.Y = 0;
+        if (floorP1.X > c.SourceWidth) floorP1.X = c.SourceWidth;
+        if (floorP1.Y > c.SourceHeight) floorP1.Y = c.SourceHeight;
+
+        if (p1 == p2)
+        {
+            return new RectangleF(floorP1, new SizeF(0, 0));
+        }
+
+
+        // get the max int value
+        var ceilP2 = new PointF(
+            (float)Math.Ceiling(Math.Round(p2.X, 1)),
+            (float)Math.Ceiling(Math.Round(p2.Y, 1)));
+        if (ceilP2.X < 0) ceilP2.X = 0;
+        if (ceilP2.Y < 0) ceilP2.Y = 0;
+        if (ceilP2.X > c.SourceWidth) ceilP2.X = c.SourceWidth;
+        if (ceilP2.Y >c. SourceHeight) ceilP2.Y = c.SourceHeight;
+
+
+        // the selection area is where the p1 and p2 intersected.
+        return new RectangleF(
+            floorP1,
+            new SizeF(ceilP2.X - floorP1.X, ceilP2.Y - floorP1.Y));
+    }
+
+
+    /// <summary>
+    /// Computes the location of the image source point into client coords.
     /// </summary>
     public static PointF PointSourceToClient(this DXCanvas c, PointF srcPoint)
     {
@@ -117,7 +164,7 @@ public static class DXCanvasExtensions
 
 
     /// <summary>
-    /// Computes and scale the rectangle of the source to client coords
+    /// Computes and scale the rectangle of the image source to client coords
     /// </summary>
     public static RectangleF RectSourceToClient(this DXCanvas c, RectangleF rect)
     {
