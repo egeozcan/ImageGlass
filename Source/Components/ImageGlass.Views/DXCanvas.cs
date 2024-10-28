@@ -131,8 +131,8 @@ public partial class DXCanvas : DXControl
 
     // selection
     private bool _enableSelection = false;
-    private RectangleF _clientSelection = default;
-    private RectangleF _selectionBeforeMove = default;
+    private Rectangle _sourceSelection = default;
+    private RectangleF _srcSelectionBeforeMoved = default;
     private bool _canDrawSelection = false;
     private bool _isSelectionHovered = false;
     private SelectionResizer? _hoveredResizer = null;
@@ -300,46 +300,27 @@ public partial class DXCanvas : DXControl
 
 
     /// <summary>
-    /// Gets, sets the client selection area. This will emit the event <see cref="SelectionChanged"/>.
+    /// Gets the client selection area.
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public RectangleF ClientSelection
-    {
-        get
-        {
-            // limit the selected area to the image
-            _clientSelection.Intersect(_destRect);
-
-            return _clientSelection;
-        }
-        set
-        {
-            value.Intersect(_destRect);
-            _clientSelection = value;
-
-            SelectionChanged?.Invoke(this, new SelectionEventArgs(_clientSelection, SourceSelection));
-        }
-    }
+    public Rectangle ClientSelection => this.RectSourceToClient(_sourceSelection).ToRectangle();
 
 
     /// <summary>
-    /// Gets, sets the source selection area.
+    /// Gets, sets the image source selection. This will emit the event <see cref="SelectionChanged"/>.
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public RectangleF SourceSelection
+    public Rectangle SourceSelection
     {
-        get
-        {
-            return this.RectClientToSource(ClientSelection);
-        }
+        get => _sourceSelection;
         set
         {
-            var clientRect = this.RectSourceToClient(value);
-            clientRect.Intersect(_destRect);
+            value.Intersect(new Rectangle(0, 0, (int)SourceWidth, (int)SourceHeight));
+            _sourceSelection = value;
 
-            _clientSelection = clientRect;
+            SelectionChanged?.Invoke(this, new SelectionEventArgs(ClientSelection, SourceSelection));
         }
     }
 
@@ -1152,7 +1133,7 @@ public partial class DXCanvas : DXControl
 
             if (canSelect)
             {
-                _selectionBeforeMove = new RectangleF(_clientSelection.Location, _clientSelection.Size);
+                _srcSelectionBeforeMoved = new RectangleF(_sourceSelection.Location, _sourceSelection.Size);
 
                 // resize selection
                 if (canSelect && _hoveredResizer != null)
@@ -1171,7 +1152,10 @@ public partial class DXCanvas : DXControl
             // update selection
             if (_canDrawSelection)
             {
-                _clientSelection = new(_mouseDownPoint.Value, new SizeF());
+                _sourceSelection = new(
+                    this.PointClientToSource(_mouseDownPoint.Value).ToPoint(),
+                    new Size()
+                );
             }
 
             // panning
@@ -1351,12 +1335,10 @@ public partial class DXCanvas : DXControl
             {
                 CurrentSelectionAction = SelectionAction.Drawing;
                 UpdateSelectionByMousePosition();
-
-                SelectionChanged?.Invoke(this, new SelectionEventArgs(ClientSelection, SourceSelection));
                 requestRerender = true;
             }
             // move selection
-            else if (canSelect && IsViewingSizeSmallerViewportSize)
+            else if (canSelect)
             {
                 CurrentSelectionAction = SelectionAction.Moving;
                 MoveSelection(e.Location);
@@ -1757,7 +1739,7 @@ public partial class DXCanvas : DXControl
     protected virtual void DrawSelectionLayer(IGraphics g)
     {
         if (UseWebview2) return;
-        if (Source == ImageSource.Null || (_mouseDownButton != MouseButtons.Left && ClientSelection.IsEmpty))
+        if (Source == ImageSource.Null || (_mouseDownButton != MouseButtons.Left && _sourceSelection.IsEmpty))
             return;
 
 
@@ -1822,7 +1804,7 @@ public partial class DXCanvas : DXControl
 
 
             // draw selection size
-            var text = $"{SourceSelection.Width} x {SourceSelection.Height}";
+            var text = $"{_sourceSelection.Width} x {_sourceSelection.Height}";
             var textSize = g.MeasureText(text, Font.Name, Font.Size, textDpi: DeviceDpi);
             var textPadding = new Padding(10, 5, 10, 5);
             var textX = ClientSelection.X + (ClientSelection.Width / 2 - textSize.Width / 2);
@@ -2164,12 +2146,6 @@ public partial class DXCanvas : DXControl
             IsPreviewingImage = _isPreviewing,
             ChangeSource = ZoomChangeSource.Unknown,
         });
-
-        // emit selecting event
-        if (EnableSelection && !ClientSelection.IsEmpty)
-        {
-            SelectionChanged?.Invoke(this, new SelectionEventArgs(ClientSelection, SourceSelection));
-        }
     }
 
 
@@ -2260,12 +2236,6 @@ public partial class DXCanvas : DXControl
             IsPreviewingImage = _isPreviewing,
             ChangeSource = zoomedByResizing ? ZoomChangeSource.SizeChanged : ZoomChangeSource.ZoomMode,
         });
-
-        // emit selecting event
-        if (EnableSelection && !ClientSelection.IsEmpty)
-        {
-            SelectionChanged?.Invoke(this, new SelectionEventArgs(ClientSelection, SourceSelection));
-        }
     }
 
 
@@ -2434,13 +2404,6 @@ public partial class DXCanvas : DXControl
                 ChangeSource = ZoomChangeSource.Unknown,
             });
 
-
-            // emit selecting event
-            if (EnableSelection && !ClientSelection.IsEmpty)
-            {
-                SelectionChanged?.Invoke(this, new SelectionEventArgs(ClientSelection, SourceSelection));
-            }
-
             return true;
         }
 
@@ -2555,13 +2518,6 @@ public partial class DXCanvas : DXControl
             IsPreviewingImage = _isPreviewing,
             ChangeSource = ZoomChangeSource.Unknown,
         });
-
-
-        // emit selecting event
-        if (EnableSelection && !ClientSelection.IsEmpty)
-        {
-            SelectionChanged?.Invoke(this, new SelectionEventArgs(ClientSelection, SourceSelection));
-        }
 
         return true;
     }
@@ -2681,12 +2637,6 @@ public partial class DXCanvas : DXControl
         // emit panning event
         Panning?.Invoke(this, new PanningEventArgs(loc, new PointF(_panHostFromPoint)));
 
-        // emit selecting event
-        if (EnableSelection && !ClientSelection.IsEmpty)
-        {
-            SelectionChanged?.Invoke(this, new SelectionEventArgs(ClientSelection, SourceSelection));
-        }
-
         if (requestRerender)
         {
             Invalidate();
@@ -2778,43 +2728,55 @@ public partial class DXCanvas : DXControl
     {
         if (_mouseDownPoint == null || _mouseMovePoint == null) return;
 
-        _clientSelection = BHelper.GetSelection(_mouseDownPoint, _mouseMovePoint, SelectionAspectRatio, SourceWidth, SourceHeight, _destRect);
+        var cliRect = BHelper.GetSelection(_mouseDownPoint, _mouseMovePoint, SelectionAspectRatio, SourceWidth, SourceHeight, _destRect);
+
+        // limit the selected area to the image
+        cliRect.Intersect(_destRect);
+
+        _sourceSelection = this.RectClientToSource(cliRect).ToRectangle();
+
+        SelectionChanged?.Invoke(this, new SelectionEventArgs(ClientSelection, SourceSelection));
     }
 
 
     /// <summary>
     /// Moves the current selection to the given location
     /// </summary>
-    public void MoveSelection(PointF loc)
+    public void MoveSelection(PointF clientPoint)
     {
-        if (!EnableSelection) return;
+        if (!EnableSelection || _mouseDownPoint == null) return;
 
-        // translate mousedown point to selection start point
-        var tX = (_mouseDownPoint?.X ?? 0) - _selectionBeforeMove.X;
-        var tY = (_mouseDownPoint?.Y ?? 0) - _selectionBeforeMove.Y;
+        var srcPoint = this.PointClientToSource(clientPoint);
+        var srcMouseDownPoint = this.PointClientToSource(_mouseDownPoint.Value);
+
+
+        // get the distance the source rect moved
+        var dX = srcMouseDownPoint.X - _srcSelectionBeforeMoved.X;
+        var dY = srcMouseDownPoint.Y - _srcSelectionBeforeMoved.Y;
+
 
         // get the new selection start point
-        var newX = loc.X - tX;
-        var newY = loc.Y - tY;
+        var newSrcPoint = new PointF(srcPoint.X - dX, srcPoint.Y - dY);
 
-        if (newX < _destRect.X) newX = _destRect.X;
-        if (newY < _destRect.Y) newY = _destRect.Y;
-        if (newX + _selectionBeforeMove.Width > _destRect.Right)
+
+        // limit the new selection to the image source
+        if (newSrcPoint.X < 0) newSrcPoint.X = 0; // left edge
+        if (newSrcPoint.Y < 0) newSrcPoint.Y = 0; // right edge
+
+        // right edge
+        if (newSrcPoint.X + _srcSelectionBeforeMoved.Width > SourceWidth)
         {
-            newX = _destRect.Right - _selectionBeforeMove.Width;
+            newSrcPoint.X = SourceWidth - _srcSelectionBeforeMoved.Width;
+        }
+        // bottom edge
+        if (newSrcPoint.Y + _srcSelectionBeforeMoved.Height > SourceHeight)
+        {
+            newSrcPoint.Y = SourceHeight - _srcSelectionBeforeMoved.Height;
         }
 
-        if (newY + _selectionBeforeMove.Height > _destRect.Bottom)
-        {
-            newY = _destRect.Bottom - _selectionBeforeMove.Height;
-        }
 
-
-        _clientSelection.X = newX;
-        _clientSelection.Y = newY;
-        _clientSelection.Width = _selectionBeforeMove.Width;
-        _clientSelection.Height = _selectionBeforeMove.Height;
-
+        // get the final source selection after moved
+        _sourceSelection = new(newSrcPoint.ToPoint(), _srcSelectionBeforeMoved.Size.ToSize());
 
         SelectionChanged?.Invoke(this, new SelectionEventArgs(ClientSelection, SourceSelection));
     }
@@ -2823,56 +2785,68 @@ public partial class DXCanvas : DXControl
     /// <summary>
     /// Resizes the current selection
     /// </summary>
-    public void ResizeSelection(PointF loc, SelectionResizerType direction)
+    public void ResizeSelection(PointF clientPoint, SelectionResizerType direction)
     {
-        if (!EnableSelection) return;
+        if (!EnableSelection || _mouseDownPoint == null) return;
 
+        var srcPoint = this.PointClientToSource(clientPoint);
+        var srcMouseDownPoint = this.PointClientToSource(_mouseDownPoint.Value);
+        var newSrcRect = this.SourceSelection.ToRectangleF();
+
+
+        // top resizers
         if (direction == SelectionResizerType.Top
             || direction == SelectionResizerType.TopLeft
             || direction == SelectionResizerType.TopRight)
         {
-            var gapY = _selectionBeforeMove.Y - (_mouseDownPoint?.Y ?? 0);
-            var dH = loc.Y - _selectionBeforeMove.Y + gapY;
+            var gapY = _srcSelectionBeforeMoved.Y - srcMouseDownPoint.Y;
+            var dH = srcPoint.Y - _srcSelectionBeforeMoved.Y + gapY;
 
-            _clientSelection.Y = _selectionBeforeMove.Y + dH;
-            _clientSelection.Height = _selectionBeforeMove.Height - dH;
+            newSrcRect.Y = _srcSelectionBeforeMoved.Y + dH;
+            newSrcRect.Height = _srcSelectionBeforeMoved.Height - dH;
         }
 
+        // right resizers
         if (direction == SelectionResizerType.Right
             || direction == SelectionResizerType.TopRight
             || direction == SelectionResizerType.BottomRight)
         {
-            var gapX = _selectionBeforeMove.Right - (_mouseDownPoint?.X ?? 0);
-            var dW = loc.X - _selectionBeforeMove.Right + gapX;
+            var gapX = _srcSelectionBeforeMoved.Right - srcMouseDownPoint.X;
+            var dW = srcPoint.X - _srcSelectionBeforeMoved.Right + gapX;
 
-            _clientSelection.Width = _selectionBeforeMove.Width + dW;
+            newSrcRect.Width = _srcSelectionBeforeMoved.Width + dW;
         }
 
+        // bottom resizers
         if (direction == SelectionResizerType.Bottom
             || direction == SelectionResizerType.BottomLeft
             || direction == SelectionResizerType.BottomRight)
         {
-            var gapY = _selectionBeforeMove.Bottom - (_mouseDownPoint?.Y ?? 0);
-            var dH = loc.Y - _selectionBeforeMove.Bottom + gapY;
+            var gapY = _srcSelectionBeforeMoved.Bottom - srcMouseDownPoint.Y;
+            var dH = srcPoint.Y - _srcSelectionBeforeMoved.Bottom + gapY;
 
-            _clientSelection.Height = _selectionBeforeMove.Height + dH;
+            newSrcRect.Height = _srcSelectionBeforeMoved.Height + dH;
         }
 
+        // left resizers
         if (direction == SelectionResizerType.Left
             || direction == SelectionResizerType.TopLeft
             || direction == SelectionResizerType.BottomLeft)
         {
-            var gapX = _selectionBeforeMove.X - (_mouseDownPoint?.X ?? 0);
-            var dW = loc.X - _selectionBeforeMove.X + gapX;
+            var gapX = _srcSelectionBeforeMoved.X - srcMouseDownPoint.X;
+            var dW = srcPoint.X - _srcSelectionBeforeMoved.X + gapX;
 
-            _clientSelection.X = _selectionBeforeMove.X + dW;
-            _clientSelection.Width = _selectionBeforeMove.Width - dW;
+            newSrcRect.X = _srcSelectionBeforeMoved.X + dW;
+            newSrcRect.Width = _srcSelectionBeforeMoved.Width - dW;
         }
 
-        // limit the selected area to the image
-        _clientSelection.Intersect(_destRect);
 
-        // not the free aspect ratio
+        // limit the selected client rect to the image source
+        newSrcRect.Intersect(new(0, 0, SourceWidth, SourceHeight));
+
+
+
+        // if follow aspect ratio
         if (SelectionAspectRatio.Width > 0 && SelectionAspectRatio.Height > 0)
         {
             var wRatio = SelectionAspectRatio.Width / SelectionAspectRatio.Height;
@@ -2888,26 +2862,26 @@ public partial class DXCanvas : DXControl
                     || direction == SelectionResizerType.BottomLeft
                     || direction == SelectionResizerType.BottomRight)
                 {
-                    _clientSelection.Width = _clientSelection.Height / hRatio;
+                    newSrcRect.Width = newSrcRect.Height / hRatio;
 
-                    if (_clientSelection.Right >= _destRect.Right)
+                    if (newSrcRect.Right >= _destRect.Right)
                     {
-                        var maxWidth = _destRect.Right - _clientSelection.X; ;
-                        _clientSelection.Width = maxWidth;
-                        _clientSelection.Height = maxWidth * hRatio;
+                        var maxWidth = _destRect.Right - newSrcRect.X; ;
+                        newSrcRect.Width = maxWidth;
+                        newSrcRect.Height = maxWidth * hRatio;
                     }
                 }
                 else
                 {
-                    _clientSelection.Height = _clientSelection.Width / wRatio;
+                    newSrcRect.Height = newSrcRect.Width / wRatio;
                 }
 
 
-                if (_clientSelection.Bottom >= _destRect.Bottom)
+                if (newSrcRect.Bottom >= _destRect.Bottom)
                 {
-                    var maxHeight = _destRect.Bottom - _clientSelection.Y;
-                    _clientSelection.Width = maxHeight * wRatio;
-                    _clientSelection.Height = maxHeight;
+                    var maxHeight = _destRect.Bottom - newSrcRect.Y;
+                    newSrcRect.Width = maxHeight * wRatio;
+                    newSrcRect.Height = maxHeight;
                 }
             }
             else
@@ -2919,29 +2893,35 @@ public partial class DXCanvas : DXControl
                     || direction == SelectionResizerType.TopRight
                     || direction == SelectionResizerType.BottomRight)
                 {
-                    _clientSelection.Height = _clientSelection.Width / wRatio;
+                    newSrcRect.Height = newSrcRect.Width / wRatio;
 
-                    if (_clientSelection.Bottom >= _destRect.Bottom)
+                    if (newSrcRect.Bottom >= _destRect.Bottom)
                     {
-                        var maxHeight = _destRect.Bottom - _clientSelection.Y;
-                        _clientSelection.Width = maxHeight * wRatio;
-                        _clientSelection.Height = maxHeight;
+                        var maxHeight = _destRect.Bottom - newSrcRect.Y;
+                        newSrcRect.Width = maxHeight * wRatio;
+                        newSrcRect.Height = maxHeight;
                     }
                 }
                 else
                 {
-                    _clientSelection.Width = _clientSelection.Height / hRatio;
+                    newSrcRect.Width = newSrcRect.Height / hRatio;
                 }
 
 
-                if (_clientSelection.Right >= _destRect.Right)
+                if (newSrcRect.Right >= _destRect.Right)
                 {
-                    var maxWidth = _destRect.Right - _clientSelection.X;
-                    _clientSelection.Width = maxWidth;
-                    _clientSelection.Height = maxWidth * hRatio;
+                    var maxWidth = _destRect.Right - newSrcRect.X;
+                    newSrcRect.Width = maxWidth;
+                    newSrcRect.Height = maxWidth * hRatio;
                 }
             }
         }
+
+
+
+        // get the final source selection after resized
+        _sourceSelection = newSrcRect.ToRectangle();
+
 
         SelectionChanged?.Invoke(this, new SelectionEventArgs(ClientSelection, SourceSelection));
     }
@@ -2966,7 +2946,7 @@ public partial class DXCanvas : DXControl
         _animationSource = AnimationSource.None;
         _animatorSource = AnimatorSource.None;
         _isPreviewing = isForPreview;
-        _clientSelection = default;
+        _sourceSelection = default;
 
 
         // disable animations

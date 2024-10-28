@@ -372,11 +372,11 @@ public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
 
     private void LoadSelectionFromFormInputs(bool drawSelection)
     {
-        var newRect = new RectangleF(
-                (float)NumX.Value,
-                (float)NumY.Value,
-                (float)NumWidth.Value,
-                (float)NumHeight.Value);
+        var newRect = new Rectangle(
+                (int)NumX.Value,
+                (int)NumY.Value,
+                (int)NumWidth.Value,
+                (int)NumHeight.Value);
 
         if (newRect != Local.FrmMain.PicMain.SourceSelection)
         {
@@ -385,7 +385,7 @@ public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
 
         if (drawSelection)
         {
-            Local.FrmMain.PicMain.Refresh(true);
+            Local.FrmMain.PicMain.Refresh(false);
         }
     }
 
@@ -461,7 +461,7 @@ public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
         NumWidth.Value = w;
         NumHeight.Value = h;
 
-        Local.FrmMain.PicMain.SourceSelection = new RectangleF(x, y, w, h);
+        Local.FrmMain.PicMain.SourceSelection = new(x, y, w, h);
 
         // set buttons state
         BtnSave.Enabled =
@@ -619,7 +619,7 @@ public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
 
     private void BtnReset_Click(object sender, EventArgs e)
     {
-        Local.FrmMain.PicMain.ClientSelection = new();
+        Local.FrmMain.PicMain.SourceSelection = default;
         Local.FrmMain.PicMain.Invalidate();
     }
 

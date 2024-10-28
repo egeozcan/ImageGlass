@@ -109,12 +109,6 @@ public static class DXCanvasExtensions
     /// </summary>
     public static RectangleF RectClientToSource(this DXCanvas c, RectangleF rect)
     {
-        //var loc = c.PointSourceToClient(rect.Location);
-        //var size = new SizeF(rect.Width * c.ZoomFactor, rect.Height * c.ZoomFactor);
-
-        //return new RectangleF(loc, size);
-
-
         var p1 = c.PointClientToSource(rect.Location);
         var p2 = c.PointClientToSource(new PointF(rect.Right, rect.Bottom));
 
@@ -141,7 +135,7 @@ public static class DXCanvasExtensions
         if (ceilP2.X < 0) ceilP2.X = 0;
         if (ceilP2.Y < 0) ceilP2.Y = 0;
         if (ceilP2.X > c.SourceWidth) ceilP2.X = c.SourceWidth;
-        if (ceilP2.Y >c. SourceHeight) ceilP2.Y = c.SourceHeight;
+        if (ceilP2.Y > c.SourceHeight) ceilP2.Y = c.SourceHeight;
 
 
         // the selection area is where the p1 and p2 intersected.
