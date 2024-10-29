@@ -25,7 +25,7 @@ namespace ImageGlass;
 
 public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
 {
-    private Keys _squareRatioSelectionKey = Keys.Shift | Keys.ShiftKey;
+    private readonly Keys _squareRatioSelectionKey = Keys.Shift | Keys.ShiftKey;
     private bool _isSquareRatioSelectionKeyPressed;
     private bool _isDefaultSelectionLoaded;
     private bool _isNewFileSaved;
@@ -105,13 +105,12 @@ public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
 
         // load crop tool configs
         Settings.LoadFromAppConfig();
-
-        // load form data
         NumRatioFrom.Value = Settings.AspectRatioValues[0];
         NumRatioTo.Value = Settings.AspectRatioValues[1];
+
+        // load form data
         LoadAspectRatioItems();
         UpdateAspectRatioValues();
-        LoadDefaultSelectionSetting(true);
 
         // add control events
         Local.FrmMain.KeyDown += FrmMain_KeyDown;
@@ -120,6 +119,10 @@ public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
         Local.FrmMain.PicMain.SelectionChanged += PicMain_OnImageSelecting;
         Local.FrmMain.PicMain.ImageLoading += PicMain_ImageLoading;
         Local.FrmMain.PicMain.ImageDrawn += PicMain_ImageDrawn;
+
+        CmbAspectRatio.SelectedIndexChanged += CmbAspectRatio_SelectedIndexChanged;
+        NumRatioFrom.LostFocus += NumRatio_LostFocus;
+        NumRatioTo.LostFocus += NumRatio_LostFocus;
         NumX.LostFocus += NumSelections_LostFocus;
         NumY.LostFocus += NumSelections_LostFocus;
         NumWidth.LostFocus += NumSelections_LostFocus;
@@ -131,9 +134,12 @@ public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
 
         base.OnLoad(e);
 
+
+        // load default selection
+        LoadDefaultSelectionSetting(true);
+
         ApplyLanguage();
     }
-
 
     protected override int OnUpdateHeight(bool performUpdate = true)
     {
@@ -173,6 +179,10 @@ public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
         Local.FrmMain.PicMain.SelectionChanged -= PicMain_OnImageSelecting;
         Local.FrmMain.PicMain.ImageLoading -= PicMain_ImageLoading;
         Local.FrmMain.PicMain.ImageDrawn -= PicMain_ImageDrawn;
+
+        CmbAspectRatio.SelectedIndexChanged -= CmbAspectRatio_SelectedIndexChanged;
+        NumRatioFrom.LostFocus -= NumRatio_LostFocus;
+        NumRatioTo.LostFocus -= NumRatio_LostFocus;
         NumX.LostFocus -= NumSelections_LostFocus;
         NumY.LostFocus -= NumSelections_LostFocus;
         NumWidth.LostFocus -= NumSelections_LostFocus;
@@ -443,6 +453,16 @@ public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
             h = (int)(srcH * selectPercent);
         }
 
+
+        // update selection size according to the ratio
+        if (Settings.AspectRatioValues[0] > 0 && Settings.AspectRatioValues[1] > 0)
+        {
+            var ratioSize = GetSizeWithAspectRatio(new Size(w, h));
+
+            w = ratioSize.Width;
+            h = ratioSize.Height;
+        }
+
         // auto-center the selection
         if (Settings.AutoCenterSelection && !useLastSelection)
         {
@@ -456,25 +476,61 @@ public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
         w = Math.Max(0, w);
         h = Math.Max(0, h);
 
-        NumX.Value = x;
-        NumY.Value = y;
-        NumWidth.Value = w;
-        NumHeight.Value = h;
-
         Local.FrmMain.PicMain.SourceSelection = new(x, y, w, h);
-
-        // set buttons state
-        BtnSave.Enabled =
-            BtnSaveAs.Enabled =
-            BtnCrop.Enabled =
-            BtnCopy.Enabled = !Local.FrmMain.PicMain.SourceSelection.IsEmpty;
-
 
         _isDefaultSelectionLoaded = true;
         if (drawSelection)
         {
             Local.FrmMain.PicMain.Refresh(false);
         }
+    }
+
+
+    private Size GetSizeWithAspectRatio(Size size)
+    {
+        // get aspect ratio
+        var ratioW = Settings.AspectRatioValues[0];
+        var ratioH = Settings.AspectRatioValues[1];
+
+        var wRatio = 1f * ratioW / ratioH;
+        var hRatio = 1f * ratioH / ratioW;
+
+
+        // get source size
+        var srcW = (int)Local.FrmMain.PicMain.SourceWidth;
+        var srcH = (int)Local.FrmMain.PicMain.SourceHeight;
+
+        var w = size.Width;
+        var h = size.Height;
+
+
+        // scale the new size to the aspect ratio
+        if (w > h)
+        {
+            w = (int)(h * wRatio);
+        }
+        else if (w < h)
+        {
+            h = (int)(w * hRatio);
+        }
+
+        // if new size is larger than source size
+        if (w >= srcW || h >= srcH)
+        {
+            var srcWRatio = 1f * srcW / srcH;
+            var srcHRatio = 1f * srcH / srcW;
+
+            if (srcWRatio >= wRatio)
+            {
+                w = (int)(wRatio * srcH);
+            }
+            else if (srcHRatio >= hRatio)
+            {
+                h = (int)(hRatio * srcW);
+            }
+        }
+
+        return new Size(w, h);
     }
 
 
@@ -576,15 +632,19 @@ public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
     }
 
 
-    private void CmbAspectRatio_SelectedIndexChanged(object sender, EventArgs e)
+    private void CmbAspectRatio_SelectedIndexChanged(object? sender, EventArgs e)
     {
         UpdateAspectRatioValues();
+        LoadDefaultSelectionSetting(true);
     }
 
 
-    private void NumRatio_ValueChanged(object? sender, EventArgs e)
+    private void NumRatio_LostFocus(object? sender, EventArgs e)
     {
+        Settings.AspectRatioValues = [(int)NumRatioFrom.Value, (int)NumRatioTo.Value];
         Local.FrmMain.PicMain.SelectionAspectRatio = new SizeF((float)NumRatioFrom.Value, (float)NumRatioTo.Value);
+
+        LoadDefaultSelectionSetting(true);
     }
 
 

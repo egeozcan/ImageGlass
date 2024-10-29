@@ -241,7 +241,6 @@ namespace ImageGlass
             this.CmbAspectRatio.Name = "CmbAspectRatio";
             this.CmbAspectRatio.Size = new System.Drawing.Size(358, 51);
             this.CmbAspectRatio.TabIndex = 0;
-            this.CmbAspectRatio.SelectedIndexChanged += new System.EventHandler(this.CmbAspectRatio_SelectedIndexChanged);
             // 
             // NumRatioFrom
             // 
@@ -258,7 +257,6 @@ namespace ImageGlass
             this.NumRatioFrom.SelectAllTextOnFocus = true;
             this.NumRatioFrom.Size = new System.Drawing.Size(169, 50);
             this.NumRatioFrom.TabIndex = 1;
-            this.NumRatioFrom.ValueChanged += new System.EventHandler(this.NumRatio_ValueChanged);
             // 
             // NumRatioTo
             // 
@@ -275,7 +273,6 @@ namespace ImageGlass
             this.NumRatioTo.SelectAllTextOnFocus = true;
             this.NumRatioTo.Size = new System.Drawing.Size(169, 50);
             this.NumRatioTo.TabIndex = 2;
-            this.NumRatioTo.ValueChanged += new System.EventHandler(this.NumRatio_ValueChanged);
             // 
             // flowLayoutPanel1
             // 

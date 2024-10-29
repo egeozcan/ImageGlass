@@ -82,13 +82,18 @@ public class CropToolConfig(string toolId) : IToolConfig
         AspectRatio = config.GetValue(nameof(AspectRatio), AspectRatio);
         InitSelectionType = config.GetValue(nameof(InitSelectionType), InitSelectionType);
 
+
         #region Array configs
 
         // load AspectRatioValues
-        var ratioValues = config.GetValue(nameof(AspectRatioValues)) as dynamic as IEnumerable<object>;
-        if (ratioValues != null)
+        if (config.GetValue(nameof(AspectRatioValues)) is Array ratioValues)
         {
-            var numArr = ratioValues.Select(i => int.Parse((string)i)).ToArray();
+            // ratioValues can be object[] or int[]
+            var numArr = ratioValues
+                    .Cast<object>()
+                    .Select(i => int.Parse(i.ToString()))
+                    .ToArray();
+
             if (numArr.Length == 2)
             {
                 AspectRatioValues = [numArr[0], numArr[1]];

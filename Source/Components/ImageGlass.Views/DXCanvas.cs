@@ -2850,13 +2850,12 @@ public partial class DXCanvas : DXControl
 
 
 
-        // if follow aspect ratio
+        // update selection size according to the ratio
         if (SelectionAspectRatio.Width > 0 && SelectionAspectRatio.Height > 0)
         {
             var wRatio = SelectionAspectRatio.Width / SelectionAspectRatio.Height;
             var hRatio = SelectionAspectRatio.Height / SelectionAspectRatio.Width;
 
-            // update selection size according to the ratio
             if (wRatio > hRatio)
             {
                 if (direction == SelectionResizerType.Top
