@@ -309,19 +309,14 @@ public partial class DXCanvas : DXControl
 
     /// <summary>
     /// Gets, sets the image source selection. This will emit the event <see cref="SelectionChanged"/>.
+    /// Use <see cref="SetSourceSelection"/> to control the selection event.
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Rectangle SourceSelection
     {
         get => _sourceSelection;
-        set
-        {
-            value.Intersect(new Rectangle(0, 0, (int)SourceWidth, (int)SourceHeight));
-            _sourceSelection = value;
-
-            SelectionChanged?.Invoke(this, new SelectionEventArgs(ClientSelection, SourceSelection));
-        }
+        set => SetSourceSelection(value, true);
     }
 
 
@@ -334,7 +329,7 @@ public partial class DXCanvas : DXControl
     {
         get
         {
-            if (ClientSelection.IsEmpty) return [];
+            if (SourceSelection.Size.IsEmpty) return [];
 
 
             var resizerSize = DpiApi.Scale(Font.Size * 1.3f);
@@ -1127,7 +1122,7 @@ public partial class DXCanvas : DXControl
         #region Image panning & selecting check
         if (Source != ImageSource.Null)
         {
-            requestRerender = requestRerender || (canSelect && !ClientSelection.IsEmpty);
+            requestRerender = requestRerender || (canSelect && !SourceSelection.Size.IsEmpty);
             _selectedResizer = SelectionResizers.Find(i => i.HitRegion.Contains(e.Location));
             _canDrawSelection = canSelect && !_isSelectionHovered && _hoveredResizer == null;
 
@@ -1148,20 +1143,9 @@ public partial class DXCanvas : DXControl
                 }
             }
 
-
-            // update selection
-            if (_canDrawSelection)
-            {
-                _sourceSelection = new(
-                    this.PointClientToSource(_mouseDownPoint.Value).ToPoint(),
-                    new Size()
-                );
-            }
-
             // panning
             else
             {
-
                 _panHostToPoint.X = e.Location.X;
                 _panHostToPoint.Y = e.Location.Y;
                 _panHostFromPoint.X = e.Location.X;
@@ -1250,7 +1234,7 @@ public partial class DXCanvas : DXControl
         #region Navigation clickable check
 
         // trigger nav click only if selection is empty
-        if (e.Button == MouseButtons.Left && ClientSelection.IsEmpty)
+        if (e.Button == MouseButtons.Left && SourceSelection.Size.IsEmpty)
         {
             if (_isNavRightPressed)
             {
@@ -1738,14 +1722,11 @@ public partial class DXCanvas : DXControl
     /// </summary>
     protected virtual void DrawSelectionLayer(IGraphics g)
     {
-        if (UseWebview2) return;
-        if (Source == ImageSource.Null || (_mouseDownButton != MouseButtons.Left && _sourceSelection.IsEmpty))
-            return;
+        if (UseWebview2 || Source == ImageSource.Null || SourceSelection.Size.IsEmpty) return;
 
-
+        // draw the clip selection region
         if (g is D2DGraphics dg)
         {
-            // draw the clip selection region
             using var selectionGeo = dg.GetCombinedRectanglesGeometry(ClientSelection, _destRect, 0, 0, D2D1_COMBINE_MODE.D2D1_COMBINE_MODE_XOR);
 
             dg.DrawGeometry(selectionGeo, Color.Transparent, Color.Black.WithAlpha(_mouseDownButton == MouseButtons.Left ? 100 : 180));
@@ -2722,6 +2703,21 @@ public partial class DXCanvas : DXControl
 
 
     /// <summary>
+    /// Select image source area.
+    /// </summary>
+    public void SetSourceSelection(Rectangle srcRect, bool triggerEvent = true)
+    {
+        srcRect.Intersect(new Rectangle(0, 0, (int)SourceWidth, (int)SourceHeight));
+        _sourceSelection = srcRect;
+
+        if (triggerEvent)
+        {
+            SelectionChanged?.Invoke(this, new SelectionEventArgs(ClientSelection, SourceSelection));
+        }
+    }
+
+
+    /// <summary>
     /// Updates <see cref="ClientSelection"/> using <see cref="BHelper.GetSelection"/>.
     /// </summary>
     public void UpdateSelectionByMousePosition()
@@ -2733,9 +2729,8 @@ public partial class DXCanvas : DXControl
         // limit the selected area to the image
         cliRect.Intersect(_destRect);
 
-        _sourceSelection = this.RectClientToSource(cliRect).ToRectangle();
-
-        SelectionChanged?.Invoke(this, new SelectionEventArgs(ClientSelection, SourceSelection));
+        var srcRect = this.RectClientToSource(cliRect).ToRectangle();
+        SetSourceSelection(srcRect, true);
     }
 
 
@@ -2775,10 +2770,9 @@ public partial class DXCanvas : DXControl
         }
 
 
-        // get the final source selection after moved
-        _sourceSelection = new(newSrcPoint.ToPoint(), _srcSelectionBeforeMoved.Size.ToSize());
-
-        SelectionChanged?.Invoke(this, new SelectionEventArgs(ClientSelection, SourceSelection));
+        // set the final source selection after moved
+        var srcRect = new Rectangle(newSrcPoint.ToPoint(), _srcSelectionBeforeMoved.Size.ToSize());
+        SetSourceSelection(srcRect, true);
     }
 
 
@@ -2919,11 +2913,9 @@ public partial class DXCanvas : DXControl
 
 
 
-        // get the final source selection after resized
-        _sourceSelection = newSrcRect.ToRectangle();
-
-
-        SelectionChanged?.Invoke(this, new SelectionEventArgs(ClientSelection, SourceSelection));
+        // set the final source selection after resized
+        var srcRect = newSrcRect.ToRectangle();
+        SetSourceSelection(srcRect, true);
     }
 
 
