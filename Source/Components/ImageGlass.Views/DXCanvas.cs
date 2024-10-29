@@ -418,15 +418,16 @@ public partial class DXCanvas : DXControl
 
             // 8 resizers
             return [
+                // bottom-right is in higher layer
+                new(SelectionResizerType.BottomRight, bottomRight, bottomRightHit),
                 new(SelectionResizerType.TopLeft, topLeft, topLeftHit),
                 new(SelectionResizerType.BottomLeft, bottomLeft, bottomLeftHit),
                 new(SelectionResizerType.TopRight, topRight, topRightHit),
-                new(SelectionResizerType.BottomRight, bottomRight, bottomRightHit),
 
-                new(SelectionResizerType.Left, left, leftHit),
-                new(SelectionResizerType.Top, top, topHit),
                 new(SelectionResizerType.Right, right, rightHit),
                 new(SelectionResizerType.Bottom, bottom, bottomHit),
+                new(SelectionResizerType.Left, left, leftHit),
+                new(SelectionResizerType.Top, top, topHit),
             ];
         }
     }
@@ -1176,7 +1177,8 @@ public partial class DXCanvas : DXControl
                 || _mouseDownButton == MouseButtons.XButton1
                 || _mouseDownButton == MouseButtons.XButton2)
             {
-                base.OnMouseClick(e);
+                // enable Middle & XButtons click only if not panning in selection mode
+                if (!_isMouseDragged) base.OnMouseClick(e);
             }
             else
             {
@@ -1301,8 +1303,13 @@ public partial class DXCanvas : DXControl
         #endregion
 
 
+
+        var canPanWhileSelecting = _mouseDownButton == MouseButtons.Middle
+            && EnableSelection
+            && !SourceSelection.Size.IsEmpty;
+
         // Image panning check
-        if (_mouseDownButton == MouseButtons.Left)
+        if (_mouseDownButton == MouseButtons.Left || canPanWhileSelecting)
         {
             _isMouseDragged = true;
 
@@ -1805,8 +1812,11 @@ public partial class DXCanvas : DXControl
             }
 
 
-            // draw resizers
-            foreach (var rItem in SelectionResizers)
+            // draw resizers with layer order
+            var resizers = SelectionResizers;
+            resizers.Reverse();
+
+            foreach (var rItem in resizers)
             {
                 var hideTopBottomResizers = ClientSelection.Width < rItem.IndicatorRegion.Width * 5;
                 if (hideTopBottomResizers
