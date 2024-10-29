@@ -2868,9 +2868,9 @@ public partial class DXCanvas : DXControl
                 {
                     newSrcRect.Width = newSrcRect.Height / hRatio;
 
-                    if (newSrcRect.Right >= _destRect.Right)
+                    if (newSrcRect.Right >= SourceWidth)
                     {
-                        var maxWidth = _destRect.Right - newSrcRect.X; ;
+                        var maxWidth = SourceWidth - newSrcRect.X; ;
                         newSrcRect.Width = maxWidth;
                         newSrcRect.Height = maxWidth * hRatio;
                     }
@@ -2881,9 +2881,9 @@ public partial class DXCanvas : DXControl
                 }
 
 
-                if (newSrcRect.Bottom >= _destRect.Bottom)
+                if (newSrcRect.Bottom >= SourceHeight)
                 {
-                    var maxHeight = _destRect.Bottom - newSrcRect.Y;
+                    var maxHeight = SourceHeight - newSrcRect.Y;
                     newSrcRect.Width = maxHeight * wRatio;
                     newSrcRect.Height = maxHeight;
                 }
@@ -2899,9 +2899,9 @@ public partial class DXCanvas : DXControl
                 {
                     newSrcRect.Height = newSrcRect.Width / wRatio;
 
-                    if (newSrcRect.Bottom >= _destRect.Bottom)
+                    if (newSrcRect.Bottom >= SourceHeight)
                     {
-                        var maxHeight = _destRect.Bottom - newSrcRect.Y;
+                        var maxHeight = SourceHeight - newSrcRect.Y;
                         newSrcRect.Width = maxHeight * wRatio;
                         newSrcRect.Height = maxHeight;
                     }
@@ -2912,9 +2912,9 @@ public partial class DXCanvas : DXControl
                 }
 
 
-                if (newSrcRect.Right >= _destRect.Right)
+                if (newSrcRect.Right >= SourceWidth)
                 {
-                    var maxWidth = _destRect.Right - newSrcRect.X;
+                    var maxWidth = SourceWidth - newSrcRect.X;
                     newSrcRect.Width = maxWidth;
                     newSrcRect.Height = maxWidth * hRatio;
                 }
