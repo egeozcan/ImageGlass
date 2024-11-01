@@ -2787,21 +2787,39 @@ public partial class DXCanvas : DXControl
 
 
     /// <summary>
-    /// Resizes the current selection
+    /// Resizes the current selection.
     /// </summary>
-    public void ResizeSelection(PointF clientPoint, SelectionResizerType direction)
+    public void ResizeSelection(PointF clientCursorPoint, SelectionResizerType direction)
     {
         if (!EnableSelection || _mouseDownPoint == null) return;
 
-        var srcPoint = this.PointClientToSource(clientPoint);
+        var srcPoint = this.PointClientToSource(clientCursorPoint);
         var srcMouseDownPoint = this.PointClientToSource(_mouseDownPoint.Value);
         var newSrcRect = this.SourceSelection.ToRectangleF();
+        var finalSrcRect = new Rectangle();
+
+
+        #region 1. Get correct size and location of new selection
+
+        var isTopDirections = direction == SelectionResizerType.Top
+            || direction == SelectionResizerType.TopLeft
+            || direction == SelectionResizerType.TopRight;
+
+        var isBottomDirections = direction == SelectionResizerType.Bottom
+            || direction == SelectionResizerType.BottomLeft
+            || direction == SelectionResizerType.BottomRight;
+
+        var isLeftDirections = direction == SelectionResizerType.Left
+            || direction == SelectionResizerType.TopLeft
+            || direction == SelectionResizerType.BottomLeft;
+
+        var isRightDirections = direction == SelectionResizerType.Right
+            || direction == SelectionResizerType.TopRight
+            || direction == SelectionResizerType.BottomRight;
 
 
         // top resizers
-        if (direction == SelectionResizerType.Top
-            || direction == SelectionResizerType.TopLeft
-            || direction == SelectionResizerType.TopRight)
+        if (isTopDirections)
         {
             var gapY = _srcSelectionBeforeMoved.Y - srcMouseDownPoint.Y;
             var dH = srcPoint.Y - _srcSelectionBeforeMoved.Y + gapY;
@@ -2811,9 +2829,7 @@ public partial class DXCanvas : DXControl
         }
 
         // right resizers
-        if (direction == SelectionResizerType.Right
-            || direction == SelectionResizerType.TopRight
-            || direction == SelectionResizerType.BottomRight)
+        if (isRightDirections)
         {
             var gapX = _srcSelectionBeforeMoved.Right - srcMouseDownPoint.X;
             var dW = srcPoint.X - _srcSelectionBeforeMoved.Right + gapX;
@@ -2822,9 +2838,7 @@ public partial class DXCanvas : DXControl
         }
 
         // bottom resizers
-        if (direction == SelectionResizerType.Bottom
-            || direction == SelectionResizerType.BottomLeft
-            || direction == SelectionResizerType.BottomRight)
+        if (isBottomDirections)
         {
             var gapY = _srcSelectionBeforeMoved.Bottom - srcMouseDownPoint.Y;
             var dH = srcPoint.Y - _srcSelectionBeforeMoved.Bottom + gapY;
@@ -2833,9 +2847,7 @@ public partial class DXCanvas : DXControl
         }
 
         // left resizers
-        if (direction == SelectionResizerType.Left
-            || direction == SelectionResizerType.TopLeft
-            || direction == SelectionResizerType.BottomLeft)
+        if (isLeftDirections)
         {
             var gapX = _srcSelectionBeforeMoved.X - srcMouseDownPoint.X;
             var dW = srcPoint.X - _srcSelectionBeforeMoved.X + gapX;
@@ -2845,10 +2857,17 @@ public partial class DXCanvas : DXControl
         }
 
 
+        if (newSrcRect.Width < 0) newSrcRect.Width = 0;
+        if (newSrcRect.Height < 0) newSrcRect.Height = 0;
+
+
         // limit the selected client rect to the image source
         newSrcRect.Intersect(new(0, 0, SourceWidth, SourceHeight));
 
+        #endregion // 1. Get correct size and location of new selection
 
+
+        #region 2. Handle Aspect ratio
 
         // update selection size according to the ratio
         if (SelectionAspectRatio.Width > 0 && SelectionAspectRatio.Height > 0)
@@ -2920,11 +2939,96 @@ public partial class DXCanvas : DXControl
             }
         }
 
+        #endregion // 2. Handle Aspect ratio
 
 
-        // set the final source selection after resized
-        var srcRect = newSrcRect.ToRectangle();
-        SetSourceSelection(srcRect, true);
+        #region 3. Convert float values to int
+
+        // round the values of location & size
+        if (isTopDirections || isLeftDirections)
+        {
+            finalSrcRect = new Rectangle(
+                (int)newSrcRect.X, (int)newSrcRect.Y,
+                (int)Math.Ceiling(newSrcRect.Width),
+                (int)Math.Ceiling(newSrcRect.Height));
+        }
+        else
+        {
+            finalSrcRect = new Rectangle(
+                (int)newSrcRect.X, (int)newSrcRect.Y,
+                (int)Math.Round(newSrcRect.Width),
+                (int)Math.Round(newSrcRect.Height));
+        }
+
+        #endregion // 3. Convert float values to int
+
+
+        #region 4. Handle small size (<= 1px)
+
+        // limit the size to 1 pixel
+        if (finalSrcRect.Width <= 1) finalSrcRect.Width = 1;
+        if (finalSrcRect.Height <= 1) finalSrcRect.Height = 1;
+
+
+        // make sure selection rect is not moved when size <= 1
+
+        // top, top-left, left
+        if (direction == SelectionResizerType.Top
+            || direction == SelectionResizerType.TopLeft
+            || direction == SelectionResizerType.Left)
+        {
+            if (finalSrcRect.Width <= 1)
+            {
+                finalSrcRect.X = (int)_srcSelectionBeforeMoved.Right - 1;
+            }
+            if (finalSrcRect.Height <= 1)
+            {
+                finalSrcRect.Y = (int)_srcSelectionBeforeMoved.Bottom - 1;
+            }
+        }
+
+        // right, bottom-right, bottom
+        else if (direction == SelectionResizerType.Right
+            || direction == SelectionResizerType.BottomRight
+            || direction == SelectionResizerType.Bottom)
+        {
+            if (finalSrcRect.Width <= 1)
+            {
+                finalSrcRect.X = (int)_srcSelectionBeforeMoved.X;
+            }
+            if (finalSrcRect.Height <= 1)
+            {
+                finalSrcRect.Y = (int)_srcSelectionBeforeMoved.Y;
+            }
+        }
+
+        // top-right
+        else if (direction == SelectionResizerType.TopRight)
+        {
+            if ((finalSrcRect.Width <= 1 && finalSrcRect.Height <= 1)
+                || (finalSrcRect.Width > 1 && finalSrcRect.Height <= 1))
+            {
+                finalSrcRect.X = (int)_srcSelectionBeforeMoved.Left;
+                finalSrcRect.Y = (int)_srcSelectionBeforeMoved.Bottom - 1;
+            }
+            else if (finalSrcRect.Width <= 1 && finalSrcRect.Height > 1)
+            {
+                finalSrcRect.X = (int)_srcSelectionBeforeMoved.Left;
+            }
+        }
+        // bottom-left
+        else
+        {
+            if (finalSrcRect.Width <= 1)
+            {
+                finalSrcRect.X = (int)_srcSelectionBeforeMoved.Right - 1;
+            }
+        }
+
+        #endregion // 4. Handle small size (<= 1px)
+
+
+        SetSourceSelection(finalSrcRect, true);
     }
 
 
