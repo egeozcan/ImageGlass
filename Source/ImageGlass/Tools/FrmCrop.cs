@@ -116,6 +116,7 @@ public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
         Local.FrmMain.KeyDown += FrmMain_KeyDown;
         Local.FrmMain.KeyUp += FrmMain_KeyUp;
         Local.ImageSaved += Local_ImageSaved;
+        Local.ImageLoading += Local_ImageLoading;
         Local.FrmMain.PicMain.SelectionChanged += PicMain_OnImageSelecting;
         Local.FrmMain.PicMain.ImageLoading += PicMain_ImageLoading;
         Local.FrmMain.PicMain.ImageDrawn += PicMain_ImageDrawn;
@@ -130,7 +131,8 @@ public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
 
         TableTop.Enabled =
             TableBottom.Enabled = Local.FrmMain.PicMain.Source != ImageSource.Null
-                && !Local.FrmMain.PicMain.CanImageAnimate;
+                && !Local.FrmMain.PicMain.CanImageAnimate
+                && !Local.FrmMain.PicMain.UseWebview2;
 
         base.OnLoad(e);
 
@@ -140,6 +142,7 @@ public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
 
         ApplyLanguage();
     }
+
 
     protected override int OnUpdateHeight(bool performUpdate = true)
     {
@@ -176,6 +179,7 @@ public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
         Local.FrmMain.KeyDown -= FrmMain_KeyDown;
         Local.FrmMain.KeyUp -= FrmMain_KeyUp;
         Local.ImageSaved -= Local_ImageSaved;
+        Local.ImageLoading -= Local_ImageLoading;
         Local.FrmMain.PicMain.SelectionChanged -= PicMain_OnImageSelecting;
         Local.FrmMain.PicMain.ImageLoading -= PicMain_ImageLoading;
         Local.FrmMain.PicMain.ImageDrawn -= PicMain_ImageDrawn;
@@ -455,7 +459,9 @@ public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
 
 
         // update selection size according to the ratio
-        if (Settings.AspectRatioValues[0] > 0 && Settings.AspectRatioValues[1] > 0)
+        if (Settings.AspectRatio != SelectionAspectRatio.FreeRatio
+            && Settings.AspectRatioValues[0] > 0
+            && Settings.AspectRatioValues[1] > 0)
         {
             var ratioSize = GetSizeWithAspectRatio(new Size(w, h));
 
@@ -602,6 +608,10 @@ public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
             BtnCopy.Enabled = !e.SourceSelection.IsEmpty;
     }
 
+    private void Local_ImageLoading(ImageLoadingEventArgs e)
+    {
+        TableTop.Enabled = TableBottom.Enabled = !e.UseWebview2;
+    }
 
     private void PicMain_ImageLoading(object? sender, EventArgs e)
     {
