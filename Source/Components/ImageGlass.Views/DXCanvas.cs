@@ -382,9 +382,9 @@ public partial class DXCanvas : DXControl
                 ClientSelection.Y + resizerMargin,
                 resizerSize, resizerSize);
             var topHit = new RectangleF(
-                ClientSelection.X + ClientSelection.Width / 2 - hitSize / 2,
+                topLeftHit.Right,
                 ClientSelection.Y - hitSize / 2 + resizerSize / 2,
-                hitSize, hitSize);
+                topRightHit.X - topLeftHit.Right, hitSize);
 
             // right
             var right = new RectangleF(
@@ -393,8 +393,8 @@ public partial class DXCanvas : DXControl
                     resizerSize, resizerSize);
             var rightHit = new RectangleF(
                     ClientSelection.Right - hitSize / 2 - resizerSize / 2,
-                    ClientSelection.Y + ClientSelection.Height / 2 - hitSize / 2,
-                    hitSize, hitSize);
+                    topRightHit.Bottom,
+                    hitSize, bottomRightHit.Y - topRightHit.Bottom);
 
             // bottom
             var bottom = new RectangleF(
@@ -402,9 +402,9 @@ public partial class DXCanvas : DXControl
                     ClientSelection.Bottom - resizerSize - resizerMargin,
                     resizerSize, resizerSize);
             var bottomHit = new RectangleF(
-                    ClientSelection.X + ClientSelection.Width / 2 - hitSize / 2,
+                    bottomLeftHit.Right,
                     ClientSelection.Bottom - hitSize / 2 - resizerSize / 2,
-                    hitSize, hitSize);
+                    bottomRightHit.X - bottomLeftHit.Right, hitSize);
 
             // left
             var left = new RectangleF(
@@ -413,8 +413,8 @@ public partial class DXCanvas : DXControl
                     resizerSize, resizerSize);
             var leftHit = new RectangleF(
                     ClientSelection.X - hitSize / 2 + resizerSize / 2,
-                    ClientSelection.Y + ClientSelection.Height / 2 - hitSize / 2,
-                    hitSize, hitSize);
+                    topLeftHit.Bottom,
+                    hitSize, bottomLeftHit.Y - topLeftHit.Bottom);
 
             // 8 resizers
             return [
@@ -1156,10 +1156,7 @@ public partial class DXCanvas : DXControl
         #endregion
 
 
-        if (requestRerender)
-        {
-            Invalidate();
-        }
+        if (requestRerender) Invalidate();
     }
 
     protected override void OnMouseUp(MouseEventArgs e)
