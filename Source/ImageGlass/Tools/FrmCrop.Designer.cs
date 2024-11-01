@@ -30,414 +30,380 @@ namespace ImageGlass
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmCrop));
-            this.TableTop = new System.Windows.Forms.TableLayoutPanel();
-            this.LblLocation = new ImageGlass.UI.ModernLabel();
-            this.LblSize = new ImageGlass.UI.ModernLabel();
-            this.BtnSettings = new ImageGlass.UI.ModernButton();
-            this.LblAspectRatio = new ImageGlass.UI.ModernLabel();
-            this.NumX = new ImageGlass.UI.ModernNumericUpDown();
-            this.NumY = new ImageGlass.UI.ModernNumericUpDown();
-            this.NumWidth = new ImageGlass.UI.ModernNumericUpDown();
-            this.NumHeight = new ImageGlass.UI.ModernNumericUpDown();
-            this.CmbAspectRatio = new ImageGlass.UI.ModernComboBox();
-            this.NumRatioFrom = new ImageGlass.UI.ModernNumericUpDown();
-            this.NumRatioTo = new ImageGlass.UI.ModernNumericUpDown();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.BtnReset = new ImageGlass.UI.ModernButton();
-            this.BtnQuickSelect = new ImageGlass.UI.ModernButton();
-            this.TableBottom = new System.Windows.Forms.TableLayoutPanel();
-            this.BtnSave = new ImageGlass.UI.ModernButton();
-            this.BtnSaveAs = new ImageGlass.UI.ModernButton();
-            this.BtnCopy = new ImageGlass.UI.ModernButton();
-            this.BtnCrop = new ImageGlass.UI.ModernButton();
-            this.TooltipMain = new System.Windows.Forms.ToolTip(this.components);
-            this.TableTop.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NumX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumY)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumWidth)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumHeight)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumRatioFrom)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumRatioTo)).BeginInit();
-            this.flowLayoutPanel1.SuspendLayout();
-            this.TableBottom.SuspendLayout();
-            this.SuspendLayout();
+            TableTop = new TableLayoutPanel();
+            LblLocation = new ModernLabel();
+            LblSize = new ModernLabel();
+            BtnSettings = new ModernButton();
+            LblAspectRatio = new ModernLabel();
+            NumX = new ModernNumericUpDown();
+            NumY = new ModernNumericUpDown();
+            NumWidth = new ModernNumericUpDown();
+            NumHeight = new ModernNumericUpDown();
+            CmbAspectRatio = new ModernComboBox();
+            NumRatioFrom = new ModernNumericUpDown();
+            NumRatioTo = new ModernNumericUpDown();
+            flowLayoutPanel1 = new FlowLayoutPanel();
+            BtnReset = new ModernButton();
+            BtnQuickSelect = new ModernButton();
+            TableBottom = new TableLayoutPanel();
+            BtnSave = new ModernButton();
+            BtnSaveAs = new ModernButton();
+            BtnCopy = new ModernButton();
+            BtnCrop = new ModernButton();
+            TooltipMain = new ModernTooltip();
+            TableTop.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NumX).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NumY).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NumWidth).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NumHeight).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NumRatioFrom).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NumRatioTo).BeginInit();
+            flowLayoutPanel1.SuspendLayout();
+            TableBottom.SuspendLayout();
+            SuspendLayout();
             // 
             // TableTop
             // 
-            this.TableTop.AutoSize = true;
-            this.TableTop.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.TableTop.ColumnCount = 3;
-            this.TableTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.TableTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.TableTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.TableTop.Controls.Add(this.LblLocation, 0, 2);
-            this.TableTop.Controls.Add(this.LblSize, 0, 3);
-            this.TableTop.Controls.Add(this.BtnSettings, 2, 4);
-            this.TableTop.Controls.Add(this.LblAspectRatio, 0, 0);
-            this.TableTop.Controls.Add(this.NumX, 1, 2);
-            this.TableTop.Controls.Add(this.NumY, 2, 2);
-            this.TableTop.Controls.Add(this.NumWidth, 1, 3);
-            this.TableTop.Controls.Add(this.NumHeight, 2, 3);
-            this.TableTop.Controls.Add(this.CmbAspectRatio, 1, 0);
-            this.TableTop.Controls.Add(this.NumRatioFrom, 1, 1);
-            this.TableTop.Controls.Add(this.NumRatioTo, 2, 1);
-            this.TableTop.Controls.Add(this.flowLayoutPanel1, 0, 4);
-            this.TableTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.TableTop.Location = new System.Drawing.Point(0, 0);
-            this.TableTop.Margin = new System.Windows.Forms.Padding(0);
-            this.TableTop.Name = "TableTop";
-            this.TableTop.Padding = new System.Windows.Forms.Padding(40);
-            this.TableTop.RowCount = 6;
-            this.TableTop.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TableTop.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TableTop.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TableTop.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TableTop.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TableTop.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TableTop.Size = new System.Drawing.Size(660, 439);
-            this.TableTop.TabIndex = 0;
+            TableTop.AutoSize = true;
+            TableTop.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            TableTop.ColumnCount = 3;
+            TableTop.ColumnStyles.Add(new ColumnStyle());
+            TableTop.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            TableTop.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            TableTop.Controls.Add(LblLocation, 0, 2);
+            TableTop.Controls.Add(LblSize, 0, 3);
+            TableTop.Controls.Add(BtnSettings, 2, 4);
+            TableTop.Controls.Add(LblAspectRatio, 0, 0);
+            TableTop.Controls.Add(NumX, 1, 2);
+            TableTop.Controls.Add(NumY, 2, 2);
+            TableTop.Controls.Add(NumWidth, 1, 3);
+            TableTop.Controls.Add(NumHeight, 2, 3);
+            TableTop.Controls.Add(CmbAspectRatio, 1, 0);
+            TableTop.Controls.Add(NumRatioFrom, 1, 1);
+            TableTop.Controls.Add(NumRatioTo, 2, 1);
+            TableTop.Controls.Add(flowLayoutPanel1, 0, 4);
+            TableTop.Dock = DockStyle.Top;
+            TableTop.Location = new Point(0, 0);
+            TableTop.Margin = new Padding(0);
+            TableTop.Name = "TableTop";
+            TableTop.Padding = new Padding(16, 13, 16, 13);
+            TableTop.RowCount = 6;
+            TableTop.RowStyles.Add(new RowStyle());
+            TableTop.RowStyles.Add(new RowStyle());
+            TableTop.RowStyles.Add(new RowStyle());
+            TableTop.RowStyles.Add(new RowStyle());
+            TableTop.RowStyles.Add(new RowStyle());
+            TableTop.RowStyles.Add(new RowStyle());
+            TableTop.Size = new Size(257, 170);
+            TableTop.TabIndex = 0;
             // 
             // LblLocation
             // 
-            this.LblLocation.AutoSize = true;
-            this.LblLocation.BackColor = System.Drawing.Color.Transparent;
-            this.LblLocation.DarkMode = true;
-            this.LblLocation.Location = new System.Drawing.Point(40, 171);
-            this.LblLocation.Margin = new System.Windows.Forms.Padding(0, 10, 20, 10);
-            this.LblLocation.Name = "LblLocation";
-            this.LblLocation.Size = new System.Drawing.Size(168, 45);
-            this.LblLocation.TabIndex = 0;
-            this.LblLocation.Text = "[Location:]";
+            LblLocation.AutoSize = true;
+            LblLocation.BackColor = Color.Transparent;
+            LblLocation.DarkMode = true;
+            LblLocation.Location = new Point(16, 69);
+            LblLocation.Margin = new Padding(0, 3, 8, 3);
+            LblLocation.Name = "LblLocation";
+            LblLocation.Size = new Size(64, 15);
+            LblLocation.TabIndex = 0;
+            LblLocation.Text = "[Location:]";
             // 
             // LblSize
             // 
-            this.LblSize.AutoSize = true;
-            this.LblSize.BackColor = System.Drawing.Color.Transparent;
-            this.LblSize.DarkMode = true;
-            this.LblSize.Location = new System.Drawing.Point(40, 231);
-            this.LblSize.Margin = new System.Windows.Forms.Padding(0, 0, 20, 10);
-            this.LblSize.Name = "LblSize";
-            this.LblSize.Size = new System.Drawing.Size(103, 45);
-            this.LblSize.TabIndex = 1;
-            this.LblSize.Text = "[Size:]";
+            LblSize.AutoSize = true;
+            LblSize.BackColor = Color.Transparent;
+            LblSize.DarkMode = true;
+            LblSize.Location = new Point(16, 95);
+            LblSize.Margin = new Padding(0, 0, 8, 3);
+            LblSize.Name = "LblSize";
+            LblSize.Size = new Size(38, 15);
+            LblSize.TabIndex = 1;
+            LblSize.Text = "[Size:]";
             // 
             // BtnSettings
             // 
-            this.BtnSettings.DarkMode = true;
-            this.BtnSettings.Dock = System.Windows.Forms.DockStyle.Right;
-            this.BtnSettings.Image = ((System.Drawing.Image)(resources.GetObject("BtnSettings.Image")));
-            this.BtnSettings.ImagePadding = 0;
-            this.BtnSettings.Location = new System.Drawing.Point(500, 311);
-            this.BtnSettings.Margin = new System.Windows.Forms.Padding(0, 20, 0, 10);
-            this.BtnSettings.Name = "BtnSettings";
-            this.BtnSettings.Padding = new System.Windows.Forms.Padding(10);
-            this.BtnSettings.Size = new System.Drawing.Size(120, 78);
-            this.BtnSettings.SvgIcon = ImageGlass.UI.IconName.Setting;
-            this.BtnSettings.SystemIcon = null;
-            this.BtnSettings.TabIndex = 8;
-            this.BtnSettings.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.BtnSettings.Click += new System.EventHandler(this.BtnSettings_Click);
+            BtnSettings.DarkMode = true;
+            BtnSettings.Dock = DockStyle.Right;
+            BtnSettings.Image = (Image)resources.GetObject("BtnSettings.Image");
+            BtnSettings.ImagePadding = 0;
+            BtnSettings.Location = new Point(194, 128);
+            BtnSettings.Margin = new Padding(0, 7, 0, 3);
+            BtnSettings.Name = "BtnSettings";
+            BtnSettings.Padding = new Padding(4, 3, 4, 3);
+            BtnSettings.Size = new Size(47, 26);
+            BtnSettings.SvgIcon = IconName.Setting;
+            BtnSettings.SystemIcon = null;
+            BtnSettings.TabIndex = 8;
+            BtnSettings.TextImageRelation = TextImageRelation.ImageBeforeText;
+            BtnSettings.Click += BtnSettings_Click;
             // 
             // LblAspectRatio
             // 
-            this.LblAspectRatio.AutoSize = true;
-            this.LblAspectRatio.BackColor = System.Drawing.Color.Transparent;
-            this.LblAspectRatio.DarkMode = true;
-            this.LblAspectRatio.Location = new System.Drawing.Point(40, 44);
-            this.LblAspectRatio.Margin = new System.Windows.Forms.Padding(0, 4, 4, 10);
-            this.LblAspectRatio.Name = "LblAspectRatio";
-            this.LblAspectRatio.Size = new System.Drawing.Size(218, 45);
-            this.LblAspectRatio.TabIndex = 4;
-            this.LblAspectRatio.Text = "[Aspect ratio:]";
+            LblAspectRatio.AutoSize = true;
+            LblAspectRatio.BackColor = Color.Transparent;
+            LblAspectRatio.DarkMode = true;
+            LblAspectRatio.Location = new Point(16, 14);
+            LblAspectRatio.Margin = new Padding(0, 1, 2, 3);
+            LblAspectRatio.Name = "LblAspectRatio";
+            LblAspectRatio.Size = new Size(81, 15);
+            LblAspectRatio.TabIndex = 4;
+            LblAspectRatio.Text = "[Aspect ratio:]";
             // 
             // NumX
             // 
-            this.NumX.DarkMode = true;
-            this.NumX.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.NumX.Location = new System.Drawing.Point(262, 171);
-            this.NumX.Margin = new System.Windows.Forms.Padding(0, 10, 10, 10);
-            this.NumX.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.NumX.Name = "NumX";
-            this.NumX.SelectAllTextOnFocus = true;
-            this.NumX.Size = new System.Drawing.Size(169, 50);
-            this.NumX.TabIndex = 3;
-            this.NumX.ThousandsSeparator = true;
+            NumX.DarkMode = true;
+            NumX.Dock = DockStyle.Fill;
+            NumX.Location = new Point(99, 69);
+            NumX.Margin = new Padding(0, 3, 4, 3);
+            NumX.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
+            NumX.Name = "NumX";
+            NumX.Size = new Size(67, 23);
+            NumX.TabIndex = 3;
+            NumX.ThousandsSeparator = true;
             // 
             // NumY
             // 
-            this.NumY.DarkMode = true;
-            this.NumY.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.NumY.Location = new System.Drawing.Point(451, 171);
-            this.NumY.Margin = new System.Windows.Forms.Padding(10, 10, 0, 10);
-            this.NumY.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.NumY.Name = "NumY";
-            this.NumY.SelectAllTextOnFocus = true;
-            this.NumY.Size = new System.Drawing.Size(169, 50);
-            this.NumY.TabIndex = 4;
-            this.NumY.ThousandsSeparator = true;
+            NumY.DarkMode = true;
+            NumY.Dock = DockStyle.Fill;
+            NumY.Location = new Point(174, 69);
+            NumY.Margin = new Padding(4, 3, 0, 3);
+            NumY.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
+            NumY.Name = "NumY";
+            NumY.Size = new Size(67, 23);
+            NumY.TabIndex = 4;
+            NumY.ThousandsSeparator = true;
             // 
             // NumWidth
             // 
-            this.NumWidth.DarkMode = true;
-            this.NumWidth.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.NumWidth.Location = new System.Drawing.Point(262, 231);
-            this.NumWidth.Margin = new System.Windows.Forms.Padding(0, 0, 10, 10);
-            this.NumWidth.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.NumWidth.Name = "NumWidth";
-            this.NumWidth.SelectAllTextOnFocus = true;
-            this.NumWidth.Size = new System.Drawing.Size(169, 50);
-            this.NumWidth.TabIndex = 5;
-            this.NumWidth.ThousandsSeparator = true;
+            NumWidth.DarkMode = true;
+            NumWidth.Dock = DockStyle.Fill;
+            NumWidth.Location = new Point(99, 95);
+            NumWidth.Margin = new Padding(0, 0, 4, 3);
+            NumWidth.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
+            NumWidth.Name = "NumWidth";
+            NumWidth.Size = new Size(67, 23);
+            NumWidth.TabIndex = 5;
+            NumWidth.ThousandsSeparator = true;
             // 
             // NumHeight
             // 
-            this.NumHeight.DarkMode = true;
-            this.NumHeight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.NumHeight.Location = new System.Drawing.Point(451, 231);
-            this.NumHeight.Margin = new System.Windows.Forms.Padding(10, 0, 0, 10);
-            this.NumHeight.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.NumHeight.Name = "NumHeight";
-            this.NumHeight.SelectAllTextOnFocus = true;
-            this.NumHeight.Size = new System.Drawing.Size(169, 50);
-            this.NumHeight.TabIndex = 6;
-            this.NumHeight.ThousandsSeparator = true;
+            NumHeight.DarkMode = true;
+            NumHeight.Dock = DockStyle.Fill;
+            NumHeight.Location = new Point(174, 95);
+            NumHeight.Margin = new Padding(4, 0, 0, 3);
+            NumHeight.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
+            NumHeight.Name = "NumHeight";
+            NumHeight.Size = new Size(67, 23);
+            NumHeight.TabIndex = 6;
+            NumHeight.ThousandsSeparator = true;
             // 
             // CmbAspectRatio
             // 
-            this.TableTop.SetColumnSpan(this.CmbAspectRatio, 2);
-            this.CmbAspectRatio.DarkMode = true;
-            this.CmbAspectRatio.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CmbAspectRatio.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.CmbAspectRatio.FormattingEnabled = true;
-            this.CmbAspectRatio.Items.AddRange(new object[] {
-            "Free ratio",
-            "Custom...",
-            "Original",
-            "1:1",
-            "1:2",
-            "3:2",
-            "4:3",
-            "16:9"});
-            this.CmbAspectRatio.Location = new System.Drawing.Point(262, 40);
-            this.CmbAspectRatio.Margin = new System.Windows.Forms.Padding(0, 0, 0, 10);
-            this.CmbAspectRatio.Name = "CmbAspectRatio";
-            this.CmbAspectRatio.Size = new System.Drawing.Size(358, 51);
-            this.CmbAspectRatio.TabIndex = 0;
+            TableTop.SetColumnSpan(CmbAspectRatio, 2);
+            CmbAspectRatio.DarkMode = true;
+            CmbAspectRatio.Dock = DockStyle.Fill;
+            CmbAspectRatio.DrawMode = DrawMode.OwnerDrawVariable;
+            CmbAspectRatio.FormattingEnabled = true;
+            CmbAspectRatio.Items.AddRange(new object[] { "Free ratio", "Custom...", "Original", "1:1", "1:2", "3:2", "4:3", "16:9" });
+            CmbAspectRatio.Location = new Point(99, 13);
+            CmbAspectRatio.Margin = new Padding(0, 0, 0, 3);
+            CmbAspectRatio.Name = "CmbAspectRatio";
+            CmbAspectRatio.Size = new Size(142, 24);
+            CmbAspectRatio.TabIndex = 0;
             // 
             // NumRatioFrom
             // 
-            this.NumRatioFrom.DarkMode = true;
-            this.NumRatioFrom.Dock = System.Windows.Forms.DockStyle.Top;
-            this.NumRatioFrom.Location = new System.Drawing.Point(262, 101);
-            this.NumRatioFrom.Margin = new System.Windows.Forms.Padding(0, 0, 10, 10);
-            this.NumRatioFrom.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.NumRatioFrom.Name = "NumRatioFrom";
-            this.NumRatioFrom.SelectAllTextOnFocus = true;
-            this.NumRatioFrom.Size = new System.Drawing.Size(169, 50);
-            this.NumRatioFrom.TabIndex = 1;
+            NumRatioFrom.DarkMode = true;
+            NumRatioFrom.Dock = DockStyle.Top;
+            NumRatioFrom.Location = new Point(99, 40);
+            NumRatioFrom.Margin = new Padding(0, 0, 4, 3);
+            NumRatioFrom.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
+            NumRatioFrom.Name = "NumRatioFrom";
+            NumRatioFrom.Size = new Size(67, 23);
+            NumRatioFrom.TabIndex = 1;
             // 
             // NumRatioTo
             // 
-            this.NumRatioTo.DarkMode = true;
-            this.NumRatioTo.Dock = System.Windows.Forms.DockStyle.Top;
-            this.NumRatioTo.Location = new System.Drawing.Point(451, 101);
-            this.NumRatioTo.Margin = new System.Windows.Forms.Padding(10, 0, 0, 10);
-            this.NumRatioTo.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.NumRatioTo.Name = "NumRatioTo";
-            this.NumRatioTo.SelectAllTextOnFocus = true;
-            this.NumRatioTo.Size = new System.Drawing.Size(169, 50);
-            this.NumRatioTo.TabIndex = 2;
+            NumRatioTo.DarkMode = true;
+            NumRatioTo.Dock = DockStyle.Top;
+            NumRatioTo.Location = new Point(174, 40);
+            NumRatioTo.Margin = new Padding(4, 0, 0, 3);
+            NumRatioTo.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
+            NumRatioTo.Name = "NumRatioTo";
+            NumRatioTo.Size = new Size(67, 23);
+            NumRatioTo.TabIndex = 2;
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.AutoSize = true;
-            this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.TableTop.SetColumnSpan(this.flowLayoutPanel1, 2);
-            this.flowLayoutPanel1.Controls.Add(this.BtnReset);
-            this.flowLayoutPanel1.Controls.Add(this.BtnQuickSelect);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(40, 291);
-            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(0, 20, 12, 10);
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(401, 108);
-            this.flowLayoutPanel1.TabIndex = 7;
+            flowLayoutPanel1.AutoSize = true;
+            flowLayoutPanel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            TableTop.SetColumnSpan(flowLayoutPanel1, 2);
+            flowLayoutPanel1.Controls.Add(BtnReset);
+            flowLayoutPanel1.Controls.Add(BtnQuickSelect);
+            flowLayoutPanel1.Dock = DockStyle.Fill;
+            flowLayoutPanel1.FlowDirection = FlowDirection.RightToLeft;
+            flowLayoutPanel1.Location = new Point(16, 121);
+            flowLayoutPanel1.Margin = new Padding(0);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Padding = new Padding(0, 7, 5, 3);
+            flowLayoutPanel1.Size = new Size(154, 36);
+            flowLayoutPanel1.TabIndex = 7;
             // 
             // BtnReset
             // 
-            this.BtnReset.DarkMode = true;
-            this.BtnReset.Image = ((System.Drawing.Image)(resources.GetObject("BtnReset.Image")));
-            this.BtnReset.ImagePadding = 0;
-            this.BtnReset.Location = new System.Drawing.Point(269, 20);
-            this.BtnReset.Margin = new System.Windows.Forms.Padding(12, 0, 0, 0);
-            this.BtnReset.Name = "BtnReset";
-            this.BtnReset.Padding = new System.Windows.Forms.Padding(10);
-            this.BtnReset.Size = new System.Drawing.Size(120, 78);
-            this.BtnReset.SvgIcon = ImageGlass.UI.IconName.ResetSelection;
-            this.BtnReset.SystemIcon = null;
-            this.BtnReset.TabIndex = 1;
-            this.BtnReset.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.BtnReset.Click += new System.EventHandler(this.BtnReset_Click);
+            BtnReset.DarkMode = true;
+            BtnReset.Image = (Image)resources.GetObject("BtnReset.Image");
+            BtnReset.ImagePadding = 0;
+            BtnReset.Location = new Point(102, 7);
+            BtnReset.Margin = new Padding(5, 0, 0, 0);
+            BtnReset.Name = "BtnReset";
+            BtnReset.Padding = new Padding(4, 3, 4, 3);
+            BtnReset.Size = new Size(47, 26);
+            BtnReset.SvgIcon = IconName.ResetSelection;
+            BtnReset.SystemIcon = null;
+            BtnReset.TabIndex = 1;
+            BtnReset.TextImageRelation = TextImageRelation.ImageBeforeText;
+            BtnReset.Click += BtnReset_Click;
             // 
             // BtnQuickSelect
             // 
-            this.BtnQuickSelect.DarkMode = true;
-            this.BtnQuickSelect.Image = ((System.Drawing.Image)(resources.GetObject("BtnQuickSelect.Image")));
-            this.BtnQuickSelect.ImagePadding = 0;
-            this.BtnQuickSelect.Location = new System.Drawing.Point(137, 20);
-            this.BtnQuickSelect.Margin = new System.Windows.Forms.Padding(12, 0, 0, 0);
-            this.BtnQuickSelect.Name = "BtnQuickSelect";
-            this.BtnQuickSelect.Padding = new System.Windows.Forms.Padding(10);
-            this.BtnQuickSelect.Size = new System.Drawing.Size(120, 78);
-            this.BtnQuickSelect.SvgIcon = ImageGlass.UI.IconName.Selection;
-            this.BtnQuickSelect.SystemIcon = null;
-            this.BtnQuickSelect.TabIndex = 0;
-            this.BtnQuickSelect.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.BtnQuickSelect.Visible = false;
-            this.BtnQuickSelect.Click += new System.EventHandler(this.BtnQuickSelect_Click);
+            BtnQuickSelect.DarkMode = true;
+            BtnQuickSelect.Image = (Image)resources.GetObject("BtnQuickSelect.Image");
+            BtnQuickSelect.ImagePadding = 0;
+            BtnQuickSelect.Location = new Point(50, 7);
+            BtnQuickSelect.Margin = new Padding(5, 0, 0, 0);
+            BtnQuickSelect.Name = "BtnQuickSelect";
+            BtnQuickSelect.Padding = new Padding(4, 3, 4, 3);
+            BtnQuickSelect.Size = new Size(47, 26);
+            BtnQuickSelect.SvgIcon = IconName.Selection;
+            BtnQuickSelect.SystemIcon = null;
+            BtnQuickSelect.TabIndex = 0;
+            BtnQuickSelect.TextImageRelation = TextImageRelation.ImageBeforeText;
+            BtnQuickSelect.Visible = false;
+            BtnQuickSelect.Click += BtnQuickSelect_Click;
             // 
             // TableBottom
             // 
-            this.TableBottom.AutoSize = true;
-            this.TableBottom.ColumnCount = 2;
-            this.TableBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.TableBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.TableBottom.Controls.Add(this.BtnSave, 0, 0);
-            this.TableBottom.Controls.Add(this.BtnSaveAs, 0, 1);
-            this.TableBottom.Controls.Add(this.BtnCopy, 1, 1);
-            this.TableBottom.Controls.Add(this.BtnCrop, 1, 0);
-            this.TableBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.TableBottom.Location = new System.Drawing.Point(0, 504);
-            this.TableBottom.Margin = new System.Windows.Forms.Padding(6);
-            this.TableBottom.Name = "TableBottom";
-            this.TableBottom.Padding = new System.Windows.Forms.Padding(40, 30, 40, 30);
-            this.TableBottom.RowCount = 2;
-            this.TableBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.TableBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.TableBottom.Size = new System.Drawing.Size(660, 228);
-            this.TableBottom.TabIndex = 1;
+            TableBottom.AutoSize = true;
+            TableBottom.ColumnCount = 2;
+            TableBottom.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            TableBottom.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            TableBottom.Controls.Add(BtnSave, 0, 0);
+            TableBottom.Controls.Add(BtnSaveAs, 0, 1);
+            TableBottom.Controls.Add(BtnCopy, 1, 1);
+            TableBottom.Controls.Add(BtnCrop, 1, 0);
+            TableBottom.Dock = DockStyle.Bottom;
+            TableBottom.Location = new Point(0, 168);
+            TableBottom.Margin = new Padding(2);
+            TableBottom.Name = "TableBottom";
+            TableBottom.Padding = new Padding(16, 10, 16, 10);
+            TableBottom.RowCount = 2;
+            TableBottom.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            TableBottom.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            TableBottom.Size = new Size(257, 76);
+            TableBottom.TabIndex = 1;
             // 
             // BtnSave
             // 
-            this.BtnSave.ButtonStyle = ImageGlass.UI.ModernButtonStyle.CTA;
-            this.BtnSave.DarkMode = true;
-            this.BtnSave.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.BtnSave.ImagePadding = 2;
-            this.BtnSave.Location = new System.Drawing.Point(40, 30);
-            this.BtnSave.Margin = new System.Windows.Forms.Padding(0, 0, 6, 6);
-            this.BtnSave.Name = "BtnSave";
-            this.BtnSave.Padding = new System.Windows.Forms.Padding(10);
-            this.BtnSave.Size = new System.Drawing.Size(284, 78);
-            this.BtnSave.SystemIcon = null;
-            this.BtnSave.TabIndex = 0;
-            this.BtnSave.Text = "[Save]";
-            this.BtnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
+            BtnSave.ButtonStyle = ModernButtonStyle.CTA;
+            BtnSave.DarkMode = true;
+            BtnSave.Dock = DockStyle.Bottom;
+            BtnSave.ImagePadding = 2;
+            BtnSave.Location = new Point(16, 10);
+            BtnSave.Margin = new Padding(0, 0, 2, 2);
+            BtnSave.Name = "BtnSave";
+            BtnSave.Padding = new Padding(4, 3, 4, 3);
+            BtnSave.Size = new Size(110, 26);
+            BtnSave.SystemIcon = null;
+            BtnSave.TabIndex = 0;
+            BtnSave.Text = "[Save]";
+            BtnSave.TextImageRelation = TextImageRelation.ImageBeforeText;
+            BtnSave.Click += BtnSave_Click;
             // 
             // BtnSaveAs
             // 
-            this.BtnSaveAs.ButtonStyle = ImageGlass.UI.ModernButtonStyle.CTA;
-            this.BtnSaveAs.DarkMode = true;
-            this.BtnSaveAs.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.BtnSaveAs.ImagePadding = 2;
-            this.BtnSaveAs.Location = new System.Drawing.Point(40, 120);
-            this.BtnSaveAs.Margin = new System.Windows.Forms.Padding(0, 6, 6, 0);
-            this.BtnSaveAs.Name = "BtnSaveAs";
-            this.BtnSaveAs.Padding = new System.Windows.Forms.Padding(10);
-            this.BtnSaveAs.Size = new System.Drawing.Size(284, 78);
-            this.BtnSaveAs.SystemIcon = null;
-            this.BtnSaveAs.TabIndex = 1;
-            this.BtnSaveAs.Text = "[Save as...]";
-            this.BtnSaveAs.Click += new System.EventHandler(this.BtnSaveAs_Click);
+            BtnSaveAs.ButtonStyle = ModernButtonStyle.CTA;
+            BtnSaveAs.DarkMode = true;
+            BtnSaveAs.Dock = DockStyle.Bottom;
+            BtnSaveAs.ImagePadding = 2;
+            BtnSaveAs.Location = new Point(16, 40);
+            BtnSaveAs.Margin = new Padding(0, 2, 2, 0);
+            BtnSaveAs.Name = "BtnSaveAs";
+            BtnSaveAs.Padding = new Padding(4, 3, 4, 3);
+            BtnSaveAs.Size = new Size(110, 26);
+            BtnSaveAs.SystemIcon = null;
+            BtnSaveAs.TabIndex = 1;
+            BtnSaveAs.Text = "[Save as...]";
+            BtnSaveAs.Click += BtnSaveAs_Click;
             // 
             // BtnCopy
             // 
-            this.BtnCopy.DarkMode = true;
-            this.BtnCopy.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.BtnCopy.Image = ((System.Drawing.Image)(resources.GetObject("BtnCopy.Image")));
-            this.BtnCopy.ImagePadding = 2;
-            this.BtnCopy.Location = new System.Drawing.Point(336, 120);
-            this.BtnCopy.Margin = new System.Windows.Forms.Padding(6, 6, 0, 0);
-            this.BtnCopy.Name = "BtnCopy";
-            this.BtnCopy.Padding = new System.Windows.Forms.Padding(10);
-            this.BtnCopy.Size = new System.Drawing.Size(284, 78);
-            this.BtnCopy.SvgIcon = ImageGlass.UI.IconName.Copy;
-            this.BtnCopy.SystemIcon = null;
-            this.BtnCopy.TabIndex = 3;
-            this.BtnCopy.Text = "[Copy]";
-            this.BtnCopy.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.BtnCopy.Click += new System.EventHandler(this.BtnCopy_Click);
+            BtnCopy.DarkMode = true;
+            BtnCopy.Dock = DockStyle.Bottom;
+            BtnCopy.Image = (Image)resources.GetObject("BtnCopy.Image");
+            BtnCopy.ImagePadding = 2;
+            BtnCopy.Location = new Point(130, 40);
+            BtnCopy.Margin = new Padding(2, 2, 0, 0);
+            BtnCopy.Name = "BtnCopy";
+            BtnCopy.Padding = new Padding(4, 3, 4, 3);
+            BtnCopy.Size = new Size(111, 26);
+            BtnCopy.SvgIcon = IconName.Copy;
+            BtnCopy.SystemIcon = null;
+            BtnCopy.TabIndex = 3;
+            BtnCopy.Text = "[Copy]";
+            BtnCopy.TextImageRelation = TextImageRelation.ImageBeforeText;
+            BtnCopy.Click += BtnCopy_Click;
             // 
             // BtnCrop
             // 
-            this.BtnCrop.DarkMode = true;
-            this.BtnCrop.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.BtnCrop.ImagePadding = 2;
-            this.BtnCrop.Location = new System.Drawing.Point(336, 30);
-            this.BtnCrop.Margin = new System.Windows.Forms.Padding(6, 0, 0, 6);
-            this.BtnCrop.Name = "BtnCrop";
-            this.BtnCrop.Padding = new System.Windows.Forms.Padding(10);
-            this.BtnCrop.Size = new System.Drawing.Size(284, 78);
-            this.BtnCrop.SystemIcon = null;
-            this.BtnCrop.TabIndex = 2;
-            this.BtnCrop.Text = "[Crop only]";
-            this.BtnCrop.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.BtnCrop.Click += new System.EventHandler(this.BtnCrop_Click);
+            BtnCrop.DarkMode = true;
+            BtnCrop.Dock = DockStyle.Bottom;
+            BtnCrop.ImagePadding = 2;
+            BtnCrop.Location = new Point(130, 10);
+            BtnCrop.Margin = new Padding(2, 0, 0, 2);
+            BtnCrop.Name = "BtnCrop";
+            BtnCrop.Padding = new Padding(4, 3, 4, 3);
+            BtnCrop.Size = new Size(111, 26);
+            BtnCrop.SystemIcon = null;
+            BtnCrop.TabIndex = 2;
+            BtnCrop.Text = "[Crop only]";
+            BtnCrop.TextImageRelation = TextImageRelation.ImageBeforeText;
+            BtnCrop.Click += BtnCrop_Click;
+            // 
+            // TooltipMain
+            // 
+            TooltipMain.AllPadding = 4;
+            TooltipMain.DarkMode = false;
+            TooltipMain.OwnerDraw = true;
             // 
             // FrmCrop
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(18F, 45F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(660, 732);
-            this.Controls.Add(this.TableBottom);
-            this.Controls.Add(this.TableTop);
-            this.DoubleBuffered = true;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Location = new System.Drawing.Point(0, 0);
-            this.Margin = new System.Windows.Forms.Padding(12);
-            this.Name = "FrmCrop";
-            this.Opacity = 0.85D;
-            this.Text = "[Crop tool]";
-            this.TableTop.ResumeLayout(false);
-            this.TableTop.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NumX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumY)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumWidth)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumHeight)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumRatioFrom)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumRatioTo)).EndInit();
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.TableBottom.ResumeLayout(false);
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(257, 244);
+            Controls.Add(TableBottom);
+            Controls.Add(TableTop);
+            DoubleBuffered = true;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            Location = new Point(0, 0);
+            Margin = new Padding(5, 4, 5, 4);
+            Name = "FrmCrop";
+            Opacity = 0.85D;
+            Text = "[Crop tool]";
+            TableTop.ResumeLayout(false);
+            TableTop.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)NumX).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NumY).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NumWidth).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NumHeight).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NumRatioFrom).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NumRatioTo).EndInit();
+            flowLayoutPanel1.ResumeLayout(false);
+            TableBottom.ResumeLayout(false);
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -458,10 +424,10 @@ namespace ImageGlass
         private ModernButton BtnCrop;
         private ModernNumericUpDown NumRatioFrom;
         private ModernNumericUpDown NumRatioTo;
-        private ToolTip TooltipMain;
         private FlowLayoutPanel flowLayoutPanel1;
         private ModernButton BtnReset;
         private ModernButton BtnQuickSelect;
         private ModernButton BtnSettings;
+        private ModernTooltip TooltipMain;
     }
 }

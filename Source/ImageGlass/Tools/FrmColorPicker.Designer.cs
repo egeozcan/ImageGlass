@@ -28,9 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmColorPicker));
             TableLayout = new TableLayoutPanel();
+            BtnCopyCIELab = new UI.ModernButton();
+            TxtCIELAB = new UI.ModernTextBox();
+            LblCIELAB = new UI.ModernLabel();
             BtnSettings = new UI.ModernButton();
             BtnCopyHsv = new UI.ModernButton();
             BtnCopyHsl = new UI.ModernButton();
@@ -52,10 +54,7 @@
             LblHsl = new UI.ModernLabel();
             TxtLocation = new UI.ModernTextBox();
             BtnCopyLocation = new UI.ModernButton();
-            TooltipMain = new ToolTip(components);
-            LblCIELAB = new UI.ModernLabel();
-            TxtCIELAB = new UI.ModernTextBox();
-            BtnCopyCIELab = new UI.ModernButton();
+            TooltipMain = new UI.ModernTooltip();
             TableLayout.SuspendLayout();
             PanColor.SuspendLayout();
             SuspendLayout();
@@ -95,7 +94,7 @@
             TableLayout.Location = new Point(0, 0);
             TableLayout.Margin = new Padding(0);
             TableLayout.Name = "TableLayout";
-            TableLayout.Padding = new Padding(40);
+            TableLayout.Padding = new Padding(16, 13, 16, 13);
             TableLayout.RowCount = 8;
             TableLayout.RowStyles.Add(new RowStyle());
             TableLayout.RowStyles.Add(new RowStyle());
@@ -105,8 +104,52 @@
             TableLayout.RowStyles.Add(new RowStyle());
             TableLayout.RowStyles.Add(new RowStyle());
             TableLayout.RowStyles.Add(new RowStyle());
-            TableLayout.Size = new Size(660, 640);
+            TableLayout.Size = new Size(257, 253);
             TableLayout.TabIndex = 0;
+            // 
+            // BtnCopyCIELab
+            // 
+            BtnCopyCIELab.Anchor = AnchorStyles.Right;
+            BtnCopyCIELab.DarkMode = true;
+            BtnCopyCIELab.Image = (Image)resources.GetObject("BtnCopyCIELab.Image");
+            BtnCopyCIELab.ImagePadding = 0;
+            BtnCopyCIELab.Location = new Point(240, 215);
+            BtnCopyCIELab.Margin = new Padding(4, 0, 0, 0);
+            BtnCopyCIELab.Name = "BtnCopyCIELab";
+            BtnCopyCIELab.Padding = new Padding(3, 3, 3, 3);
+            BtnCopyCIELab.Size = new Size(31, 20);
+            BtnCopyCIELab.SvgIcon = UI.IconName.Copy;
+            BtnCopyCIELab.SystemIcon = null;
+            BtnCopyCIELab.TabIndex = 15;
+            BtnCopyCIELab.TextImageRelation = TextImageRelation.ImageBeforeText;
+            BtnCopyCIELab.Click += BtnCopyCIELab_Click;
+            // 
+            // TxtCIELAB
+            // 
+            TxtCIELAB.BackColor = Color.FromArgb(69, 73, 74);
+            TxtCIELAB.BorderStyle = BorderStyle.FixedSingle;
+            TxtCIELAB.DarkMode = true;
+            TxtCIELAB.Dock = DockStyle.Fill;
+            TxtCIELAB.ForeColor = Color.FromArgb(210, 210, 210);
+            TxtCIELAB.Location = new Point(74, 214);
+            TxtCIELAB.Margin = new Padding(0, 3, 0, 3);
+            TxtCIELAB.Name = "TxtCIELAB";
+            TxtCIELAB.ReadOnly = true;
+            TxtCIELAB.Size = new Size(162, 23);
+            TxtCIELAB.TabIndex = 14;
+            // 
+            // LblCIELAB
+            // 
+            LblCIELAB.Anchor = AnchorStyles.Left;
+            LblCIELAB.AutoSize = true;
+            LblCIELAB.BackColor = Color.Transparent;
+            LblCIELAB.DarkMode = true;
+            LblCIELAB.Location = new Point(17, 218);
+            LblCIELAB.Margin = new Padding(1, 0, 1, 0);
+            LblCIELAB.Name = "LblCIELAB";
+            LblCIELAB.Size = new Size(56, 15);
+            LblCIELAB.TabIndex = 13;
+            LblCIELAB.Text = "[CIELAB:]";
             // 
             // BtnSettings
             // 
@@ -114,11 +157,11 @@
             BtnSettings.DarkMode = true;
             BtnSettings.Image = (Image)resources.GetObject("BtnSettings.Image");
             BtnSettings.ImagePadding = 0;
-            BtnSettings.Location = new Point(540, 40);
-            BtnSettings.Margin = new Padding(10, 0, 0, 10);
+            BtnSettings.Location = new Point(240, 13);
+            BtnSettings.Margin = new Padding(4, 0, 0, 3);
             BtnSettings.Name = "BtnSettings";
-            BtnSettings.Padding = new Padding(8);
-            BtnSettings.Size = new Size(80, 60);
+            BtnSettings.Padding = new Padding(3, 3, 3, 3);
+            BtnSettings.Size = new Size(31, 20);
             BtnSettings.SvgIcon = UI.IconName.Setting;
             BtnSettings.SystemIcon = null;
             BtnSettings.TabIndex = 12;
@@ -131,11 +174,11 @@
             BtnCopyHsv.DarkMode = true;
             BtnCopyHsv.Image = (Image)resources.GetObject("BtnCopyHsv.Image");
             BtnCopyHsv.ImagePadding = 0;
-            BtnCopyHsv.Location = new Point(540, 465);
-            BtnCopyHsv.Margin = new Padding(10, 0, 0, 0);
+            BtnCopyHsv.Location = new Point(240, 186);
+            BtnCopyHsv.Margin = new Padding(4, 0, 0, 0);
             BtnCopyHsv.Name = "BtnCopyHsv";
-            BtnCopyHsv.Padding = new Padding(8);
-            BtnCopyHsv.Size = new Size(80, 60);
+            BtnCopyHsv.Padding = new Padding(3, 3, 3, 3);
+            BtnCopyHsv.Size = new Size(31, 20);
             BtnCopyHsv.SvgIcon = UI.IconName.Copy;
             BtnCopyHsv.SystemIcon = null;
             BtnCopyHsv.TabIndex = 11;
@@ -148,11 +191,11 @@
             BtnCopyHsl.DarkMode = true;
             BtnCopyHsl.Image = (Image)resources.GetObject("BtnCopyHsl.Image");
             BtnCopyHsl.ImagePadding = 0;
-            BtnCopyHsl.Location = new Point(540, 395);
-            BtnCopyHsl.Margin = new Padding(10, 0, 0, 0);
+            BtnCopyHsl.Location = new Point(240, 157);
+            BtnCopyHsl.Margin = new Padding(4, 0, 0, 0);
             BtnCopyHsl.Name = "BtnCopyHsl";
-            BtnCopyHsl.Padding = new Padding(8);
-            BtnCopyHsl.Size = new Size(80, 60);
+            BtnCopyHsl.Padding = new Padding(3, 3, 3, 3);
+            BtnCopyHsl.Size = new Size(31, 20);
             BtnCopyHsl.SvgIcon = UI.IconName.Copy;
             BtnCopyHsl.SystemIcon = null;
             BtnCopyHsl.TabIndex = 9;
@@ -165,11 +208,11 @@
             BtnCopyCmyk.DarkMode = true;
             BtnCopyCmyk.Image = (Image)resources.GetObject("BtnCopyCmyk.Image");
             BtnCopyCmyk.ImagePadding = 0;
-            BtnCopyCmyk.Location = new Point(540, 325);
-            BtnCopyCmyk.Margin = new Padding(10, 0, 0, 0);
+            BtnCopyCmyk.Location = new Point(240, 128);
+            BtnCopyCmyk.Margin = new Padding(4, 0, 0, 0);
             BtnCopyCmyk.Name = "BtnCopyCmyk";
-            BtnCopyCmyk.Padding = new Padding(8);
-            BtnCopyCmyk.Size = new Size(80, 60);
+            BtnCopyCmyk.Padding = new Padding(3, 3, 3, 3);
+            BtnCopyCmyk.Size = new Size(31, 20);
             BtnCopyCmyk.SvgIcon = UI.IconName.Copy;
             BtnCopyCmyk.SystemIcon = null;
             BtnCopyCmyk.TabIndex = 7;
@@ -182,11 +225,11 @@
             BtnCopyHex.DarkMode = true;
             BtnCopyHex.Image = (Image)resources.GetObject("BtnCopyHex.Image");
             BtnCopyHex.ImagePadding = 0;
-            BtnCopyHex.Location = new Point(540, 255);
-            BtnCopyHex.Margin = new Padding(10, 0, 0, 0);
+            BtnCopyHex.Location = new Point(240, 99);
+            BtnCopyHex.Margin = new Padding(4, 0, 0, 0);
             BtnCopyHex.Name = "BtnCopyHex";
-            BtnCopyHex.Padding = new Padding(8);
-            BtnCopyHex.Size = new Size(80, 60);
+            BtnCopyHex.Padding = new Padding(3, 3, 3, 3);
+            BtnCopyHex.Size = new Size(31, 20);
             BtnCopyHex.SvgIcon = UI.IconName.Copy;
             BtnCopyHex.SystemIcon = null;
             BtnCopyHex.TabIndex = 5;
@@ -199,11 +242,11 @@
             BtnCopyRgb.DarkMode = true;
             BtnCopyRgb.Image = (Image)resources.GetObject("BtnCopyRgb.Image");
             BtnCopyRgb.ImagePadding = 0;
-            BtnCopyRgb.Location = new Point(540, 185);
-            BtnCopyRgb.Margin = new Padding(10, 0, 0, 0);
+            BtnCopyRgb.Location = new Point(240, 70);
+            BtnCopyRgb.Margin = new Padding(4, 0, 0, 0);
             BtnCopyRgb.Name = "BtnCopyRgb";
-            BtnCopyRgb.Padding = new Padding(8);
-            BtnCopyRgb.Size = new Size(80, 60);
+            BtnCopyRgb.Padding = new Padding(3, 3, 3, 3);
+            BtnCopyRgb.Size = new Size(31, 20);
             BtnCopyRgb.SvgIcon = UI.IconName.Copy;
             BtnCopyRgb.SystemIcon = null;
             BtnCopyRgb.TabIndex = 3;
@@ -217,11 +260,11 @@
             TxtHsv.DarkMode = true;
             TxtHsv.Dock = DockStyle.Fill;
             TxtHsv.ForeColor = Color.FromArgb(210, 210, 210);
-            TxtHsv.Location = new Point(173, 470);
-            TxtHsv.Margin = new Padding(0, 10, 0, 10);
+            TxtHsv.Location = new Point(74, 185);
+            TxtHsv.Margin = new Padding(0, 3, 0, 3);
             TxtHsv.Name = "TxtHsv";
             TxtHsv.ReadOnly = true;
-            TxtHsv.Size = new Size(342, 50);
+            TxtHsv.Size = new Size(162, 23);
             TxtHsv.TabIndex = 10;
             // 
             // TxtHsl
@@ -231,11 +274,11 @@
             TxtHsl.DarkMode = true;
             TxtHsl.Dock = DockStyle.Fill;
             TxtHsl.ForeColor = Color.FromArgb(210, 210, 210);
-            TxtHsl.Location = new Point(173, 400);
-            TxtHsl.Margin = new Padding(0, 10, 0, 10);
+            TxtHsl.Location = new Point(74, 156);
+            TxtHsl.Margin = new Padding(0, 3, 0, 3);
             TxtHsl.Name = "TxtHsl";
             TxtHsl.ReadOnly = true;
-            TxtHsl.Size = new Size(342, 50);
+            TxtHsl.Size = new Size(162, 23);
             TxtHsl.TabIndex = 8;
             // 
             // TxtCmyk
@@ -245,11 +288,11 @@
             TxtCmyk.DarkMode = true;
             TxtCmyk.Dock = DockStyle.Fill;
             TxtCmyk.ForeColor = Color.FromArgb(210, 210, 210);
-            TxtCmyk.Location = new Point(173, 330);
-            TxtCmyk.Margin = new Padding(0, 10, 0, 10);
+            TxtCmyk.Location = new Point(74, 127);
+            TxtCmyk.Margin = new Padding(0, 3, 0, 3);
             TxtCmyk.Name = "TxtCmyk";
             TxtCmyk.ReadOnly = true;
-            TxtCmyk.Size = new Size(342, 50);
+            TxtCmyk.Size = new Size(162, 23);
             TxtCmyk.TabIndex = 6;
             // 
             // TxtHex
@@ -259,11 +302,11 @@
             TxtHex.DarkMode = true;
             TxtHex.Dock = DockStyle.Fill;
             TxtHex.ForeColor = Color.FromArgb(210, 210, 210);
-            TxtHex.Location = new Point(173, 260);
-            TxtHex.Margin = new Padding(0, 10, 0, 10);
+            TxtHex.Location = new Point(74, 98);
+            TxtHex.Margin = new Padding(0, 3, 0, 3);
             TxtHex.Name = "TxtHex";
             TxtHex.ReadOnly = true;
-            TxtHex.Size = new Size(342, 50);
+            TxtHex.Size = new Size(162, 23);
             TxtHex.TabIndex = 4;
             // 
             // TxtRgb
@@ -273,11 +316,11 @@
             TxtRgb.DarkMode = true;
             TxtRgb.Dock = DockStyle.Fill;
             TxtRgb.ForeColor = Color.FromArgb(210, 210, 210);
-            TxtRgb.Location = new Point(173, 190);
-            TxtRgb.Margin = new Padding(0, 10, 0, 10);
+            TxtRgb.Location = new Point(74, 69);
+            TxtRgb.Margin = new Padding(0, 3, 0, 3);
             TxtRgb.Name = "TxtRgb";
             TxtRgb.ReadOnly = true;
-            TxtRgb.Size = new Size(342, 50);
+            TxtRgb.Size = new Size(162, 23);
             TxtRgb.TabIndex = 2;
             // 
             // LblHsv
@@ -286,9 +329,10 @@
             LblHsv.AutoSize = true;
             LblHsv.BackColor = Color.Transparent;
             LblHsv.DarkMode = true;
-            LblHsv.Location = new Point(43, 472);
+            LblHsv.Location = new Point(17, 189);
+            LblHsv.Margin = new Padding(1, 0, 1, 0);
             LblHsv.Name = "LblHsv";
-            LblHsv.Size = new Size(126, 45);
+            LblHsv.Size = new Size(47, 15);
             LblHsv.TabIndex = 6;
             LblHsv.Text = "[HSVA:]";
             // 
@@ -298,10 +342,10 @@
             LblLocation.AutoSize = true;
             LblLocation.BackColor = Color.Transparent;
             LblLocation.DarkMode = true;
-            LblLocation.Location = new Point(40, 122);
+            LblLocation.Location = new Point(16, 44);
             LblLocation.Margin = new Padding(0);
             LblLocation.Name = "LblLocation";
-            LblLocation.Size = new Size(100, 45);
+            LblLocation.Size = new Size(38, 15);
             LblLocation.TabIndex = 1;
             LblLocation.Text = "[X, Y:]";
             // 
@@ -312,10 +356,10 @@
             TableLayout.SetColumnSpan(PanColor, 2);
             PanColor.Controls.Add(LblCursorLocation);
             PanColor.Dock = DockStyle.Fill;
-            PanColor.Location = new Point(40, 40);
-            PanColor.Margin = new Padding(0, 0, 0, 10);
+            PanColor.Location = new Point(16, 13);
+            PanColor.Margin = new Padding(0, 0, 0, 3);
             PanColor.Name = "PanColor";
-            PanColor.Size = new Size(475, 60);
+            PanColor.Size = new Size(220, 21);
             PanColor.TabIndex = 0;
             // 
             // LblCursorLocation
@@ -325,8 +369,9 @@
             LblCursorLocation.Dock = DockStyle.Fill;
             LblCursorLocation.ForeColor = Color.White;
             LblCursorLocation.Location = new Point(0, 0);
+            LblCursorLocation.Margin = new Padding(1, 0, 1, 0);
             LblCursorLocation.Name = "LblCursorLocation";
-            LblCursorLocation.Size = new Size(473, 58);
+            LblCursorLocation.Size = new Size(218, 19);
             LblCursorLocation.TabIndex = 0;
             LblCursorLocation.TextAlign = ContentAlignment.MiddleCenter;
             // 
@@ -336,10 +381,10 @@
             LblRgb.AutoSize = true;
             LblRgb.BackColor = Color.Transparent;
             LblRgb.DarkMode = true;
-            LblRgb.Location = new Point(40, 192);
+            LblRgb.Location = new Point(16, 73);
             LblRgb.Margin = new Padding(0);
             LblRgb.Name = "LblRgb";
-            LblRgb.Size = new Size(127, 45);
+            LblRgb.Size = new Size(48, 15);
             LblRgb.TabIndex = 2;
             LblRgb.Text = "[RGBA:]";
             // 
@@ -349,9 +394,10 @@
             LblHex.AutoSize = true;
             LblHex.BackColor = Color.Transparent;
             LblHex.DarkMode = true;
-            LblHex.Location = new Point(43, 262);
+            LblHex.Location = new Point(17, 102);
+            LblHex.Margin = new Padding(1, 0, 1, 0);
             LblHex.Name = "LblHex";
-            LblHex.Size = new Size(126, 45);
+            LblHex.Size = new Size(48, 15);
             LblHex.TabIndex = 3;
             LblHex.Text = "[HEXA:]";
             // 
@@ -361,10 +407,10 @@
             LblCmyk.AutoSize = true;
             LblCmyk.BackColor = Color.Transparent;
             LblCmyk.DarkMode = true;
-            LblCmyk.Location = new Point(40, 332);
+            LblCmyk.Location = new Point(16, 131);
             LblCmyk.Margin = new Padding(0);
             LblCmyk.Name = "LblCmyk";
-            LblCmyk.Size = new Size(133, 45);
+            LblCmyk.Size = new Size(51, 15);
             LblCmyk.TabIndex = 4;
             LblCmyk.Text = "[CMYK:]";
             // 
@@ -374,10 +420,10 @@
             LblHsl.AutoSize = true;
             LblHsl.BackColor = Color.Transparent;
             LblHsl.DarkMode = true;
-            LblHsl.Location = new Point(40, 402);
+            LblHsl.Location = new Point(16, 160);
             LblHsl.Margin = new Padding(0);
             LblHsl.Name = "LblHsl";
-            LblHsl.Size = new Size(124, 45);
+            LblHsl.Size = new Size(47, 15);
             LblHsl.TabIndex = 5;
             LblHsl.Text = "[HSLA:]";
             // 
@@ -388,11 +434,11 @@
             TxtLocation.DarkMode = true;
             TxtLocation.Dock = DockStyle.Fill;
             TxtLocation.ForeColor = Color.FromArgb(210, 210, 210);
-            TxtLocation.Location = new Point(173, 120);
-            TxtLocation.Margin = new Padding(0, 10, 0, 10);
+            TxtLocation.Location = new Point(74, 40);
+            TxtLocation.Margin = new Padding(0, 3, 0, 3);
             TxtLocation.Name = "TxtLocation";
             TxtLocation.ReadOnly = true;
-            TxtLocation.Size = new Size(342, 50);
+            TxtLocation.Size = new Size(162, 23);
             TxtLocation.TabIndex = 0;
             // 
             // BtnCopyLocation
@@ -401,69 +447,33 @@
             BtnCopyLocation.DarkMode = true;
             BtnCopyLocation.Image = (Image)resources.GetObject("BtnCopyLocation.Image");
             BtnCopyLocation.ImagePadding = 0;
-            BtnCopyLocation.Location = new Point(540, 115);
-            BtnCopyLocation.Margin = new Padding(10, 0, 0, 0);
+            BtnCopyLocation.Location = new Point(240, 41);
+            BtnCopyLocation.Margin = new Padding(4, 0, 0, 0);
             BtnCopyLocation.Name = "BtnCopyLocation";
-            BtnCopyLocation.Padding = new Padding(8);
-            BtnCopyLocation.Size = new Size(80, 60);
+            BtnCopyLocation.Padding = new Padding(3, 3, 3, 3);
+            BtnCopyLocation.Size = new Size(31, 20);
             BtnCopyLocation.SvgIcon = UI.IconName.Copy;
             BtnCopyLocation.SystemIcon = null;
             BtnCopyLocation.TabIndex = 1;
             BtnCopyLocation.TextImageRelation = TextImageRelation.ImageBeforeText;
             BtnCopyLocation.Click += BtnCopyLocation_Click;
             // 
-            // LblLab
+            // TooltipMain
             // 
-            LblCIELAB.Anchor = AnchorStyles.Left;
-            LblCIELAB.AutoSize = true;
-            LblCIELAB.BackColor = Color.Transparent;
-            LblCIELAB.DarkMode = true;
-            LblCIELAB.Location = new Point(43, 542);
-            LblCIELAB.Name = "LblCIELAB";
-            LblCIELAB.Size = new Size(123, 45);
-            LblCIELAB.TabIndex = 13;
-            LblCIELAB.Text = "[CIELAB:]";
-            // 
-            // TxtLab
-            // 
-            TxtCIELAB.BackColor = Color.FromArgb(69, 73, 74);
-            TxtCIELAB.BorderStyle = BorderStyle.FixedSingle;
-            TxtCIELAB.DarkMode = true;
-            TxtCIELAB.Dock = DockStyle.Fill;
-            TxtCIELAB.ForeColor = Color.FromArgb(210, 210, 210);
-            TxtCIELAB.Location = new Point(173, 540);
-            TxtCIELAB.Margin = new Padding(0, 10, 0, 10);
-            TxtCIELAB.Name = "TxtLab";
-            TxtCIELAB.ReadOnly = true;
-            TxtCIELAB.Size = new Size(342, 50);
-            TxtCIELAB.TabIndex = 14;
-            // 
-            // BtnCopyLab
-            // 
-            BtnCopyCIELab.Anchor = AnchorStyles.Right;
-            BtnCopyCIELab.DarkMode = true;
-            BtnCopyCIELab.Image = (Image)resources.GetObject("BtnCopyCIELab.Image");
-            BtnCopyCIELab.ImagePadding = 0;
-            BtnCopyCIELab.Location = new Point(540, 535);
-            BtnCopyCIELab.Margin = new Padding(10, 0, 0, 0);
-            BtnCopyCIELab.Name = "BtnCopyCIELab";
-            BtnCopyCIELab.Padding = new Padding(8);
-            BtnCopyCIELab.Size = new Size(80, 60);
-            BtnCopyCIELab.SvgIcon = UI.IconName.Copy;
-            BtnCopyCIELab.SystemIcon = null;
-            BtnCopyCIELab.TabIndex = 15;
-            BtnCopyCIELab.TextImageRelation = TextImageRelation.ImageBeforeText;
-            BtnCopyCIELab.Click += BtnCopyCIELab_Click;
+            TooltipMain.AllPadding = 4;
+            TooltipMain.DarkMode = false;
+            TooltipMain.OwnerDraw = true;
             // 
             // FrmColorPicker
             // 
-            AutoScaleDimensions = new SizeF(18F, 45F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
-            ClientSize = new Size(660, 732);
+            ClientSize = new Size(257, 244);
             Controls.Add(TableLayout);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Location = new Point(0, 0);
+            Margin = new Padding(1, 1, 1, 1);
             Name = "FrmColorPicker";
             Text = "[Color picker]";
             TableLayout.ResumeLayout(false);
@@ -498,9 +508,9 @@
         private UI.ModernButton BtnCopyRgb;
         private UI.ModernLabel LblCursorLocation;
         private UI.ModernButton BtnSettings;
-        private ToolTip TooltipMain;
         private UI.ModernButton BtnCopyCIELab;
         private UI.ModernTextBox TxtCIELAB;
         private UI.ModernLabel LblCIELAB;
+        private UI.ModernTooltip TooltipMain;
     }
 }
