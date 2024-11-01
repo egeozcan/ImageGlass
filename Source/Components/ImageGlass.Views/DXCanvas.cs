@@ -1348,12 +1348,29 @@ public partial class DXCanvas : DXControl
         var imgY = (e.Y - _destRect.Y) / _zoomFactor + _srcRect.Y;
         ImageMouseMove?.Invoke(this, new(imgX, imgY, e.Button));
 
+
         // change cursor
-        if (EnableSelection)
+        if (!EnableSelection)
+        {
+            Cursor = Cursors.Default;
+        }
+        else
         {
             // set resizer cursor
             var hoveredResizer = SelectionResizers.Find(i => i.HitRegion.Contains(e.Location));
-            Cursor = hoveredResizer?.Cursor ?? Parent.Cursor;
+
+            if (hoveredResizer != null)
+            {
+                Cursor = hoveredResizer.Cursor;
+            }
+            else if (ClientSelection.Contains(e.Location))
+            {
+                Cursor = Cursors.SizeAll;
+            }
+            else
+            {
+                Cursor = Cursors.Cross;
+            }
 
 
             // redraw the canvas
@@ -1366,12 +1383,10 @@ public partial class DXCanvas : DXControl
             _isSelectionHovered = isSelectionHovered;
             _hoveredResizer = hoveredResizer;
         }
+        
 
         // request re-render control
-        if (requestRerender)
-        {
-            Invalidate();
-        }
+        if (requestRerender) Invalidate();
     }
 
     protected override void OnMouseLeave(EventArgs e)
