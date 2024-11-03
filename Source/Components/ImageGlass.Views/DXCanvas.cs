@@ -1068,6 +1068,7 @@ public partial class DXCanvas : DXControl
 
         _clickTimer.Dispose();
         _msgTokenSrc?.Dispose();
+        _msgTokenSrc = null;
 
         DisposeWeb2Control();
     }

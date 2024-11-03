@@ -1581,7 +1581,7 @@ public partial class FrmMain
         var hasSelection = PicMain.EnableSelection && !PicMain.SourceSelection.IsEmpty;
         if (hasSelection)
         {
-            using var selectedImg = await GetSelectedImageAreaAsync();
+            using var selectedImg = await GetCurrentImageDataAsync(true);
             error = await DoSaveAsync(selectedImg, srcFilePath, destFilePath, false);
             saveSource = ImageSaveSource.SelectedArea;
         }
@@ -2965,7 +2965,7 @@ public partial class FrmMain
 
     public async Task CropAsync()
     {
-        var img = await GetSelectedImageAreaAsync();
+        var img = await GetCurrentImageDataAsync(true);
         if (img == null) return;
 
         LoadClipboardImage(img);
@@ -2976,21 +2976,30 @@ public partial class FrmMain
 
 
     /// <summary>
-    /// Gets the selected image data clipped by the selection area.
+    /// Gets the current rendered image data
     /// </summary>
-    public async Task<WicBitmapSource?> GetSelectedImageAreaAsync()
+    /// <param name="selectionOnly">Only get the selected area</param>
+    public async Task<WicBitmapSource?> GetCurrentImageDataAsync(bool selectionOnly = false)
     {
-        if (PicMain.Source == ImageSource.Null || PicMain.SourceSelection.IsEmpty) return null;
+        if (PicMain.Source == ImageSource.Null) return null;
+        if (selectionOnly && PicMain.SourceSelection.IsEmpty) return null;
 
 
+        // clipboard image
         if (Local.ClipboardImage != null)
         {
-            return BHelper.CropImage(Local.ClipboardImage, PicMain.SourceSelection);
+            if (selectionOnly)
+            {
+                return BHelper.CropImage(Local.ClipboardImage, PicMain.SourceSelection);
+            }
+
+            return Local.ClipboardImage;
         }
 
 
         var img = await Local.Images.GetAsync(Local.CurrentIndex);
         if (img == null) return null;
+
 
         // apply transforms
         if (Local.ImageTransform.HasChanges)
@@ -2998,7 +3007,12 @@ public partial class FrmMain
             PhotoCodec.TransformImage(img.ImgData.Image, Local.ImageTransform);
         }
 
-        return BHelper.CropImage(img.ImgData.Image, PicMain.SourceSelection);
+        if (selectionOnly)
+        {
+            return BHelper.CropImage(img.ImgData.Image, PicMain.SourceSelection);
+        }
+
+        return img.ImgData.Image;
     }
 
 
@@ -3266,6 +3280,25 @@ public partial class FrmMain
 
         ToolbarContext.UpdateAlignment();
     }
+
+
+    /// <summary>
+    /// Open image resize tool.
+    /// </summary>
+    public void IG_OpenResizeTool()
+    {
+        if (Local.IsBusy) return;
+
+        using var frm = new FrmResize();
+        if (frm.ShowDialog() != DialogResult.OK) return;
+
+
+        if (frm.Result != null)
+        {
+            LoadClipboardImage(frm.Result);
+        }
+    }
+
 
 
     /// <summary>

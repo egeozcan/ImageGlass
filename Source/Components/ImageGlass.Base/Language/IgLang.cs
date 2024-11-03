@@ -919,6 +919,16 @@ public class IgLang : IDictionary<string, string>
             #endregion // FrmHotkeyPicker
 
 
+            #region FrmResize
+            { "FrmResize.RadResizeByPixels", "Pixels" }, // v9.2
+            { "FrmResize.RadResizeByPercentage", "Percentage" }, // v9.2
+            { "FrmResize.ChkKeepRatio", "Keep ratio propotional" }, // v9.2
+            { "FrmResize.LblResample", "Resample:" }, // v9.2
+            { "FrmResize.LblCurrentSize", "Current Size:" }, // v9.2
+            { "FrmResize.LblNewSize", "New Size:" }, // v9.2
+            #endregion // FrmResize
+
+
             #region igcmd.exe
 
             { "_._IgCommandExe._DefaultError._Heading", "Invalid commands" }, //v9.0
