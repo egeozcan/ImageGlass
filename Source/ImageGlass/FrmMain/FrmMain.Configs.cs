@@ -127,6 +127,7 @@ public partial class FrmMain
         { nameof(MnuColorPicker),           [new(Keys.K)] },
         { nameof(MnuCropTool),              [new(Keys.C)] },
         { nameof(MnuFrameNav),              [new(Keys.P)] },
+        { nameof(MnuResizeTool),            [new(Keys.Alt | Keys.R)] },
         { nameof(MnuLosslessCompression),   [new(Keys.Alt | Keys.C)] },
         { Const.IGTOOL_EXIFTOOL,            [new(Keys.X)] },
 
@@ -773,13 +774,14 @@ public partial class FrmMain
 
         // Menu Tools
         #region Menu Tools
-        MnuTools.Text = lang[$"{Name}.{nameof(MnuTools)}"];
+        MnuTools.Text = lang[$"{nameof(FrmMain)}.{nameof(MnuTools)}"];
 
-        MnuColorPicker.Text = lang[$"{Name}.{nameof(MnuColorPicker)}"];
-        MnuFrameNav.Text = lang[$"{Name}.{nameof(MnuFrameNav)}"];
-        MnuCropTool.Text = lang[$"{Name}.{nameof(MnuCropTool)}"];
-        MnuLosslessCompression.Text = lang[$"{Name}.{nameof(MnuLosslessCompression)}"];
-        MnuGetMoreTools.Text = lang[$"{Name}.{nameof(MnuGetMoreTools)}"];
+        MnuColorPicker.Text = lang[$"{nameof(FrmMain)}.{nameof(MnuColorPicker)}"];
+        MnuFrameNav.Text = lang[$"{nameof(FrmMain)}.{nameof(MnuFrameNav)}"];
+        MnuCropTool.Text = lang[$"{nameof(FrmMain)}.{nameof(MnuCropTool)}"];
+        MnuResizeTool.Text = lang[$"{nameof(FrmMain)}.{nameof(MnuResizeTool)}"];
+        MnuLosslessCompression.Text = lang[$"{nameof(FrmMain)}.{nameof(MnuLosslessCompression)}"];
+        MnuGetMoreTools.Text = lang[$"{nameof(FrmMain)}.{nameof(MnuGetMoreTools)}"];
 
         foreach (var item in MnuTools.DropDownItems)
         {
@@ -791,8 +793,8 @@ public partial class FrmMain
         #endregion
 
 
-        MnuSettings.Text = lang[$"{Name}.{nameof(MnuSettings)}"];
-        MnuExit.Text = lang[$"{Name}.{nameof(MnuExit)}"];
+        MnuSettings.Text = lang[$"{nameof(FrmMain)}.{nameof(MnuSettings)}"];
+        MnuExit.Text = lang[$"{nameof(FrmMain)}.{nameof(MnuExit)}"];
 
 
         // Menu Help
@@ -1014,6 +1016,7 @@ public partial class FrmMain
             nameof(MnuColorPicker),
             nameof(MnuCropTool),
             nameof(MnuFrameNav),
+            nameof(MnuResizeTool),
             nameof(MnuLosslessCompression),
             nameof(MnuExternalToolsSeparator),
             nameof(MnuGetMoreTools),

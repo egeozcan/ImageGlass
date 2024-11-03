@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 using ImageGlass.Base;
+using ImageGlass.Base.PhotoBox;
 using ImageGlass.Settings;
 using WicNet;
 
@@ -144,6 +145,18 @@ public partial class FrmResize : DialogForm
 
     protected override void OnAcceptButtonClicked()
     {
+        // check if the value is updated
+        // happens when user type and press enter without tab out
+        if (_outputSize.Width != NumWidth.Value && NumWidth.Focused)
+        {
+            UpdateSize((float)NumWidth.Value, null);
+        }
+        else if (_outputSize.Height != NumHeight.Value && NumHeight.Focused)
+        {
+            UpdateSize(null, (float)NumHeight.Value);
+        }
+
+
         // get the final size
         var finalSize = RadResizeByPercentage.Checked
             ? GetOutputSizeInPixel().ToSize()
@@ -188,7 +201,8 @@ public partial class FrmResize : DialogForm
 
     private void ApplyLanguage()
     {
-        //Text = Config.Language[$"{nameof(FrmResize)}._Title"];
+        Text = Config.Language[$"{nameof(FrmMain)}.{nameof(FrmMain.MnuResizeTool)}"];
+
         BtnAccept.Text = Config.Language["_._OK"];
         BtnCancel.Text = Config.Language["_._Cancel"];
         BtnApply.Text = Config.Language["_._Apply"];
@@ -213,7 +227,7 @@ public partial class FrmResize : DialogForm
         {
             var displayName = string.Empty;
             var methodKey = Enum.GetName(method);
-            var langPath = $"{nameof(FrmResize)}.{nameof(ImageResamplingMethod)}._{methodKey}";
+            var langPath = $"_.{nameof(ImageInterpolation)}._{methodKey}";
 
             if (!Config.Language.TryGetValue(langPath, out displayName))
             {

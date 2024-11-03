@@ -2367,6 +2367,11 @@ public partial class FrmMain : ThemedForm
         IG_ToggleCropTool();
     }
 
+    private void MnuResizeTool_Click(object sender, EventArgs e)
+    {
+        IG_OpenResizeTool();
+    }
+
     private void MnuFrameNav_Click(object sender, EventArgs e)
     {
         IG_ToggleFrameNavTool();
@@ -2439,4 +2444,5 @@ public partial class FrmMain : ThemedForm
     #endregion // Main Menu component
 
 
+    
 }

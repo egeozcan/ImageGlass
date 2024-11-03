@@ -509,8 +509,9 @@ public class IgLang : IDictionary<string, string>
             #region Tools
             { "FrmMain.MnuTools", "Tools" }, //v3.0
             { "FrmMain.MnuColorPicker", "Color picker" }, //v5.0
-            { "FrmMain.MnuFrameNav", "Frame navigation" }, // v7.5
             { "FrmMain.MnuCropTool", "Crop image" }, // v7.6
+            { "FrmMain.MnuResizeTool", "Resize image" }, // v9.2
+            { "FrmMain.MnuFrameNav", "Frame navigation" }, // v7.5
             { "FrmMain.MnuGetMoreTools", "Get more tools…" }, // v9.0
 
             { "FrmMain.MnuLosslessCompression", "Magick.NET Lossless Compression" }, // v9.1

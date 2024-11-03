@@ -97,7 +97,7 @@ partial class FrmResize
         LblSizeUnit.Location = new Point(252, 44);
         LblSizeUnit.Margin = new Padding(3, 2, 8, 3);
         LblSizeUnit.Name = "LblSizeUnit";
-        LblSizeUnit.Size = new Size(28, 15);
+        LblSizeUnit.Size = new Size(20, 15);
         LblSizeUnit.TabIndex = 22;
         LblSizeUnit.Text = "px";
         // 
@@ -287,6 +287,7 @@ partial class FrmResize
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(333, 347);
+        ControlBox = false;
         Controls.Add(TableTop);
         DoubleBuffered = true;
         FormBorderStyle = FormBorderStyle.FixedDialog;
