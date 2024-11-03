@@ -26,6 +26,7 @@ namespace ImageGlass.Tools;
 public partial class FrmResize : DialogForm
 {
     private readonly IProgress<ImageResizedEventArgs> _uiReporter;
+    private CancellationTokenSource? _tokenSrc;
     private Size _inputSize;
     private Size _outputSize;
 
@@ -64,23 +65,21 @@ public partial class FrmResize : DialogForm
         ApplyLanguage();
 
 
-        var workingArea = Screen.FromControl(this).WorkingArea;
-        if (Bottom > workingArea.Bottom) Top = workingArea.Bottom - Height;
-
-
         // load initial data
         _inputSize =
             _outputSize = new(
                 (int)Local.FrmMain.PicMain.SourceWidth,
                 (int)Local.FrmMain.PicMain.SourceHeight);
 
-        LoadResamplingMethods();
-        LblCurrentSizeValue.Text = LblNewSizeValue.Text =
-            $"{_outputSize.Width:n0} x {_outputSize.Height:n0} px"; // thousands place for number
+        // thousands place for number
+        LblCurrentSizeValue.Text = $"{_outputSize.Width:n0} x {_outputSize.Height:n0} px";
+
 
         // set type of resizing
-        LblSizeUnit.Text = "px";
-        UpdateSize(_inputSize.Width, _inputSize.Height);
+        LoadResamplingMethods();
+
+        var initSize = RadResizeByPixels.Checked ? _inputSize : new(100, 100);
+        UpdateSize(initSize.Width, initSize.Height);
 
         NumWidth.Minimum = NumHeight.Minimum = 1;
         NumWidth.Maximum = Const.MAX_IMAGE_DIMENSION;
@@ -159,11 +158,17 @@ public partial class FrmResize : DialogForm
             return;
         }
 
+
+        _tokenSrc?.Cancel();
+        _tokenSrc = new();
+
         _ = BHelper.RunAsThread(async () => await SubmitResizeAsync(finalSize, samplingMethod));
     }
 
     protected override void OnCancelButtonClicked()
     {
+        _tokenSrc?.Cancel();
+
         base.OnCancelButtonClicked();
     }
 
@@ -201,7 +206,8 @@ public partial class FrmResize : DialogForm
 
     private void LoadResamplingMethods()
     {
-        CmbResample.Items.Clear();
+        // use cache for the next open
+        if (CmbResample.Items.Count > 0) return;
 
         foreach (ImageResamplingMethod method in Enum.GetValues<ImageResamplingMethod>())
         {
@@ -280,7 +286,11 @@ public partial class FrmResize : DialogForm
 
 
         // perform resizing
-        var resizedBmp = await BHelper.ResizeImageAsync(bmp, size.Width, size.Height, samplingMethod);
+        WicBitmapSource? resizedBmp = null;
+        if (!_tokenSrc.IsCancellationRequested)
+        {
+            resizedBmp = await BHelper.ResizeImageAsync(bmp, size.Width, size.Height, samplingMethod);
+        }
 
         _uiReporter.Report(new("resizer:end", resizedBmp));
     }
@@ -296,7 +306,7 @@ public partial class FrmResize : DialogForm
 
         if (e.Type == "resizer:end")
         {
-            if (e.Image != null)
+            if (e.Image != null && !_tokenSrc.IsCancellationRequested)
             {
                 Result = e.Image;
                 base.OnAcceptButtonClicked();

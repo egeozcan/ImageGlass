@@ -36,6 +36,7 @@ public class Local
 {
     private static CancellationTokenSource? _gcTokenSrc;
     private static FrmSettings _frmSetting;
+    private static FrmResize _frmResize;
 
     public static FrmMain? FrmMain;
 
@@ -272,6 +273,15 @@ public class Local
     {
         get => LazyInitializer.EnsureInitialized(ref _frmSetting);
         set => _frmSetting = value;
+    }
+
+    /// <summary>
+    /// Gets Resize tool window.
+    /// </summary>
+    public static FrmResize FrmResize
+    {
+        get => LazyInitializer.EnsureInitialized(ref _frmResize);
+        set => _frmResize = value;
     }
 
     #endregion

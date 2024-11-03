@@ -3289,13 +3289,18 @@ public partial class FrmMain
     {
         if (Local.IsBusy) return;
 
-        using var frm = new FrmResize();
-        if (frm.ShowDialog() != DialogResult.OK) return;
 
-
-        if (frm.Result != null)
+        if (Local.FrmResize.IsDisposed)
         {
-            LoadClipboardImage(frm.Result);
+            Local.FrmResize = new();
+        }
+
+        if (Local.FrmResize.ShowDialog() != DialogResult.OK) return;
+
+
+        if (Local.FrmResize.Result != null)
+        {
+            LoadClipboardImage(Local.FrmResize.Result);
         }
     }
 

@@ -99,7 +99,7 @@ partial class FrmResize
         LblSizeUnit.Name = "LblSizeUnit";
         LblSizeUnit.Size = new Size(28, 15);
         LblSizeUnit.TabIndex = 22;
-        LblSizeUnit.Text = "[px]";
+        LblSizeUnit.Text = "px";
         // 
         // ProgStatus
         // 
