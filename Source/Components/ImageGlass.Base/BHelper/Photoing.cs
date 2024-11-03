@@ -20,6 +20,7 @@ using ImageGlass.Base.Photoing.Codecs;
 using ImageGlass.Base.WinApi;
 using ImageMagick;
 using Microsoft.Win32.SafeHandles;
+using PhotoSauce.MagicScaler;
 using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.Reflection;
@@ -216,21 +217,32 @@ public partial class BHelper
 
 
     /// <summary>
+    /// Convert <see cref="WicBitmapSource"/> to <see cref="MemoryStream"/>.
+    /// </summary>
+    public static MemoryStream? ToMemoryStream(WicBitmapSource? wicSrc)
+    {
+        if (wicSrc == null) return null;
+
+        // convert to stream
+        var ms = new MemoryStream();
+        wicSrc?.Save(ms, WicEncoder.GUID_ContainerFormatPng);
+        ms.Position = 0;
+
+        return ms;
+    }
+
+    /// <summary>
     /// Converts <see cref="WicBitmapSource"/> to <see cref="SoftwareBitmap"/>.
     /// </summary>
-    public static async Task<SoftwareBitmap?> ToSoftwareBitmapAsync(WicBitmapSource? wicSrc, string srcExt)
+    public static async Task<SoftwareBitmap?> ToSoftwareBitmapAsync(WicBitmapSource? wicSrc)
     {
         using var ms = new Windows.Storage.Streams.InMemoryRandomAccessStream();
         using var stream = ms.AsStream();
 
-        // detect the source format
-        var encoder = WicEncoder.FromFileExtension(srcExt);
-        var conFormat = encoder?.ContainerFormat ?? WicEncoder.GUID_ContainerFormatPng;
-
         try
         {
             // convert to stream
-            wicSrc.Save(stream, encoder.ContainerFormat);
+            wicSrc.Save(stream, WicEncoder.GUID_ContainerFormatPng);
 
             // create SoftwareBitmap from stream
             var bmpDecoder = await Windows.Graphics.Imaging.BitmapDecoder.CreateAsync(ms);
@@ -685,11 +697,68 @@ public partial class BHelper
 
 
     /// <summary>
+    /// Resizes image.
+    /// </summary>
+    public static async Task<WicBitmapSource?> ResizeImageAsync(WicBitmapSource? wicSrc,
+        int width, int height,
+        ImageResamplingMethod resample = ImageResamplingMethod.Auto)
+    {
+        // convert to stream
+        using var inputMs = ToMemoryStream(wicSrc);
+        if (inputMs == null) return null;
+
+
+        // build settings
+        var outputMs = new MemoryStream(); // cannot use `using` here
+        var settings = new ProcessImageSettings()
+        {
+            Width = width,
+            Height = height,
+            ResizeMode = CropScaleMode.Stretch,
+            HybridMode = HybridScaleMode.Turbo,
+            ColorProfileMode = ColorProfileMode.Preserve,
+        };
+
+        InterpolationSettings? interpolation = resample switch
+        {
+            ImageResamplingMethod.Average => InterpolationSettings.Average,
+            ImageResamplingMethod.CatmullRom => InterpolationSettings.CatmullRom,
+            ImageResamplingMethod.Cubic => InterpolationSettings.Cubic,
+            ImageResamplingMethod.CubicSmoother => InterpolationSettings.CubicSmoother,
+            ImageResamplingMethod.Hermite => InterpolationSettings.Hermite,
+            ImageResamplingMethod.Lanczos => InterpolationSettings.Lanczos,
+            ImageResamplingMethod.Linear => InterpolationSettings.Linear,
+            ImageResamplingMethod.Mitchell => InterpolationSettings.Mitchell,
+            ImageResamplingMethod.NearestNeighbor => InterpolationSettings.NearestNeighbor,
+            ImageResamplingMethod.Quadratic => InterpolationSettings.Quadratic,
+            ImageResamplingMethod.Spline36 => InterpolationSettings.Spline36,
+            _ => null,
+        };
+
+        if (interpolation != null)
+        {
+            settings.Interpolation = interpolation.Value;
+        }
+
+
+        // perform resizing
+        await Task.Run(() =>
+        {
+            _ = MagicImageProcessor.ProcessImage(inputMs, outputMs, settings);
+            outputMs.Position = 0;
+        });
+
+
+        return ToWicBitmapSource(outputMs);
+    }
+
+
+    /// <summary>
     /// Gets text from image using Optical character recognition (OCR).
     /// </summary>
-    public static async Task<OcrResult?> GetTextFromImageAsync(WicBitmapSource? wicSrc, string srcExt)
+    public static async Task<OcrResult?> GetTextFromImageAsync(WicBitmapSource? wicSrc)
     {
-        using var softwareBmp = await BHelper.ToSoftwareBitmapAsync(wicSrc, srcExt);
+        using var softwareBmp = await BHelper.ToSoftwareBitmapAsync(wicSrc);
 
         var ocrEngine = OcrEngine.TryCreateFromUserProfileLanguages();
         var ocrResult = await ocrEngine.RecognizeAsync(softwareBmp);
@@ -701,9 +770,9 @@ public partial class BHelper
     /// <summary>
     /// Detects faces from the image.
     /// </summary>
-    public static async Task<IList<DetectedFace>> DetectFacesFromImageAsync(WicBitmapSource? wicSrc, string srcExt)
+    public static async Task<IList<DetectedFace>> DetectFacesFromImageAsync(WicBitmapSource? wicSrc)
     {
-        using var softwareBmp = await BHelper.ToSoftwareBitmapAsync(wicSrc, srcExt);
+        using var softwareBmp = await BHelper.ToSoftwareBitmapAsync(wicSrc);
         using var bmp = FaceDetector.IsBitmapPixelFormatSupported(softwareBmp.BitmapPixelFormat)
             ? softwareBmp
             : SoftwareBitmap.Convert(softwareBmp, BitmapPixelFormat.Gray8);
