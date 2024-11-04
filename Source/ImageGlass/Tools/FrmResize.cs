@@ -92,9 +92,12 @@ public partial class FrmResize : DialogForm
 
 
         // check if image source is supported for resizing
+        // support single-frame image only
         TableTop.Enabled =
             BtnAccept.Enabled =
-                Local.FrmMain.PicMain.Source == Viewer.ImageSource.Direct2D;
+                Local.FrmMain.PicMain.Source == Viewer.ImageSource.Direct2D
+                    && !Local.FrmMain.PicMain.CanImageAnimate
+                    && (Local.Metadata.FrameCount == 1 || Local.ClipboardImage != null);
     }
 
     protected override void OnShown(EventArgs e)
