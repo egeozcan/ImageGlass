@@ -312,7 +312,6 @@ partial class FrmResize
     private UI.ModernRadioButton RadResizeByPixels;
     private UI.ModernCheckBox ChkKeepRatio;
     private UI.ModernComboBox CmbResample;
-    private UI.ModernLabel LblHeight;
     private UI.ModernLabel LblSize;
     private UI.ModernRadioButton RadResizeByPercentage;
     private UI.ModernLabel LblResample;

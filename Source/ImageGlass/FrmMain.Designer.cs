@@ -139,6 +139,7 @@ namespace ImageGlass
             MnuTools = new ToolStripMenuItem();
             MnuColorPicker = new ToolStripMenuItem();
             MnuCropTool = new ToolStripMenuItem();
+            MnuResizeTool = new ToolStripMenuItem();
             MnuFrameNav = new ToolStripMenuItem();
             MnuLosslessCompression = new ToolStripMenuItem();
             MnuExternalToolsSeparator = new ToolStripSeparator();
@@ -165,7 +166,6 @@ namespace ImageGlass
             toolStripMenuItem4 = new ToolStripSeparator();
             MnuSubMenu = new UI.ModernMenu(components);
             itemToPreserveSpaceToolStripMenuItem = new ToolStripMenuItem();
-            MnuResizeTool = new ToolStripMenuItem();
             MnuMain.SuspendLayout();
             MnuContext.SuspendLayout();
             MnuSubMenu.SuspendLayout();
@@ -957,7 +957,7 @@ namespace ImageGlass
             // 
             // MnuTools
             // 
-            MnuTools.DropDownItems.AddRange(new ToolStripItem[] { MnuColorPicker, MnuCropTool, MnuResizeTool, MnuFrameNav, MnuLosslessCompression, MnuExternalToolsSeparator, MnuGetMoreTools });
+            MnuTools.DropDownItems.AddRange(new ToolStripItem[] { MnuColorPicker, MnuCropTool, MnuFrameNav, MnuResizeTool, MnuLosslessCompression, MnuExternalToolsSeparator, MnuGetMoreTools });
             MnuTools.Image = (Image)resources.GetObject("MnuTools.Image");
             MnuTools.ImageAlign = ContentAlignment.MiddleLeft;
             MnuTools.ImageScaling = ToolStripItemImageScaling.None;
@@ -980,6 +980,13 @@ namespace ImageGlass
             MnuCropTool.Size = new Size(195, 22);
             MnuCropTool.Text = "[Crop image]";
             MnuCropTool.Click += MnuCropTool_Click;
+            // 
+            // MnuResizeTool
+            // 
+            MnuResizeTool.Name = "MnuResizeTool";
+            MnuResizeTool.Size = new Size(195, 22);
+            MnuResizeTool.Text = "[Resize image]";
+            MnuResizeTool.Click += MnuResizeTool_Click;
             // 
             // MnuFrameNav
             // 
@@ -1197,13 +1204,6 @@ namespace ImageGlass
             itemToPreserveSpaceToolStripMenuItem.Name = "itemToPreserveSpaceToolStripMenuItem";
             itemToPreserveSpaceToolStripMenuItem.Size = new Size(192, 22);
             itemToPreserveSpaceToolStripMenuItem.Text = "item to preserve space";
-            // 
-            // MnuResizeTool
-            // 
-            MnuResizeTool.Name = "MnuResizeTool";
-            MnuResizeTool.Size = new Size(195, 22);
-            MnuResizeTool.Text = "[Resize image]";
-            MnuResizeTool.Click += MnuResizeTool_Click;
             // 
             // FrmMain
             // 
