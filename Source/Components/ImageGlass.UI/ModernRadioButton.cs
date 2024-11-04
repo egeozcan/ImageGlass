@@ -23,12 +23,13 @@ using System.Drawing.Drawing2D;
 
 namespace ImageGlass.UI;
 
-public class ModernCheckBox : CheckBox
+public class ModernRadioButton : RadioButton
 {
     private ModernControlState _controlState = ModernControlState.Normal;
     private bool _spacePressed = false;
     private bool _darkMode = false;
     private IColors ColorPalatte => BHelper.GetThemeColorPalatte(_darkMode);
+
 
 
     #region Property Region
@@ -139,17 +140,10 @@ public class ModernCheckBox : CheckBox
         get { return base.TextImageRelation; }
     }
 
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public new bool ThreeState
-    {
-        get { return base.ThreeState; }
-    }
-
     #endregion
 
 
-    public ModernCheckBox()
+    public ModernRadioButton()
     {
         SetStyle(ControlStyles.SupportsTransparentBackColor |
                  ControlStyles.OptimizedDoubleBuffer |
@@ -168,6 +162,7 @@ public class ModernCheckBox : CheckBox
             Invalidate();
         }
     }
+
 
 
     #region Event Handler Region
@@ -287,6 +282,7 @@ public class ModernCheckBox : CheckBox
     #endregion
 
 
+
     protected override void OnPaint(PaintEventArgs e)
     {
         // draw parent background
@@ -295,8 +291,9 @@ public class ModernCheckBox : CheckBox
         var g = e.Graphics;
 
         var textColor = ColorPalatte.AppText;
-        var borderColor = Checked ? ColorPalatte.ControlBorderAccent : ColorPalatte.ControlBorder;
+        var borderColor = ColorPalatte.ControlBorder;
         var fillColor = Checked ? ColorPalatte.ControlBorderAccent : ColorPalatte.ControlBg;
+
 
         if (Enabled)
         {
@@ -325,7 +322,6 @@ public class ModernCheckBox : CheckBox
 
         var initX = Padding.Left;
         var initY = Padding.Top;
-        var borderRadius = DpiApi.Scale(2f);
         var boxSize = Font.Height * 0.8f;
         var boxRect = new RectangleF(
             initX,
@@ -333,16 +329,7 @@ public class ModernCheckBox : CheckBox
             boxSize,
             boxSize);
 
-
-        // fill checkbox
-        using (var b = new SolidBrush(fillColor))
-        {
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-            g.FillRoundedRectangle(b, boxRect, borderRadius, false);
-            g.SmoothingMode = SmoothingMode.None;
-        }
-
-        // draw checkbox border
+        // draw radio border
         using (var p = new Pen(borderColor, DpiApi.Scale(1f)))
         {
             p.Alignment = PenAlignment.Outset;
@@ -351,40 +338,27 @@ public class ModernCheckBox : CheckBox
             p.EndCap = LineCap.Round;
 
             g.SmoothingMode = SmoothingMode.AntiAlias;
-            g.DrawRoundedRectangle(p, boxRect, borderRadius, false);
+            g.DrawEllipse(p, boxRect);
             g.SmoothingMode = SmoothingMode.None;
         }
 
         if (Checked)
         {
-            var checkMarkThickness = boxSize * 0.13f;
-            var checkColor = ColorPalatte.Accent.InvertBlackOrWhite().InvertBlackOrWhite();
-            if (Focused) checkColor = checkColor.InvertBlackOrWhite();
-
-            // draw check mark
-            using (var p = new Pen(checkColor, checkMarkThickness))
+            // fill radio box
+            using (var b = new SolidBrush(fillColor))
             {
-                p.LineJoin = LineJoin.Round;
-                p.StartCap = LineCap.Round;
-                p.EndCap = LineCap.Round;
+                var fillSize = Font.Height * 0.5f;
+                var fillBox = new RectangleF(
+                    boxRect.X + (boxSize - fillSize) / 2,
+                    boxRect.Y + (boxSize - fillSize) / 2,
+                    fillSize, fillSize);
 
-                var point1 = new PointF(
-                    boxRect.X + (2f * boxRect.Height / 10),
-                    boxRect.Y + (6 * boxRect.Height / 10));
-                var point2 = new PointF(
-                    boxRect.X + (4 * boxRect.Height / 10),
-                    boxRect.Y + (7.5f * boxRect.Height / 10));
-                var point3 = new PointF(
-                    boxRect.X + (7.5f * boxRect.Height / 10),
-                    boxRect.Y + (2.5f * boxRect.Height / 10));
 
                 g.SmoothingMode = SmoothingMode.AntiAlias;
-                g.DrawLine(p, point1, point2);
-                g.DrawLine(p, point2, point3);
+                g.FillEllipse(b, fillBox);
                 g.SmoothingMode = SmoothingMode.None;
             }
         }
-
 
         // draw text
         using (var b = new SolidBrush(textColor))

@@ -36,8 +36,8 @@ partial class FrmResize
         LblNewSize = new UI.ModernLabel();
         LblCurrentSize = new UI.ModernLabel();
         PanResizeBy = new FlowLayoutPanel();
-        RadResizeByPixels = new RadioButton();
-        RadResizeByPercentage = new RadioButton();
+        RadResizeByPixels = new UI.ModernRadioButton();
+        RadResizeByPercentage = new UI.ModernRadioButton();
         LblSize = new UI.ModernLabel();
         NumHeight = new UI.ModernNumericUpDown();
         NumWidth = new UI.ModernNumericUpDown();
@@ -309,12 +309,12 @@ partial class FrmResize
     private TableLayoutPanel TableTop;
     private UI.ModernNumericUpDown NumWidth;
     private UI.ModernNumericUpDown NumHeight;
-    private RadioButton RadResizeByPixels;
+    private UI.ModernRadioButton RadResizeByPixels;
     private UI.ModernCheckBox ChkKeepRatio;
     private UI.ModernComboBox CmbResample;
     private UI.ModernLabel LblHeight;
     private UI.ModernLabel LblSize;
-    private RadioButton RadResizeByPercentage;
+    private UI.ModernRadioButton RadResizeByPercentage;
     private UI.ModernLabel LblResample;
     private FlowLayoutPanel PanResizeBy;
     private UI.ModernLabel LblNewSize;
