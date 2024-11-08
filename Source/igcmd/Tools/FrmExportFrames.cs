@@ -46,7 +46,7 @@ public partial class FrmExportFrames : DialogForm
         FrameCount = PhotoCodec.LoadMetadata(SrcFilePath).FrameCount;
         ProgressBar.Step = 1000;
         ProgressBar.Maximum = FrameCount * ProgressBar.Step;
-        ProgressBar.Style = ProgressBarStyle.Marquee;
+        ProgressBar.UseMarqueeStyle = true;
 
 
         LblStatus.Text = ZString.Format(Config.Language[$"{Name}._Exporting"], 1, FrameCount, SrcFilePath);
@@ -163,11 +163,7 @@ public partial class FrmExportFrames : DialogForm
     /// </summary>
     private void ReportProgress((int FrameNumber, string FileName) info)
     {
-        if (ProgressBar.Style != ProgressBarStyle.Continuous)
-        {
-            ProgressBar.Style = ProgressBarStyle.Continuous;
-        }
-
+        ProgressBar.UseMarqueeStyle = false;
         ProgressBar.PerformStep();
 
         var percent = Math.Round((info.FrameNumber * 100f) / FrameCount, 0);

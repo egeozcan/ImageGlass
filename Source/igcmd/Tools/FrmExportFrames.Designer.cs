@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            ProgressBar = new ProgressBar();
+            ProgressBar = new ImageGlass.UI.ModernProgressBar();
             TableTop = new TableLayoutPanel();
             LblStatus = new ImageGlass.UI.ModernLabel();
             TableTop.SuspendLayout();
@@ -37,13 +37,15 @@
             // ProgressBar
             // 
             ProgressBar.AccessibleRole = AccessibleRole.ProgressBar;
+            ProgressBar.BackColor = Color.Transparent;
+            ProgressBar.DarkMode = false;
             ProgressBar.Dock = DockStyle.Top;
-            ProgressBar.Location = new Point(40, 105);
-            ProgressBar.Margin = new Padding(0);
-            ProgressBar.MarqueeAnimationSpeed = 1;
+            ProgressBar.Location = new Point(16, 45);
+            ProgressBar.Margin = new Padding(0, 10, 0, 0);
             ProgressBar.Name = "ProgressBar";
-            ProgressBar.Size = new Size(884, 40);
+            ProgressBar.Size = new Size(343, 10);
             ProgressBar.TabIndex = 3;
+            ProgressBar.UseMarqueeStyle = false;
             // 
             // TableTop
             // 
@@ -57,11 +59,11 @@
             TableTop.Location = new Point(0, 0);
             TableTop.Margin = new Padding(0);
             TableTop.Name = "TableTop";
-            TableTop.Padding = new Padding(40, 40, 40, 80);
+            TableTop.Padding = new Padding(16, 13, 16, 27);
             TableTop.RowCount = 2;
             TableTop.RowStyles.Add(new RowStyle());
             TableTop.RowStyles.Add(new RowStyle());
-            TableTop.Size = new Size(964, 225);
+            TableTop.Size = new Size(375, 82);
             TableTop.TabIndex = 5;
             // 
             // LblStatus
@@ -69,22 +71,23 @@
             LblStatus.AutoSize = true;
             LblStatus.BackColor = Color.Transparent;
             LblStatus.DarkMode = false;
-            LblStatus.Location = new Point(40, 40);
-            LblStatus.Margin = new Padding(0, 0, 0, 20);
+            LblStatus.Location = new Point(16, 13);
+            LblStatus.Margin = new Padding(0, 0, 0, 7);
             LblStatus.Name = "LblStatus";
-            LblStatus.Size = new Size(262, 45);
+            LblStatus.Size = new Size(98, 15);
             LblStatus.TabIndex = 4;
             LblStatus.Text = "[frame file name]";
             // 
             // FrmExportFrames
             // 
-            AutoScaleDimensions = new SizeF(18F, 45F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(964, 764);
+            ClientSize = new Size(375, 255);
             ControlBox = false;
             Controls.Add(TableTop);
             DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Margin = new Padding(0, 0, 0, 0);
             Name = "FrmExportFrames";
             ShowAcceptButton = false;
             ShowIcon = true;
@@ -100,7 +103,7 @@
 
         #endregion
 
-        private ProgressBar ProgressBar;
+        private ImageGlass.UI.ModernProgressBar ProgressBar;
         private TableLayoutPanel TableTop;
         private ImageGlass.UI.ModernLabel LblStatus;
     }
