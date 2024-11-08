@@ -98,6 +98,10 @@ public partial class FrmResize : DialogForm
                 Local.FrmMain.PicMain.Source == Viewer.ImageSource.Direct2D
                     && !Local.FrmMain.PicMain.CanImageAnimate
                     && (Local.Metadata.FrameCount == 1 || Local.ClipboardImage != null);
+
+
+        // fix progress bar width
+        ProgStatus.Width = TableTop.Width - TableTop.Padding.Horizontal;
     }
 
     protected override void OnShown(EventArgs e)

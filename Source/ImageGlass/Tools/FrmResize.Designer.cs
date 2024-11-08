@@ -30,7 +30,7 @@ partial class FrmResize
     {
         TableTop = new TableLayoutPanel();
         LblSizeUnit = new UI.ModernLabel();
-        ProgStatus = new ProgressBar();
+        ProgStatus = new UI.ModernProgressBar();
         LblNewSizeValue = new UI.ModernLabel();
         LblCurrentSizeValue = new UI.ModernLabel();
         LblNewSize = new UI.ModernLabel();
@@ -86,7 +86,7 @@ partial class FrmResize
         TableTop.RowStyles.Add(new RowStyle());
         TableTop.RowStyles.Add(new RowStyle());
         TableTop.RowStyles.Add(new RowStyle());
-        TableTop.Size = new Size(333, 224);
+        TableTop.Size = new Size(324, 224);
         TableTop.TabIndex = 3;
         // 
         // LblSizeUnit
@@ -103,16 +103,17 @@ partial class FrmResize
         // 
         // ProgStatus
         // 
-        ProgStatus.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+        ProgStatus.BackColor = Color.Transparent;
         TableTop.SetColumnSpan(ProgStatus, 4);
+        ProgStatus.DarkMode = false;
+        ProgStatus.Dock = DockStyle.Left;
         ProgStatus.Location = new Point(16, 194);
         ProgStatus.Margin = new Padding(0, 20, 0, 0);
-        ProgStatus.MarqueeAnimationSpeed = 10;
         ProgStatus.Name = "ProgStatus";
-        ProgStatus.Size = new Size(301, 10);
-        ProgStatus.Style = ProgressBarStyle.Marquee;
+        ProgStatus.Size = new Size(290, 10);
         ProgStatus.TabIndex = 4;
-        ProgStatus.Value = 100;
+        ProgStatus.UseMarqueeStyle = true;
+        ProgStatus.Value = 50;
         ProgStatus.Visible = false;
         // 
         // LblNewSizeValue
@@ -181,7 +182,9 @@ partial class FrmResize
         // RadResizeByPixels
         // 
         RadResizeByPixels.AutoSize = true;
+        RadResizeByPixels.BackColor = Color.Transparent;
         RadResizeByPixels.Checked = true;
+        RadResizeByPixels.DarkMode = false;
         RadResizeByPixels.Location = new Point(0, 0);
         RadResizeByPixels.Margin = new Padding(0, 0, 10, 0);
         RadResizeByPixels.Name = "RadResizeByPixels";
@@ -195,6 +198,8 @@ partial class FrmResize
         // RadResizeByPercentage
         // 
         RadResizeByPercentage.AutoSize = true;
+        RadResizeByPercentage.BackColor = Color.Transparent;
+        RadResizeByPercentage.DarkMode = false;
         RadResizeByPercentage.Location = new Point(73, 0);
         RadResizeByPercentage.Margin = new Padding(0);
         RadResizeByPercentage.Name = "RadResizeByPercentage";
@@ -286,7 +291,7 @@ partial class FrmResize
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(333, 347);
+        ClientSize = new Size(324, 347);
         ControlBox = false;
         Controls.Add(TableTop);
         DoubleBuffered = true;
@@ -320,6 +325,6 @@ partial class FrmResize
     private UI.ModernLabel LblCurrentSize;
     private UI.ModernLabel LblNewSizeValue;
     private UI.ModernLabel LblCurrentSizeValue;
-    private ProgressBar ProgStatus;
+    private UI.ModernProgressBar ProgStatus;
     private UI.ModernLabel LblSizeUnit;
 }
