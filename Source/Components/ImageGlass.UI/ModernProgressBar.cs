@@ -156,6 +156,16 @@ public class ModernProgressBar : ProgressBar
     }
 
 
+    protected override void OnVisibleChanged(EventArgs e)
+    {
+        base.OnVisibleChanged(e);
+
+        if (_timer != null)
+        {
+            _timer.Enabled = Visible && UseMarqueeStyle;
+        }
+    }
+
     private void MarqueeTimer_Tick(object? sender, EventArgs e)
     {
         _marqueeValue += this.ScaleToDpi(2f);
