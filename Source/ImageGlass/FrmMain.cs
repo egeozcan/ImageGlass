@@ -766,7 +766,7 @@ public partial class FrmMain : ThemedForm
             {
                 ColorProfileName = Config.ColorProfile,
                 ApplyColorProfileForAll = Config.ShouldUseColorProfileForAll,
-                AutoScaleDownLargeImage = true,
+                AutoScaleDownLargeImage = false,
                 UseEmbeddedThumbnailRawFormats = Config.UseEmbeddedThumbnailRawFormats,
                 UseEmbeddedThumbnailOtherFormats = Config.UseEmbeddedThumbnailOtherFormats,
                 EmbeddedThumbnailMinWidth = Config.EmbeddedThumbnailMinWidth,

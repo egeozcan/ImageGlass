@@ -416,7 +416,6 @@ public partial class ViewerCanvas
         SourceHeight = imgData?.RenderedHeight ?? 0;
         CanImageAnimate = false;
         HasAlphaPixels = true;
-        UseHardwareAcceleration = true;
     }
 
 

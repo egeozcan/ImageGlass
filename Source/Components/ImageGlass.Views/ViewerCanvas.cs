@@ -1072,20 +1072,23 @@ public partial class ViewerCanvas : DXCanvas
     {
         base.OnDeviceCreated(reason);
 
-        // re-create left nav icon
+        // re-create Direct2D left nav icon
         DXHelper.DisposeD2D1Bitmap(ref _d2dNavLeftImage);
         _d2dNavLeftImage = DXHelper.ToD2D1Bitmap(Device, _wicNavLeftImage);
 
-        // re-create right nav icon
+        // re-create Direct2D right nav icon
         DXHelper.DisposeD2D1Bitmap(ref _d2dNavRightImage);
         _d2dNavRightImage = DXHelper.ToD2D1Bitmap(Device, _wicNavRightImage);
 
 
-        // re-create resources after device is changed
+        // dispose the Direct2D resource of the old device
         if (reason == DeviceCreatedReason.UseHardwareAccelerationChanged)
         {
             // dispose checkerboard
             DisposeCheckerboardBrushes();
+
+            // dispose the Direct2D image
+            DXHelper.DisposeD2D1Bitmap(ref _d2dImage);
         }
     }
 
@@ -1559,7 +1562,7 @@ public partial class ViewerCanvas : DXCanvas
                 text = $"Monitor={monitor?.Bounds.Size}; {(int)monitor.ScaleFactor}%; ";
             }
 
-            text = $"Dpi={DeviceDpi}; Renderer={Source}; ";
+            text = $"Dpi={DeviceDpi}; Renderer={Source}; Acceleration={UseHardwareAcceleration}; ";
             if (UseWebview2)
             {
                 text += $"v{Web2.Webview2Version}; ";
@@ -3380,20 +3383,17 @@ public partial class ViewerCanvas : DXCanvas
                 _animatorSource = AnimatorSource.GifAnimator;
             }
         }
+        else if (imgData?.Source is WicBitmapDecoder decoder)
+        {
+            var size = decoder.GetFrame((int)frameIndex).Size;
+
+            SourceWidth = size.Width;
+            SourceHeight = size.Height;
+        }
         else
         {
-            if (imgData?.Source is WicBitmapDecoder decoder)
-            {
-                var size = decoder.GetFrame((int)frameIndex).Size;
-
-                SourceWidth = size.Width;
-                SourceHeight = size.Height;
-            }
-            else
-            {
-                SourceWidth = imgData?.Image?.Width ?? 0;
-                SourceHeight = imgData?.Image?.Height ?? 0;
-            }
+            SourceWidth = imgData?.Image?.Width ?? 0;
+            SourceHeight = imgData?.Image?.Height ?? 0;
         }
 
 

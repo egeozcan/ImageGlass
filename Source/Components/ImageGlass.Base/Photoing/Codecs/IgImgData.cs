@@ -141,17 +141,8 @@ public class IgImgData : IDisposable
         {
             HasAlpha = data.SingleFrameImage?.HasAlpha ?? false;
 
-            if (HasAlpha)
-            {
-                // for alpha accuracy
-                Image = BHelper.ToWicBitmapSource(data.SingleFrameImage?.ToBitmapSourceWithDensity());
-            }
-            else
-            {
-                // for lower memory
-                using var bmp = data.SingleFrameImage?.ToBitmapWithDensity();
-                Image = BHelper.ToWicBitmapSource(bmp);
-            }
+            var bmpSrc = data.SingleFrameImage?.ToBitmapSourceWithDensity();
+            Image = BHelper.ToWicBitmapSource(bmpSrc);
         }
     }
 }
