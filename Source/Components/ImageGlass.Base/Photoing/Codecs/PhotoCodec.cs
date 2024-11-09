@@ -323,7 +323,7 @@ public static class PhotoCodec
                 {
                     imgM.Read(thumbnailData, settings);
                     imgM.AutoOrient();
-                    result = BHelper.ToWicBitmapSource(imgM.ToBitmapSource());
+                    result = BHelper.ToWicBitmapSource(imgM.ToBitmapSource(), imgM.HasAlpha);
                 }
             }
             catch (OperationCanceledException) { return null; }
@@ -346,7 +346,7 @@ public static class PhotoCodec
                 if (thumbM != null)
                 {
                     thumbM.AutoOrient();
-                    result = BHelper.ToWicBitmapSource(thumbM.ToBitmapSource());
+                    result = BHelper.ToWicBitmapSource(thumbM.ToBitmapSource(), thumbM.HasAlpha);
                 }
             }
             catch (OperationCanceledException) { return null; }
@@ -644,7 +644,7 @@ public static class PhotoCodec
                 using var imgM = imgC[0];
                 TransformImage(imgM, transform);
 
-                using var wicSrc = BHelper.ToWicBitmapSource(imgM.ToBitmapSource());
+                using var wicSrc = BHelper.ToWicBitmapSource(imgM.ToBitmapSource(), imgM.HasAlpha);
                 var ext = Path.GetExtension(srcFilePath);
 
                 await SaveAsBase64Async(wicSrc, ext, destFilePath, null, token);
@@ -924,7 +924,7 @@ public static class PhotoCodec
 
                     ApplySizeSettings(imgM, options);
 
-                    result.Image = BHelper.ToWicBitmapSource(imgM.ToBitmapSource());
+                    result.Image = BHelper.ToWicBitmapSource(imgM.ToBitmapSource(), imgM.HasAlpha);
                 }
             }
             else if (result.Source is Bitmap bmp)

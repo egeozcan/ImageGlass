@@ -43,7 +43,7 @@ public partial class BHelper
     /// <summary>
     /// Converts <see cref="BitmapSource"/> to <see cref="WicBitmapSource"/> object.
     /// </summary>
-    public static WicBitmapSource? ToWicBitmapSource(BitmapSource? bmp)
+    public static WicBitmapSource? ToWicBitmapSource(BitmapSource? bmp, bool hasAlpha = true)
     {
         if (bmp == null)
             return null;
@@ -60,7 +60,9 @@ public partial class BHelper
         var wicSrc = new WicBitmapSource(obj);
         try
         {
-            wicSrc.ConvertTo(WicPixelFormat.GUID_WICPixelFormat32bppPBGRA);
+            wicSrc.ConvertTo(hasAlpha
+                ? WicPixelFormat.GUID_WICPixelFormat32bppPBGRA
+                : WicPixelFormat.GUID_WICPixelFormat32bppBGR);
         }
         catch (InvalidOperationException)
         {
@@ -196,7 +198,7 @@ public partial class BHelper
                 using (var imgM = new MagickImage(ByteData, settings))
                 {
                     var bmp = imgM.ToBitmapSource();
-                    src = BHelper.ToWicBitmapSource(bmp);
+                    src = BHelper.ToWicBitmapSource(bmp, imgM.HasAlpha);
                 }
                 break;
         }
