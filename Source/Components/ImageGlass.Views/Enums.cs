@@ -31,11 +31,11 @@ public enum AnimationSource
     PanDown = 1 << 4,
 
     /// <summary>
-    /// Zoom in animation. It does nothing if <see cref="DXCanvas.ZoomLevels"/> is set.
+    /// Zoom in animation. It does nothing if <see cref="ViewerCanvas.ZoomLevels"/> is set.
     /// </summary>
     ZoomIn = 1 << 5,
     /// <summary>
-    /// Zoom out animation. It does nothing if <see cref="DXCanvas.ZoomLevels"/> is set.
+    /// Zoom out animation. It does nothing if <see cref="ViewerCanvas.ZoomLevels"/> is set.
     /// </summary>
     ZoomOut = 1 << 6,
 
@@ -49,8 +49,7 @@ public enum ImageSource
     Null = 0,
 
     Direct2D = 1 << 1,
-    GDIPlus = 1 << 2,
-    Webview2 = 1 << 3,
+    Webview2 = 1 << 2,
 }
 
 

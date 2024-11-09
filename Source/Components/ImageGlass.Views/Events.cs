@@ -17,14 +17,14 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using D2Phap;
+using D2Phap.DXControl;
 
 namespace ImageGlass.Viewer;
 
 
 public class DrawingEventArgs : EventArgs
 {
-    public IGraphics Graphics { get; init; }
+    public DXGraphics Graphics { get; init; }
     public RectangleF DestRect { get; init; }
     public RectangleF SrcRect { get; init; }
     public float ZoomFactor { get; init; }
@@ -66,12 +66,12 @@ public class ZoomEventArgs : EventArgs
     public float ZoomFactor { get; set; } = 0f;
 
     /// <summary>
-    /// Gets, sets the value indicates that zoom factor is changed manually by <see cref="DXCanvas.ZoomFactor"/>
+    /// Gets, sets the value indicates that zoom factor is changed manually by <see cref="ViewerCanvas.ZoomFactor"/>
     /// </summary>
     public bool IsManualZoom { get; set; } = false;
 
     /// <summary>
-    /// Gets, sets the value indicates that <see cref="DXCanvas.ZoomMode"/> is changed.
+    /// Gets, sets the value indicates that <see cref="ViewerCanvas.ZoomMode"/> is changed.
     /// </summary>
     public bool IsZoomModeChange { get; set; } = false;
 

@@ -21,7 +21,7 @@ using ImageGlass.WinTouch;
 
 namespace ImageGlass.Viewer;
 
-public partial class DXCanvas
+public partial class ViewerCanvas
 {
     // touch support
     private GestureListener? _gesture;

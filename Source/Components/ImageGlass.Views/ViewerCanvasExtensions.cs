@@ -21,13 +21,13 @@ using ImageGlass.Base.PhotoBox;
 namespace ImageGlass.Viewer;
 
 
-public static class DXCanvasExtensions
+public static class ViewerCanvasExtensions
 {
 
     /// <summary>
     /// Checks if the input point is inside the navigation buttons.
     /// </summary>
-    public static MouseAndNavLocation CheckWhichNav(this DXCanvas c, Point point,
+    public static MouseAndNavLocation CheckWhichNav(this ViewerCanvas c, Point point,
         NavCheck navCheck = NavCheck.Both)
     {
         var isLocationInNavLeft = false;
@@ -47,7 +47,7 @@ public static class DXCanvasExtensions
                 var rightClickable = new RectangleF(
                     c.NavRightPos.X - c.NavButtonSize.Width / 2,
                     c.DrawingArea.Top,
-                    c.NavButtonSize.Width + DXCanvas.NAV_PADDING,
+                    c.NavButtonSize.Width + ViewerCanvas.NAV_PADDING,
                     c.DrawingArea.Height);
 
                 // check if the point inside the rect;
@@ -62,9 +62,9 @@ public static class DXCanvasExtensions
             {
                 // left clickable region
                 var leftClickable = new RectangleF(
-                    c.NavLeftPos.X - c.NavButtonSize.Width / 2 - DXCanvas.NAV_PADDING,
+                    c.NavLeftPos.X - c.NavButtonSize.Width / 2 - ViewerCanvas.NAV_PADDING,
                     c.DrawingArea.Top,
-                    c.NavButtonSize.Width + DXCanvas.NAV_PADDING,
+                    c.NavButtonSize.Width + ViewerCanvas.NAV_PADDING,
                     c.DrawingArea.Height);
 
                 // check if the point inside the rect
@@ -95,7 +95,7 @@ public static class DXCanvasExtensions
     /// <summary>
     /// Computes the location of the client point into image source coords.
     /// </summary>
-    public static PointF PointClientToSource(this DXCanvas c, PointF clientPoint)
+    public static PointF PointClientToSource(this ViewerCanvas c, PointF clientPoint)
     {
         var x = (clientPoint.X - c.ImageDestBounds.X) / c.ZoomFactor + c.ImageSourceBounds.X;
         var y = (clientPoint.Y - c.ImageDestBounds.Y) / c.ZoomFactor + c.ImageSourceBounds.Y;
@@ -107,7 +107,7 @@ public static class DXCanvasExtensions
     /// <summary>
     /// Computes and scale the rectangle of the client to image source coords
     /// </summary>
-    public static RectangleF RectClientToSource(this DXCanvas c, RectangleF rect)
+    public static RectangleF RectClientToSource(this ViewerCanvas c, RectangleF rect)
     {
         var p1 = c.PointClientToSource(rect.Location);
         var p2 = c.PointClientToSource(new PointF(rect.Right, rect.Bottom));
@@ -148,7 +148,7 @@ public static class DXCanvasExtensions
     /// <summary>
     /// Computes the location of the image source point into client coords.
     /// </summary>
-    public static PointF PointSourceToClient(this DXCanvas c, PointF srcPoint)
+    public static PointF PointSourceToClient(this ViewerCanvas c, PointF srcPoint)
     {
         var x = (srcPoint.X - c.ImageSourceBounds.X) * c.ZoomFactor + c.ImageDestBounds.X;
         var y = (srcPoint.Y - c.ImageSourceBounds.Y) * c.ZoomFactor + c.ImageDestBounds.Y;
@@ -160,7 +160,7 @@ public static class DXCanvasExtensions
     /// <summary>
     /// Computes and scale the rectangle of the image source to client coords
     /// </summary>
-    public static RectangleF RectSourceToClient(this DXCanvas c, RectangleF rect)
+    public static RectangleF RectSourceToClient(this ViewerCanvas c, RectangleF rect)
     {
         var loc = c.PointSourceToClient(rect.Location);
         var size = new SizeF(rect.Width * c.ZoomFactor, rect.Height * c.ZoomFactor);

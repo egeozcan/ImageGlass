@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-using D2Phap;
+using D2Phap.DXControl;
 using DirectN;
 using ImageGlass.Base;
 using ImageGlass.Base.PhotoBox;
@@ -25,29 +25,36 @@ using ImageGlass.Base.Photoing.Codecs;
 using ImageGlass.Base.WinApi;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing.Drawing2D;
 using System.Dynamic;
 using System.Numerics;
 using WicNet;
 using Cursor = System.Windows.Forms.Cursor;
-using InterpolationMode = D2Phap.InterpolationMode;
+using InterpolationMode = D2Phap.DXControl.InterpolationMode;
 
 namespace ImageGlass.Viewer;
 
-public partial class DXCanvas : DXControl
+public partial class ViewerCanvas : DXCanvas
 {
 
     // Private properties
     #region Private properties
 
-    private IComObject<ID2D1Bitmap1>? _oriImageD2D = null; // original bitmap for color channel filter
-    private IComObject<ID2D1Bitmap1>? _imageD2D = null;
-    private Bitmap? _imageGdiPlus = null;
     private CancellationTokenSource? _msgTokenSrc;
+
+    // original WIC image resources
+    private WicBitmapSource? _wicImage;
+    private WicBitmapSource? _wicNavLeftImage;
+    private WicBitmapSource? _wicNavRightImage;
+
+    // Direct2D image resources
+    private IComObject<ID2D1Bitmap1>? _d2dImage;
+    private IComObject<ID2D1Bitmap1>? _d2dNavLeftImage;
+    private IComObject<ID2D1Bitmap1>? _d2dNavRightImage;
+    private ComObject<ID2D1BitmapBrush1>? _checkerboardBrushD2D;
 
 
     // to distinguish between clicks
-    // https://docs.microsoft.com/en-us/dotnet/desktop/winforms/input-mouse/how-to-distinguish-between-clicks-and-double-clicks?view=netdesktop-6.0
+    // https://docs.microsoft.com/en-us/dotnet/desktop/winforms/input-mouse/how-to-distinguish-between-clicks-and-double-clicks
     private DateTime _lastClick = DateTime.UtcNow;
     private MouseEventArgs _lastClickArgs = new(MouseButtons.Left, 0, 0, 0, 0);
     private bool _isMouseDragged = false;
@@ -62,9 +69,9 @@ public partial class DXCanvas : DXControl
     private Color _accentColor = Color.Blue;
     private float _imageOpacity = 1f;
     private float _opacityStep = 0.05f;
-    private ImageDrawingState _imageDrawingState = ImageDrawingState.NotStarted;
     private bool _isPreviewing = false;
     private bool _debugMode = false;
+    private ImageDrawingState _imageDrawingState = ImageDrawingState.NotStarted;
 
 
     private RectangleF _srcRect = default; // image source rectangle
@@ -85,11 +92,11 @@ public partial class DXCanvas : DXControl
     private float _zoomFactor = 1f;
     private float _oldZoomFactor = 1f;
     private bool _isManualZoom = false;
-    private ZoomMode _zoomMode = ZoomMode.AutoZoom;
     private float _zoomSpeed = 0f;
     private float _minZoom = 0.01f; // 1%
     private float _maxZoom = 100f; // 10_000%
     private float[] _zoomLevels = [];
+    private ZoomMode _zoomMode = ZoomMode.AutoZoom;
     private ImageInterpolation _interpolationScaleDown = ImageInterpolation.MultiSampleLinear;
     private ImageInterpolation _interpolationScaleUp = ImageInterpolation.NearestNeighbor;
 
@@ -98,8 +105,6 @@ public partial class DXCanvas : DXControl
     private float _checkerboardCellSize = 10f;
     private Color _checkerboardColor1 = Color.Black.WithAlpha(25);
     private Color _checkerboardColor2 = Color.White.WithAlpha(25);
-    private TextureBrush? _checkerboardBrushGdip;
-    private ComObject<ID2D1BitmapBrush1>? _checkerboardBrushD2D;
 
     // Image source
     private ImageSource _imageSource = ImageSource.Null;
@@ -109,25 +114,21 @@ public partial class DXCanvas : DXControl
     private bool _shouldRecalculateDrawingRegion = true;
 
     // Navigation buttons
-    internal static float NAV_PADDING => 20f;
     private bool _isNavLeftHovered = false;
     private bool _isNavLeftPressed = false;
     private bool _isNavRightHovered = false;
     private bool _isNavRightPressed = false;
+    private bool _isNavVisible = false;
+    private NavButtonDisplay _navDisplay = NavButtonDisplay.None;
+    private float NavBorderRadius => NavButtonSize.Width / 2;
+    private Color _navButtonColor = Color.Blue;
+    internal static float NAV_PADDING => 20f;
     internal PointF NavLeftPos => new(
         DrawingArea.Left + NavButtonSize.Width / 2 + NAV_PADDING,
         DrawingArea.Top + DrawingArea.Height / 2);
     internal PointF NavRightPos => new(
         DrawingArea.Right - NavButtonSize.Width / 2 - NAV_PADDING,
         DrawingArea.Top + DrawingArea.Height / 2);
-    private NavButtonDisplay _navDisplay = NavButtonDisplay.None;
-    private bool _isNavVisible = false;
-    private float NavBorderRadius => NavButtonSize.Width / 2;
-    private IComObject<ID2D1Bitmap1>? _navLeftImage = null;
-    private IComObject<ID2D1Bitmap1>? _navRightImage = null;
-    private Bitmap? _navLeftImageGdip = null;
-    private Bitmap? _navRightImageGdip = null;
-    private Color _navButtonColor = Color.Blue;
 
     // selection
     private bool _enableSelection = false;
@@ -143,7 +144,6 @@ public partial class DXCanvas : DXControl
 
     // Public properties
     #region Public properties
-
 
     // Viewport
     #region Viewport
@@ -462,10 +462,10 @@ public partial class DXCanvas : DXControl
     /// <summary>
     /// Gets the current action of selection.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public SelectionAction CurrentSelectionAction { get; private set; } = SelectionAction.None;
 
-
-    #endregion
+    #endregion // Viewport
 
 
     // Image information
@@ -525,8 +525,7 @@ public partial class DXCanvas : DXControl
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public float SourceHeight { get; private set; } = 0;
 
-
-    #endregion
+    #endregion // Image information
 
 
     // Zooming
@@ -535,6 +534,7 @@ public partial class DXCanvas : DXControl
     /// <summary>
     /// Gets, sets zoom levels (ordered by ascending).
     /// </summary>
+    [Category("Zooming")]
     public float[] ZoomLevels
     {
         get => _zoomLevels;
@@ -677,8 +677,7 @@ public partial class DXCanvas : DXControl
         }
     }
 
-
-    #endregion
+    #endregion // Zooming
 
 
     // Checkerboard
@@ -765,7 +764,7 @@ public partial class DXCanvas : DXControl
         }
     }
 
-    #endregion
+    #endregion // Checkerboard
 
 
     // Panning
@@ -796,7 +795,8 @@ public partial class DXCanvas : DXControl
     /// </summary>
     [Browsable(false)]
     public bool CanPanVertical => Height < SourceHeight * ZoomFactor;
-    #endregion
+
+    #endregion // Panning
 
 
     // Navigation
@@ -856,12 +856,12 @@ public partial class DXCanvas : DXControl
     {
         set
         {
-            DXHelper.DisposeD2D1Bitmap(ref _navLeftImage);
-            _navLeftImageGdip?.Dispose();
-            _navLeftImageGdip = null;
+            _wicNavLeftImage?.Dispose();
+            _wicNavLeftImage = null;
+            _wicNavLeftImage = value;
 
-            _navLeftImage = DXHelper.ToD2D1Bitmap(Device, value);
-            _navLeftImageGdip = BHelper.ToGdiPlusBitmap(value);
+            DXHelper.DisposeD2D1Bitmap(ref _d2dNavLeftImage);
+            _d2dNavLeftImage = DXHelper.ToD2D1Bitmap(Device, _wicNavLeftImage);
         }
     }
 
@@ -875,16 +875,16 @@ public partial class DXCanvas : DXControl
     {
         set
         {
-            DXHelper.DisposeD2D1Bitmap(ref _navRightImage);
-            _navRightImageGdip?.Dispose();
-            _navRightImageGdip = null;
+            _wicNavRightImage?.Dispose();
+            _wicNavRightImage = null;
+            _wicNavRightImage = value;
 
-            _navRightImage = DXHelper.ToD2D1Bitmap(Device, value);
-            _navRightImageGdip = BHelper.ToGdiPlusBitmap(value);
+            DXHelper.DisposeD2D1Bitmap(ref _d2dNavRightImage);
+            _d2dNavRightImage = DXHelper.ToD2D1Bitmap(Device, _wicNavRightImage);
         }
     }
 
-    #endregion
+    #endregion // Navigation
 
 
     // Misc
@@ -1011,7 +1011,7 @@ public partial class DXCanvas : DXControl
 
 
 
-    public DXCanvas()
+    public ViewerCanvas()
     {
         SetStyle(ControlStyles.SupportsTransparentBackColor
             | ControlStyles.UserPaint
@@ -1056,13 +1056,8 @@ public partial class DXCanvas : DXControl
 
         DisposeImageResources();
 
-        DXHelper.DisposeD2D1Bitmap(ref _navLeftImage);
-        _navLeftImageGdip?.Dispose();
-        _navLeftImageGdip = null;
-
-        DXHelper.DisposeD2D1Bitmap(ref _navRightImage);
-        _navRightImageGdip?.Dispose();
-        _navRightImageGdip = null;
+        DXHelper.DisposeD2D1Bitmap(ref _d2dNavLeftImage);
+        DXHelper.DisposeD2D1Bitmap(ref _d2dNavRightImage);
 
         DisposeCheckerboardBrushes();
 
@@ -1073,6 +1068,26 @@ public partial class DXCanvas : DXControl
         DisposeWeb2Control();
     }
 
+    protected override void OnDeviceCreated(DeviceCreatedReason reason)
+    {
+        base.OnDeviceCreated(reason);
+
+        // re-create left nav icon
+        DXHelper.DisposeD2D1Bitmap(ref _d2dNavLeftImage);
+        _d2dNavLeftImage = DXHelper.ToD2D1Bitmap(Device, _wicNavLeftImage);
+
+        // re-create right nav icon
+        DXHelper.DisposeD2D1Bitmap(ref _d2dNavRightImage);
+        _d2dNavRightImage = DXHelper.ToD2D1Bitmap(Device, _wicNavRightImage);
+
+
+        // re-create resources after device is changed
+        if (reason == DeviceCreatedReason.UseHardwareAccelerationChanged)
+        {
+            // dispose checkerboard
+            DisposeCheckerboardBrushes();
+        }
+    }
 
     protected override void OnMouseClick(MouseEventArgs e)
     {
@@ -1384,7 +1399,7 @@ public partial class DXCanvas : DXControl
             _isSelectionHovered = isSelectionHovered;
             _hoveredResizer = hoveredResizer;
         }
-        
+
 
         // request re-render control
         if (requestRerender) Invalidate();
@@ -1477,7 +1492,7 @@ public partial class DXCanvas : DXControl
     }
 
 
-    protected override void OnRender(IGraphics g)
+    protected override void OnRender(DXGraphics g)
     {
         // check if the image is already drawn
         var isImageDrawn = _imageDrawingState == ImageDrawingState.Drawing && !_isPreviewing;
@@ -1663,38 +1678,19 @@ public partial class DXCanvas : DXControl
     /// Draw the input image.
     /// </summary>
     /// <param name="g">Drawing graphic object.</param>
-    protected virtual void DrawImageLayer(IGraphics g)
+    protected virtual void DrawImageLayer(DXGraphics g)
     {
         if (UseWebview2) return;
         if (Source == ImageSource.Null) return;
 
-        if (UseHardwareAcceleration)
-        {
-            g.DrawBitmap(_imageD2D, _destRect, _srcRect, (InterpolationMode)CurrentInterpolation, _imageOpacity);
-        }
-        else
-        {
-            if (g is not GdipGraphics ggdi) return;
-
-            ggdi.Graphics.CompositingQuality = CompositingQuality.HighSpeed;
-            ggdi.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-
-            try
-            {
-                // make sure no exception when _imageGdiPlus is disposed
-                g.DrawBitmap(_imageGdiPlus, _destRect, _srcRect, (InterpolationMode)CurrentInterpolation, _imageOpacity);
-            }
-            catch { }
-
-            ggdi.Graphics.PixelOffsetMode = PixelOffsetMode.Half;
-        }
+        g.DrawBitmap(_d2dImage, _destRect, _srcRect, (InterpolationMode)CurrentInterpolation, _imageOpacity);
     }
 
 
     /// <summary>
     /// Draw checkerboard background
     /// </summary>
-    protected virtual void DrawCheckerboardLayer(IGraphics g)
+    protected virtual void DrawCheckerboardLayer(DXGraphics g)
     {
         if (CheckerboardMode == CheckerboardMode.None) return;
 
@@ -1716,41 +1712,24 @@ public partial class DXCanvas : DXControl
         }
 
 
-        if (UseHardwareAcceleration)
-        {
-            // create bitmap brush
-            _checkerboardBrushD2D ??= VHelper.CreateCheckerBoxTileD2D(Device, CheckerboardCellSize, CheckerboardColor1, CheckerboardColor2);
+        // create bitmap brush
+        _checkerboardBrushD2D ??= VHelper.CreateCheckerBoxTileD2D(Device, CheckerboardCellSize, CheckerboardColor1, CheckerboardColor2);
 
-            // draw checkerboard
-            Device.FillRectangle(DXHelper.ToD2DRectF(region), _checkerboardBrushD2D);
-        }
-        else
-        {
-            var gdiG = g as GdipGraphics;
-
-            // create bitmap brush
-            _checkerboardBrushGdip ??= BHelper.CreateCheckerboardTileBrush(CheckerboardCellSize, CheckerboardColor1, CheckerboardColor2);
-
-            // draw checkerboard
-            gdiG?.Graphics.FillRectangle(_checkerboardBrushGdip, region);
-        }
+        // draw checkerboard
+        Device.FillRectangle(DXHelper.ToD2DRectF(region), _checkerboardBrushD2D);
     }
 
 
     /// <summary>
     /// Draw selection layer
     /// </summary>
-    protected virtual void DrawSelectionLayer(IGraphics g)
+    protected virtual void DrawSelectionLayer(DXGraphics g)
     {
         if (UseWebview2 || Source == ImageSource.Null || SourceSelection.Size.IsEmpty) return;
 
         // draw the clip selection region
-        if (g is D2DGraphics dg)
-        {
-            using var selectionGeo = dg.GetCombinedRectanglesGeometry(ClientSelection, _destRect, 0, 0, D2D1_COMBINE_MODE.D2D1_COMBINE_MODE_XOR);
-
-            dg.DrawGeometry(selectionGeo, Color.Transparent, Color.Black.WithAlpha(_mouseDownButton == MouseButtons.Left ? 100 : 180));
-        }
+        using var selectionGeo = g.GetCombinedRectanglesGeometry(ClientSelection, _destRect, 0, 0, D2D1_COMBINE_MODE.D2D1_COMBINE_MODE_XOR);
+        g.DrawGeometry(selectionGeo, Color.Transparent, Color.Black.WithAlpha(_mouseDownButton == MouseButtons.Left ? 100 : 180));
 
 
         // draw selection grid, resizers
@@ -1874,7 +1853,7 @@ public partial class DXCanvas : DXControl
     /// <summary>
     /// Draws text message.
     /// </summary>
-    protected virtual void DrawMessageLayer(IGraphics g)
+    protected virtual void DrawMessageLayer(DXGraphics g)
     {
         if (UseWebview2) return;
 
@@ -1974,7 +1953,7 @@ public partial class DXCanvas : DXControl
     /// <summary>
     /// Draws navigation arrow buttons
     /// </summary>
-    protected virtual void DrawNavigationLayer(IGraphics g)
+    protected virtual void DrawNavigationLayer(DXGraphics g)
     {
         if (NavDisplay == NavButtonDisplay.None) return;
 
@@ -2014,28 +1993,14 @@ public partial class DXCanvas : DXControl
             // draw icon
             if (_isNavLeftHovered || _isNavLeftPressed)
             {
+                if (_d2dNavLeftImage == null) return;
+
+                _d2dNavLeftImage.Object.GetSize(out var size);
+
+                var srcIconSize = DXHelper.ToSize(size);
                 var iconSize = Math.Min(NavButtonSize.Width, NavButtonSize.Height) / 2;
 
-                object? bmpObj;
-                SizeF srcIconSize;
-                if (UseHardwareAcceleration && _navLeftImage != null)
-                {
-                    bmpObj = _navLeftImage;
-                    _navLeftImage.Object.GetSize(out var size);
-
-                    srcIconSize = DXHelper.ToSize(size);
-                }
-                else if (_navLeftImageGdip != null)
-                {
-                    bmpObj = _navLeftImageGdip;
-                    srcIconSize = _navLeftImageGdip.Size;
-                }
-                else
-                {
-                    return;
-                }
-
-                g.DrawBitmap(bmpObj, new RectangleF()
+                g.DrawBitmap(_d2dNavLeftImage, new RectangleF()
                 {
                     X = NavLeftPos.X - iconSize / 2,
                     Y = NavLeftPos.Y - iconSize / 2 + iconY,
@@ -2081,28 +2046,14 @@ public partial class DXCanvas : DXControl
             // draw icon
             if (_isNavRightHovered || _isNavRightPressed)
             {
+                if (_d2dNavRightImage == null) return;
+
+                _d2dNavRightImage.Object.GetSize(out var size);
+
+                var srcIconSize = DXHelper.ToSize(size);
                 var iconSize = Math.Min(NavButtonSize.Width, NavButtonSize.Height) / 2;
 
-                object? bmpObj;
-                SizeF srcIconSize;
-                if (UseHardwareAcceleration && _navRightImage != null)
-                {
-                    bmpObj = _navRightImage;
-                    _navRightImage.Object.GetSize(out var size);
-
-                    srcIconSize = DXHelper.ToSize(size);
-                }
-                else if (_navRightImageGdip != null)
-                {
-                    bmpObj = _navRightImageGdip;
-                    srcIconSize = _navRightImageGdip.Size;
-                }
-                else
-                {
-                    return;
-                }
-
-                g.DrawBitmap(bmpObj, new RectangleF()
+                g.DrawBitmap(_d2dNavRightImage, new RectangleF()
                 {
                     X = NavRightPos.X - iconSize / 2,
                     Y = NavRightPos.Y - iconSize / 2 + iconY,
@@ -3089,68 +3040,50 @@ public partial class DXCanvas : DXControl
             CreateAnimatorFromSource(imgData);
 
 
-            if (UseHardwareAcceleration)
+
+            // viewing single frame of animated image
+            if (imgData.Source is AnimatedImg animatedImg && !autoAnimate)
             {
-                // viewing single frame of animated image
-                if (imgData.Source is AnimatedImg animatedImg && !autoAnimate)
-                {
-                    var frame = animatedImg.GetFrame((int)frameIndex);
-                    var wicSrc = BHelper.ToWicBitmapSource(frame.Bitmap as Bitmap);
+                var frame = animatedImg.GetFrame((int)frameIndex);
+                _wicImage = BHelper.ToWicBitmapSource(frame.Bitmap as Bitmap);
+            }
+            // viewing single frame of animated GIF
+            else if (imgData.Source is Bitmap bmp && !autoAnimate)
+            {
+                bmp.SetActiveTimeFrame((int)frameIndex);
+                _wicImage = BHelper.ToWicBitmapSource(bmp);
+            }
+            // viewing non-animated multiple frames
+            else if (imgData?.Source is WicBitmapDecoder decoder)
+            {
+                _wicImage = decoder.GetFrame((int)frameIndex);
+            }
+            // viewing single frame
+            else
+            {
+                _wicImage = imgData.Image;
+            }
 
-                    _oriImageD2D = DXHelper.ToD2D1Bitmap(Device, wicSrc);
-                }
-                // viewing single frame of animated GIF
-                else if (imgData.Source is Bitmap bmp && !autoAnimate)
-                {
-                    bmp.SetActiveTimeFrame((int)frameIndex);
-                    var wicSrc = BHelper.ToWicBitmapSource(bmp);
-
-                    _oriImageD2D = DXHelper.ToD2D1Bitmap(Device, wicSrc);
-                }
-                // viewing non-animated multiple frames
-                else if (imgData?.Source is WicBitmapDecoder decoder)
-                {
-                    var frame = decoder.GetFrame((int)frameIndex);
-                    _oriImageD2D = DXHelper.ToD2D1Bitmap(Device, frame);
-                }
-                // viewing single frame
-                else
-                {
-                    _oriImageD2D = DXHelper.ToD2D1Bitmap(Device, imgData.Image);
-                }
-
-                // apply color channels filter
-                if (channels != ColorChannels.RGBA)
-                {
-                    // use original image to create color channel filter
-                    FilterColorChannels(channels, false);
-                }
-                else
-                {
-                    _imageD2D = _oriImageD2D.Clone(Device);
-                }
-
-
-                // apply transformations
-                if (transforms != null)
-                {
-                    _ = RotateImage(transforms.Rotation, false);
-                    _ = FlipImage(transforms.Flips, false);
-                }
-
-
-                Source = ImageSource.Direct2D;
+            // apply color channels filter
+            if (channels != ColorChannels.RGBA)
+            {
+                // use original image to create color channel filter
+                FilterColorChannels(channels, false);
             }
             else
             {
-                // viewing single frame of GDI+ Bitmap
-                if (imgData.Source is Bitmap bmp)
-                {
-                    _imageGdiPlus = bmp;
-                }
-
-                Source = ImageSource.GDIPlus;
+                _d2dImage = DXHelper.ToD2D1Bitmap(Device, _wicImage);
             }
+
+
+            // apply transformations
+            if (transforms != null)
+            {
+                _ = RotateImage(transforms.Rotation, false);
+                _ = FlipImage(transforms.Flips, false);
+            }
+
+            Source = ImageSource.Direct2D;
 
 
             // start drawing
@@ -3214,11 +3147,11 @@ public partial class DXCanvas : DXControl
     /// </summary>
     public bool RotateImage(float degree, bool requestRerender = true)
     {
-        if (_imageD2D == null || degree == 0 || degree == 360 || IsImageAnimating) return false;
+        if (_d2dImage == null || degree == 0 || degree == 360 || IsImageAnimating) return false;
 
         // create effect
         using var effect = Device.CreateEffect(Direct2DEffects.CLSID_D2D12DAffineTransform);
-        effect.SetInput(_imageD2D, 0);
+        effect.SetInput(_d2dImage, 0);
 
 
         // rotate the image
@@ -3243,11 +3176,11 @@ public partial class DXCanvas : DXControl
 
 
         // apply the transformation
-        DXHelper.DisposeD2D1Bitmap(ref _imageD2D);
-        _imageD2D = effect.GetD2D1Bitmap1(Device);
+        DXHelper.DisposeD2D1Bitmap(ref _d2dImage);
+        _d2dImage = effect.GetD2D1Bitmap1(Device);
 
         // update new source size
-        var newSize = _imageD2D.GetSize();
+        var newSize = _d2dImage.GetSize();
         SourceWidth = newSize.width;
         SourceHeight = newSize.height;
 
@@ -3266,11 +3199,11 @@ public partial class DXCanvas : DXControl
     /// </summary>
     public bool FlipImage(FlipOptions flips, bool requestRerender = true)
     {
-        if (_imageD2D == null || IsImageAnimating) return false;
+        if (_d2dImage == null || IsImageAnimating) return false;
 
         // create effect
         using var effect = Device.CreateEffect(Direct2DEffects.CLSID_D2D12DAffineTransform);
-        effect.SetInput(_imageD2D, 0);
+        effect.SetInput(_d2dImage, 0);
 
 
         // flip transformation
@@ -3288,8 +3221,8 @@ public partial class DXCanvas : DXControl
 
 
         // apply the transformation
-        DXHelper.DisposeD2D1Bitmap(ref _imageD2D);
-        _imageD2D = effect.GetD2D1Bitmap1(Device);
+        DXHelper.DisposeD2D1Bitmap(ref _d2dImage);
+        _d2dImage = effect.GetD2D1Bitmap1(Device);
 
         // render the transformation
         if (requestRerender)
@@ -3306,12 +3239,14 @@ public partial class DXCanvas : DXControl
     /// </summary>
     public bool FilterColorChannels(ColorChannels colors, bool requestRerender = true)
     {
-        if (_oriImageD2D == null || IsImageAnimating) return false;
+        if (_wicImage == null || IsImageAnimating) return false;
 
+        // create Direct2D bitmap from the original WIC bitmap
+        using var oriD2dImage = DXHelper.ToD2D1Bitmap(Device, _wicImage);
 
         // create effect
         using var effect = Device.CreateEffect(Direct2DEffects.CLSID_D2D1ColorMatrix);
-        effect.SetInput(_oriImageD2D, 0);
+        effect.SetInput(oriD2dImage, 0);
 
 
         var redOnly = colors.HasFlag(ColorChannels.R)
@@ -3351,8 +3286,8 @@ public partial class DXCanvas : DXControl
 
 
         // apply the transformation
-        DXHelper.DisposeD2D1Bitmap(ref _imageD2D);
-        _imageD2D = effect.GetD2D1Bitmap1(Device, ignoreAlpha);
+        DXHelper.DisposeD2D1Bitmap(ref _d2dImage);
+        _d2dImage = effect.GetD2D1Bitmap1(Device, ignoreAlpha);
 
 
         // render the transformation
@@ -3375,14 +3310,8 @@ public partial class DXCanvas : DXControl
     {
         if (Source == ImageSource.Direct2D)
         {
-            return _imageD2D.GetPixelColor(Device, x, y);
+            return _d2dImage.GetPixelColor(Device, x, y);
         }
-
-        if (Source == ImageSource.GDIPlus)
-        {
-            return _imageGdiPlus.GetPixelColor(x, y);
-        }
-
 
         return Color.Transparent;
     }
@@ -3393,7 +3322,7 @@ public partial class DXCanvas : DXControl
     /// </summary>
     public WicBitmapSource? GetRenderedBitmap()
     {
-        var wicBmp = _imageD2D.ToWicBitmapSource(Device);
+        var wicBmp = _d2dImage.ToWicBitmapSource(Device);
 
         return wicBmp;
     }
@@ -3406,14 +3335,10 @@ public partial class DXCanvas : DXControl
     {
         Source = ImageSource.Null;
 
-        DXHelper.DisposeD2D1Bitmap(ref _imageD2D);
-        DXHelper.DisposeD2D1Bitmap(ref _oriImageD2D);
+        // only dispose Direct2D resources, don't dispose _wicImage here
+        DXHelper.DisposeD2D1Bitmap(ref _d2dImage);
+
         DisposeAnimator();
-
-        // *** Do not dispose the GDI Bitmap because it's a ref to the Local.Images
-
-        //_imageGdiPlus?.Dispose();
-        //_imageGdiPlus = null;
     }
 
     #endregion // Public methods
@@ -3529,16 +3454,16 @@ public partial class DXCanvas : DXControl
         if (!IsImageAnimating || _animatorSource == AnimatorSource.None) return;
         if (sender is IDisposable src)
         {
-            DXHelper.DisposeD2D1Bitmap(ref _imageD2D);
+            DXHelper.DisposeD2D1Bitmap(ref _d2dImage);
 
             if (src is Bitmap bmp)
             {
                 using var wicSrc = BHelper.ToWicBitmapSource(bmp);
-                _imageD2D = DXHelper.ToD2D1Bitmap(Device, wicSrc);
+                _d2dImage = DXHelper.ToD2D1Bitmap(Device, wicSrc);
             }
             else if (src is WicBitmapSource wicSrc)
             {
-                _imageD2D = DXHelper.ToD2D1Bitmap(Device, wicSrc);
+                _d2dImage = DXHelper.ToD2D1Bitmap(Device, wicSrc);
             }
 
             Source = ImageSource.Direct2D;
@@ -3555,9 +3480,6 @@ public partial class DXCanvas : DXControl
     /// </summary>
     private void DisposeCheckerboardBrushes()
     {
-        _checkerboardBrushGdip?.Dispose();
-        _checkerboardBrushGdip = null;
-
         _checkerboardBrushD2D?.Dispose();
         _checkerboardBrushD2D = null;
     }

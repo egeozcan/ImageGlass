@@ -156,7 +156,7 @@ namespace ImageGlass
             MnuRemoveDefaultPhotoViewer = new ToolStripMenuItem();
             toolStripMenuItem9 = new ToolStripSeparator();
             MnuExit = new ToolStripMenuItem();
-            PicMain = new Viewer.DXCanvas();
+            PicMain = new Viewer.ViewerCanvas();
             Gallery = new Gallery.ImageGallery();
             MnuContext = new UI.ModernMenu(components);
             itemToPreserveTheSpaceToolStripMenuItem = new ToolStripMenuItem();
@@ -1345,7 +1345,7 @@ namespace ImageGlass
         public ToolStripMenuItem MnuPanToRightSide;
         public ToolStripMenuItem MnuPanToTop;
         public ToolStripMenuItem MnuPanToBottom;
-        public Viewer.DXCanvas PicMain;
+        public Viewer.ViewerCanvas PicMain;
         public UI.ModernToolbar Toolbar;
         public Gallery.ImageGallery Gallery;
         public UI.ModernMenu MnuMain;

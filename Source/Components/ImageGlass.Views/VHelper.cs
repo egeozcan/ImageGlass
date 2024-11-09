@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-using D2Phap;
+using D2Phap.DXControl;
 using DirectN;
 using System.Runtime.InteropServices;
 using WicNet;
@@ -25,7 +25,7 @@ namespace ImageGlass.Viewer;
 
 
 /// <summary>
-/// Provides helper functions for <see cref="DXCanvas"/>.
+/// Provides helper functions for <see cref="ViewerCanvas"/>.
 /// </summary>
 public static class VHelper
 {

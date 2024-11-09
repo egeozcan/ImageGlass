@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 using Cysharp.Text;
-using D2Phap;
+using D2Phap.DXControl;
 using ImageGlass.Base;
 using ImageGlass.Base.PhotoBox;
 using ImageGlass.Base.Photoing.Codecs;

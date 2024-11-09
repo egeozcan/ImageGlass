@@ -27,7 +27,7 @@ using System.Dynamic;
 namespace ImageGlass.Viewer;
 
 
-public partial class DXCanvas
+public partial class ViewerCanvas
 {
     private bool _isWeb2NavigationDone = false;
     private Web2? _web2 = null;
@@ -53,7 +53,7 @@ public partial class DXCanvas
 
 
     /// <summary>
-    /// Gets, sets value indicates that the <see cref="DXCanvas"/>
+    /// Gets, sets value indicates that the <see cref="ViewerCanvas"/>
     /// should use <see cref="Web2"/> to render the image.
     /// </summary>
     public bool UseWebview2 => _imageSource == ImageSource.Webview2;
@@ -202,12 +202,12 @@ public partial class DXCanvas
         }
         else if (e.Name == Web2FrontendMsgNames.ON_POINTER_DOWN)
         {
-            _web2PointerDownEventArgs = DXCanvas.ParseMouseEventJson(e.Data);
+            _web2PointerDownEventArgs = ViewerCanvas.ParseMouseEventJson(e.Data);
             Web2PointerDown?.Invoke(this, _web2PointerDownEventArgs);
         }
         else if (e.Name == Web2FrontendMsgNames.ON_MOUSE_WHEEL)
         {
-            var mouseWheelEventArgs = DXCanvas.ParseMouseEventJson(e.Data);
+            var mouseWheelEventArgs = ViewerCanvas.ParseMouseEventJson(e.Data);
             this.OnMouseWheel(mouseWheelEventArgs);
         }
         else if (e.Name == Web2FrontendMsgNames.ON_FILE_DROP)
@@ -222,7 +222,7 @@ public partial class DXCanvas
         }
         else if (e.Name == Web2FrontendMsgNames.ON_NAV_CLICK)
         {
-            var pointerEventArgs = DXCanvas.ParseMouseEventJson(e.Data);
+            var pointerEventArgs = ViewerCanvas.ParseMouseEventJson(e.Data);
             var dict = BHelper.ParseJson<ExpandoObject>(e.Data)
                 .ToDictionary(i => i.Key, i => i.Value.ToString() ?? string.Empty);
 
@@ -336,7 +336,7 @@ public partial class DXCanvas
     #region Private methods
 
     /// <summary>
-    /// Initializes <see cref="Web2"/> control, adds it into the <see cref="DXCanvas"/> control.
+    /// Initializes <see cref="Web2"/> control, adds it into the <see cref="ViewerCanvas"/> control.
     /// </summary>
     private async Task InitializeWeb2Async()
     {

@@ -132,7 +132,7 @@ public partial class FrmColorPicker : ToolForm, IToolForm<ColorPickerConfig>
 
     private void PicMain_ImageMouseClick(object? sender, Viewer.ImageMouseEventArgs e)
     {
-        if (sender is not DXCanvas PicMain
+        if (sender is not ViewerCanvas PicMain
             || e.ImageX < 0 || e.ImageY < 0
             || e.ImageX > Local.FrmMain.PicMain.SourceWidth
             || e.ImageY > Local.FrmMain.PicMain.SourceHeight) return;
