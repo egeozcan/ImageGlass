@@ -16,7 +16,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-using System.Globalization;
 using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.UI.Input.KeyboardAndMouse;
@@ -36,11 +35,6 @@ public class KeyboardApi
     /// </summary>
     public static unsafe char KeyCodeToChar(Keys key, bool withShiftKey)
     {
-        CultureInfo.DefaultThreadCurrentCulture =
-            CultureInfo.DefaultThreadCurrentUICulture =
-            Thread.CurrentThread.CurrentCulture =
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
-
         var lpChar = 0u;
         var lpKeyState = new byte[256];
 
@@ -55,9 +49,21 @@ public class KeyboardApi
             }
         }
 
+        // always use en-US keyboard layout
+        nint langHandle;
+        try
+        {
+            var culture = new System.Globalization.CultureInfo("en-US");
+            langHandle = InputLanguage.FromCulture(culture).Handle;
+        }
+        catch
+        {
+            langHandle = InputLanguage.DefaultInputLanguage.Handle;
+        }
+
+        var keyboardLayoutPtr = new HKL(langHandle);
         var virtualKeyCode = (uint)key;
         var scanCode = PInvoke.MapVirtualKey(virtualKeyCode, MAP_VIRTUAL_KEY_TYPE.MAPVK_VK_TO_VSC);
-        var keyboardLayoutPtr = PInvoke.GetKeyboardLayout(0);
 
         _ = ToAsciiEx((int)key, (int)scanCode, lpKeyState, ref lpChar, 0, keyboardLayoutPtr);
 
@@ -70,14 +76,19 @@ public class KeyboardApi
     /// </summary>
     public static Keys CharToKeyCode(char c)
     {
-        CultureInfo.DefaultThreadCurrentCulture =
-            CultureInfo.DefaultThreadCurrentUICulture =
-            Thread.CurrentThread.CurrentCulture =
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
+        // always use en-US keyboard layout
+        nint langHandle;
+        try
+        {
+            var culture = new System.Globalization.CultureInfo("en-US");
+            langHandle = InputLanguage.FromCulture(culture).Handle;
+        }
+        catch
+        {
+            langHandle = InputLanguage.DefaultInputLanguage.Handle;
+        }
 
-
-        var keyboardLayoutPtr = PInvoke.GetKeyboardLayout(0);
-
+        var keyboardLayoutPtr = new HKL(langHandle);
         var vkey = PInvoke.VkKeyScanEx(c, keyboardLayoutPtr);
         var keys = (Keys)(vkey & 0xff);
         var modifiers = vkey >> 8;
