@@ -1009,7 +1009,7 @@ public partial class FrmMain : ThemedForm
         _ = BHelper.RunAsThread(SelectCurrentGalleryThumbnail);
 
         // show image preview if it's not cached
-        if (!Local.Images.IsCached(Local.CurrentIndex))
+        if (!e.UseWebview2 && !Local.Images.IsCached(Local.CurrentIndex))
         {
             ShowImagePreview(e.FilePath, _loadCancelTokenSrc.Token);
         }
