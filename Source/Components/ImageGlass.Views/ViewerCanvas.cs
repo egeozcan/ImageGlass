@@ -856,8 +856,7 @@ public partial class ViewerCanvas : DXCanvas
     {
         set
         {
-            _wicNavLeftImage?.Dispose();
-            _wicNavLeftImage = null;
+            // _wicNavLeftImage is a ref, do not dispose here
             _wicNavLeftImage = value;
 
             DXHelper.DisposeD2D1Bitmap(ref _d2dNavLeftImage);
@@ -875,8 +874,7 @@ public partial class ViewerCanvas : DXCanvas
     {
         set
         {
-            _wicNavRightImage?.Dispose();
-            _wicNavRightImage = null;
+            // _wicNavRightImage is a ref, do not dispose here
             _wicNavRightImage = value;
 
             DXHelper.DisposeD2D1Bitmap(ref _d2dNavRightImage);
