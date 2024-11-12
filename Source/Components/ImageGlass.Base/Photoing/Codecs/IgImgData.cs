@@ -133,7 +133,7 @@ public class IgImgData : IDisposable
             else
             {
                 var bytes = data.MultiFrameImage.ToByteArray(MagickFormat.Tiff);
-                Source = WicBitmapDecoder.Load(new MemoryStream(bytes));
+                Source = WicBitmapDecoder.Load(new MemoryStream(bytes) { Position = 0 });
             }
         }
         // single frame
