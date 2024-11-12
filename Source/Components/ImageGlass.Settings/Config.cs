@@ -900,7 +900,7 @@ public static class Config
             .GetChildren()
             .ToDictionary(
                 i => BHelper.ParseEnum<MouseClickEvent>(i.Key),
-                i => i.Get<ToggleAction>());
+                i => ParseToggleAction(i));
 
 
         // MouseWheelActions
@@ -2109,6 +2109,51 @@ public static class Config
     }
 
     #endregion // Config file migration
+
+
+    // ToggleAction, SingleAction Parser
+    #region ToggleAction, SingleAction Parser
+
+    private static ToggleAction? ParseToggleAction(IConfigurationSection sec)
+    {
+        if (!sec.Exists()) return null;
+
+        var toggleOn = ParseSingleAction(sec.GetSection(nameof(ToggleAction.ToggleOn)));
+        var toggleOff = ParseSingleAction(sec.GetSection(nameof(ToggleAction.ToggleOff)));
+
+        return new ToggleAction(toggleOn)
+        {
+            ToggleOff = toggleOff,
+        };
+    }
+
+
+    private static SingleAction? ParseSingleAction(IConfigurationSection sec)
+    {
+        if (!sec.Exists()) return null;
+
+        var exe = sec.GetValueEx(nameof(SingleAction.Executable), "");
+        var args = Array.Empty<object>();
+        SingleAction? nextAc = null;
+
+        // get Arguments
+        var argsSec = sec.GetSection(nameof(SingleAction.Arguments));
+        if (argsSec.Exists())
+        {
+            args = argsSec.Get<object[]>().ToArray();
+        }
+
+        // get NextAction
+        var nextSec = sec.GetSection(nameof(SingleAction.NextAction));
+        if (nextSec.Exists())
+        {
+            nextAc = ParseSingleAction(nextSec);
+        }
+
+        return new SingleAction(exe, args, nextAc);
+    }
+
+    #endregion // ToggleAction, SingleAction Parser
 
 
     // ImageFormats
