@@ -1,8 +1,0 @@
-<ImageGlass>
-  <Configuration>
-    <Info description="ImageGlass Configuration file" version="7.5" />
-    <Content>
-      <Item key="AutoUpdate" value="0" />
-    </Content>
-  </Configuration>
-</ImageGlass>
