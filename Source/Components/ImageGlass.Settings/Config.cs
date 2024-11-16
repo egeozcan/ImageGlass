@@ -1622,8 +1622,10 @@ public static class Config
     /// <summary>
     /// Updates form icon using theme setting.
     /// </summary>
-    public static async Task UpdateFormIcon(Form frm)
+    public static async Task UpdateFormIcon(Form? frm)
     {
+        if (frm is null) return;
+
         // Icon theming
         if (Config.Theme.Settings.AppLogo?.GetHicon() is not IntPtr hIcon) return;
         frm.Icon = Icon.FromHandle(hIcon);

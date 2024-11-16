@@ -41,7 +41,7 @@ public partial class FrmMain : ThemedForm
 
     // cancellation tokens of synchronious task
     private CancellationTokenSource? _loadCancelTokenSrc = new();
-    private IProgress<ProgressReporterEventArgs> _uiReporter;
+    private readonly IProgress<ProgressReporterEventArgs> _uiReporter;
     private MovableForm? _movableForm;
     private bool _isShowingImagePreview;
 
@@ -2444,5 +2444,5 @@ public partial class FrmMain : ThemedForm
     #endregion // Main Menu component
 
 
-    
+
 }

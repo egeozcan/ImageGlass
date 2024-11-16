@@ -988,6 +988,16 @@ public partial class FrmMain
 
 
     /// <summary>
+    /// Parses and applies settings from JSON
+    /// </summary>
+    /// <param name="json"></param>
+    public static void IG_ApplySettings(string json)
+    {
+        Local.ApplySettingsFromJson(json);
+    }
+
+
+    /// <summary>
     /// Exits ImageGlass
     /// </summary>
     public static void IG_Exit()
