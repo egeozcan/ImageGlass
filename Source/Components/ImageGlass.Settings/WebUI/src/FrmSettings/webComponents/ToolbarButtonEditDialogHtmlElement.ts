@@ -18,10 +18,10 @@ export class ToolbarButtonEditDialogHtmlElement extends HTMLDialogElement {
           <span class="create-only" lang-text="FrmSettings.Toolbar._AddNewButton">[Add a custom toolbar button]</span>
           <span class="edit-only" lang-text="FrmSettings.Toolbar._EditButton">[Edit toolbar button]</span>
         </header>
-        <div class="dialog-body" style="width: 33rem;">
+        <div class="dialog-body" style="width: 40rem;">
           <div class="mb-3">
             <div class="mb-1" lang-text="FrmSettings.Toolbar._ButtonJson">[Button JSON]</div>
-            <textarea class="w-100" name="_ButtonJson" required rows="16" spellcheck="false"
+            <textarea class="w-100" name="_ButtonJson" required rows="20" spellcheck="false"
               style="font-family: var(--fontCode);"
               placeholder='{
   "Id": "Btn_OpenWithMSPaint",
@@ -36,7 +36,8 @@ export class ToolbarButtonEditDialogHtmlElement extends HTMLDialogElement {
     "Arguments": ["<file>"],
     "NextAction": {
     }
-  }
+  },
+  "Hotkeys": []
 }'></textarea>
           </div>
         </div>
@@ -64,6 +65,7 @@ export class ToolbarButtonEditDialogHtmlElement extends HTMLDialogElement {
         Executable: '',
         Arguments: ['<file>'],
       },
+      Hotkeys: [],
     } as IToolbarButton;
     const json = JSON.stringify(defaultBtn, null, 2);
 

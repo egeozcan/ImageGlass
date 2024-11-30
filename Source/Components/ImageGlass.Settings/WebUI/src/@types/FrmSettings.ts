@@ -52,6 +52,7 @@ export type IToolbarButton = {
   Image: string,
   ImageUrl: string,
   OnClick: SingleAction,
+  Hotkeys: string[],
 };
 
 export type IEditApp = {
