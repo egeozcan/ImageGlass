@@ -1080,7 +1080,7 @@ public partial class ViewerCanvas : DXCanvas
 
 
         // dispose the Direct2D resource of the old device
-        if (reason == DeviceCreatedReason.UseHardwareAccelerationChanged)
+        if (reason != DeviceCreatedReason.FirstTime)
         {
             // dispose checkerboard
             DisposeCheckerboardBrushes();
