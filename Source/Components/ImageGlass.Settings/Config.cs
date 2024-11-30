@@ -761,7 +761,7 @@ public static class Config
 
         #region Slideshow
         SlideshowInterval = items.GetValueEx(nameof(SlideshowInterval), SlideshowInterval);
-        if (SlideshowInterval < 1) SlideshowInterval = 5f;
+        if (SlideshowInterval <= 0) SlideshowInterval = 5f;
 
         SlideshowIntervalTo = items.GetValueEx(nameof(SlideshowIntervalTo), SlideshowIntervalTo);
         SlideshowIntervalTo = Math.Max(SlideshowIntervalTo, SlideshowInterval);
@@ -1472,7 +1472,7 @@ public static class Config
         // float
         else if (prop.PropertyType.Equals(typeof(float)))
         {
-            if (int.TryParse(newValue, out var value))
+            if (float.TryParse(newValue, out var value))
             {
                 prop.SetValue(null, value);
                 Done = true;
