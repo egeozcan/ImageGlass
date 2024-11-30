@@ -131,8 +131,12 @@ public partial class FrmMain : ThemedForm
     private void FrmMain_KeyDown(object sender, KeyEventArgs e)
     {
         //Text = new Hotkey(e.KeyData).ToString() + " - " + e.KeyValue.ToString();
-
         var hotkey = new Hotkey(e.KeyData);
+
+
+        // 1. check if the hotkey action is special action
+        #region Special actions
+
         var actions = Config.GetHotkeyActions(CurrentMenuHotkeys, hotkey);
 
         // open main menu
@@ -159,9 +163,11 @@ public partial class FrmMain : ThemedForm
             return;
         }
 
+        #endregion // Special actions
 
-        // Register and run MAIN MENU shortcuts
-        #region Register and run MAIN MENU shortcuts
+
+        // 2. check hotkey if it's from menu items
+        #region Menu Hotkey
 
         bool CheckMenuShortcut(ToolStripMenuItem mnu)
         {
@@ -199,7 +205,24 @@ public partial class FrmMain : ThemedForm
         {
             if (CheckMenuShortcut(item)) return;
         }
-        #endregion
+        #endregion // Menu Hotkey
+
+
+        // 3. check hotkey if it's from toolbar buttons
+        #region Toolbar Hotkey
+
+        var toolbarBtn = Config.ToolbarButtons.Find(btn =>
+        {
+            var btnHotkey = btn.Hotkeys.SingleOrDefault(k => k.KeyData == e.KeyData);
+            return btnHotkey != null;
+        });
+
+        if (Toolbar.Items.ContainsKey(toolbarBtn?.Id))
+        {
+            Toolbar.Items[toolbarBtn.Id].PerformClick();
+        }
+
+        #endregion // Toolbar Hotkey
     }
 
 

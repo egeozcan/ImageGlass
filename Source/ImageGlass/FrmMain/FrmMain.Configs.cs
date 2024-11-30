@@ -876,37 +876,44 @@ public partial class FrmMain
     /// </summary>
     public void LoadToolbarItemsText(ModernToolbar modernToolbar)
     {
-        Parallel.For(0, modernToolbar.Items.Count, (i) =>
+        foreach (var tItem in modernToolbar.Items.OfType<ToolStripButton>())
         {
-            if (modernToolbar.Items[i] is ToolStripButton tItem)
+            if (tItem.Tag is ToolbarItemTagModel tagModel)
             {
-                if (tItem.Tag is ToolbarItemTagModel tagModel)
+                // get the custom hotkeys
+                var hotkeyList = Config.ToolbarButtons.Find(btn => btn.Id == tItem.Name)
+                    ?.Hotkeys
+                    .Select(hk => hk.ToString()) ?? [];
+                var customHotkey = ZString.Join(", ", hotkeyList);
+                var hotkeyText = string.IsNullOrEmpty(customHotkey) ? null : customHotkey;
+                string langKey;
+
+                if (tItem.Name == Toolbar.MainMenuButton.Name)
                 {
-                    string langKey;
-                    string hotkey;
-                    if (tItem.Name == Toolbar.MainMenuButton.Name)
-                    {
-                        langKey = $"{Name}.MnuMain";
-                        hotkey = Config.GetHotkeyString(CurrentMenuHotkeys, nameof(MnuMain));
-                    }
-                    else
-                    {
-                        langKey = $"{Name}.{tagModel.OnClick.Executable}";
-                        hotkey = Config.GetHotkeyString(CurrentMenuHotkeys, tagModel.OnClick.Executable);
-                    }
+                    langKey = $"{nameof(FrmMain)}.{nameof(MnuMain)}";
+                    hotkeyText ??= Config.GetHotkeyString(CurrentMenuHotkeys, nameof(MnuMain));
+                }
+                else
+                {
+                    langKey = $"{nameof(FrmMain)}.{tagModel.OnClick.Executable}";
+                    hotkeyText ??= Config.GetHotkeyString(CurrentMenuHotkeys, tagModel.OnClick.Executable);
+                }
 
-                    if (Config.Language.TryGetValue(langKey, out var value))
-                    {
-                        tItem.Text = tItem.ToolTipText = value;
 
-                        if (!string.IsNullOrEmpty(hotkey))
-                        {
-                            tItem.ToolTipText += $" ({hotkey})";
-                        }
-                    }
+                // set text
+                if (Config.Language.TryGetValue(langKey, out var value))
+                {
+                    tItem.Text = tItem.ToolTipText = value;
+                }
+
+                // set hotkey tooltip
+                if (!string.IsNullOrEmpty(hotkeyText))
+                {
+                    tItem.ToolTipText = $"{tItem.Text} ({hotkeyText})";
                 }
             }
-        });
+        }
+
     }
 
 

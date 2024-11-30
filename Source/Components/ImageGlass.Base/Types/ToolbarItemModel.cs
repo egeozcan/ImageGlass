@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 using ImageGlass.Base.Actions;
+using System.Text.Json.Serialization;
 
 namespace ImageGlass.Base;
 
@@ -37,6 +38,12 @@ public record ToolbarItemModel
 
     public string Image { get; set; } = string.Empty;
     public SingleAction OnClick { get; set; } = new();
+
+    /// <summary>
+    /// Gets, sets hotkeys.
+    /// </summary>
+    [JsonConverter(typeof(HotkeyListJsonConverter))]
+    public List<Hotkey> Hotkeys { get; set; } = [];
 }
 
 public enum ToolbarItemModelType

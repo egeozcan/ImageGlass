@@ -870,7 +870,21 @@ public static class Config
         // toolbar buttons
         var toolbarItems = items.GetSection(nameof(ToolbarButtons))
             .GetChildren()
-            .Select(i => i.Get<ToolbarItemModel>());
+            .Select(i =>
+            {
+                var item = i.Get<ToolbarItemModel>();
+                var hotkeysArr = i.GetChildren()
+                    .FirstOrDefault(i => i.Key == nameof(ToolbarItemModel.Hotkeys))
+                    ?.Get<string[]>() ?? [];
+
+                item.Hotkeys = hotkeysArr.Distinct()
+                    .Where(i => !string.IsNullOrEmpty(i))
+                    .Select(i => new Hotkey(i))
+                    .ToList();
+
+                return item;
+            })
+            .Where(i => i != null);
         ToolbarButtons = toolbarItems.ToList();
 
 
@@ -1205,14 +1219,18 @@ public static class Config
     /// </summary>
     public static List<ExpandoObject> ConvertToolbarButtonsToExpandoObjList(IEnumerable<ToolbarItemModel> list)
     {
-        var items = list.Select(i =>
+        var items = list.Select(btn =>
         {
-            var obj = i.ToExpandoObject();
+            var obj = btn.ToExpandoObject();
 
-            if (string.IsNullOrWhiteSpace(i.Image)) return obj;
+            // set hotkeys
+            obj.Set(nameof(ToolbarItemModel.Hotkeys), btn.Hotkeys.Select(hk => hk.ToString()));
 
-            var filePath = Theme.GetToolbarIconFilePath(i.Image);
-            if (string.IsNullOrWhiteSpace(filePath)) filePath = i.Image;
+            // set image url
+            if (string.IsNullOrWhiteSpace(btn.Image)) return obj;
+
+            var filePath = Theme.GetToolbarIconFilePath(btn.Image);
+            if (string.IsNullOrWhiteSpace(filePath)) filePath = btn.Image;
 
             try
             {
@@ -1710,10 +1728,9 @@ public static class Config
         }
 
 
+        // merge tool hotkeys
         var toolHotkeys = Config.Tools
             .ToDictionary(i => i.ToolId, i => i.Hotkeys);
-
-        // merge tool hotkeys
         foreach (var item in toolHotkeys)
         {
             if (result.ContainsKey(item.Key))
@@ -1725,6 +1742,25 @@ public static class Config
                 result.Add(item.Key, item.Value);
             }
         }
+
+
+        // merge toolbar hotkeys
+        var toolbarHotkeys = Config.ToolbarButtons
+            .Where(i => i.Type == ToolbarItemModelType.Button && i.Hotkeys.Count > 0)
+            .ToDictionary(i => i.Id, i => i.Hotkeys);
+
+        foreach (var item in toolbarHotkeys)
+        {
+            if (result.ContainsKey(item.Key))
+            {
+                result[item.Key] = item.Value;
+            }
+            else
+            {
+                result.Add(item.Key, item.Value);
+            }
+        }
+
 
         return result;
     }
