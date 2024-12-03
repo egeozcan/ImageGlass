@@ -14,13 +14,13 @@ ImageGlass is a lightweight software designed for seamless viewing of images in 
 
 
 <a href="https://www.imageglass.org/download" target="_blank" title="View screen shots">
-<img src="https://raw.githubusercontent.com/ImageGlass/releases/main/screenshots/v9.0/9.0_b1.webp" alt="ImageGlass 9.0.11.25" width="640">
+<img src="https://raw.githubusercontent.com/ImageGlass/releases/main/screenshots/v9.0/9.0_b1.webp" alt="ImageGlass 9" width="640">
 </a><br/>
 
 
 ## 📥 Download
 <a href="https://apps.microsoft.com/detail/9N33VZK3C7TH?launch=true&cid=GitHubRelease&mode=full">
-  <img  height="58" src="https://github.com/d2phap/ImageGlass/assets/3154213/08a071bb-a6ae-420c-b53b-2317004570d4" />
+  <img height="58" src="https://github.com/d2phap/ImageGlass/assets/3154213/08a071bb-a6ae-420c-b53b-2317004570d4" />
 </a>
 
 <br/>
@@ -42,9 +42,9 @@ ImageGlass is a lightweight software designed for seamless viewing of images in 
 | [Advanced configs<br/>for Power users](https://imageglass.org/docs/app-configs) | ✅ | ✅ |
 | Distribution | 🌐[ImageGlass.org](https://imageglass.org) and various sources | 🛍️[Microsoft Store](https://apps.microsoft.com/detail/9N33VZK3C7TH?launch=true&cid=GitHubRelease&mode=full) only |
 | Price | 🆓 Free | 🪙Fee, with a 7-day trial |
-| Commercial use | ✅, Recommended to [register](https://imageglass.org/license) | ✅ |
-| Auto-update | ❌, User-managed | ✅, Seamless auto-updates |
-| Hotfix update | ❌, Available in official releases only | ✅, Available as soon as they are fixed |
+| Commercial use | ✅ Recommended to [register](https://imageglass.org/license) | ✅ |
+| Auto-update | ❌ User-managed | ✅ Seamless auto-updates |
+| Hotfix update | ❌ Available in official releases only | ✅ Available as soon as they are fixed |
 
 
 ## 🪁 System Requirements
