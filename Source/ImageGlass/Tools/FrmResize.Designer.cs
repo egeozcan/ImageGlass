@@ -86,7 +86,7 @@ partial class FrmResize
         TableTop.RowStyles.Add(new RowStyle());
         TableTop.RowStyles.Add(new RowStyle());
         TableTop.RowStyles.Add(new RowStyle());
-        TableTop.Size = new Size(324, 224);
+        TableTop.Size = new Size(384, 224);
         TableTop.TabIndex = 3;
         // 
         // LblSizeUnit
@@ -110,7 +110,7 @@ partial class FrmResize
         ProgStatus.Location = new Point(16, 194);
         ProgStatus.Margin = new Padding(0, 20, 0, 0);
         ProgStatus.Name = "ProgStatus";
-        ProgStatus.Size = new Size(290, 10);
+        ProgStatus.Size = new Size(350, 10);
         ProgStatus.TabIndex = 4;
         ProgStatus.UseMarqueeStyle = true;
         ProgStatus.Value = 50;
@@ -291,7 +291,7 @@ partial class FrmResize
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(324, 347);
+        ClientSize = new Size(384, 347);
         ControlBox = false;
         Controls.Add(TableTop);
         DoubleBuffered = true;

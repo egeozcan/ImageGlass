@@ -7,9 +7,9 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
         <Platforms>x64;ARM64</Platforms>
-        <Version>9.1.7.627</Version>
+        <Version>9.2.0.1208</Version>
         <FileVersion>$(Version)</FileVersion>
-        <Copyright>Copyright © 2010 - 2024 Duong Dieu Phap</Copyright>
+        <Copyright>Copyright © 2010 - 2025 Duong Dieu Phap</Copyright>
         <Configurations>Debug;Release;Publish_Release</Configurations>
         <LangVersion>latest</LangVersion>
         <ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
