@@ -1606,7 +1606,16 @@ public partial class FrmMain
         // save the image in the list
         else if (hasSrcPath)
         {
-            error = await DoSaveAsync(srcFilePath, destFilePath);
+            if (srcFilePath.EndsWith(".JXR", StringComparison.InvariantCultureIgnoreCase))
+            {
+                var img = await Local.Images.GetAsync(Local.CurrentIndex);
+                error = await DoSaveAsync(img.ImgData.Image, srcFilePath, destFilePath);
+            }
+            else
+            {
+                error = await DoSaveAsync(srcFilePath, destFilePath);
+            }
+
             saveSource = ImageSaveSource.CurrentFile;
         }
 

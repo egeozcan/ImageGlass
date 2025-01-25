@@ -906,7 +906,28 @@ public static class PhotoCodec
             case ".JXR":
                 try
                 {
-                    result.Image = WicBitmapSource.Load(filePath);
+                    var wic = WicBitmapSource.Load(filePath);
+
+                    if (options.IgnoreColorProfile)
+                    {
+                        result.Image = wic;
+                    }
+                    else
+                    {
+                        var ms = BHelper.ToMemoryStream(wic);
+
+                        var imgM = new MagickImage(ms);
+                        var processResult = ProcessMagickImage(imgM, options, ext, true);
+                        if (processResult.ThumbM != null)
+                        {
+                            imgM = processResult.ThumbM;
+                        }
+
+
+                        // apply final changes
+                        TransformImage(imgM, transform);
+                        result.Image = BHelper.ToWicBitmapSource(imgM.ToBitmapSource());
+                    }
                 }
                 catch
                 {
