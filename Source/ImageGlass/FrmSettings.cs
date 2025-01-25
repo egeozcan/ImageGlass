@@ -80,47 +80,53 @@ public partial class FrmSettings : WebForm
     {
         await base.OnWeb2NavigationCompleted();
 
-        // update the setting data
-        await WebUI.UpdateSvgIconsAsync();
-        WebUI.UpdateLangListJson();
-        WebUI.UpdateThemeListJson();
+        try
+        {
+            // update the setting data
+            await WebUI.UpdateSvgIconsAsync();
+            WebUI.UpdateLangListJson();
+            WebUI.UpdateThemeListJson();
 
 
-        // prepare data for app settings UI
-        var configJsonObj = Config.PrepareJsonSettingsObject(useAbsoluteFileUrl: true);
-        var startupDir = App.StartUpDir();
-        var configDir = App.ConfigDir(PathType.Dir);
-        var userConfigFilePath = App.ConfigDir(PathType.File, Source.UserFilename);
-        var defaultThemeDir = App.ConfigDir(PathType.Dir, Dir.Themes, Const.DEFAULT_THEME);
-        var builtInToolbarBtns = Config.ConvertToolbarButtonsToExpandoObjList(Local.BuiltInToolbarItems);
+            // prepare data for app settings UI
+            var configJsonObj = Config.PrepareJsonSettingsObject(useAbsoluteFileUrl: true);
+            var startupDir = App.StartUpDir();
+            var configDir = App.ConfigDir(PathType.Dir);
+            var userConfigFilePath = App.ConfigDir(PathType.File, Source.UserFilename);
+            var defaultThemeDir = App.ConfigDir(PathType.Dir, Dir.Themes, Const.DEFAULT_THEME);
+            var builtInToolbarBtns = Config.ConvertToolbarButtonsToExpandoObjList(Local.BuiltInToolbarItems);
 
 
-        var pageSettingObj = new ExpandoObject();
-        _ = pageSettingObj.TryAdd("startUpDir", startupDir);
-        _ = pageSettingObj.TryAdd("configDir", configDir);
-        _ = pageSettingObj.TryAdd("userConfigFilePath", userConfigFilePath);
-        _ = pageSettingObj.TryAdd("FILE_MACRO", Const.FILE_MACRO);
-        _ = pageSettingObj.TryAdd("enums", WebUI.Enums);
-        _ = pageSettingObj.TryAdd("defaultThemeDir", defaultThemeDir);
-        _ = pageSettingObj.TryAdd("defaultImageInfoTags", Config.DefaultImageInfoTags);
-        _ = pageSettingObj.TryAdd("toolList", Config.Tools);
-        _ = pageSettingObj.TryAdd("langList", WebUI.LangList);
-        _ = pageSettingObj.TryAdd("themeList", WebUI.ThemeList);
-        _ = pageSettingObj.TryAdd("icons", WebUI.SvgIcons);
-        _ = pageSettingObj.TryAdd("builtInToolbarButtons", builtInToolbarBtns);
-        _ = pageSettingObj.TryAdd("config", configJsonObj);
-        var pageSettingStr = BHelper.ToJson(pageSettingObj);
+            var pageSettingObj = new ExpandoObject();
+            _ = pageSettingObj.TryAdd("startUpDir", startupDir);
+            _ = pageSettingObj.TryAdd("configDir", configDir);
+            _ = pageSettingObj.TryAdd("userConfigFilePath", userConfigFilePath);
+            _ = pageSettingObj.TryAdd("FILE_MACRO", Const.FILE_MACRO);
+            _ = pageSettingObj.TryAdd("enums", WebUI.Enums);
+            _ = pageSettingObj.TryAdd("defaultThemeDir", defaultThemeDir);
+            _ = pageSettingObj.TryAdd("defaultImageInfoTags", Config.DefaultImageInfoTags);
+            _ = pageSettingObj.TryAdd("toolList", Config.Tools);
+            _ = pageSettingObj.TryAdd("langList", WebUI.LangList);
+            _ = pageSettingObj.TryAdd("themeList", WebUI.ThemeList);
+            _ = pageSettingObj.TryAdd("icons", WebUI.SvgIcons);
+            _ = pageSettingObj.TryAdd("builtInToolbarButtons", builtInToolbarBtns);
+            _ = pageSettingObj.TryAdd("config", configJsonObj);
+            var pageSettingStr = BHelper.ToJson(pageSettingObj);
 
-        var script = @$"
-            window._pageSettings = {pageSettingStr};
+            var script = @$"
+                window._pageSettings = {pageSettingStr};
 
-            window._page.loadSettings();
-            window._page.loadLanguage();
-            window._page.setActiveMenu('{Config.LastOpenedSetting}');
-        ";
+                window._page.loadSettings();
+                window._page.loadLanguage();
+                window._page.setActiveMenu('{Config.LastOpenedSetting}');
+            ";
 
-        await Web2.ExecuteScriptAsync(script);
-
+            await Web2.ExecuteScriptAsync(script);
+        }
+        catch (Exception ex)
+        {
+            Config.HandleException(ex);
+        }
     }
 
 
