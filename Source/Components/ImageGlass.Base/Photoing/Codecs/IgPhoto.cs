@@ -114,7 +114,6 @@ public class IgPhoto(string filename) : IDisposable
     /// Load the photo.
     /// </summary>
     /// <param name="options"></param>
-    /// <returns></returns>
     /// <exception cref="NullReferenceException"></exception>
     private async Task LoadImageAsync(CodecReadOptions? options = null)
     {
@@ -152,6 +151,13 @@ public class IgPhoto(string filename) : IDisposable
             // load image
             ImgData = await PhotoCodec.LoadAsync(Filename, options, null, _tokenSrc?.Token);
 
+            // update metadata for JXR format
+            if (Metadata.FileExtension == ".JXR")
+            {
+                Metadata.RenderedWidth = Metadata.OriginalWidth = (uint)(ImgData.Image?.Width ?? 0);
+                Metadata.RenderedHeight = Metadata.OriginalHeight = (uint)(ImgData.Image?.Height ?? 0);
+            }
+
             // cancel if requested
             if (_tokenSrc is not null && _tokenSrc.IsCancellationRequested)
             {
@@ -181,7 +187,6 @@ public class IgPhoto(string filename) : IDisposable
     /// Read and load image into memory.
     /// </summary>
     /// <param name="options"></param>
-    /// <returns></returns>
     public async Task LoadAsync(
         CodecReadOptions? options = null,
         CancellationTokenSource? tokenSrc = null)

@@ -903,6 +903,17 @@ public static class PhotoCodec
                 }
                 break;
 
+            case ".JXR":
+                try
+                {
+                    result.Image = WicBitmapSource.Load(filePath);
+                }
+                catch
+                {
+                    loadSuccessful = false;
+                }
+                break;
+
             default:
                 loadSuccessful = false;
 

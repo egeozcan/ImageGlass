@@ -868,6 +868,12 @@ public partial class FrmMain : ThemedForm
                 if (photo != null)
                 {
                     await photo.LoadAsync(readSettings, tokenSrc);
+
+                    // update metadata for JXR format
+                    if (Local.Metadata.FileExtension == ".JXR")
+                    {
+                        Local.Metadata = photo.Metadata;
+                    }
                 }
                 else
                 {
