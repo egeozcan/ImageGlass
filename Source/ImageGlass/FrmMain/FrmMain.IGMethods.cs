@@ -3150,21 +3150,22 @@ public partial class FrmMain
     public bool IG_ToggleFrameNavTool(bool? visible = null)
     {
         visible ??= MnuFrameNav.Checked;
+        Config.ShowFrameNavTool = visible.Value;
 
         // update menu item state
-        MnuFrameNav.Checked = visible.Value;
+        MnuFrameNav.Checked = Config.ShowFrameNavTool;
 
         // update toolbar items state
         UpdateToolbarItemsState();
 
         // toggle frame nav toolbar
-        _ = ToggleFrameNavToolbarAsync(visible.Value);
+        _ = SetFrameNavToolbarVisibilityAsync(Config.ShowFrameNavTool);
 
-        return visible.Value;
+        return Config.ShowFrameNavTool;
     }
 
 
-    private async Task ToggleFrameNavToolbarAsync(bool visible)
+    private async Task SetFrameNavToolbarVisibilityAsync(bool visible)
     {
         ToolbarContext.SuspendLayout();
         ToolbarContext.ClearItems();

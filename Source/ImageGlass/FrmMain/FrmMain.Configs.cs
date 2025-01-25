@@ -189,6 +189,9 @@ public partial class FrmMain
         // toggle gallery
         IG_ToggleGallery(Config.ShowGallery);
 
+        // toggle frame navigation tool
+        IG_ToggleFrameNavTool(Config.ShowFrameNavTool);
+
 
         ResumeLayout(false);
 

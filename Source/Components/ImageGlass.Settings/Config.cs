@@ -174,9 +174,14 @@ public static class Config
     public static bool ShowWelcomeImage { get; set; } = true;
 
     /// <summary>
-    /// Gets, sets value of visibility of toolbar when start up
+    /// Gets, sets value of visibility of toolbar on start up
     /// </summary>
     public static bool ShowToolbar { get; set; } = true;
+
+    /// <summary>
+    /// Gets, sets value of visibility of Frame Navigation tool on startup
+    /// </summary>
+    public static bool ShowFrameNavTool { get; set; } = false;
 
     /// <summary>
     /// Gets, sets value of visibility of app icon
@@ -700,6 +705,7 @@ public static class Config
         ShowGalleryFileName = items.GetValueEx(nameof(ShowGalleryFileName), ShowGalleryFileName);
         ShowWelcomeImage = items.GetValueEx(nameof(ShowWelcomeImage), ShowWelcomeImage);
         ShowToolbar = items.GetValueEx(nameof(ShowToolbar), ShowToolbar);
+        ShowFrameNavTool = items.GetValueEx(nameof(ShowFrameNavTool), ShowFrameNavTool);
         ShowAppIcon = items.GetValueEx(nameof(ShowAppIcon), ShowAppIcon);
         EnableLoopBackNavigation = items.GetValueEx(nameof(EnableLoopBackNavigation), EnableLoopBackNavigation);
         ShowCheckerboard = items.GetValueEx(nameof(ShowCheckerboard), ShowCheckerboard);
@@ -1065,6 +1071,7 @@ public static class Config
         _ = settings.TryAdd(nameof(ShowGalleryFileName), ShowGalleryFileName);
         _ = settings.TryAdd(nameof(ShowWelcomeImage), ShowWelcomeImage);
         _ = settings.TryAdd(nameof(ShowToolbar), ShowToolbar);
+        _ = settings.TryAdd(nameof(ShowFrameNavTool), ShowFrameNavTool);
         _ = settings.TryAdd(nameof(ShowAppIcon), ShowAppIcon);
         _ = settings.TryAdd(nameof(EnableLoopBackNavigation), EnableLoopBackNavigation);
         _ = settings.TryAdd(nameof(ShowCheckerboard), ShowCheckerboard);
