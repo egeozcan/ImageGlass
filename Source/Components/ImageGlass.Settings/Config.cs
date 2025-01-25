@@ -1487,6 +1487,15 @@ public static class Config
                 Done = true;
             }
         }
+        // uint
+        else if (prop.PropertyType.Equals(typeof(uint)))
+        {
+            if (uint.TryParse(newValue, out var value))
+            {
+                prop.SetValue(null, value);
+                Done = true;
+            }
+        }
         // float
         else if (prop.PropertyType.Equals(typeof(float)))
         {
