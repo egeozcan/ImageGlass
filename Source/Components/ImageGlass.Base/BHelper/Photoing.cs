@@ -756,6 +756,42 @@ public partial class BHelper
 
 
     /// <summary>
+    /// Gets the embedded video stream from the motion/live image.
+    /// </summary>
+    public static async Task<MemoryStream?> GetLiveVideoAsync(string path)
+    {
+        var startIndex = -1;
+        byte[] bytes = [];
+
+        try
+        {
+            bytes = await File.ReadAllBytesAsync(path);
+        }
+        catch { }
+
+
+        // find the start index of the video data
+        for (int i = 0; i < bytes.Length; i++)
+        {
+            if (bytes[i + 4] == 0x66
+              && bytes[i + 5] == 0x74
+              && bytes[i + 6] == 0x79
+              && bytes[i + 7] == 0x70)
+            {
+                startIndex = i;
+                break;
+            }
+        }
+        if (startIndex == -1) return null;
+
+        // get video binary data
+        var videoBytes = bytes[startIndex..bytes.Length];
+
+        return new MemoryStream(videoBytes);
+    }
+
+
+    /// <summary>
     /// Gets text from image using Optical character recognition (OCR).
     /// </summary>
     public static async Task<OcrResult?> GetTextFromImageAsync(WicBitmapSource? wicSrc)
