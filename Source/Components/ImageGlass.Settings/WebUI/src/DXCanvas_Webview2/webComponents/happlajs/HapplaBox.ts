@@ -171,6 +171,10 @@ export class HapplaBox {
   private async onResizing() {
     if (this.checkIfNeedRecenter()) {
       await this.recenter();
+
+      // raise event onContentSizeChanged
+      const bound = this.boxContentEl.getBoundingClientRect();
+      this.#options.onContentSizeChanged(bound);
     }
 
     this.#options.onResizing();
@@ -557,6 +561,9 @@ export class HapplaBox {
       .translateSelf(-x, -y)
       .multiplySelf(this.domMatrix);
 
+    this.updateImageRendering();
+    await this.applyTransform(options.duration);
+
     // raise event onAfterZoomChanged
     this.#options.onAfterZoomChanged({
       zoomFactor: this.zoomFactor,
@@ -566,8 +573,9 @@ export class HapplaBox {
       isZoomModeChanged: options.isZoomModeChanged || false,
     });
 
-    this.updateImageRendering();
-    await this.applyTransform(options.duration);
+    // raise event onContentSizeChanged
+    const bound = this.boxContentEl.getBoundingClientRect();
+    this.#options.onContentSizeChanged(bound);
   }
 
   public async applyTransform(duration = 0) {

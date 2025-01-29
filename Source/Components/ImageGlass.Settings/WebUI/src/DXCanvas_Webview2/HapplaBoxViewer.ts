@@ -24,6 +24,7 @@ enum Web2FrontendMsgNames {
   ON_ZOOM_CHANGED = 'ON_ZOOM_CHANGED',
   ON_POINTER_DOWN = 'ON_POINTER_DOWN',
   ON_MOUSE_WHEEL = 'ON_MOUSE_WHEEL',
+  ON_CONTENT_SIZE_CHANGED = 'ON_CONTENT_SIZE_CHANGED',
   ON_FILE_DROP = 'ON_FILE_DROP',
   ON_NAV_CLICK = 'ON_NAV_CLICK',
 }
@@ -44,6 +45,7 @@ export default class HapplaBoxViewer {
       zoomFactor: 1,
       onAfterZoomChanged: HapplaBoxViewer.onAfterZoomChanged,
       onMouseWheel: HapplaBoxViewer.onMouseWheel,
+      onContentSizeChanged: HapplaBoxViewer.onContentSizeChanged,
     });
 
     _boxEl.addEventListener('dragenter', HapplaBoxViewer.onFileDragEntered);
@@ -168,11 +170,23 @@ export default class HapplaBoxViewer {
     } as IMouseEventArgs, true);
   }
 
+  private static onContentSizeChanged(rect: DOMRect) {
+    post(Web2FrontendMsgNames.ON_CONTENT_SIZE_CHANGED, {
+      Dpi: _boxEl.options.scaleRatio,
+      X: rect.x,
+      Y: rect.y,
+      Width: rect.width,
+      Height: rect.height,
+    }, true);
+  }
+
   private static onAfterZoomChanged(e: IZoomEventArgs) {
     post(Web2FrontendMsgNames.ON_ZOOM_CHANGED, {
       ZoomFactor: e.zoomFactor,
       IsManualZoom: e.isManualZoom,
       IsZoomModeChanged: e.isZoomModeChanged,
+      X: e.x,
+      Y: e.y,
     }, true);
   }
 

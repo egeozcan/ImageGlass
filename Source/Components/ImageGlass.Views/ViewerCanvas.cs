@@ -1700,12 +1700,17 @@ public partial class ViewerCanvas : DXCanvas
 
         if (CheckerboardMode == CheckerboardMode.Image)
         {
-            if (UseWebview2) return;
+            if (UseWebview2)
+            {
+                region = _web2DestRect;
+            }
+            else
+            {
+                // no need to draw checkerboard if image does not has alpha pixels
+                if (!HasAlphaPixels) return;
 
-            // no need to draw checkerboard if image does not has alpha pixels
-            if (!HasAlphaPixels) return;
-
-            region = _destRect;
+                region = _destRect;
+            }
         }
         else
         {

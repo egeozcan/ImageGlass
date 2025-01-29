@@ -60,6 +60,7 @@ export interface IHapplaBoxOptions {
 
   onBeforeContentReady?: () => void;
   onContentReady?: () => void;
+  onContentSizeChanged?: (e: DOMRect) => void;
   onResizing?: () => void;
   onMouseWheel?: (e: WheelEvent) => void;
 
