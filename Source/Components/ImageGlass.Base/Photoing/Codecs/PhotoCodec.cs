@@ -1356,6 +1356,11 @@ public static class PhotoCodec
             settings.Format = MagickFormat.Rsvg;
             settings.BackgroundColor = MagickColors.Transparent;
         }
+        else if (ext.Equals(".SVGZ", StringComparison.OrdinalIgnoreCase))
+        {
+            settings.Format = MagickFormat.Svgz;
+            settings.BackgroundColor = MagickColors.Transparent;
+        }
         else if (ext.Equals(".JP2", StringComparison.OrdinalIgnoreCase))
         {
             settings.SetDefines(new Jp2ReadDefines
