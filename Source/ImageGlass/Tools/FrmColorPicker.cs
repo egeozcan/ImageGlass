@@ -26,6 +26,7 @@ public partial class FrmColorPicker : ToolForm, IToolForm<ColorPickerConfig>
 {
     private Color? _pickedColor;
     private Point _pickedLocation;
+    private bool _isInitialized;
 
 
     public string ToolId => "ColorPicker";
@@ -42,6 +43,7 @@ public partial class FrmColorPicker : ToolForm, IToolForm<ColorPickerConfig>
     {
         InitializeComponent();
         if (DesignMode) return;
+        _isInitialized = true;
 
         Owner = owner;
         Settings = new(ToolId);
@@ -56,6 +58,8 @@ public partial class FrmColorPicker : ToolForm, IToolForm<ColorPickerConfig>
 
     protected override void ApplyTheme(bool darkMode, BackdropStyle? style = null)
     {
+        if (!_isInitialized) return;
+
         SuspendLayout();
 
 
@@ -148,6 +152,7 @@ public partial class FrmColorPicker : ToolForm, IToolForm<ColorPickerConfig>
     protected override int OnUpdateHeight(bool performUpdate = true)
     {
         var baseHeight = base.OnUpdateHeight(false);
+        if (!_isInitialized) return baseHeight;
 
         // calculate form height
         var contentHeight = TableLayout.Height + TableLayout.Padding.Vertical;

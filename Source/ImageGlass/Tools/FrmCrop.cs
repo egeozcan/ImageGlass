@@ -29,6 +29,7 @@ public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
     private bool _isSquareRatioSelectionKeyPressed;
     private bool _isDefaultSelectionLoaded;
     private bool _isNewFileSaved;
+    private bool _isInitialized;
     private Rectangle _lastSelectionArea;
 
 
@@ -46,6 +47,7 @@ public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
         InitializeComponent();
         if (DesignMode) return;
 
+        _isInitialized = true;
         Owner = owner;
         Settings = new(ToolId);
 
@@ -58,6 +60,7 @@ public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
 
     protected override void ApplyTheme(bool darkMode, BackdropStyle? style = null)
     {
+        if (!_isInitialized) return;
         SuspendLayout();
 
 
@@ -148,6 +151,7 @@ public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
     protected override int OnUpdateHeight(bool performUpdate = true)
     {
         var baseHeight = base.OnUpdateHeight(false);
+        if (!_isInitialized) return baseHeight;
 
         // calculate form height
         var formHeight = baseHeight;
