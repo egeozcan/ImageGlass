@@ -308,7 +308,7 @@ public partial class ToolForm : ThemedForm
         if (loc.X < 0) { loc.X = 0; }
         if (loc.Y < 0) { loc.Y = 0; }
 
-        var workingArea = Screen.FromControl(this).WorkingArea;
+        var workingArea = Screen.FromControl(Owner).WorkingArea;
         if (loc.X + Width > workingArea.Right)
         {
             loc.X = workingArea.Right - Width;
