@@ -469,7 +469,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
-            ClientSize = new Size(257, 244);
+            ClientSize = new Size(280, 244);
             Controls.Add(TableLayout);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Location = new Point(0, 0);
