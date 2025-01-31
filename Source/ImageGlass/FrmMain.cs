@@ -1169,6 +1169,9 @@ public partial class FrmMain : ThemedForm
 
         LoadImageInfo(ImageInfoUpdateTypes.ListCount);
 
+        // start image caching, don't cache the current index
+        Local.Images.StartCaching(Local.CurrentIndex, false);
+
         // Load thumnbnail
         BHelper.RunAsThread(LoadGallery);
     }

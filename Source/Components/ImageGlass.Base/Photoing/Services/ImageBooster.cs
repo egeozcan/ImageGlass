@@ -205,12 +205,17 @@ public class ImageBooster : IDisposable
     /// Add index of the image to queue list
     /// </summary>
     /// <param name="index">Current index of image list</param>
-    private List<int> GetQueueList(int index)
+    /// <param name="includeCurrentIndex">Include current index in the queue list</param>
+    private List<int> GetQueueList(int index, bool includeCurrentIndex)
     {
         // check valid index
         if (index < 0 || index >= ImgList.Count) return [];
 
-        var list = new HashSet<int> { index };
+        var list = new HashSet<int>();
+        if (includeCurrentIndex)
+        {
+            list.Add(index);
+        }
 
         var maxCachedItems = (MaxQueue * 2) + 1;
         var iRight = index;
@@ -366,8 +371,8 @@ public class ImageBooster : IDisposable
         // get image data from cache
         else
         {
-            // update queue list according to index
-            var queueItems = GetQueueList(index);
+            // get queue list according to index
+            var queueItems = GetQueueList(index, true);
 
             if (!queueItems.Contains(index))
             {
@@ -404,6 +409,20 @@ public class ImageBooster : IDisposable
         return null;
     }
 
+
+    /// <summary>
+    /// Start caching images.
+    /// </summary>
+    /// <param name="index">Current index of image list</param>
+    /// <param name="includeCurrentIndex">Include current index in the queue list</param>
+    public void StartCaching(int index, bool includeCurrentIndex)
+    {
+        // get queue list according to index
+        var queueItems = GetQueueList(index, includeCurrentIndex);
+
+        QueuedList.Clear();
+        QueuedList.AddRange(queueItems);
+    }
 
 
     /// <summary>
@@ -603,7 +622,7 @@ public class ImageBooster : IDisposable
             .Select(item => item.Index)
             .ToList();
 
-        // release the cachced images
+        // release the cached images
         foreach (var index in cachedIndexList)
         {
             ImgList[index].Dispose();
@@ -617,8 +636,6 @@ public class ImageBooster : IDisposable
     /// <summary>
     /// Check if the folder path of input filename exists in the list
     /// </summary>
-    /// <param name="filename"></param>
-    /// <returns></returns>
     public bool ContainsDirPathOf(string filename)
     {
         var target = Path.GetDirectoryName(filename)?.ToUpperInvariant();
