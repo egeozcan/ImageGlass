@@ -96,20 +96,30 @@ public static class VHelper
     {
         var iconOpacity = 1f;
         var iconY = 0;
+        var borderAlpha = 0;
 
         if (state.HasFlag(DXButtonStates.Pressed))
         {
             baseColor = baseColor.WithAlpha(240);
+            borderAlpha = baseColor.A;
             iconOpacity = 0.6f;
             iconY = (int)dpiScale;
         }
         else if (state.HasFlag(DXButtonStates.Hover))
         {
             baseColor = baseColor.WithAlpha(200);
+            borderAlpha = baseColor.A;
+        }
+        else
+        {
+            stateColor = Color.Transparent;
+            borderAlpha = baseColor.A / 2;
         }
 
-        var borderColor = baseColor.Blend(stateColor, 0.35f, baseColor.A);
+
+        var borderColor = baseColor.Blend(stateColor, 0.35f, borderAlpha);
         var fillColor = baseColor.Blend(stateColor, 0.5f, baseColor.A);
+
 
         // draw fill and border color
         g.DrawRectangle(bound, radius, borderColor, fillColor, dpiScale * 1f);
