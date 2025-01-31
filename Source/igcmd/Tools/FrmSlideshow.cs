@@ -426,7 +426,7 @@ public partial class FrmSlideshow : ThemedForm
         var bgY = PicMain.Height - bgSize.Height - padding;
 
         // draw background
-        var borderRadius = BHelper.IsOS(WindowsOS.Win11OrLater) ? 10 : 1;
+        var borderRadius = BHelper.IsOS(WindowsOS.Win11OrLater) ? PicMain.MessageBorderRadius : 1;
         var bgColor = Color.FromArgb(150, PicMain.BackColor);
         var bgRect = new RectangleF(bgX, bgY, bgSize.Width, bgSize.Height);
 
