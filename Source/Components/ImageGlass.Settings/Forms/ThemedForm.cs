@@ -48,6 +48,12 @@ public class ThemedForm : ModernForm
 
     public ThemedForm() : base()
     {
+    }
+
+    protected override void OnShown(EventArgs e)
+    {
+        base.OnShown(e);
+
         Config.RequestUpdatingColorMode += Config_RequestUpdatingColorMode;
         Config.RequestUpdatingTheme += Config_RequestUpdatingTheme;
         Config.RequestUpdatingLanguage += Config_RequestUpdatingLanguage;

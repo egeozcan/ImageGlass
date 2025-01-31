@@ -301,19 +301,6 @@ public partial class FrmSlideshow : ThemedForm
     }
 
 
-    protected override void OnDpiChanged()
-    {
-        base.OnDpiChanged();
-        SuspendLayout();
-
-        // update picmain scaling
-        PicMain.NavButtonSize = this.ScaleToDpi(new SizeF(50f, 50f));
-        PicMain.CheckerboardCellSize = this.ScaleToDpi(Const.VIEWER_GRID_SIZE);
-
-        ResumeLayout(false);
-    }
-
-
     protected override void OnDpiChanged(DpiChangedEventArgs e)
     {
         base.OnDpiChanged(e);

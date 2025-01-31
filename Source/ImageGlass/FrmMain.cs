@@ -89,10 +89,6 @@ public partial class FrmMain : ThemedForm
 
         UpdateGallerySize();
 
-        // update picmain scaling
-        PicMain.NavButtonSize = this.ScaleToDpi(new SizeF(50f, 50f));
-        PicMain.CheckerboardCellSize = this.ScaleToDpi(Const.VIEWER_GRID_SIZE);
-
         ResumeLayout(true);
     }
 
@@ -104,6 +100,7 @@ public partial class FrmMain : ThemedForm
             MnuContext.CurrentDpi =
             MnuSubMenu.CurrentDpi = e.DeviceDpiNew;
     }
+
 
     protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
     {

@@ -157,7 +157,7 @@ public record IgThemeSettings : IDisposable
     /// <summary>
     /// Sets, sets app logo
     /// </summary>
-    public Bitmap? AppLogo { get; set; } = Properties.Resources.DefaultLogo;
+    public Bitmap? AppLogo { get; set; } = null;
 
     /// <summary>
     /// The preview image of the theme

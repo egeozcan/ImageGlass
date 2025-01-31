@@ -1015,14 +1015,18 @@ public static class Config
         #endregion // Other types items
 
 
-        // initialize Magick.NET
-        PhotoCodec.InitMagickNET();
-
-        // listen to system events
-        SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
-
         // migrate user config file if config version is changed
         MigrateUserConfigFile();
+
+
+        Task.Run(() =>
+        {
+            // initialize Magick.NET
+            PhotoCodec.InitMagickNET();
+
+            // listen to system events
+            SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
+        });
 
 #nullable enable 
     }
@@ -1574,7 +1578,7 @@ public static class Config
         else LightTheme = th.FolderName;
 
         // load theme settings
-        BHelper.RunSync(th.LoadThemeSettingsAsync);
+        th.LoadThemeSettings();
 
         // load theme colors
         th.LoadThemeColors();

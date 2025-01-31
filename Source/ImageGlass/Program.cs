@@ -130,20 +130,19 @@ internal static class Program
     /// </summary>
     private static void CheckAndRunAutoUpdate()
     {
-        if (Config.AutoUpdate != "0")
+        if (Config.AutoUpdate == "0") return;
+
+        if (DateTime.TryParse(Config.AutoUpdate, out var lastUpdate))
         {
-            if (DateTime.TryParse(Config.AutoUpdate, out var lastUpdate))
-            {
-                // Check for update every 5 days
-                if (DateTime.UtcNow.Subtract(lastUpdate).TotalDays > 5)
-                {
-                    CheckForUpdate(false);
-                }
-            }
-            else
+            // Check for update every 5 days
+            if (DateTime.UtcNow.Subtract(lastUpdate).TotalDays > 5)
             {
                 CheckForUpdate(false);
             }
+        }
+        else
+        {
+            CheckForUpdate(false);
         }
     }
 

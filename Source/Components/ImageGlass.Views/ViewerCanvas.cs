@@ -102,7 +102,6 @@ public partial class ViewerCanvas : DXCanvas
 
     // checkerboard
     private CheckerboardMode _checkerboardMode = CheckerboardMode.None;
-    private float _checkerboardCellSize = 10f;
     private Color _checkerboardColor1 = Color.Black.WithAlpha(25);
     private Color _checkerboardColor2 = Color.White.WithAlpha(25);
 
@@ -725,26 +724,6 @@ public partial class ViewerCanvas : DXCanvas
 
 
     [Category("Checkerboard")]
-    [DefaultValue(typeof(float), "10")]
-    public float CheckerboardCellSize
-    {
-        get => _checkerboardCellSize;
-        set
-        {
-            if (_checkerboardCellSize != value)
-            {
-                _checkerboardCellSize = value;
-
-                // reset checkerboard brush
-                DisposeCheckerboardBrushes();
-
-                Invalidate();
-            }
-        }
-    }
-
-
-    [Category("Checkerboard")]
     [DefaultValue(typeof(Color), "25, 0, 0, 0")]
     public Color CheckerboardColor1
     {
@@ -882,7 +861,7 @@ public partial class ViewerCanvas : DXCanvas
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public SizeF NavButtonSize { get; set; } = new(60f, 60f);
+    public SizeF NavButtonSize => this.ScaleToDpi(new SizeF(50f, 50f));
 
 
     /// <summary>
@@ -896,9 +875,7 @@ public partial class ViewerCanvas : DXCanvas
         {
             // _wicNavLeftImage is a ref, do not dispose here
             _wicNavLeftImage = value;
-
             DXHelper.DisposeD2D1Bitmap(ref _d2dNavLeftImage);
-            _d2dNavLeftImage = DXHelper.ToD2D1Bitmap(Device, _wicNavLeftImage);
         }
     }
 
@@ -914,9 +891,7 @@ public partial class ViewerCanvas : DXCanvas
         {
             // _wicNavRightImage is a ref, do not dispose here
             _wicNavRightImage = value;
-
             DXHelper.DisposeD2D1Bitmap(ref _d2dNavRightImage);
-            _d2dNavRightImage = DXHelper.ToD2D1Bitmap(Device, _wicNavRightImage);
         }
     }
 
@@ -1114,16 +1089,10 @@ public partial class ViewerCanvas : DXCanvas
     {
         base.OnDeviceCreated(reason);
 
-        // re-create Direct2D left nav icon
-        DXHelper.DisposeD2D1Bitmap(ref _d2dNavLeftImage);
-        _d2dNavLeftImage = DXHelper.ToD2D1Bitmap(Device, _wicNavLeftImage);
-
-        // re-create Direct2D right nav icon
-        DXHelper.DisposeD2D1Bitmap(ref _d2dNavRightImage);
-        _d2dNavRightImage = DXHelper.ToD2D1Bitmap(Device, _wicNavRightImage);
-
-
         // dispose the Direct2D resource of the old device
+        DXHelper.DisposeD2D1Bitmap(ref _d2dNavLeftImage);
+        DXHelper.DisposeD2D1Bitmap(ref _d2dNavRightImage);
+
         if (reason != DeviceCreatedReason.FirstTime)
         {
             // dispose checkerboard
@@ -1808,7 +1777,7 @@ public partial class ViewerCanvas : DXCanvas
 
 
         // create bitmap brush
-        _checkerboardBrushD2D ??= VHelper.CreateCheckerBoxTileD2D(Device, CheckerboardCellSize, CheckerboardColor1, CheckerboardColor2);
+        _checkerboardBrushD2D ??= VHelper.CreateCheckerBoxTileD2D(Device, this.ScaleToDpi(Const.VIEWER_GRID_SIZE), CheckerboardColor1, CheckerboardColor2);
 
         // draw checkerboard
         Device.FillRectangle(DXHelper.ToD2DRectF(region), _checkerboardBrushD2D);
@@ -2119,6 +2088,8 @@ public partial class ViewerCanvas : DXCanvas
         {
             if (_navLeftState != DXButtonStates.Normal)
             {
+                _d2dNavLeftImage ??= DXHelper.ToD2D1Bitmap(Device, _wicNavLeftImage);
+
                 // draw background
                 VHelper.DrawDXButton(g,
                     new RectangleF()
@@ -2143,6 +2114,9 @@ public partial class ViewerCanvas : DXCanvas
         {
             if (_navRightState != DXButtonStates.Normal)
             {
+                _d2dNavRightImage ??= DXHelper.ToD2D1Bitmap(Device, _wicNavRightImage);
+
+
                 // draw background
                 VHelper.DrawDXButton(g,
                     new RectangleF()

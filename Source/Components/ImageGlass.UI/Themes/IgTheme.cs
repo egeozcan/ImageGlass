@@ -20,7 +20,6 @@ using ImageGlass.Base;
 using ImageGlass.Base.Photoing.Codecs;
 using ImageGlass.Base.WinApi;
 using ImageMagick;
-using WicNet;
 
 namespace ImageGlass.UI;
 
@@ -236,57 +235,52 @@ public class IgTheme : IDisposable
     /// <summary>
     /// Loads theme <see cref="Settings"/> from <see cref="JsonModel"/>.
     /// </summary>
-    public async Task LoadThemeSettingsAsync()
+    public void LoadThemeSettings()
     {
         if (IsValid is false || JsonModel is null) return;
 
         // dispose the current values
         Settings.Dispose();
+        var navBtnSize = Const.TOOLBAR_ICON_HEIGHT * 4u;
 
-
-        await Parallel.ForEachAsync(JsonModel.Settings, async (item, _) =>
+        // IsDarkMode
+        if (JsonModel.Settings.TryGetValue(nameof(IgThemeSettings.IsDarkMode), out var darkModeObj))
         {
-            var value = (item.Value ?? "")?.ToString()?.Trim();
-            if (string.IsNullOrEmpty(value)) return;
+            Settings.IsDarkMode = bool.TryParse(darkModeObj?.ToString(), out var darkMode) ? darkMode : false;
+        }
 
-            var prop = Settings.GetType().GetProperty(item.Key);
+        // PreviewImage
+        if (JsonModel.Settings.TryGetValue(nameof(IgThemeSettings.PreviewImage), out var previewImageObject))
+        {
+            Settings.PreviewImage = previewImageObject?.ToString() ?? "";
+        }
 
-            try
+        _ = Task.Run(async () =>
+        {
+            // NavButtonLeft
+            if (JsonModel.Settings.TryGetValue(nameof(IgThemeSettings.NavButtonLeft), out var navButtonLeftObject))
             {
-                // property is WicBitmapSource
-                if (prop?.PropertyType == typeof(WicBitmapSource))
-                {
-                    var navBtnSize = Const.TOOLBAR_ICON_HEIGHT * 4u;
-                    using var bmp = await PhotoCodec.GetThumbnailAsync(Path.Combine(FolderPath, value), navBtnSize, navBtnSize);
-                    var wicBmp = BHelper.ToWicBitmapSource(bmp);
+                var iconPath = Path.Combine(FolderPath, navButtonLeftObject?.ToString());
+                using var bmp = await PhotoCodec.GetThumbnailAsync(iconPath, navBtnSize, navBtnSize);
 
-                    prop.SetValue(Settings, wicBmp);
-
-                    return;
-                }
-
-                // property is Bitmap
-                if (prop?.PropertyType == typeof(Bitmap))
-                {
-                    var bmp = await PhotoCodec.GetThumbnailAsync(Path.Combine(FolderPath, value), 256, 256);
-
-                    prop.SetValue(Settings, bmp);
-                    return;
-                }
-
-                // property is String
-                if (prop?.PropertyType == typeof(String))
-                {
-                    prop.SetValue(Settings, value ?? string.Empty);
-                    return;
-                }
-
-
-                // property is other types
-                var typedValue = Convert.ChangeType(value, prop?.PropertyType ?? typeof(string));
-                prop?.SetValue(Settings, typedValue);
+                Settings.NavButtonLeft = BHelper.ToWicBitmapSource(bmp);
             }
-            catch { }
+
+            // NavButtonRight
+            if (JsonModel.Settings.TryGetValue(nameof(IgThemeSettings.NavButtonRight), out var navButtonRightObject))
+            {
+                var iconPath = Path.Combine(FolderPath, navButtonRightObject?.ToString());
+                using var bmp = await PhotoCodec.GetThumbnailAsync(iconPath, navBtnSize, navBtnSize);
+
+                Settings.NavButtonRight = BHelper.ToWicBitmapSource(bmp);
+            }
+
+            // AppLogo
+            if (JsonModel.Settings.TryGetValue(nameof(IgThemeSettings.AppLogo), out var appLogoObject))
+            {
+                var iconPath = Path.Combine(FolderPath, appLogoObject?.ToString());
+                Settings.AppLogo = await PhotoCodec.GetThumbnailAsync(iconPath, 256, 256);
+            }
         });
 
 
