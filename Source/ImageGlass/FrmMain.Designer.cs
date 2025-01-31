@@ -1120,6 +1120,7 @@ namespace ImageGlass
             PicMain.OnZoomChanged += PicMain_OnZoomChanged;
             PicMain.OnNavLeftClicked += PicMain_OnNavLeftClicked;
             PicMain.OnNavRightClicked += PicMain_OnNavRightClicked;
+            PicMain.OnMotionBtnClicked += PicMain_OnMotionBtnClicked;
             PicMain.Web2NavigationCompleted += PicMain_Web2NavigationCompleted;
             PicMain.Web2PointerDown += PicMain_Web2PointerDown;
             PicMain.Web2KeyDown += PicMain_Web2KeyDown;

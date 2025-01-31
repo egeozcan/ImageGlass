@@ -91,6 +91,12 @@ public class ImageLoadedEventArgs : ImageEventArgs
     public bool UseWebview2 { get; init; }
 }
 
+public class EmbeddedVideoCheckedEventArgs : EventArgs
+{
+    public IgPhoto Photo { get; init; }
+}
+
+
 public class ImageListLoadedEventArgs : EventArgs
 {
     public string? InitFilePath { get; init; }

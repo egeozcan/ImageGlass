@@ -17,6 +17,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System.Diagnostics;
+
 namespace ImageGlass.Base.Photoing.Codecs;
 
 /// <summary>
@@ -104,6 +106,17 @@ public class IgPhoto(string filename) : IDisposable
     /// </summary>
     public IgMetadata? Metadata { get; set; }
 
+    /// <summary>
+    /// Gets, sets the embedded video data.
+    /// If value is <c>null</c> (not cached), calling <see cref="LoadEmbeddedVideoAsync"/> will load the video file.
+    /// </summary>
+    public byte[]? EmbeddedVideo { get; set; }
+
+    /// <summary>
+    /// Gets, sets the hash key of the image.
+    /// </summary>
+    public string HashKey => BHelper.CreateUniqueFileKey(Filename);
+
     #endregion
 
 
@@ -186,7 +199,6 @@ public class IgPhoto(string filename) : IDisposable
     /// <summary>
     /// Read and load image into memory.
     /// </summary>
-    /// <param name="options"></param>
     public async Task LoadAsync(
         CodecReadOptions? options = null,
         CancellationTokenSource? tokenSrc = null)
@@ -197,6 +209,47 @@ public class IgPhoto(string filename) : IDisposable
     }
 
     /// <summary>
+    /// Load the embedded video.
+    /// </summary>
+    public async Task LoadEmbeddedVideoAsync(CancellationTokenSource? tokenSrc = null)
+    {
+        if (EmbeddedVideo is not null) return;
+
+        // load the video data
+        EmbeddedVideo = await BHelper.GetLiveVideoAsync(Filename, tokenSrc?.Token);
+    }
+
+
+    /// <summary>
+    /// Open the embedded video file.
+    /// </summary>
+    public async Task OpenEmbeddedVideoFileAsync(CancellationTokenSource? tokenSrc = null)
+    {
+        await LoadEmbeddedVideoAsync(tokenSrc);
+
+
+        // save the video file to temporary directory
+        var fileName = Path.GetFileNameWithoutExtension(Filename);
+        var tempDir = App.ConfigDir(PathType.Dir, Dir.Temporary);
+        Directory.CreateDirectory(tempDir);
+
+        var destFile = Path.Combine(tempDir, $"{fileName}_live-{HashKey}.mp4");
+        if (!File.Exists(destFile))
+        {
+            await File.WriteAllBytesAsync(destFile, EmbeddedVideo);
+        }
+
+
+        // open the video file
+        using var proc = Process.Start(new ProcessStartInfo()
+        {
+            FileName = destFile,
+            UseShellExecute = true,
+        });
+    }
+
+
+    /// <summary>
     /// Unload the image and reset the relevant info
     /// </summary>
     public void Unload()
@@ -205,6 +258,7 @@ public class IgPhoto(string filename) : IDisposable
         IsDone = false;
         Error = null;
         FrameCount = 0;
+        EmbeddedVideo = null;
 
         // unload image
         ImgData?.Dispose();

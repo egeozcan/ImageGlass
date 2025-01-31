@@ -379,6 +379,13 @@ public partial class FrmMain
     }
 
 
+    private async void PicMain_OnMotionBtnClicked(object sender, MouseEventArgs e)
+    {
+        var img = await Local.Images.GetAsync(Local.CurrentIndex);
+        await img.OpenEmbeddedVideoFileAsync();
+    }
+
+
     private void PicMain_OnZoomChanged(object? sender, ZoomEventArgs e)
     {
         // Handle window fit after zoom change

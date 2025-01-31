@@ -902,6 +902,16 @@ public partial class FrmMain : ThemedForm
                 UseWebview2 = useWebview2,
             }, nameof(Local.RaiseImageLoadedEvent)));
 
+
+            // check if embedded video exists
+            _ = photo.LoadEmbeddedVideoAsync(tokenSrc)
+                .ContinueWith(task =>
+                {
+                    _uiReporter.Report(new(new EmbeddedVideoCheckedEventArgs()
+                    {
+                        Photo = photo,
+                    }));
+                });
         }
         catch (OperationCanceledException)
         {
@@ -988,29 +998,36 @@ public partial class FrmMain : ThemedForm
             return;
         }
 
+        // Embedded video is found
+        if (e.Data is EmbeddedVideoCheckedEventArgs e4)
+        {
+            PicMain.ShowMotionButton = e4.Photo.EmbeddedVideo?.Length > 0;
+            return;
+        }
+
         // Image list is loaded
         if (e.Type.Equals(nameof(Local.RaiseImageListLoadedEvent), StringComparison.OrdinalIgnoreCase)
-            && e.Data is ImageListLoadedEventArgs e4)
+            && e.Data is ImageListLoadedEventArgs e5)
         {
-            Local.RaiseImageListLoadedEvent(e4);
-            HandleImageList_Loaded(e4);
+            Local.RaiseImageListLoadedEvent(e5);
+            HandleImageList_Loaded(e5);
             return;
         }
 
         // the first image is reached
         if (e.Type.Equals(nameof(Local.RaiseFirstImageReachedEvent), StringComparison.OrdinalIgnoreCase)
-            && e.Data is ImageEventArgs e5)
+            && e.Data is ImageEventArgs e6)
         {
-            Local.RaiseFirstImageReachedEvent(e5);
+            Local.RaiseFirstImageReachedEvent(e6);
             HandleImage_FirstReached();
             return;
         }
 
         // the last image is reached
         if (e.Type.Equals(nameof(Local.RaiseLastImageReachedEvent), StringComparison.OrdinalIgnoreCase)
-            && e.Data is ImageEventArgs e6)
+            && e.Data is ImageEventArgs e7)
         {
-            Local.RaiseLastImageReachedEvent(e6);
+            Local.RaiseLastImageReachedEvent(e7);
             HandleImage_LastReached();
             return;
         }
@@ -1028,6 +1045,7 @@ public partial class FrmMain : ThemedForm
     {
         Local.IsImageError = false;
 
+        PicMain.ShowMotionButton = false;
         PicMain.ClearMessage(false);
         if (e.Index >= 0 || !string.IsNullOrEmpty(e.FilePath))
         {

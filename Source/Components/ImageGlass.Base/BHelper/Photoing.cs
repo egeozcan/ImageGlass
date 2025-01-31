@@ -758,20 +758,28 @@ public partial class BHelper
     /// <summary>
     /// Gets the embedded video stream from the motion/live image.
     /// </summary>
-    public static async Task<MemoryStream?> GetLiveVideoAsync(string path)
+    public static async Task<byte[]?> GetLiveVideoAsync(string path, CancellationToken? token = default)
     {
+        // only check for jpg/jpeg
+        if (!path.EndsWith(".jpg", StringComparison.InvariantCultureIgnoreCase)
+            && !path.EndsWith(".jpeg", StringComparison.InvariantCultureIgnoreCase))
+        {
+            return null;
+        }
+
+
         var startIndex = -1;
         byte[] bytes = [];
 
         try
         {
-            bytes = await File.ReadAllBytesAsync(path);
+            bytes = await File.ReadAllBytesAsync(path, token ?? default);
         }
         catch { }
 
 
         // find the start index of the video data
-        for (int i = 0; i < bytes.Length; i++)
+        for (int i = 0; i < bytes.Length - 7; i++)
         {
             if (bytes[i + 4] == 0x66
               && bytes[i + 5] == 0x74
@@ -787,7 +795,7 @@ public partial class BHelper
         // get video binary data
         var videoBytes = bytes[startIndex..bytes.Length];
 
-        return new MemoryStream(videoBytes);
+        return videoBytes;
     }
 
 

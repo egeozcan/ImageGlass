@@ -75,11 +75,11 @@ public class App
     public static string ConfigDir(PathType type, params string[] paths)
     {
         // use StartUp dir if it's writable
-        var startUpDir = StartUpDir(paths);
+        var startUpPath = StartUpDir(paths);
 
-        if (BHelper.CheckPathWritable(type, startUpDir))
+        if (BHelper.CheckPathWritable(PathType.Dir, startUpPath))
         {
-            return startUpDir;
+            return startUpPath;
         }
 
         // else, use AppData dir
