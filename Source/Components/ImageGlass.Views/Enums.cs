@@ -118,7 +118,7 @@ public enum AnimatorSource
 }
 
 [Flags]
-public enum DXButtonState
+public enum DXButtonStates
 {
     Normal = 0,
     Hover = 1 << 1,

@@ -114,10 +114,8 @@ public partial class ViewerCanvas : DXCanvas
     private bool _shouldRecalculateDrawingRegion = true;
 
     // Navigation buttons
-    private bool _isNavLeftHovered = false;
-    private bool _isNavLeftPressed = false;
-    private bool _isNavRightHovered = false;
-    private bool _isNavRightPressed = false;
+    private DXButtonStates _navLeftState = DXButtonStates.Normal;
+    private DXButtonStates _navRightState = DXButtonStates.Normal;
     private bool _isNavVisible = false;
     private NavButtonDisplay _navDisplay = NavButtonDisplay.None;
     private float NavBorderRadius => NavButtonSize.Width / 2;
@@ -1122,16 +1120,16 @@ public partial class ViewerCanvas : DXCanvas
             // calculate whether the point inside the left nav
             if (this.CheckWhichNav(e.Location, NavCheck.LeftOnly) == MouseAndNavLocation.LeftNav)
             {
-                _isNavLeftPressed = true;
+                _navLeftState |= DXButtonStates.Pressed;
+                requestRerender = true;
             }
 
             // calculate whether the point inside the right nav
             if (this.CheckWhichNav(e.Location, NavCheck.RightOnly) == MouseAndNavLocation.RightNav)
             {
-                _isNavRightPressed = true;
+                _navRightState |= DXButtonStates.Pressed;
+                requestRerender = true;
             }
-
-            requestRerender = _isNavLeftPressed || _isNavRightPressed;
         }
         #endregion
 
@@ -1252,7 +1250,7 @@ public partial class ViewerCanvas : DXCanvas
         // trigger nav click only if selection is empty
         if (e.Button == MouseButtons.Left && SourceSelection.Size.IsEmpty)
         {
-            if (_isNavRightPressed)
+            if (_navRightState.HasFlag(DXButtonStates.Pressed))
             {
                 // emit nav button event if the point inside the right nav
                 if (this.CheckWhichNav(e.Location, NavCheck.RightOnly) == MouseAndNavLocation.RightNav)
@@ -1260,7 +1258,7 @@ public partial class ViewerCanvas : DXCanvas
                     OnNavRightClicked?.Invoke(this, e);
                 }
             }
-            else if (_isNavLeftPressed)
+            else if (_navLeftState.HasFlag(DXButtonStates.Pressed))
             {
                 // emit nav button event if the point inside the left nav
                 if (this.CheckWhichNav(e.Location, NavCheck.LeftOnly) == MouseAndNavLocation.LeftNav)
@@ -1270,8 +1268,8 @@ public partial class ViewerCanvas : DXCanvas
             }
         }
 
-        _isNavLeftPressed = false;
-        _isNavRightPressed = false;
+        _navLeftState &= ~DXButtonStates.Pressed;
+        _navRightState &= ~DXButtonStates.Pressed;
         #endregion
 
     }
@@ -1292,26 +1290,31 @@ public partial class ViewerCanvas : DXCanvas
         // hide nav button when hovering on the selection area
         if (ClientSelection.Contains(e.Location))
         {
-            _isNavLeftHovered = false;
-            _isNavRightHovered = false;
+            _navLeftState &= ~DXButtonStates.Hover;
+            _navRightState &= ~DXButtonStates.Hover;
         }
         // if no button pressed, check if nav is hovered
         else if (e.Button == MouseButtons.None)
         {
             // calculate whether the point inside the left nav
-            _isNavLeftHovered = this.CheckWhichNav(e.Location, NavCheck.LeftOnly) == MouseAndNavLocation.LeftNav;
+            var isNavLeftHovered = this.CheckWhichNav(e.Location, NavCheck.LeftOnly) == MouseAndNavLocation.LeftNav;
+            if (isNavLeftHovered) _navLeftState |= DXButtonStates.Hover;
+            else _navLeftState &= ~DXButtonStates.Hover;
 
             // calculate whether the point inside the right nav
-            _isNavRightHovered = this.CheckWhichNav(e.Location, NavCheck.RightOnly) == MouseAndNavLocation.RightNav;
+            var isNavRightHovered = this.CheckWhichNav(e.Location, NavCheck.RightOnly) == MouseAndNavLocation.RightNav;
+            if (isNavRightHovered) _navRightState |= DXButtonStates.Hover;
+            else _navRightState &= ~DXButtonStates.Hover;
 
-            if (!_isNavLeftHovered && !_isNavRightHovered && _isNavVisible)
+
+            if (!isNavLeftHovered && !isNavRightHovered && _isNavVisible)
             {
                 requestRerender = true;
                 _isNavVisible = false;
             }
             else
             {
-                requestRerender = _isNavVisible = _isNavLeftHovered || _isNavRightHovered;
+                requestRerender = _isNavVisible = isNavLeftHovered || isNavRightHovered;
             }
         }
         #endregion
@@ -1410,8 +1413,8 @@ public partial class ViewerCanvas : DXCanvas
     {
         base.OnMouseLeave(e);
 
-        _isNavLeftHovered = false;
-        _isNavRightHovered = false;
+        _navLeftState &= ~DXButtonStates.Hover;
+        _navRightState &= ~DXButtonStates.Hover;
         _isSelectionHovered = false;
         _mouseMovePoint = null;
 
@@ -1966,19 +1969,7 @@ public partial class ViewerCanvas : DXCanvas
         // left navigation
         if (NavDisplay == NavButtonDisplay.Left || NavDisplay == NavButtonDisplay.Both)
         {
-            var btnLeftState = DXButtonState.Normal;
-
-            if (_isNavLeftPressed)
-            {
-                btnLeftState = DXButtonState.Pressed;
-            }
-            else if (_isNavLeftHovered)
-            {
-                btnLeftState = DXButtonState.Hover;
-            }
-
-
-            if (btnLeftState != DXButtonState.Normal)
+            if (_navLeftState != DXButtonStates.Normal)
             {
                 // draw background
                 VHelper.DrawDXButton(g,
@@ -1994,27 +1985,15 @@ public partial class ViewerCanvas : DXCanvas
                     NavButtonColor,
                     this.ScaleToDpi(1f),
                     _d2dNavLeftImage,
-                    btnLeftState);
+                    _navLeftState);
             }
         }
 
 
         // right navigation
         if (NavDisplay == NavButtonDisplay.Right || NavDisplay == NavButtonDisplay.Both)
-        {
-            var btnRightState = DXButtonState.Normal;
-
-            if (_isNavRightPressed)
-            {
-                btnRightState = DXButtonState.Pressed;
-            }
-            else if (_isNavRightHovered)
-            {
-                btnRightState = DXButtonState.Hover;
-            }
-
-            
-            if (btnRightState != DXButtonState.Normal)
+        {   
+            if (_navRightState != DXButtonStates.Normal)
             {
                 // draw background
                 VHelper.DrawDXButton(g,
@@ -2030,7 +2009,7 @@ public partial class ViewerCanvas : DXCanvas
                     NavButtonColor,
                     this.ScaleToDpi(1f),
                     _d2dNavRightImage,
-                    btnRightState);
+                    _navRightState);
             }
         }
     }

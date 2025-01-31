@@ -92,20 +92,20 @@ public static class VHelper
     /// <summary>
     /// Draws button.
     /// </summary>
-    public static void DrawDXButton(DXGraphics g, RectangleF bound, float radius, Color baseColor, Color stateColor, float dpiScale, IComObject<ID2D1Bitmap1>? icon, DXButtonState state)
+    public static void DrawDXButton(DXGraphics g, RectangleF bound, float radius, Color baseColor, Color stateColor, float dpiScale, IComObject<ID2D1Bitmap1>? icon, DXButtonStates state)
     {
         var iconOpacity = 1f;
         var iconY = 0;
 
-        if (state == DXButtonState.Hover)
-        {
-            baseColor = baseColor.WithAlpha(200);
-        }
-        else if (state == DXButtonState.Pressed)
+        if (state.HasFlag(DXButtonStates.Pressed))
         {
             baseColor = baseColor.WithAlpha(240);
             iconOpacity = 0.6f;
             iconY = (int)dpiScale;
+        }
+        else if (state.HasFlag(DXButtonStates.Hover))
+        {
+            baseColor = baseColor.WithAlpha(200);
         }
 
         var borderColor = baseColor.Blend(stateColor, 0.35f, baseColor.A);
