@@ -77,7 +77,7 @@ public class App
         // use StartUp dir if it's writable
         var startUpPath = StartUpDir(paths);
 
-        if (BHelper.CheckPathWritable(PathType.Dir, startUpPath))
+        if (BHelper.CheckPathWritable(type, startUpPath))
         {
             return startUpPath;
         }

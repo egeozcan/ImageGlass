@@ -1305,7 +1305,9 @@ public partial class ViewerCanvas : DXCanvas
         if (e.Button == MouseButtons.Left && SourceSelection.Size.IsEmpty)
         {
             // emit motion button event
-            if (ShowMotionButton && _motionBtnState.HasFlag(DXButtonStates.Pressed))
+            if (ShowMotionButton
+                && MotionButtonRect.Contains(e.Location)
+                && _motionBtnState.HasFlag(DXButtonStates.Pressed))
             {
                 OnMotionBtnClicked?.Invoke(this, e);
             }
