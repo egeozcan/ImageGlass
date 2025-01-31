@@ -279,16 +279,16 @@ public partial class ViewerCanvas
             _ = obj.TryAdd("ZoomFactor", ZoomFactor);
 
             // if image file is SVG, we read its content
-            if (!string.IsNullOrWhiteSpace(data.Filename)
-                && data.Filename.EndsWith(".svg", StringComparison.InvariantCultureIgnoreCase))
+            if (!string.IsNullOrWhiteSpace(data.FilePath)
+                && data.FilePath.EndsWith(".svg", StringComparison.InvariantCultureIgnoreCase))
             {
-                var textContent = await File.ReadAllTextAsync(data.Filename, token);
+                var textContent = await File.ReadAllTextAsync(data.FilePath, token);
                 _ = obj.TryAdd("Html", textContent);
                 msgName = Web2BackendMsgNames.SET_HTML;
             }
             else
             {
-                _ = obj.TryAdd("Url", data.Filename);
+                _ = obj.TryAdd("Url", data.FilePath);
                 msgName = Web2BackendMsgNames.SET_IMAGE;
             }
 

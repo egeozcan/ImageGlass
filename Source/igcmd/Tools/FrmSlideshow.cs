@@ -1575,7 +1575,7 @@ public partial class FrmSlideshow : ThemedForm
             Config.ImageLoadingOrder = selectedOrder;
 
             // reload image list
-            _ = LoadImageListAsync(_images.FileNames, _images.GetFilePath(_currentIndex));
+            _ = LoadImageListAsync(_images.FilePaths, _images.GetFilePath(_currentIndex));
 
             // reload the state
             LoadMnuLoadingOrdersSubItems();
@@ -1594,7 +1594,7 @@ public partial class FrmSlideshow : ThemedForm
             Config.ImageLoadingOrderType = selectedType;
 
             // reload image list
-            _ = LoadImageListAsync(_images.FileNames, _images.GetFilePath(_currentIndex));
+            _ = LoadImageListAsync(_images.FilePaths, _images.GetFilePath(_currentIndex));
 
             // reload the state
             LoadMnuLoadingOrdersSubItems();

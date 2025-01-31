@@ -24,8 +24,8 @@ namespace ImageGlass.Base.Photoing.Codecs;
 /// <summary>
 /// Initialize <see cref="IgPhoto"/> instance
 /// </summary>
-/// <param name="filename"></param>
-public class IgPhoto(string filename) : IDisposable
+/// <param name="filePath"></param>
+public class IgPhoto(string filePath) : IDisposable
 {
     #region IDisposable Disposing
 
@@ -67,19 +67,14 @@ public class IgPhoto(string filename) : IDisposable
     #region Public properties
 
     /// <summary>
-    /// Gets, sets original filename.
+    /// Gets, sets working file path.
     /// </summary>
-    public string OriginalFilename { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets, sets working filename.
-    /// </summary>
-    public string Filename { get; set; } = filename;
+    public string FilePath { get; set; } = filePath;
 
     /// <summary>
     /// Gets file extension. E.g: <c>.png</c>.
     /// </summary>
-    public string Extension => Path.GetExtension(Filename);
+    public string Extension => Path.GetExtension(FilePath);
 
     /// <summary>
     /// Gets the error details
@@ -115,7 +110,7 @@ public class IgPhoto(string filename) : IDisposable
     /// <summary>
     /// Gets, sets the hash key of the image.
     /// </summary>
-    public string HashKey => BHelper.CreateUniqueFileKey(Filename);
+    public string HashKey => BHelper.CreateUniqueFileKey(FilePath);
 
     #endregion
 
@@ -144,7 +139,7 @@ public class IgPhoto(string filename) : IDisposable
         try
         {
             // load image data
-            Metadata ??= PhotoCodec.LoadMetadata(Filename, options);
+            Metadata ??= PhotoCodec.LoadMetadata(FilePath, options);
             FrameCount = Metadata?.FrameCount ?? 0;
 
             if (options.FirstFrameOnly == null)
@@ -162,7 +157,7 @@ public class IgPhoto(string filename) : IDisposable
             }
 
             // load image
-            ImgData = await PhotoCodec.LoadAsync(Filename, options, null, _tokenSrc?.Token);
+            ImgData = await PhotoCodec.LoadAsync(FilePath, options, null, _tokenSrc?.Token);
 
             // update metadata for JXR format
             if (Metadata.FileExtension == ".JXR")
@@ -216,7 +211,7 @@ public class IgPhoto(string filename) : IDisposable
         if (EmbeddedVideo is not null) return;
 
         // load the video data
-        EmbeddedVideo = await BHelper.GetLiveVideoAsync(Filename, tokenSrc?.Token);
+        EmbeddedVideo = await BHelper.GetLiveVideoAsync(FilePath, tokenSrc?.Token);
     }
 
 
@@ -229,7 +224,7 @@ public class IgPhoto(string filename) : IDisposable
 
 
         // save the video file to temporary directory
-        var fileName = Path.GetFileNameWithoutExtension(Filename);
+        var fileName = Path.GetFileNameWithoutExtension(FilePath);
         var tempDir = App.ConfigDir(PathType.Dir, Dir.Temporary);
         Directory.CreateDirectory(tempDir);
 

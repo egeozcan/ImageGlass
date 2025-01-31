@@ -116,9 +116,9 @@ public class ImageBooster : IDisposable
     public int Length => ImgList.Count;
 
     /// <summary>
-    /// Get filenames list
+    /// Get file paths list
     /// </summary>
-    public List<string> FileNames => ImgList.Select(i => i.Filename).ToList();
+    public List<string> FilePaths => ImgList.Select(i => i.FilePath).ToList();
 
     /// <summary>
     /// Gets, sets the list of formats that only load the first page forcefully.
@@ -274,7 +274,7 @@ public class ImageBooster : IDisposable
             {
                 // use cache metadata
                 var metadata = ImgList[itemIndex].Metadata;
-                metadata ??= PhotoCodec.LoadMetadata(ImgList[itemIndex].Filename);
+                metadata ??= PhotoCodec.LoadMetadata(ImgList[itemIndex].FilePath);
 
                 // check image dimension
                 var notExceedDimension = MaxImageDimensionToCache <= 0
@@ -329,7 +329,7 @@ public class ImageBooster : IDisposable
                 || ImgList[index].Metadata.FrameIndex != frameIndex)
             {
                 ImgList[index].Metadata = PhotoCodec.LoadMetadata(
-                    ImgList[index].Filename,
+                    ImgList[index].FilePath,
                     ReadOptions with
                     {
                         FrameIndex = frameIndex,
@@ -470,7 +470,7 @@ public class ImageBooster : IDisposable
         {
             if (ImgList.Count > 0 && ImgList[index] != null)
             {
-                return ImgList[index].Filename;
+                return ImgList[index].FilePath;
             }
         }
         catch (ArgumentOutOfRangeException)
@@ -489,7 +489,7 @@ public class ImageBooster : IDisposable
     {
         if (ImgList[index] != null)
         {
-            ImgList[index].Filename = filename;
+            ImgList[index].FilePath = filename;
         }
     }
 
@@ -520,7 +520,7 @@ public class ImageBooster : IDisposable
         }
 
         // case sensitivity, esp. if filename passed on command line
-        return ImgList.FindIndex(item => string.Equals(item.Filename, filename, StringComparison.InvariantCultureIgnoreCase));
+        return ImgList.FindIndex(item => string.Equals(item.FilePath, filename, StringComparison.InvariantCultureIgnoreCase));
     }
 
 
@@ -557,7 +557,7 @@ public class ImageBooster : IDisposable
         Clear();
 
         // Clear lists
-        FileNames.Clear();
+        FilePaths.Clear();
         QueuedList.Clear();
         FreeList.Clear();
     }
@@ -623,7 +623,7 @@ public class ImageBooster : IDisposable
     {
         var target = Path.GetDirectoryName(filename)?.ToUpperInvariant();
 
-        var index = ImgList.FindIndex(item => Path.GetDirectoryName(item.Filename)?.ToUpperInvariant() == target);
+        var index = ImgList.FindIndex(item => Path.GetDirectoryName(item.FilePath)?.ToUpperInvariant() == target);
 
         return index != -1;
     }

@@ -350,7 +350,7 @@ public class Local
         var filesList = new List<string>();
         if (Local.ToolPipeServers.Count > 0)
         {
-            filesList.AddRange(Local.Images.FileNames);
+            filesList.AddRange(Local.Images.FilePaths);
         }
 
         var eventArgs = new IgImageListUpdatedEventArgs()

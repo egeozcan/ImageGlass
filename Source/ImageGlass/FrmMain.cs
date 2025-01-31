@@ -648,7 +648,7 @@ public partial class FrmMain : ThemedForm
         Gallery.SuspendLayout();
         Gallery.Items.Clear();
 
-        Gallery.Items.AddRange(Local.Images.FileNames.ToArray());
+        Gallery.Items.AddRange(Local.Images.FilePaths.ToArray());
 
         Gallery.ResumeLayout();
         UpdateGallerySize();

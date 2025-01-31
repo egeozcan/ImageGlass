@@ -2767,7 +2767,7 @@ public partial class FrmMain
             // send the list of images
             var data = new IgImageListUpdatedEventArgs()
             {
-                Files = Local.Images.FileNames,
+                Files = Local.Images.FilePaths,
             };
             var jsonData = BHelper.ToJson(data);
             _ = toolServer.SendAsync(ImageGlassEvents.IMAGE_LIST_UPDATED, jsonData);
