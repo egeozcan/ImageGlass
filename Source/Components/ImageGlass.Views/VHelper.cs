@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 using D2Phap.DXControl;
 using DirectN;
+using ImageGlass.Base;
 using System.Runtime.InteropServices;
 using WicNet;
 
@@ -87,5 +88,48 @@ public static class VHelper
         return new ComObject<ID2D1BitmapBrush1>(bmpBrush);
     }
 
+
+    /// <summary>
+    /// Draws button.
+    /// </summary>
+    public static void DrawDXButton(DXGraphics g, RectangleF bound, float radius, Color baseColor, Color stateColor, float dpiScale, IComObject<ID2D1Bitmap1>? icon, DXButtonState state)
+    {
+        var iconOpacity = 1f;
+        var iconY = 0;
+
+        if (state == DXButtonState.Hover)
+        {
+            baseColor = baseColor.WithAlpha(200);
+        }
+        else if (state == DXButtonState.Pressed)
+        {
+            baseColor = baseColor.WithAlpha(240);
+            iconOpacity = 0.6f;
+            iconY = (int)dpiScale;
+        }
+
+        var borderColor = baseColor.Blend(stateColor, 0.35f, baseColor.A);
+        var fillColor = baseColor.Blend(stateColor, 0.5f, baseColor.A);
+
+        // draw fill and border color
+        g.DrawRectangle(bound, radius, borderColor, fillColor, dpiScale * 1f);
+
+
+        // draw icon
+        if (icon == null) return;
+
+        icon.Object.GetSize(out var size);
+        var srcIconSize = DXHelper.ToSize(size);
+        var iconSize = Math.Min(bound.Width, bound.Height) / 2;
+        var iconBound = new RectangleF()
+        {
+            X = bound.X + iconSize / 2,
+            Y = bound.Y + iconSize / 2 + iconY,
+            Width = iconSize,
+            Height = iconSize,
+        };
+
+        g.DrawBitmap(icon, iconBound, null, InterpolationMode.Linear, iconOpacity);
+    }
 }
 

@@ -1678,7 +1678,6 @@ public partial class ViewerCanvas : DXCanvas
     /// <summary>
     /// Draw the input image.
     /// </summary>
-    /// <param name="g">Drawing graphic object.</param>
     protected virtual void DrawImageLayer(DXGraphics g)
     {
         if (UseWebview2) return;
@@ -1967,52 +1966,35 @@ public partial class ViewerCanvas : DXCanvas
         // left navigation
         if (NavDisplay == NavButtonDisplay.Left || NavDisplay == NavButtonDisplay.Both)
         {
-            var iconOpacity = 1f;
-            var iconY = 0;
-            var leftColor = Color.Transparent;
+            var btnLeftState = DXButtonState.Normal;
 
             if (_isNavLeftPressed)
             {
-                leftColor = ForeColor.InvertBlackOrWhite(240);
-                iconOpacity = 0.6f;
-                iconY = this.ScaleToDpi(1);
+                btnLeftState = DXButtonState.Pressed;
             }
             else if (_isNavLeftHovered)
             {
-                leftColor = ForeColor.InvertBlackOrWhite(200);
+                btnLeftState = DXButtonState.Hover;
             }
 
-            // draw background
-            if (leftColor != Color.Transparent)
+
+            if (btnLeftState != DXButtonState.Normal)
             {
-                var leftBgRect = new RectangleF()
-                {
-                    X = NavLeftPos.X - NavButtonSize.Width / 2,
-                    Y = NavLeftPos.Y - NavButtonSize.Height / 2,
-                    Width = NavButtonSize.Width,
-                    Height = NavButtonSize.Height,
-                };
-
-                g.DrawRectangle(leftBgRect, NavBorderRadius, leftColor.Blend(NavButtonColor, 0.35f, leftColor.A), leftColor.Blend(NavButtonColor, 0.5f, leftColor.A), this.ScaleToDpi(1f));
-            }
-
-            // draw icon
-            if (_isNavLeftHovered || _isNavLeftPressed)
-            {
-                if (_d2dNavLeftImage == null) return;
-
-                _d2dNavLeftImage.Object.GetSize(out var size);
-
-                var srcIconSize = DXHelper.ToSize(size);
-                var iconSize = Math.Min(NavButtonSize.Width, NavButtonSize.Height) / 2;
-
-                g.DrawBitmap(_d2dNavLeftImage, new RectangleF()
-                {
-                    X = NavLeftPos.X - iconSize / 2,
-                    Y = NavLeftPos.Y - iconSize / 2 + iconY,
-                    Width = iconSize,
-                    Height = iconSize,
-                }, new RectangleF(0, 0, srcIconSize.Width, srcIconSize.Height), InterpolationMode.Linear, iconOpacity);
+                // draw background
+                VHelper.DrawDXButton(g,
+                    new RectangleF()
+                    {
+                        X = NavLeftPos.X - NavButtonSize.Width / 2,
+                        Y = NavLeftPos.Y - NavButtonSize.Height / 2,
+                        Width = NavButtonSize.Width,
+                        Height = NavButtonSize.Height,
+                    },
+                    NavBorderRadius,
+                    ForeColor.InvertBlackOrWhite(),
+                    NavButtonColor,
+                    this.ScaleToDpi(1f),
+                    _d2dNavLeftImage,
+                    btnLeftState);
             }
         }
 
@@ -2020,53 +2002,35 @@ public partial class ViewerCanvas : DXCanvas
         // right navigation
         if (NavDisplay == NavButtonDisplay.Right || NavDisplay == NavButtonDisplay.Both)
         {
-            var iconOpacity = 1f;
-            var iconY = 0;
-            var rightColor = Color.Transparent;
+            var btnRightState = DXButtonState.Normal;
 
             if (_isNavRightPressed)
             {
-                rightColor = ForeColor.InvertBlackOrWhite(240);
-                iconOpacity = 0.6f;
-                iconY = this.ScaleToDpi(1);
+                btnRightState = DXButtonState.Pressed;
             }
             else if (_isNavRightHovered)
             {
-                rightColor = ForeColor.InvertBlackOrWhite(200);
+                btnRightState = DXButtonState.Hover;
             }
 
-            // draw background
-            if (rightColor != Color.Transparent)
+            
+            if (btnRightState != DXButtonState.Normal)
             {
-                var rightBgRect = new RectangleF()
-                {
-                    X = NavRightPos.X - NavButtonSize.Width / 2,
-                    Y = NavRightPos.Y - NavButtonSize.Height / 2,
-                    Width = NavButtonSize.Width,
-                    Height = NavButtonSize.Height,
-                };
-
-                g.DrawRectangle(rightBgRect, NavBorderRadius, rightColor.Blend(NavButtonColor, 0.35f, rightColor.A), rightColor.Blend(NavButtonColor, 0.5f, rightColor.A), this.ScaleToDpi(1f));
-            }
-
-            // draw icon
-            if (_isNavRightHovered || _isNavRightPressed)
-            {
-                if (_d2dNavRightImage == null) return;
-
-                _d2dNavRightImage.Object.GetSize(out var size);
-
-                var srcIconSize = DXHelper.ToSize(size);
-                var iconSize = Math.Min(NavButtonSize.Width, NavButtonSize.Height) / 2;
-
-                g.DrawBitmap(_d2dNavRightImage, new RectangleF()
-                {
-                    X = NavRightPos.X - iconSize / 2,
-                    Y = NavRightPos.Y - iconSize / 2 + iconY,
-                    Width = iconSize,
-                    Height = iconSize,
-                }, new RectangleF(0, 0, srcIconSize.Width, srcIconSize.Height),
-                    InterpolationMode.Linear, iconOpacity);
+                // draw background
+                VHelper.DrawDXButton(g,
+                    new RectangleF()
+                    {
+                        X = NavRightPos.X - NavButtonSize.Width / 2,
+                        Y = NavRightPos.Y - NavButtonSize.Height / 2,
+                        Width = NavButtonSize.Width,
+                        Height = NavButtonSize.Height,
+                    },
+                    NavBorderRadius,
+                    ForeColor.InvertBlackOrWhite(),
+                    NavButtonColor,
+                    this.ScaleToDpi(1f),
+                    _d2dNavRightImage,
+                    btnRightState);
             }
         }
     }

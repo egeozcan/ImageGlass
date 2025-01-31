@@ -117,6 +117,14 @@ public enum AnimatorSource
     ImageAnimator,
 }
 
+[Flags]
+public enum DXButtonState
+{
+    Normal = 0,
+    Hover = 1 << 1,
+    Pressed = 1 << 2,
+}
+
 
 public static class Web2BackendMsgNames
 {
