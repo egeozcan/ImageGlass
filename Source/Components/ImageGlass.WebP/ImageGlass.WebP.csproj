@@ -11,6 +11,7 @@
         <FileVersion>$(Version)</FileVersion>
         <Copyright>Copyright © 2010 - 2025 Duong Dieu Phap</Copyright>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
 
     </PropertyGroup>
 

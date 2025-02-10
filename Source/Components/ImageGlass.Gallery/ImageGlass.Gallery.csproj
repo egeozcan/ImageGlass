@@ -11,6 +11,7 @@
         <Platforms>x64;ARM64</Platforms>
         <Configurations>Debug;Release;Publish_Release</Configurations>
         <LangVersion>latest</LangVersion>
+        <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows10.0.19041.0|ARM64'">
