@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 using Cysharp.Text;
+using D2Phap;
 using ImageGlass.Base;
 using ImageGlass.Settings;
 using ImageGlass.Viewer;
@@ -99,7 +100,11 @@ public partial class FrmMain
         // The file is located another folder, load the entire folder
         if (imageIndex == -1)
         {
-            PrepareLoading(filePath, true);
+            // get foreground shell
+            using var shell = new EggShell();
+            Program.ForegroundShell = shell.GetForegroundWindowView();
+
+            PrepareLoading(filePath, false);
         }
         // The file is in current folder AND it is the viewing image
         else if (Local.CurrentIndex == imageIndex)
