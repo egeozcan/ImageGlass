@@ -30,8 +30,18 @@ namespace ImageGlass;
 internal static class Program
 {
     private static ExplorerView? _foregroundShell;
+    private static string _foregroundShellPath = "";
 
     public static string APP_SINGLE_INSTANCE_ID => "{f2a83de1-b9ac-4461-81d0-cc4547b0b27b}";
+
+    /// <summary>
+    /// Gets the path of <see cref="ForegroundShell"/>.
+    /// </summary>
+    public static string ForegroundShellPath => _foregroundShellPath;
+
+    /// <summary>
+    /// Gets the Shell object of foreground window
+    /// </summary>
     public static ExplorerView? ForegroundShell
     {
         get => _foregroundShell;
@@ -39,6 +49,17 @@ internal static class Program
         {
             _foregroundShell?.Dispose();
             _foregroundShell = value;
+
+            try
+            {
+                _foregroundShellPath = ForegroundShell?.GetTabViewPath() ?? "";
+            }
+            catch
+            {
+                _foregroundShellPath = "";
+                _foregroundShell?.Dispose();
+                _foregroundShell = null;
+            }
         }
     }
 

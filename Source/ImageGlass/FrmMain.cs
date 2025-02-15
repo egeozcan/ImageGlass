@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 using Cysharp.Text;
+using D2Phap;
 using ImageGlass.Base;
 using ImageGlass.Base.Actions;
 using ImageGlass.Base.DirectoryComparer;
@@ -339,6 +340,30 @@ public partial class FrmMain : ThemedForm
     }
 
 
+    private static string InputImagePathFromArgs
+    {
+        get
+        {
+            var args = Environment.GetCommandLineArgs();
+            var pathToLoad = string.Empty;
+
+            if (args.Length >= 2)
+            {
+                // get path from params
+                var cmdPath = args
+                    .Skip(1)
+                    .FirstOrDefault(i => !i.StartsWith(Const.CONFIG_CMD_PREFIX, StringComparison.Ordinal));
+
+                if (!string.IsNullOrEmpty(cmdPath))
+                {
+                    pathToLoad = cmdPath;
+                }
+            }
+
+            return pathToLoad;
+        }
+    }
+
     #region Image Loading functions
 
     /// <summary>
@@ -347,20 +372,7 @@ public partial class FrmMain : ThemedForm
     /// </summary>
     public void LoadImagesFromCmdArgs(string[] args)
     {
-        var pathToLoad = string.Empty;
-
-        if (args.Length >= 2)
-        {
-            // get path from params
-            var cmdPath = args
-                .Skip(1)
-                .FirstOrDefault(i => !i.StartsWith(Const.CONFIG_CMD_PREFIX, StringComparison.Ordinal));
-
-            if (!string.IsNullOrEmpty(cmdPath))
-            {
-                pathToLoad = cmdPath;
-            }
-        }
+        var pathToLoad = InputImagePathFromArgs;
 
         if (string.IsNullOrEmpty(pathToLoad)
             && Config.ShouldOpenLastSeenImage
@@ -536,10 +548,20 @@ public partial class FrmMain : ThemedForm
         // Load images to the list
         #region Load images to the list
 
-        // load images from foreground window
-        var useForegroundWindow = hasInitFile && Program.ForegroundShell != null;
+        // update sort order setting
         _fileFinder.UseExplorerSortOrder = Config.ShouldUseExplorerSortOrder;
 
+        // check if we should load images from foreground window
+        var inputImageDirPath = Path.GetDirectoryName(InputImagePathFromArgs) ?? "";
+        var isFromSearchWindow = Program.ForegroundShellPath.StartsWith(EggShell.SEARCH_MS_PROTOCOL, StringComparison.OrdinalIgnoreCase);
+        var isFromSameDir = inputImageDirPath.Equals(Program.ForegroundShellPath, StringComparison.OrdinalIgnoreCase);
+
+        var useForegroundWindow = Program.ForegroundShell != null
+            && !string.IsNullOrEmpty(InputImagePathFromArgs)
+            && (isFromSearchWindow || isFromSameDir);
+
+
+        // start finding image files
         _fileFinder.StartFindingFiles(
             useForegroundWindow ? Program.ForegroundShell : null,
             dirPaths,

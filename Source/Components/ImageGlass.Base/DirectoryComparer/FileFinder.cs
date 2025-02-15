@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 using D2Phap;
+using System.Runtime.InteropServices;
 
 namespace ImageGlass.Base.DirectoryComparer;
 
@@ -62,8 +63,13 @@ public class FileFinder
         // 1. get files from the foreground window
         if (foregroundShell != null && UseExplorerSortOrder)
         {
-            StartFindingFiles(foregroundShell, searchSubDirectories, includeHidden, filterFn, nonShellSortFn);
-            return;
+            try
+            {
+                StartFindingFiles(foregroundShell, searchSubDirectories, includeHidden, filterFn, nonShellSortFn);
+
+                return;
+            }
+            catch (COMException) { }
         }
 
 
@@ -120,6 +126,7 @@ public class FileFinder
     /// Finds files from the given foreground shell object.
     /// </summary>
     /// <remarks>🔴 NOTE: Must run on UI thread.</remarks>
+    /// <exception cref="COMException"></exception>
     private void StartFindingFiles(
         ExplorerView? foregroundShell,
         bool searchSubDirectories,
@@ -168,16 +175,23 @@ public class FileFinder
             .Where(path =>
             {
                 // ignore special folders
-                if (path.StartsWith("::{", StringComparison.InvariantCultureIgnoreCase)) return false;
+                if (path.StartsWith(EggShell.SPECIAL_DIR_PREFIX, StringComparison.InvariantCultureIgnoreCase)) return false;
 
-                // get path attributes
-                var attrs = File.GetAttributes(path);
+                try
+                {
+                    // get path attributes
+                    var attrs = File.GetAttributes(path);
 
-                // path is dir
-                if (attrs.HasFlag(FileAttributes.Directory)) return false;
+                    // path is dir
+                    if (attrs.HasFlag(FileAttributes.Directory)) return false;
 
-                // path is hidden
-                if (!includeHidden && attrs.HasFlag(FileAttributes.Hidden)) return false;
+                    // path is hidden
+                    if (!includeHidden && attrs.HasFlag(FileAttributes.Hidden)) return false;
+                }
+                catch
+                {
+                    return false;
+                }
 
                 // custom filter
                 if (filterFn != null) return filterFn(path);
@@ -214,6 +228,7 @@ public class FileFinder
     /// Gets the <see cref="ExplorerFolderView"/> from the given dir path.
     /// </summary>
     /// <remarks>🔴 NOTE: Must run on UI thread.</remarks>
+    /// <exception cref="COMException"></exception>
     private static (ExplorerFolderView? View, string DirPath) GetShellFolderView(string? rootDir, ExplorerView? foregroundShell)
     {
         var folderPath = "";
