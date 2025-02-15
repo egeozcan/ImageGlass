@@ -534,6 +534,7 @@ public partial class FrmMain : ThemedForm
 
         // load images from foreground window
         var useForegroundWindow = hasInitFile && Program.ForegroundShell != null;
+        _fileFinder.UseExplorerSortOrder = Config.ShouldUseExplorerSortOrder;
 
         _fileFinder.StartFindingFiles(
             useForegroundWindow ? Program.ForegroundShell : null,

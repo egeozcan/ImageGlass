@@ -30,6 +30,12 @@ public class FileFinder
 
 
     /// <summary>
+    /// Gets or sets a value indicating whether to use the Explorer sort order.
+    /// </summary>
+    public bool UseExplorerSortOrder { get; set; } = true;
+
+
+    /// <summary>
     /// Starts finding files.
     /// <para>
     ///   If <paramref name="foregroundShell"/> is not null,
@@ -54,7 +60,7 @@ public class FileFinder
         Func<IEnumerable<string>, IEnumerable<string>>? nonShellSortFn = null)
     {
         // 1. get files from the foreground window
-        if (foregroundShell != null)
+        if (foregroundShell != null && UseExplorerSortOrder)
         {
             StartFindingFiles(foregroundShell, searchSubDirectories, includeHidden, filterFn, nonShellSortFn);
             return;
@@ -83,12 +89,14 @@ public class FileFinder
         // get files from the given directories
         foreach (var dirPath in dirs)
         {
-            var folderShell = GetShellFolderView(dirPath, null);
+            var folderShellView = UseExplorerSortOrder
+                ? GetShellFolderView(dirPath, null).View
+                : null;
 
             // with shell
-            if (folderShell.View != null)
+            if (folderShellView != null)
             {
-                StartFindingFiles_WithShell(folderShell.View,
+                StartFindingFiles_WithShell(folderShellView,
                     dirPath,
                     searchSubDirectories,
                     includeHidden,
@@ -96,7 +104,7 @@ public class FileFinder
                     nonShellSortFn);
 
                 // dispose shell object
-                folderShell.View.Dispose();
+                folderShellView.Dispose();
             }
 
             // without shell
@@ -178,6 +186,7 @@ public class FileFinder
             });
 
 
+        // emits results
         FilesEnumerated?.Invoke(this, new FilesEnumeratedEventArgs(filePaths));
 
 
@@ -285,6 +294,7 @@ public class FileFinder
         if (sortFn != null) filePaths = sortFn(filePaths);
 
 
+        // emits results
         FilesEnumerated?.Invoke(this, new FilesEnumeratedEventArgs(filePaths));
     }
 
