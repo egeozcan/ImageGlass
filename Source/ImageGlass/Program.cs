@@ -29,8 +29,18 @@ namespace ImageGlass;
 
 internal static class Program
 {
+    private static ExplorerView? _foregroundShell;
+
     public static string APP_SINGLE_INSTANCE_ID => "{f2a83de1-b9ac-4461-81d0-cc4547b0b27b}";
-    public static ExplorerView? ForegroundShell { get; private set; }
+    public static ExplorerView? ForegroundShell
+    {
+        get => _foregroundShell;
+        set
+        {
+            _foregroundShell?.Dispose();
+            _foregroundShell = value;
+        }
+    }
 
 
     /// <summary>
@@ -93,9 +103,7 @@ internal static class Program
 
         // get foreground shell
         using var shell = new EggShell();
-        ForegroundShell?.Dispose();
         ForegroundShell = shell.GetForegroundWindowView();
-
 
         // check and run Quick setup
         if (CheckAndRunQuickSetup()) return;
@@ -106,9 +114,7 @@ internal static class Program
         // checks and runs app instance(s)
         RunAppInstances();
 
-
         // dispose foreground shell
-        ForegroundShell?.Dispose();
         ForegroundShell = null;
     }
 

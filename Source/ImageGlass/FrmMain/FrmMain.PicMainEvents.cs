@@ -99,7 +99,7 @@ public partial class FrmMain
         // The file is located another folder, load the entire folder
         if (imageIndex == -1)
         {
-            PrepareLoading(filePath);
+            PrepareLoading(filePath, true);
         }
         // The file is in current folder AND it is the viewing image
         else if (Local.CurrentIndex == imageIndex)

@@ -69,7 +69,7 @@ public partial class FrmMain
 
         if (o.ShowDialog() == DialogResult.OK)
         {
-            PrepareLoading(o.FileName);
+            PrepareLoading(o.FileName, true);
         }
     }
 
@@ -1328,7 +1328,7 @@ public partial class FrmMain
             var sFile = Clipboard.GetData(DataFormats.FileDrop) as string[];
 
             // load file
-            PrepareLoading(sFile[0]);
+            PrepareLoading(sFile[0], true);
         }
 
         // Is there a image in clipboard?
@@ -1347,7 +1347,7 @@ public partial class FrmMain
 
             if (File.Exists(text) || Directory.Exists(text))
             {
-                PrepareLoading(text);
+                PrepareLoading(text, true);
             }
             // get image from Base64string 
             else

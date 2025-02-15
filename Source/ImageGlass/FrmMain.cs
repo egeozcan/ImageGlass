@@ -383,8 +383,8 @@ public partial class FrmMain : ThemedForm
         }
 
 
-        // Start loading path
-        PrepareLoading(pathToLoad);
+        // start loading path with the foreground shell
+        PrepareLoading(pathToLoad, false);
     }
 
 
@@ -394,13 +394,17 @@ public partial class FrmMain : ThemedForm
     /// <param name="inputPath">
     /// The relative/absolute path of file/folder; or a protocol path
     /// </param>
-    public void PrepareLoading(string inputPath)
+    public void PrepareLoading(string inputPath, bool disposeForegroundShell)
     {
         var path = BHelper.ResolvePath(inputPath);
         if (string.IsNullOrEmpty(path)) return;
 
         var pathType = BHelper.CheckPath(path);
         if (pathType == PathType.Unknown) return;
+
+        // dispose the foreground shell if requested
+        if (disposeForegroundShell) Program.ForegroundShell = null;
+
 
         if (pathType == PathType.Dir)
         {
