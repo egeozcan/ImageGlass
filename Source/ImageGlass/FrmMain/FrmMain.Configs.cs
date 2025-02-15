@@ -927,10 +927,24 @@ public partial class FrmMain
     {
         // clear items
         MnuLoadingOrders.DropDown.Items.Clear();
-
         var newMenuIconHeight = this.ScaleToDpi(Const.MENU_ICON_HEIGHT);
 
-        // add ImageOrderBy items
+
+        // 1. add Use Explorer sort order item
+        var mnuUseExplorerSortOrder = new ToolStripRadioButtonMenuItem()
+        {
+            Text = Config.Language[$"{nameof(FrmSettings)}._{nameof(Config.ShouldUseExplorerSortOrder)}"],
+            CheckOnClick = true,
+            Checked = Config.ShouldUseExplorerSortOrder,
+            ImageScaling = ToolStripItemImageScaling.None,
+            Image = new Bitmap(newMenuIconHeight, newMenuIconHeight),
+        };
+        mnuUseExplorerSortOrder.Click += MnuUseExplorerSortOrder_Click;
+        MnuLoadingOrders.DropDown.Items.Add(mnuUseExplorerSortOrder);
+        MnuLoadingOrders.DropDown.Items.Add(new ToolStripSeparator());
+
+
+        // 2. add ImageOrderBy items
         foreach (var order in Enum.GetValues<ImageOrderBy>())
         {
             var orderName = Enum.GetName(order);
@@ -951,10 +965,10 @@ public partial class FrmMain
             mnu.Click += MnuLoadingOrderItem_Click;
             MnuLoadingOrders.DropDown.Items.Add(mnu);
         }
-
         MnuLoadingOrders.DropDown.Items.Add(new ToolStripSeparator());
 
-        // add ImageOrderType items
+
+        // 3. add ImageOrderType items
         foreach (var orderType in Enum.GetValues<ImageOrderType>())
         {
             var typeName = Enum.GetName(orderType);
@@ -975,6 +989,21 @@ public partial class FrmMain
             mnu.Click += MnuLoadingOrderTypeItem_Click;
             MnuLoadingOrders.DropDown.Items.Add(mnu);
         }
+
+    }
+
+
+    private void MnuUseExplorerSortOrder_Click(object? sender, EventArgs e)
+    {
+        if (sender is not ToolStripMenuItem mnu) return;
+
+        Config.ShouldUseExplorerSortOrder = mnu.Checked;
+
+        // reload image list
+        IG_ReloadList();
+
+        // reload the state
+        LoadMnuLoadingOrdersSubItems();
     }
 
 
