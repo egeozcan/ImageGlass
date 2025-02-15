@@ -121,7 +121,7 @@ public partial class FrmMain
     /// </summary>
     public void IG_ReloadList()
     {
-        _ = LoadImageListAsync(Local.Images.DistinctDirs, Local.Images.GetFilePath(Local.CurrentIndex));
+        LoadImageList(Local.Images.DistinctDirs, Local.Images.GetFilePath(Local.CurrentIndex));
     }
 
 

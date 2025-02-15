@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+using D2Phap;
 using ImageGlass.Base;
 using ImageGlass.Base.InstanceManagement;
 using ImageGlass.Base.Update;
@@ -29,6 +30,7 @@ namespace ImageGlass;
 internal static class Program
 {
     public static string APP_SINGLE_INSTANCE_ID => "{f2a83de1-b9ac-4461-81d0-cc4547b0b27b}";
+    public static ExplorerView? ForegroundShell { get; private set; }
 
 
     /// <summary>
@@ -88,6 +90,13 @@ internal static class Program
             return;
         }
 
+
+        // get foreground shell
+        using var shell = new EggShell();
+        ForegroundShell?.Dispose();
+        ForegroundShell = shell.GetForegroundWindowView();
+
+
         // check and run Quick setup
         if (CheckAndRunQuickSetup()) return;
 
@@ -96,6 +105,11 @@ internal static class Program
 
         // checks and runs app instance(s)
         RunAppInstances();
+
+
+        // dispose foreground shell
+        ForegroundShell?.Dispose();
+        ForegroundShell = null;
     }
 
 

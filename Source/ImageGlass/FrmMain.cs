@@ -44,6 +44,8 @@ public partial class FrmMain : ThemedForm
     private readonly IProgress<ProgressReporterEventArgs> _uiReporter;
     private MovableForm? _movableForm;
     private bool _isShowingImagePreview;
+    private FileFinder? _fileFinder = new();
+    string? _inputFilePath;
 
 
     // variable to back up / restore window layout when changing window mode
@@ -61,6 +63,7 @@ public partial class FrmMain : ThemedForm
 
         // initialize UI thread reporter
         _uiReporter = new Progress<ProgressReporterEventArgs>(ReportToUIThread);
+        _fileFinder.FilesEnumerated += FileFinder_FilesEnumerated;
 
         // update the DpiApi when DPI changed.
         EnableDpiApiUpdate = true;
@@ -91,6 +94,7 @@ public partial class FrmMain : ThemedForm
 
         ResumeLayout(true);
     }
+
 
     protected override void OnDpiChanged(DpiChangedEventArgs e)
     {
@@ -380,7 +384,7 @@ public partial class FrmMain : ThemedForm
 
 
         // Start loading path
-        _ = BHelper.RunAsThread(() => PrepareLoading(pathToLoad));
+        PrepareLoading(pathToLoad);
     }
 
 
@@ -405,10 +409,10 @@ public partial class FrmMain : ThemedForm
         else
         {
             // load images list
-            _ = LoadImageListAsync([inputPath], path);
+            LoadImageList([inputPath], path);
 
             // load the current image
-            _ = ViewNextCancellableAsync(0, filePath: path);
+            BHelper.RunAsThread(() => _ = ViewNextCancellableAsync(0, filePath: path));
         }
     }
 
@@ -429,7 +433,7 @@ public partial class FrmMain : ThemedForm
         if (string.IsNullOrEmpty(filePath))
         {
             // load images list
-            await LoadImageListAsync(paths, currentFile ?? filePath);
+            LoadImageList(paths, currentFile ?? filePath);
 
             // load the current image
             await ViewNextCancellableAsync(0);
@@ -440,116 +444,128 @@ public partial class FrmMain : ThemedForm
             _ = ViewNextCancellableAsync(0, filePath: filePath);
 
             // load images list
-            _ = LoadImageListAsync(paths, currentFile ?? filePath);
+            LoadImageList(paths, currentFile ?? filePath);
         }
     }
+
 
     /// <summary>
     /// Load the images list.
     /// </summary>
     /// <param name="inputPaths">The list of files to load</param>
     /// <param name="currentFilePath">The image file path to view first</param>
-    public async Task LoadImageListAsync(
+    public void LoadImageList(
         IEnumerable<string> inputPaths,
         string? currentFilePath)
     {
         if (!inputPaths.Any()) return;
 
-        currentFilePath ??= string.Empty;
+        _inputFilePath = currentFilePath ??= string.Empty;
+
         var hasInitFile = !string.IsNullOrEmpty(currentFilePath);
+        var dirPaths = new HashSet<string>();
 
+        //  Get the distinct directories list
+        #region Get the distinct directories list
+        var isFirstPath = true;
 
-        await Task.Run(() =>
+        // parse string to absolute path
+        var paths = inputPaths.Select(item => BHelper.ResolvePath(item));
+
+        // prepare the distinct dir list
+        var distinctDirsList = BHelper.GetDistinctDirsFromPaths(paths);
+
+        foreach (var aPath in distinctDirsList)
         {
-            // track paths loaded to prevent duplicates
-            var dirPaths = new HashSet<string>();
-            var isFirstPath = true;
+            var pathType = BHelper.CheckPath(aPath);
+            if (pathType == PathType.Unknown) continue;
 
-            // parse string to absolute path
-            var paths = inputPaths.Select(item => BHelper.ResolvePath(item));
+            var dirPath = aPath;
 
-            // prepare the distinct dir list
-            var distinctDirsList = BHelper.GetDistinctDirsFromPaths(paths);
-
-            foreach (var aPath in distinctDirsList)
+            // path is directory
+            if (pathType == PathType.Dir)
             {
-                var pathType = BHelper.CheckPath(aPath);
-                if (pathType == PathType.Unknown) continue;
-
-                var dirPath = aPath;
-
-                // path is directory
-                if (pathType == PathType.Dir)
+                // Issue #415: If the folder name ends in ALT+255 (alternate space),
+                // DirectoryInfo strips it.
+                if (!aPath.EndsWith(Path.DirectorySeparatorChar.ToString(), StringComparison.OrdinalIgnoreCase))
                 {
-                    // Issue #415: If the folder name ends in ALT+255 (alternate space),
-                    // DirectoryInfo strips it.
-                    if (!aPath.EndsWith(Path.DirectorySeparatorChar.ToString(), StringComparison.OrdinalIgnoreCase))
-                    {
-                        dirPath = aPath + Path.DirectorySeparatorChar;
-                    }
+                    dirPath = aPath + Path.DirectorySeparatorChar;
                 }
-                // path is file
+            }
+            // path is file
+            else
+            {
+                if (string.Equals(Path.GetExtension(aPath), ".lnk", StringComparison.OrdinalIgnoreCase))
+                {
+                    dirPath = FileShortcutApi.GetTargetPathFromShortcut(aPath);
+                }
                 else
                 {
-                    if (string.Equals(Path.GetExtension(aPath), ".lnk", StringComparison.OrdinalIgnoreCase))
-                    {
-                        dirPath = FileShortcutApi.GetTargetPathFromShortcut(aPath);
-                    }
-                    else
-                    {
-                        dirPath = Path.GetDirectoryName(aPath) ?? string.Empty;
-                    }
+                    dirPath = Path.GetDirectoryName(aPath) ?? string.Empty;
                 }
-
-
-                // TODO: Currently only have the ability to watch a single path for changes!
-                if (isFirstPath)
-                {
-                    isFirstPath = false;
-                    StartFileWatcher(dirPath);
-
-                    // Seek for explorer sort order
-                    DetermineSortOrder(dirPath);
-                }
-
-                // KBR 20181004 Fix observed bug: dropping multiple files from the same path
-                // would load ALL files in said path multiple times! Prevent loading the same
-                // path more than once.
-                dirPaths.Add(dirPath);
             }
 
 
-            Local.InitialInputPath = hasInitFile
-                ? (distinctDirsList.Count > 0 ? distinctDirsList[0] : string.Empty)
-                : currentFilePath;
-
-
-            // get image files
-            var allFilePaths = BHelper.FindFiles(dirPaths,
-                Config.EnableRecursiveLoading,
-                Config.ShouldLoadHiddenImages,
-                filePath =>
-                {
-                    if (string.IsNullOrWhiteSpace(filePath)) return false;
-
-                    var ext = Path.GetExtension(filePath).ToLowerInvariant();
-                    return ext.Length > 0 && Config.FileFormats.Contains(ext);
-                },
-                filePaths => BHelper.SortFilePathList(filePaths,
-                    Local.ActiveImageLoadingOrder,
-                    Local.ActiveImageLoadingOrderType,
-                    Config.ShouldGroupImagesByDirectory));
-
-
-            // add to image list
-            Local.InitImageList(allFilePaths, distinctDirsList);
-
-
-            _uiReporter.Report(new(new ImageListLoadedEventArgs()
+            // TODO: Currently only have the ability to watch a single path for changes!
+            if (isFirstPath)
             {
-                InitFilePath = currentFilePath,
-            }, nameof(Local.RaiseImageListLoadedEvent)));
-        });
+                isFirstPath = false;
+                StartFileWatcher(dirPath);
+            }
+
+            // KBR 20181004 Fix observed bug: dropping multiple files from the same path
+            // would load ALL files in said path multiple times! Prevent loading the same
+            // path more than once.
+            dirPaths.Add(dirPath);
+        }
+        #endregion // Get the distinct directories list
+
+
+        Local.InitialInputPath = hasInitFile
+            ? (distinctDirsList.Count > 0 ? distinctDirsList[0] : string.Empty)
+            : currentFilePath;
+
+        // initialize image list
+        Local.InitImageList(null, distinctDirsList);
+
+
+        // Load images to the list
+        #region Load images to the list
+
+        // load images from foreground window
+        var useForegroundWindow = hasInitFile && Program.ForegroundShell != null;
+
+        _fileFinder.StartFindingFiles(
+            useForegroundWindow ? Program.ForegroundShell : null,
+            dirPaths,
+            Config.EnableRecursiveLoading,
+            Config.ShouldLoadHiddenImages,
+            filePath =>
+            {
+                if (string.IsNullOrWhiteSpace(filePath)) return false;
+
+                var ext = Path.GetExtension(filePath).ToLowerInvariant();
+                return ext.Length > 0 && Config.FileFormats.Contains(ext);
+            },
+            filePaths => BHelper.SortFilePathList(filePaths,
+                Config.ImageLoadingOrder,
+                Config.ImageLoadingOrderType,
+                Config.ShouldGroupImagesByDirectory));
+
+        #endregion // Load images to the list
+
+    }
+
+
+    private void FileFinder_FilesEnumerated(object? sender, FilesEnumeratedEventArgs e)
+    {
+        // add to image list
+        Local.Images.Add(e.FilePaths);
+
+        _uiReporter.Report(new(new ImageListLoadedEventArgs()
+        {
+            InitFilePath = _inputFilePath,
+        }, nameof(Local.RaiseImageListLoadedEvent)));
     }
 
 
@@ -588,45 +604,6 @@ public partial class FrmMain : ThemedForm
             && !Local.Images.ContainsDirPathOf(currentFilePath))
         {
             Local.CurrentIndex = 0;
-        }
-    }
-
-
-    /// <summary>
-    /// Determine the image sort order/direction based on user settings
-    /// or Windows Explorer sorting.
-    /// <para>
-    /// Side effects:
-    /// </para>
-    /// <list type="bullet">
-    ///     <item>Updates <see cref="Local.ActiveImageLoadingOrder"/></item>
-    ///     <item>Updates <see cref="Local.ActiveImageLoadingOrderType"/></item>
-    /// </list>
-    /// </summary>
-    /// <param name="fullPath">
-    /// Full path to file/folder(i.e. as comes in from drag-and-drop)
-    /// </param>
-    private static void DetermineSortOrder(string fullPath)
-    {
-        // Initialize to the user-configured sorting order. Fetching the Explorer sort
-        // order may fail, or may be on an unsupported column.
-        Local.ActiveImageLoadingOrder = Config.ImageLoadingOrder;
-        Local.ActiveImageLoadingOrderType = Config.ImageLoadingOrderType;
-
-        // Use File Explorer sort order if possible
-        if (!Config.ShouldUseExplorerSortOrder) return;
-
-        if (ExplorerSortOrder.GetExplorerSortOrder(fullPath, out var order, out var isAscending))
-        {
-            if (order != null)
-            {
-                Local.ActiveImageLoadingOrder = order.Value;
-            }
-
-            if (isAscending != null)
-            {
-                Local.ActiveImageLoadingOrderType = isAscending.Value ? ImageOrderType.Asc : ImageOrderType.Desc;
-            }
         }
     }
 

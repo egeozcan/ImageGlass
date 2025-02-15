@@ -250,8 +250,8 @@ public partial class FrmMain
         // find the index of the new image
         var newFileIndex = BHelper.SortFilePathList(
             [.. Local.Images.FilePaths, filePath],
-            Local.ActiveImageLoadingOrder,
-            Local.ActiveImageLoadingOrderType,
+            Config.ImageLoadingOrder,
+            Config.ImageLoadingOrderType,
             Config.ShouldGroupImagesByDirectory)
             .IndexOf(i => i.Equals(filePath, StringComparison.OrdinalIgnoreCase));
 

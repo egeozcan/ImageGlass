@@ -17,13 +17,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 using D2Phap;
-using ImageMagick;
-using ImageMagick.Drawing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ImageGlass.Base.DirectoryComparer;
 
@@ -37,58 +30,68 @@ public class FileFinder
 
 
     /// <summary>
-    /// Finds files in the given directories.
-    /// Use the <see cref="FilesEnumerated"/> event to get results.
+    /// Starts finding files.
+    /// <para>
+    ///   If <paramref name="foregroundShell"/> is not null,
+    ///   it will get files from the foreground window,
+    ///   otherwise from the given directories <paramref name="dirs"/>.
+    /// </para>
+    /// <para>Use the <see cref="FilesEnumerated"/> event to get results.</para>
     /// </summary>
+    /// <param name="foregroundShell">The Shell object</param>
     /// <param name="dirs">List of directories to search for files</param>
     /// <param name="searchSubDirectories">Option to search in sub-directories</param>
     /// <param name="includeHidden">Option to include the hidden files</param>
-    /// <param name="useForegroundFolder">Option to check and search in the foreground window folder</param>
     /// <param name="filterFn">Function to apply path filter</param>
     /// <param name="nonShellSortFn">Function to apply path sorting when Explorer file order is not detected</param>
     /// <remarks>🔴 NOTE: Must run on UI thread.</remarks>
     public void StartFindingFiles(
+        ExplorerView? foregroundShell,
         IEnumerable<string> dirs,
         bool searchSubDirectories,
         bool includeHidden,
-        bool useForegroundFolder = false,
         Predicate<string>? filterFn = null,
         Func<IEnumerable<string>, IEnumerable<string>>? nonShellSortFn = null)
     {
         // 1. get files from the foreground window
-        if (useForegroundFolder)
+        if (foregroundShell != null)
         {
-            var foregroundShell = GetShellFolderView(null);
-
-            if (foregroundShell.View != null)
-            {
-                StartFindingFilesShell(foregroundShell.View,
-                    foregroundShell.DirPath,
-                    searchSubDirectories,
-                    includeHidden,
-                    useForegroundFolder,
-                    filterFn,
-                    nonShellSortFn);
-
-                // dispose shell object
-                foregroundShell.View.Dispose();
-            }
+            StartFindingFiles(foregroundShell, searchSubDirectories, includeHidden, filterFn, nonShellSortFn);
+            return;
         }
 
 
         // 2. get files from the given directories
+        StartFindingFiles(dirs, searchSubDirectories, includeHidden, filterFn, nonShellSortFn);
+    }
+
+
+    // Private Methods
+    #region Private Methods
+
+    /// <summary>
+    /// Finds files in the given directories.
+    /// </summary>
+    /// <remarks>🔴 NOTE: Must run on UI thread.</remarks>
+    private void StartFindingFiles(
+        IEnumerable<string> dirs,
+        bool searchSubDirectories,
+        bool includeHidden,
+        Predicate<string>? filterFn = null,
+        Func<IEnumerable<string>, IEnumerable<string>>? nonShellSortFn = null)
+    {
+        // get files from the given directories
         foreach (var dirPath in dirs)
         {
-            var folderShell = GetShellFolderView(dirPath);
+            var folderShell = GetShellFolderView(dirPath, null);
 
             // with shell
             if (folderShell.View != null)
             {
-                StartFindingFilesShell(folderShell.View,
+                StartFindingFiles_WithShell(folderShell.View,
                     dirPath,
                     searchSubDirectories,
                     includeHidden,
-                    useForegroundFolder,
                     filterFn,
                     nonShellSortFn);
 
@@ -99,25 +102,45 @@ public class FileFinder
             // without shell
             else
             {
-                StartFindingFilesDotNet(dirPath, searchSubDirectories, includeHidden, filterFn, nonShellSortFn);
+                StartFindingFiles_WithDotNet(dirPath, searchSubDirectories, includeHidden, filterFn, nonShellSortFn);
             }
         }
     }
 
 
-    // Private Methods
-    #region Private Methods
+    /// <summary>
+    /// Finds files from the given foreground shell object.
+    /// </summary>
+    /// <remarks>🔴 NOTE: Must run on UI thread.</remarks>
+    private void StartFindingFiles(
+        ExplorerView? foregroundShell,
+        bool searchSubDirectories,
+        bool includeHidden,
+        Predicate<string>? filterFn = null,
+        Func<IEnumerable<string>, IEnumerable<string>>? nonShellSortFn = null)
+    {
+        if (foregroundShell == null) return;
+
+        var folderShell = GetShellFolderView(null, foregroundShell);
+
+        StartFindingFiles_WithShell(folderShell.View,
+            folderShell.DirPath,
+            searchSubDirectories,
+            includeHidden,
+            filterFn,
+            nonShellSortFn);
+    }
+
 
     /// <summary>
     /// Finds files in the given <see cref="ExplorerFolderView"/>.
     /// Use the <see cref="FilesEnumerated"/> event to get results.
     /// </summary>
     /// <remarks>🔴 NOTE: Must run on UI thread.</remarks>
-    private void StartFindingFilesShell(ExplorerFolderView? fv,
+    private void StartFindingFiles_WithShell(ExplorerFolderView? fv,
         string? rootDir,
         bool searchSubDirectories,
         bool includeHidden,
-        bool useForegroundFolder = false,
         Predicate<string>? filterFn = null,
         Func<IEnumerable<string>, IEnumerable<string>>? nonShellSortFn = null)
     {
@@ -126,7 +149,7 @@ public class FileFinder
         {
             if (!string.IsNullOrWhiteSpace(rootDir))
             {
-                StartFindingFilesDotNet(rootDir, searchSubDirectories, includeHidden, filterFn, nonShellSortFn);
+                StartFindingFiles_WithDotNet(rootDir, searchSubDirectories, includeHidden, filterFn, nonShellSortFn);
             }
             return;
         }
@@ -173,7 +196,7 @@ public class FileFinder
             });
 
             // find files in sub folders
-            StartFindingFiles(subDirList, searchSubDirectories, includeHidden, useForegroundFolder, filterFn, nonShellSortFn);
+            StartFindingFiles(subDirList, searchSubDirectories, includeHidden, filterFn, nonShellSortFn);
         }
     }
 
@@ -182,32 +205,29 @@ public class FileFinder
     /// Gets the <see cref="ExplorerFolderView"/> from the given dir path.
     /// </summary>
     /// <remarks>🔴 NOTE: Must run on UI thread.</remarks>
-    private static (ExplorerFolderView? View, string DirPath) GetShellFolderView(string? rootDir)
+    private static (ExplorerFolderView? View, string DirPath) GetShellFolderView(string? rootDir, ExplorerView? foregroundShell)
     {
         var folderPath = "";
         ExplorerFolderView? folderView = null;
-
         using var shell = new EggShell();
-        var dirPath = rootDir;
+
 
         // if no dir path, get the explorer's folder view where the application opened from
-        if (string.IsNullOrWhiteSpace(dirPath))
+        if (string.IsNullOrWhiteSpace(rootDir))
         {
-            using var wv = shell.GetForegroundWindowView();
-
-            if (wv != null && wv.GetTabFolderView() is ExplorerFolderView fv)
+            if (foregroundShell?.GetTabFolderView() is ExplorerFolderView fv)
             {
-                folderPath = wv.GetTabViewPath();
+                folderPath = foregroundShell.GetTabViewPath();
                 folderView = fv;
             }
         }
         else if (!Path.EndsInDirectorySeparator(rootDir))
         {
-            dirPath += Path.DirectorySeparatorChar;
+            rootDir += Path.DirectorySeparatorChar;
         }
 
 
-        dirPath ??= "";
+        rootDir ??= "";
 
         // find the folder view from the opening explorer windows
         if (folderView == null)
@@ -222,7 +242,7 @@ public class FileFinder
                 }
 
                 // get the folder view for the input dir
-                if (dirPath.Equals(windowPath, StringComparison.InvariantCultureIgnoreCase)
+                if (rootDir.Equals(windowPath, StringComparison.InvariantCultureIgnoreCase)
                     && ev.GetTabFolderView() is ExplorerFolderView fv)
                 {
                     folderPath = windowPath;
@@ -243,7 +263,7 @@ public class FileFinder
     /// Finds files in the given directory with .NET support.
     /// Use the <see cref="FilesEnumerated"/> event to get results.
     /// </summary>
-    private void StartFindingFilesDotNet(string rootDir,
+    private void StartFindingFiles_WithDotNet(string rootDir,
         bool searchSubDirectories,
         bool includeHidden,
         Predicate<string>? filterFn = null,
