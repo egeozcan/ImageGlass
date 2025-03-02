@@ -62,13 +62,12 @@ public partial class FrmMain : ThemedForm
     {
         get
         {
-            var args = Environment.GetCommandLineArgs();
             var pathToLoad = string.Empty;
 
-            if (args.Length >= 2)
+            if (Program.Args.Length >= 2)
             {
                 // get path from params
-                var cmdPath = args
+                var cmdPath = Program.Args
                     .Skip(1)
                     .FirstOrDefault(i => !i.StartsWith(Const.CONFIG_CMD_PREFIX, StringComparison.Ordinal));
 
@@ -427,11 +426,11 @@ public partial class FrmMain : ThemedForm
         }
         else
         {
-            // load images list
-            LoadImageList([inputPath], path);
-
             // load the current image
             BHelper.RunAsThread(() => _ = ViewNextCancellableAsync(0, filePath: path));
+
+            // load images list
+            LoadImageList([inputPath], path);
         }
     }
 
@@ -602,11 +601,11 @@ public partial class FrmMain : ThemedForm
     /// <summary>
     /// Updates <see cref="Local.CurrentIndex"/> according to the context.
     /// </summary>
-    private static void UpdateCurrentIndex(string? currentFilePath)
+    private void UpdateCurrentIndex(string? currentFilePath)
     {
         if (string.IsNullOrEmpty(currentFilePath))
         {
-            Local.CurrentIndex = 0;
+            Local.CurrentIndex = -1;
             return;
         }
 
@@ -615,8 +614,10 @@ public partial class FrmMain : ThemedForm
         var di = new DirectoryInfo(currentFilePath);
         currentFilePath = di.FullName;
 
+
         // Find the index of current image
         Local.CurrentIndex = Local.Images.IndexOf(currentFilePath);
+
 
         // KBR 20181009
         // Changing "include subfolder" setting could lose the "current" image. Prefer
@@ -708,7 +709,8 @@ public partial class FrmMain : ThemedForm
         }
 
         // temp index
-        var imageIndex = Local.CurrentIndex + step;
+        var shouldUpdateIndex = string.IsNullOrWhiteSpace(filePath);
+        var imageIndex = shouldUpdateIndex ? Local.CurrentIndex + step : -1;
         var oldImgPath = Local.Images.GetFilePath(Local.CurrentIndex);
 
 
@@ -716,69 +718,72 @@ public partial class FrmMain : ThemedForm
         {
             // Validate image index
             #region Validate image index
+            var oldIndex = Local.CurrentIndex;
 
-            if (Local.Images.Length > 0 && Local.CurrentIndex > -1)
+
+            if (shouldUpdateIndex)
             {
-                // Reach end of list
-                if (imageIndex >= Local.Images.Length || (Local.Images.Length == 1 && step > 0))
+                if (Local.Images.Length > 0)
                 {
-                    _uiReporter.Report(new(new ImageEventArgs()
+                    // Reach end of list
+                    if (imageIndex >= Local.Images.Length || (Local.Images.Length == 1 && step > 0))
                     {
-                        Index = Local.CurrentIndex,
-                        FilePath = oldImgPath,
-                    }, nameof(Local.RaiseLastImageReachedEvent)));
-
-                    if (!Config.EnableLoopBackNavigation || Local.Images.Length == 1)
-                    {
-                        // if the image is not rendered yet
-                        if (PicMain.ImageDrawingState != Viewer.ImageDrawingState.Done)
+                        _uiReporter.Report(new(new ImageEventArgs()
                         {
-                            Local.CurrentIndex = Local.Images.Length - 1;
-                            await ViewNextCancellableAsync(0, resetZoom, isSkipCache, frameIndex, filePath);
+                            Index = Local.CurrentIndex,
+                            FilePath = oldImgPath,
+                        }, nameof(Local.RaiseLastImageReachedEvent)));
+
+                        if (!Config.EnableLoopBackNavigation || Local.Images.Length == 1)
+                        {
+                            // if the image is not rendered yet
+                            if (!PicMain.CanImageAnimate
+                                && PicMain.ImageDrawingState != Viewer.ImageDrawingState.Done)
+                            {
+                                Local.CurrentIndex = Local.Images.Length - 1;
+                                await ViewNextCancellableAsync(0, resetZoom, isSkipCache, frameIndex, filePath);
+                            }
+                            return;
                         }
-                        return;
+                    }
+
+                    // Reach the first image of list
+                    if (imageIndex < 0 || (Local.Images.Length == 1 && step < 0))
+                    {
+                        _uiReporter.Report(new(new ImageEventArgs()
+                        {
+                            Index = Local.CurrentIndex,
+                            FilePath = oldImgPath,
+                        }, nameof(Local.RaiseFirstImageReachedEvent)));
+
+
+                        if (!Config.EnableLoopBackNavigation || Local.Images.Length == 1)
+                        {
+                            // if the image is not rendered yet
+                            if (!PicMain.CanImageAnimate
+                                && PicMain.ImageDrawingState != Viewer.ImageDrawingState.Done)
+                            {
+                                Local.CurrentIndex = 0;
+                                await ViewNextCancellableAsync(0, resetZoom, isSkipCache, frameIndex, filePath);
+                            }
+                            return;
+                        }
                     }
                 }
 
-                // Reach the first image of list
-                if (imageIndex < 0 || (Local.Images.Length == 1 && step < 0))
-                {
-                    _uiReporter.Report(new(new ImageEventArgs()
-                    {
-                        Index = Local.CurrentIndex,
-                        FilePath = oldImgPath,
-                    }, nameof(Local.RaiseFirstImageReachedEvent)));
+
+                // Check if current index is greater than upper limit
+                if (imageIndex >= Local.Images.Length)
+                    imageIndex = 0;
+
+                // Check if current index is less than lower limit
+                if (imageIndex < 0)
+                    imageIndex = Local.Images.Length - 1;
 
 
-                    if (!Config.EnableLoopBackNavigation || Local.Images.Length == 1)
-                    {
-                        // if the image is not rendered yet
-                        if (PicMain.ImageDrawingState != Viewer.ImageDrawingState.Done)
-                        {
-                            Local.CurrentIndex = 0;
-                            await ViewNextCancellableAsync(0, resetZoom, isSkipCache, frameIndex, filePath);
-                        }
-                        return;
-                    }
-                }
-            }
-
-
-            // Check if current index is greater than upper limit
-            if (imageIndex >= Local.Images.Length)
-                imageIndex = 0;
-
-            // Check if current index is less than lower limit
-            if (imageIndex < 0)
-                imageIndex = Local.Images.Length - 1;
-
-
-            if (string.IsNullOrEmpty(filePath))
-            {
                 // Update current index
                 Local.CurrentIndex = imageIndex;
             }
-
             #endregion // Validate image index
 
 
@@ -1058,7 +1063,10 @@ public partial class FrmMain : ThemedForm
         }
 
         // Select thumbnail item
-        _ = BHelper.RunAsThread(SelectCurrentGalleryThumbnail);
+        if (e.NewIndex >= 0)
+        {
+            _ = BHelper.RunAsThread(SelectCurrentGalleryThumbnail);
+        }
 
         // show image preview if it's not cached
         if (!e.UseWebview2 && !Local.Images.IsCached(Local.CurrentIndex))
@@ -1149,8 +1157,8 @@ public partial class FrmMain : ThemedForm
         }
 
 
-
-        if (Local.CurrentIndex >= 0)
+        // select thumbnail
+        if (e.Index >= 0)
         {
             SelectCurrentGalleryThumbnail();
         }

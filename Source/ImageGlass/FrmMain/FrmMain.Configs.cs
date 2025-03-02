@@ -300,7 +300,7 @@ public partial class FrmMain
             }
 
             // load first image
-            LoadImagesFromCmdArgs(Environment.GetCommandLineArgs());
+            LoadImagesFromCmdArgs(Program.Args);
         }
 
 

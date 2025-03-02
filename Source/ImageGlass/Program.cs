@@ -63,13 +63,17 @@ internal static class Program
         }
     }
 
+    /// <summary>
+    /// Gets the arguments passed to the application.
+    /// </summary>
+    public static string[] Args { get; set; } = [];
 
     /// <summary>
     /// Gets value to indicates this ImageGlass instance is in <see cref="IgCommands.STARTUP_BOOST"/> mode.
     /// In <see cref="IgCommands.STARTUP_BOOST"/> mode,
     /// ImageGlass UI is totally hiden and its process auto-closes after a few seconds, user settings are not saved.
     /// </summary>
-    public static bool IsStartupBoostMode => Environment.GetCommandLineArgs().Contains(IgCommands.STARTUP_BOOST);
+    public static bool IsStartupBoostMode => Program.Args.Contains(IgCommands.STARTUP_BOOST);
 
 
     /// <summary>
@@ -78,6 +82,9 @@ internal static class Program
     [STAThread]
     static void Main()
     {
+        Program.Args = Environment.GetCommandLineArgs();
+
+
         #region App configs
 
         // use independent culture for formatting or parsing a string
@@ -234,6 +241,7 @@ internal static class Program
         {
             // single instance is required
             using var instance = new SingleInstance(APP_SINGLE_INSTANCE_ID);
+
             if (instance.IsFirstInstance)
             {
                 instance.ArgsReceived += Instance_ArgumentsReceived;
@@ -274,6 +282,7 @@ internal static class Program
     {
         if (Local.FrmMain == null) return;
 
+        Program.Args = args;
 
         // load image file from arg
         Local.FrmMain.LoadImagesFromCmdArgs(args);
