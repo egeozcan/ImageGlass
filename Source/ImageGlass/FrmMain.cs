@@ -57,6 +57,32 @@ public partial class FrmMain : ThemedForm
     private Rectangle _windowBound;
     private FormWindowState _windowState = FormWindowState.Normal;
 
+
+    private static string InputImagePathFromArgs
+    {
+        get
+        {
+            var args = Environment.GetCommandLineArgs();
+            var pathToLoad = string.Empty;
+
+            if (args.Length >= 2)
+            {
+                // get path from params
+                var cmdPath = args
+                    .Skip(1)
+                    .FirstOrDefault(i => !i.StartsWith(Const.CONFIG_CMD_PREFIX, StringComparison.Ordinal));
+
+                if (!string.IsNullOrEmpty(cmdPath))
+                {
+                    pathToLoad = cmdPath;
+                }
+            }
+
+            return pathToLoad;
+        }
+    }
+
+
     public FrmMain() : base()
     {
         InitializeComponent();
@@ -340,29 +366,6 @@ public partial class FrmMain : ThemedForm
     }
 
 
-    private static string InputImagePathFromArgs
-    {
-        get
-        {
-            var args = Environment.GetCommandLineArgs();
-            var pathToLoad = string.Empty;
-
-            if (args.Length >= 2)
-            {
-                // get path from params
-                var cmdPath = args
-                    .Skip(1)
-                    .FirstOrDefault(i => !i.StartsWith(Const.CONFIG_CMD_PREFIX, StringComparison.Ordinal));
-
-                if (!string.IsNullOrEmpty(cmdPath))
-                {
-                    pathToLoad = cmdPath;
-                }
-            }
-
-            return pathToLoad;
-        }
-    }
 
     #region Image Loading functions
 
@@ -687,7 +690,6 @@ public partial class FrmMain : ThemedForm
     /// <summary>
     /// View the next image using jump step.
     /// </summary>
-    [SuppressMessage("IDisposableAnalyzers.Correctness", "IDISP003:Dispose previous before re-assigning", Justification = "<Pending>")]
     private async Task ViewNextAsync(int step,
         bool resetZoom = true,
         bool isSkipCache = false,
@@ -701,9 +703,7 @@ public partial class FrmMain : ThemedForm
         {
             Local.CurrentIndex = -1;
             Local.Metadata = null;
-
             LoadImageInfo();
-
             return;
         }
 
@@ -717,7 +717,7 @@ public partial class FrmMain : ThemedForm
             // Validate image index
             #region Validate image index
 
-            if (Local.Images.Length > 0)
+            if (Local.Images.Length > 0 && Local.CurrentIndex > -1)
             {
                 // Reach end of list
                 if (imageIndex >= Local.Images.Length || (Local.Images.Length == 1 && step > 0))
@@ -786,6 +786,7 @@ public partial class FrmMain : ThemedForm
             // check if loading is cancelled
             tokenSrc?.Token.ThrowIfCancellationRequested();
             IgPhoto? photo = null;
+
             var readSettings = new CodecReadOptions()
             {
                 ColorProfileName = Config.ColorProfile,
@@ -802,6 +803,7 @@ public partial class FrmMain : ThemedForm
             // load image metadata
             if (!string.IsNullOrEmpty(filePath))
             {
+                photo?.Dispose();
                 photo = new IgPhoto(filePath);
                 readSettings.FirstFrameOnly = Config.SingleFrameFormats.Contains(photo.Extension);
 
@@ -857,6 +859,7 @@ public partial class FrmMain : ThemedForm
             // if we are using Webview2
             if (useWebview2)
             {
+                photo?.Dispose();
                 photo = new IgPhoto(imgFilePath)
                 {
                     Metadata = Local.Metadata,
@@ -878,6 +881,7 @@ public partial class FrmMain : ThemedForm
                 }
                 else
                 {
+                    photo?.Dispose();
                     photo = await Local.Images.GetAsync(
                         imageIndex,
                         useCache: !isSkipCache,

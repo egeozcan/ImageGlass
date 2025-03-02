@@ -567,6 +567,9 @@ public class Local
 
             DistinctDirs = distinctDirsList ?? [],
         };
+
+        Local.CurrentIndex = -1;
+        Local.CurrentFrameIndex = 0;
     }
 
 
