@@ -87,15 +87,15 @@
         <PackageReference Include="D2Phap.EggShell" Version="1.1.216" />
         <PackageReference Include="DirectNStandard" Version="1.17.2" />
         <PackageReference Include="Magick.NET-Q16-HDRI-OpenMP-arm64" Version="14.4.0" Condition="'$(Platform)' == 'ARM64'" />
-        <PackageReference Include="Magick.NET-Q16-HDRI-OpenMP-x64" Version="14.4.0" Condition="'$(Platform)' == 'X64'" />
-        <PackageReference Include="Magick.NET.SystemDrawing" Version="8.0.4" />
-        <PackageReference Include="Magick.NET.SystemWindowsMedia" Version="8.0.4" />
+        <PackageReference Include="Magick.NET-Q16-HDRI-OpenMP-x64" Version="14.5.0" Condition="'$(Platform)' == 'X64'" />
+        <PackageReference Include="Magick.NET.SystemDrawing" Version="8.0.5" />
+        <PackageReference Include="Magick.NET.SystemWindowsMedia" Version="8.0.5" />
         <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2151.40" />
         <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.183">
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
         <PackageReference Include="PhotoSauce.MagicScaler" Version="0.15.0" />
-        <PackageReference Include="WicNet" Version="1.8.3" />
+        <PackageReference Include="WicNet" Version="1.8.4.1" />
         <PackageReference Include="ZString" Version="2.6.0" />
     </ItemGroup>
 
