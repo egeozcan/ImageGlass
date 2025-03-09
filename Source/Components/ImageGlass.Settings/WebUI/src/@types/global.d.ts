@@ -14,6 +14,7 @@ import {
 export type IPage = Record<string, any> & {
   lang: Record<string, string>,
   theme: string,
+  isWindows10: boolean,
 
   loadLanguage?: typeof Language.load,
 };

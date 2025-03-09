@@ -21,6 +21,7 @@ if (!window._page) {
   window._page = {
     lang: {},
     theme: '',
+    isWindows10: false,
   };
 }
 _page.loadLanguage = Language.load;

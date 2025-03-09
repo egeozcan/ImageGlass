@@ -295,6 +295,7 @@ public partial class WebForm : ThemedForm
     public async Task SetPageVariablesAsync()
     {
         await Web2.ExecuteScriptAsync($"""
+            window._page.isWindows10 = {BHelper.IsOS(WindowsOS.Win10).ToString().ToLowerInvariant()};
             window._page.isUwpApp = {BHelper.IsRunningAsUwp().ToString().ToLowerInvariant()};
         """);
     }
