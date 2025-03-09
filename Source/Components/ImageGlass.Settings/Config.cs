@@ -1705,7 +1705,7 @@ public static class Config
             {
                 result.Add(item.Key, keyList);
             }
-        };
+        }
 
         return result;
     }
@@ -1936,7 +1936,7 @@ public static class Config
             : IgCommands.REMOVE_DEFAULT_PHOTO_VIEWER;
 
         // run command and show the results
-        _ = await Config.RunIgcmd($"{cmd} {extensions} {IgCommands.SHOW_UI}");
+        _ = await Config.RunIgcmd($"{cmd} {extensions} {IgCommands.PER_MACHINE} {IgCommands.SHOW_UI}");
     }
 
 
