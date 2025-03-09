@@ -58,30 +58,6 @@ public partial class FrmMain : ThemedForm
     private FormWindowState _windowState = FormWindowState.Normal;
 
 
-    private static string InputImagePathFromArgs
-    {
-        get
-        {
-            var pathToLoad = string.Empty;
-
-            if (Program.Args.Length >= 2)
-            {
-                // get path from params
-                var cmdPath = Program.Args
-                    .Skip(1)
-                    .FirstOrDefault(i => !i.StartsWith(Const.CONFIG_CMD_PREFIX, StringComparison.Ordinal));
-
-                if (!string.IsNullOrEmpty(cmdPath))
-                {
-                    pathToLoad = cmdPath;
-                }
-            }
-
-            return pathToLoad;
-        }
-    }
-
-
     public FrmMain() : base()
     {
         InitializeComponent();
@@ -374,7 +350,7 @@ public partial class FrmMain : ThemedForm
     /// </summary>
     public void LoadImagesFromCmdArgs(string[] args)
     {
-        var pathToLoad = InputImagePathFromArgs;
+        var pathToLoad = Program.InputImagePathFromArgs;
 
         if (string.IsNullOrEmpty(pathToLoad)
             && Config.ShouldOpenLastSeenImage
@@ -554,14 +530,7 @@ public partial class FrmMain : ThemedForm
         _fileFinder.UseExplorerSortOrder = Config.ShouldUseExplorerSortOrder;
 
         // check if we should load images from foreground window
-        var inputImageDirPath = Path.GetDirectoryName(InputImagePathFromArgs) ?? "";
-        var isFromSearchWindow = Program.ForegroundShellPath.StartsWith(EggShell.SEARCH_MS_PROTOCOL, StringComparison.OrdinalIgnoreCase);
-        var isFromSavedSearch = Program.ForegroundShellPath.EndsWith(".search-ms", StringComparison.OrdinalIgnoreCase);
-        var isFromSameDir = inputImageDirPath.Equals(Program.ForegroundShellPath, StringComparison.OrdinalIgnoreCase);
-
-        var useForegroundWindow = Program.ForegroundShell != null
-            && !string.IsNullOrEmpty(InputImagePathFromArgs)
-            && (isFromSearchWindow || isFromSavedSearch || isFromSameDir);
+        var useForegroundWindow = Program.CanUseForegroundShell();
 
         // start finding image files
         _fileFinder.StartFindingFiles(

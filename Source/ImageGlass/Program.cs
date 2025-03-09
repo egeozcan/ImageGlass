@@ -31,13 +31,14 @@ internal static class Program
 {
     private static ExplorerView? _foregroundShell;
     private static string _foregroundShellPath = "";
+    private static string _inputImagePathFromArgs = "";
 
     public static string APP_SINGLE_INSTANCE_ID => "{f2a83de1-b9ac-4461-81d0-cc4547b0b27b}";
 
     /// <summary>
-    /// Gets the path of <see cref="ForegroundShell"/>.
+    /// Gets the path of the image file from the arguments.
     /// </summary>
-    public static string ForegroundShellPath => _foregroundShellPath;
+    public static string InputImagePathFromArgs => _inputImagePathFromArgs;
 
     /// <summary>
     /// Gets the Shell object of foreground window
@@ -52,7 +53,8 @@ internal static class Program
 
             try
             {
-                _foregroundShellPath = ForegroundShell?.GetTabViewPath() ?? "";
+                _foregroundShellPath = _foregroundShell?.GetTabViewPath() ?? "";
+                UpdateInputPath();
             }
             catch
             {
@@ -257,6 +259,26 @@ internal static class Program
         }
     }
 
+
+    /// <summary>
+    /// Check if we can use the foreground shell folder for loading images
+    /// </summary>
+    public static bool CanUseForegroundShell()
+    {
+        // check if we should load images from foreground window
+        var inputImageDirPath = Path.GetDirectoryName(InputImagePathFromArgs) ?? "";
+        var isFromSearchWindow = _foregroundShellPath.StartsWith(EggShell.SEARCH_MS_PROTOCOL, StringComparison.OrdinalIgnoreCase);
+        var isFromSavedSearch = _foregroundShellPath.EndsWith(".search-ms", StringComparison.OrdinalIgnoreCase);
+        var isFromSameDir = inputImageDirPath.Equals(_foregroundShellPath, StringComparison.OrdinalIgnoreCase);
+
+        var useForegroundWindow = ForegroundShell != null
+            && !string.IsNullOrEmpty(InputImagePathFromArgs)
+            && (isFromSearchWindow || isFromSavedSearch || isFromSameDir);
+
+        return useForegroundWindow;
+    }
+
+
     private static void Instance_ArgumentsReceived(object? sender, ArgsReceivedEventArgs e)
     {
         if (Local.FrmMain == null) return;
@@ -281,8 +303,13 @@ internal static class Program
     private static void ActivateWindow(string[] args)
     {
         if (Local.FrmMain == null) return;
-
         Program.Args = args;
+
+
+        // get foreground shell
+        using var shell = new EggShell();
+        ForegroundShell = shell.GetForegroundWindowView();
+        
 
         // load image file from arg
         Local.FrmMain.LoadImagesFromCmdArgs(args);
@@ -301,4 +328,29 @@ internal static class Program
             Local.FrmMain.TopMost = Config.EnableWindowTopMost;
         }
     }
+
+
+    /// <summary>
+    /// Update input path from arguments
+    /// </summary>
+    private static void UpdateInputPath()
+    {
+        var pathToLoad = string.Empty;
+
+        if (Program.Args.Length >= 2)
+        {
+            // get path from params
+            var cmdPath = Program.Args
+                .Skip(1)
+                .FirstOrDefault(i => !i.StartsWith(Const.CONFIG_CMD_PREFIX, StringComparison.Ordinal));
+
+            if (!string.IsNullOrEmpty(cmdPath))
+            {
+                pathToLoad = cmdPath;
+            }
+        }
+
+        _inputImagePathFromArgs = pathToLoad;
+    }
+
 }
