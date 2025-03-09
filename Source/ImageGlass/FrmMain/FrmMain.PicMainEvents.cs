@@ -94,16 +94,20 @@ public partial class FrmMain
             return;
         }
 
+
         var filePath = BHelper.ResolvePath(paths[0]);
         var imageIndex = Local.Images.IndexOf(filePath);
 
-        // The file is located another folder, load the entire folder
-        if (imageIndex == -1)
-        {
-            // get foreground shell
-            using var shell = new EggShell();
-            Program.ForegroundShell = shell.GetForegroundWindowView();
 
+        // get foreground shell
+        using var shell = new EggShell();
+        Program.ForegroundShell = shell.GetForegroundWindowView();
+        Program.UpdateInputImagePath(filePath);        
+
+
+        // The file is located another folder, load the entire folder
+        if (imageIndex == -1 || Program.CanUseForegroundShell())
+        {
             PrepareLoading(filePath, false);
         }
         // The file is in current folder AND it is the viewing image

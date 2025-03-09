@@ -54,7 +54,7 @@ internal static class Program
             try
             {
                 _foregroundShellPath = _foregroundShell?.GetTabViewPath() ?? "";
-                UpdateInputPath();
+                UpdateInputImagePath();
             }
             catch
             {
@@ -279,6 +279,31 @@ internal static class Program
     }
 
 
+    /// <summary>
+    /// Update input path from arguments
+    /// </summary>
+    public static void UpdateInputImagePath(string? path = null)
+    {
+        var pathToLoad = path ?? string.Empty;
+
+        if (string.IsNullOrWhiteSpace(pathToLoad) && Program.Args.Length >= 2)
+        {
+            // get path from params
+            var cmdPath = Program.Args
+                .Skip(1)
+                .FirstOrDefault(i => !i.StartsWith(Const.CONFIG_CMD_PREFIX, StringComparison.Ordinal));
+
+            if (!string.IsNullOrEmpty(cmdPath))
+            {
+                pathToLoad = cmdPath;
+            }
+        }
+
+        _inputImagePathFromArgs = pathToLoad;
+    }
+
+
+
     private static void Instance_ArgumentsReceived(object? sender, ArgsReceivedEventArgs e)
     {
         if (Local.FrmMain == null) return;
@@ -330,27 +355,5 @@ internal static class Program
     }
 
 
-    /// <summary>
-    /// Update input path from arguments
-    /// </summary>
-    private static void UpdateInputPath()
-    {
-        var pathToLoad = string.Empty;
-
-        if (Program.Args.Length >= 2)
-        {
-            // get path from params
-            var cmdPath = Program.Args
-                .Skip(1)
-                .FirstOrDefault(i => !i.StartsWith(Const.CONFIG_CMD_PREFIX, StringComparison.Ordinal));
-
-            if (!string.IsNullOrEmpty(cmdPath))
-            {
-                pathToLoad = cmdPath;
-            }
-        }
-
-        _inputImagePathFromArgs = pathToLoad;
-    }
-
+    
 }
