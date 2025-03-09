@@ -556,12 +556,12 @@ public partial class FrmMain : ThemedForm
         // check if we should load images from foreground window
         var inputImageDirPath = Path.GetDirectoryName(InputImagePathFromArgs) ?? "";
         var isFromSearchWindow = Program.ForegroundShellPath.StartsWith(EggShell.SEARCH_MS_PROTOCOL, StringComparison.OrdinalIgnoreCase);
+        var isFromSavedSearch = Program.ForegroundShellPath.EndsWith(".search-ms", StringComparison.OrdinalIgnoreCase);
         var isFromSameDir = inputImageDirPath.Equals(Program.ForegroundShellPath, StringComparison.OrdinalIgnoreCase);
 
         var useForegroundWindow = Program.ForegroundShell != null
             && !string.IsNullOrEmpty(InputImagePathFromArgs)
-            && (isFromSearchWindow || isFromSameDir);
-
+            && (isFromSearchWindow || isFromSavedSearch || isFromSameDir);
 
         // start finding image files
         _fileFinder.StartFindingFiles(
