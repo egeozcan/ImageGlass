@@ -8,7 +8,7 @@
   left: 0;
   right: 0;
   z-index: 2000;
-  padding: 0 0.6rem;
+  padding: 0 0.65rem;
   pointer-events: none;
 
   .nav-left,
@@ -21,8 +21,8 @@
     margin-right: auto;
     background-color: rgb(var(--AppBg) / 0.78);
     border-radius: 100%;
-    width: 3.675rem;
-    height: 3.675rem;
+    width: 4rem;
+    height: 4rem;
     visibility: hidden;
 
     &::before {
@@ -41,8 +41,8 @@
     }
 
     img {
-      width: 1.8375rem;
-      height: 1.8375rem;
+      width: 2rem;
+      height: 2rem;
       z-index: 1;
     }
 
