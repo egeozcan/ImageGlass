@@ -201,6 +201,13 @@ public partial class FrmQuickSetup : WebForm
                 : nameof(ColorProfileOption.None);
         }
 
+        if (dict.TryGetValue(nameof(Config.ShouldUseExplorerSortOrder), out var useExplorerSortOrder))
+        {
+            Config.ShouldUseExplorerSortOrder = useExplorerSortOrder
+                ?.ToString()
+                .Equals("true", StringComparison.InvariantCultureIgnoreCase) ?? true;
+        }
+
         if (dict.TryGetValue(nameof(Config.UseEmbeddedThumbnailRawFormats), out var useThumbnailRawFormatsObj))
         {
             Config.UseEmbeddedThumbnailRawFormats = useThumbnailRawFormatsObj

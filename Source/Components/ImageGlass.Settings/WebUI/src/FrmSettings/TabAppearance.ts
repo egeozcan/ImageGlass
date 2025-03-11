@@ -14,7 +14,7 @@ export default class TabAppearance {
    * Loads settings for tab Appearance.
    */
   static loadSettings() {
-    if (!_page.isWindows10) {
+    if (_page.isWindows10) {
       query(`[name="WindowBackdrop"]`).setAttribute('disabled', 'true');
     }
 

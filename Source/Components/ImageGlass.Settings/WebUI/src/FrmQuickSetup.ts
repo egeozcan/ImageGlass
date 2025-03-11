@@ -85,8 +85,9 @@ queryAll<HTMLInputElement>('[name="_SettingProfile"]').forEach(el => {
     const profileName = query<HTMLInputElement>('[name="_SettingProfile"]:checked').value;
     const isProfessional = profileName === 'professional';
 
-    query<HTMLInputElement>('#ChkUseEmbeddedThumbnailRawFormats').checked = !isProfessional;
     query<HTMLInputElement>('#ChkColorProfile').checked = isProfessional;
+    query<HTMLInputElement>('#ChkShouldUseExplorerSortOrder').checked = isProfessional;
+    query<HTMLInputElement>('#ChkUseEmbeddedThumbnailRawFormats').checked = !isProfessional;
   });
 });
 
@@ -111,11 +112,13 @@ query('#BtnBack').addEventListener('click', () => {
 query('#BtnNext').addEventListener('click', () => {
   if (_currentStep >= _stepCount) {
     const enableColorProfile = query<HTMLInputElement>('#ChkColorProfile').checked;
+    const shouldUseExplorerSortOrder = query<HTMLInputElement>('#ChkShouldUseExplorerSortOrder').checked;
     const useThumbnailRawFormats = query<HTMLInputElement>('#ChkUseEmbeddedThumbnailRawFormats').checked;
 
     post('APPLY_SETTINGS', {
       Language: _currentLang,
       ColorProfile: enableColorProfile,
+      ShouldUseExplorerSortOrder: shouldUseExplorerSortOrder,
       UseEmbeddedThumbnailRawFormats: useThumbnailRawFormats,
     }, true);
   }
