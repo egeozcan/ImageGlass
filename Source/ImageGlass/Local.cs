@@ -891,7 +891,6 @@ public class Local
 
         _ = Config.SetFromJson(dict, nameof(Config.EnableLoopBackNavigation));
         _ = Config.SetFromJson(dict, nameof(Config.ShowImagePreview));
-        _ = Config.SetFromJson(dict, nameof(Config.EnableImageTransition));
         _ = Config.SetFromJson(dict, nameof(Config.EnableImageAsyncLoading));
 
         if (Config.SetFromJson(dict, nameof(Config.UseEmbeddedThumbnailRawFormats)).Done) { reloadImg = true; }

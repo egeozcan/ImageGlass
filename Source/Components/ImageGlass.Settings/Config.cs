@@ -304,11 +304,6 @@ public static class Config
     public static bool ShowImagePreview { get; set; } = true;
 
     /// <summary>
-    /// Gets, sets value indicates that image fading transition is used while it's being loaded.
-    /// </summary>
-    public static bool EnableImageTransition { get; set; } = false;
-
-    /// <summary>
     /// Gets, sets value indicates that images should be loaded asynchronously.
     /// </summary>
     public static bool EnableImageAsyncLoading { get; set; } = true;
@@ -730,7 +725,6 @@ public static class Config
         UseEmbeddedThumbnailRawFormats = items.GetValueEx(nameof(UseEmbeddedThumbnailRawFormats), UseEmbeddedThumbnailRawFormats);
         UseEmbeddedThumbnailOtherFormats = items.GetValueEx(nameof(UseEmbeddedThumbnailOtherFormats), UseEmbeddedThumbnailOtherFormats);
         ShowImagePreview = items.GetValueEx(nameof(ShowImagePreview), ShowImagePreview);
-        EnableImageTransition = items.GetValueEx(nameof(EnableImageTransition), EnableImageTransition);
         EnableImageAsyncLoading = items.GetValueEx(nameof(EnableImageAsyncLoading), EnableImageAsyncLoading);
         EnableCopyMultipleFiles = items.GetValueEx(nameof(EnableCopyMultipleFiles), EnableCopyMultipleFiles);
         EnableCutMultipleFiles = items.GetValueEx(nameof(EnableCutMultipleFiles), EnableCutMultipleFiles);
@@ -1100,7 +1094,6 @@ public static class Config
         _ = settings.TryAdd(nameof(UseEmbeddedThumbnailRawFormats), UseEmbeddedThumbnailRawFormats);
         _ = settings.TryAdd(nameof(UseEmbeddedThumbnailOtherFormats), UseEmbeddedThumbnailOtherFormats);
         _ = settings.TryAdd(nameof(ShowImagePreview), ShowImagePreview);
-        _ = settings.TryAdd(nameof(EnableImageTransition), EnableImageTransition);
         _ = settings.TryAdd(nameof(EnableImageAsyncLoading), EnableImageAsyncLoading);
         _ = settings.TryAdd(nameof(EnableCopyMultipleFiles), EnableCopyMultipleFiles);
         _ = settings.TryAdd(nameof(EnableCutMultipleFiles), EnableCutMultipleFiles);

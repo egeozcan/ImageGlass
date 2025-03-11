@@ -643,13 +643,12 @@ public class IgLang : IDictionary<string, string>
             // Image > Image loading
             { "FrmSettings._ImageLoading", "Image loading" },
             { "FrmSettings._ImageLoadingOrder", "Image loading order" },
-            { "FrmSettings._ShouldUseExplorerSortOrder", "Use Windows File Explorer sort order if possible" },
+            { "FrmSettings._ShouldUseExplorerSortOrder", "Use Explorer sort order if possible" },
             { "FrmSettings._EnableRecursiveLoading", "Load images in subfolders" },
             { "FrmSettings._ShouldGroupImagesByDirectory", "Group images by directory" },
             { "FrmSettings._ShouldLoadHiddenImages", "Load hidden images" },
             { "FrmSettings._EnableLoopBackNavigation", "Loop back to the first image when reaching the end of the image list" },
             { "FrmSettings._ShowImagePreview", "Display image preview while it's being loaded" },
-            { "FrmSettings._EnableImageTransition", "Enable image transition effect" },
             { "FrmSettings._EnableImageAsyncLoading", "Enable image asynchronous loading" },
 
             { "FrmSettings._EmbeddedThumbnail", "Embedded thumbnail" },

@@ -913,14 +913,10 @@ public partial class FrmSlideshow : ThemedForm
         // use native viewer to display image
         else if (!(photo?.ImgData.IsImageNull ?? true))
         {
-            var isImageBigForFading = photo.Metadata.RenderedWidth > 8000
-                || photo.Metadata.RenderedHeight > 8000;
-            var enableFading = !isImageBigForFading && Config.EnableImageTransition;
-
             // set the main image
             PicMain.SetImage(photo.ImgData,
                 resetZoom: true,
-                enableFading: enableFading,
+                enableFading: false,
                 initOpacity: 0.4f,
                 opacityStep: 0.02f);
 

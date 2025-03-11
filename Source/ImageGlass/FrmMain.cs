@@ -1098,22 +1098,12 @@ public partial class FrmMain : ThemedForm
             Local.TempImagePath = null;
 
 
-            // enable image transition
-            var enableFadingTrainsition = false;
-            if (Config.EnableImageTransition && !e.IsViewingSeparateFrame)
-            {
-                var isImageBigForFading = Local.Metadata.RenderedWidth > 8000
-                    || Local.Metadata.RenderedHeight > 8000;
-                enableFadingTrainsition = !_isShowingImagePreview && !isImageBigForFading;
-            }
-
-
             // set the main image
             PicMain.SetImage(e.Data.ImgData,
                 autoAnimate: !e.IsViewingSeparateFrame,
                 frameIndex: e.FrameIndex,
                 resetZoom: e.ResetZoom,
-                enableFading: enableFadingTrainsition,
+                enableFading: false,
                 channels: Local.ImageChannels);
 
             // update window fit
@@ -1277,7 +1267,7 @@ public partial class FrmMain : ThemedForm
                     Image = wicSrc,
                     CanAnimate = false,
                     FrameCount = 1,
-                }, enableFading: Config.EnableImageTransition,
+                }, enableFading: false,
                     isForPreview: true,
                     channels: Local.ImageChannels);
 
