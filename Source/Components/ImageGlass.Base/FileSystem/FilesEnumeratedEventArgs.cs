@@ -16,32 +16,24 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-using Windows.Win32;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ImageGlass.Base.DirectoryComparer;
+namespace ImageGlass.Base.FileSystem;
 
 
-public class StringNaturalComparer(bool orderByAsc = true, bool ignoreCase = false) : IComparer<string?>
+/// <summary>
+/// Event arguments for the <see cref="FileFinder.FilesEnumerated"/> event.
+/// </summary>
+public class FilesEnumeratedEventArgs(IEnumerable<string> filePaths) : EventArgs
 {
-    public bool OrderByAsc { get; set; } = orderByAsc;
-    public bool IgnoreCase { get; set; } = ignoreCase;
+    /// <summary>
+    /// Gets the file paths that have been enumerated.
+    /// </summary>
+    public IEnumerable<string> FilePaths { get; } = filePaths;
 
-    public int Compare(string? str1, string? str2)
-    {
-        str1 ??= "";
-        str2 ??= "";
-
-        if (IgnoreCase)
-        {
-            str1 = str1.ToLowerInvariant();
-            str2 = str2.ToLowerInvariant();
-        }
-
-        if (OrderByAsc)
-        {
-            return PInvoke.StrCmpLogical(str1, str2);
-        }
-
-        return PInvoke.StrCmpLogical(str2, str1);
-    }
 }

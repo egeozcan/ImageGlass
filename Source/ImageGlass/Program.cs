@@ -334,7 +334,7 @@ internal static class Program
         // get foreground shell
         using var shell = new EggShell();
         ForegroundShell = shell.GetForegroundWindowView();
-        
+
 
         // load image file from arg
         Local.FrmMain.LoadImagesFromCmdArgs(args);
@@ -355,5 +355,5 @@ internal static class Program
     }
 
 
-    
+
 }

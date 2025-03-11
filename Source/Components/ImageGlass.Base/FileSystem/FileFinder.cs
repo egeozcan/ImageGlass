@@ -19,7 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 using D2Phap;
 using System.Runtime.InteropServices;
 
-namespace ImageGlass.Base.DirectoryComparer;
+namespace ImageGlass.Base.FileSystem;
 
 
 public class FileFinder

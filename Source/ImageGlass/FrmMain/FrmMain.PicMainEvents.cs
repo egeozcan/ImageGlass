@@ -102,7 +102,7 @@ public partial class FrmMain
         // get foreground shell
         using var shell = new EggShell();
         Program.ForegroundShell = shell.GetForegroundWindowView();
-        Program.UpdateInputImagePath(filePath);        
+        Program.UpdateInputImagePath(filePath);
 
 
         // The file is located another folder, load the entire folder

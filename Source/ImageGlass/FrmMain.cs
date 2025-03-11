@@ -20,7 +20,7 @@ using Cysharp.Text;
 using D2Phap;
 using ImageGlass.Base;
 using ImageGlass.Base.Actions;
-using ImageGlass.Base.DirectoryComparer;
+using ImageGlass.Base.FileSystem;
 using ImageGlass.Base.PhotoBox;
 using ImageGlass.Base.Photoing.Codecs;
 using ImageGlass.Base.WinApi;

@@ -230,3 +230,33 @@ public enum ImageResamplingMethod : int
 }
 
 
+/// <summary>
+/// The loading order list.
+/// **If we need to rename, we MUST update the language string too.
+/// Because the name is also language keyword!
+/// </summary>
+public enum ImageOrderBy
+{
+    Name = 0,
+    Random,
+    FileSize,
+    Extension,
+    DateCreated,
+    DateAccessed,
+    DateModified,
+    ExifDateTaken,
+    ExifRating,
+}
+
+
+/// <summary>
+/// The loading order types list
+/// **If we need to rename, we MUST update the language string too.
+/// Because the name is also language keyword!
+/// </summary>
+public enum ImageOrderType
+{
+    Asc = 0,
+    Desc = 1,
+}
+

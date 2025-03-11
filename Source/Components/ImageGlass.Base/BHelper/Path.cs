@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-using ImageGlass.Base.DirectoryComparer;
+using ImageGlass.Base.FileSystem;
 using ImageGlass.Base.Photoing.Codecs;
 using ImageGlass.Base.WinApi;
 using Microsoft.VisualBasic.FileIO;
@@ -253,7 +253,7 @@ public partial class BHelper
 
         try
         {
-            FileSystem.DeleteFile(filePath, UIOption.OnlyErrorDialogs, option);
+            Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(filePath, UIOption.OnlyErrorDialogs, option);
         }
         catch (OperationCanceledException) { }
     }
