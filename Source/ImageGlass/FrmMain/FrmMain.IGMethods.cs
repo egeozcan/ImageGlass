@@ -1381,7 +1381,7 @@ public partial class FrmMain
             Image = img,
             FrameCount = 1,
             HasAlpha = true,
-        }, enableFading: false);
+        });
         PicMain.ClearMessage();
 
         Local.ImageTransform.Clear();

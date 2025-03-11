@@ -67,8 +67,6 @@ public partial class ViewerCanvas : DXCanvas
     };
 
     private Color _accentColor = Color.Blue;
-    private float _imageOpacity = 1f;
-    private float _opacityStep = 0.05f;
     private bool _isPreviewing = false;
     private bool _debugMode = false;
     private ImageDrawingState _imageDrawingState = ImageDrawingState.NotStarted;
@@ -1532,18 +1530,6 @@ public partial class ViewerCanvas : DXCanvas
             var point = PointToClient(Cursor.Position);
             _ = ZoomByDeltaToPoint(-20, point, requestRerender: false);
         }
-
-
-        if (_animationSource.HasFlag(AnimationSource.ImageFadeIn))
-        {
-            _imageOpacity += _opacityStep;
-
-            if (_imageOpacity > 1)
-            {
-                StopAnimation(AnimationSource.ImageFadeIn);
-                _imageOpacity = 1;
-            }
-        }
     }
 
 
@@ -1551,10 +1537,6 @@ public partial class ViewerCanvas : DXCanvas
     {
         // check if the image is already drawn
         var isImageDrawn = _imageDrawingState == ImageDrawingState.Drawing && !_isPreviewing;
-
-        // check if this is the final draw since the image is set
-        var isImageFinalDrawn = _imageOpacity == 1 && isImageDrawn;
-
 
         // correct the background if no transparency
         if (!EnableTransparent)
@@ -1626,7 +1608,7 @@ public partial class ViewerCanvas : DXCanvas
             }
             else
             {
-                text += $"Opacity={_imageOpacity}; FPS={FPS}; ";
+                text += $"FPS={FPS}; ";
             }
 
             var textSize = g.MeasureText(text, Font.Name, Font.Size, textDpi: DeviceDpi);
@@ -1638,7 +1620,7 @@ public partial class ViewerCanvas : DXCanvas
 
 
         // emits event ImageLoaded
-        if (isImageFinalDrawn)
+        if (isImageDrawn)
         {
             _imageDrawingState = ImageDrawingState.Done;
             ImageLoaded?.Invoke(this, EventArgs.Empty);
@@ -1742,7 +1724,7 @@ public partial class ViewerCanvas : DXCanvas
         if (UseWebview2) return;
         if (Source == ImageSource.Null) return;
 
-        g.DrawBitmap(_d2dImage, _destRect, _srcRect, (InterpolationMode)CurrentInterpolation, _imageOpacity);
+        g.DrawBitmap(_d2dImage, _destRect, _srcRect, (InterpolationMode)CurrentInterpolation);
     }
 
 
@@ -3073,7 +3055,6 @@ public partial class ViewerCanvas : DXCanvas
     public void SetImage(IgImgData? imgData,
         uint frameIndex = 0,
         bool resetZoom = true,
-        bool enableFading = true,
         float initOpacity = 0.5f,
         float opacityStep = 0.05f,
         bool isForPreview = false,
@@ -3090,7 +3071,6 @@ public partial class ViewerCanvas : DXCanvas
 
 
         // disable animations
-        StopAnimation(AnimationSource.ImageFadeIn);
         StopCurrentAnimator();
         DisposeImageResources();
 
@@ -3164,22 +3144,8 @@ public partial class ViewerCanvas : DXCanvas
                 SetZoomMode();
                 StartAnimator();
             }
-            else if (enableFading)
-            {
-
-                _imageOpacity = initOpacity;
-                _opacityStep = opacityStep;
-
-                if (resetZoom)
-                {
-                    SetZoomMode();
-                }
-
-                StartAnimation(AnimationSource.ImageFadeIn);
-            }
             else
             {
-                _imageOpacity = 1;
                 Refresh(resetZoom);
             }
         }
@@ -3536,7 +3502,6 @@ public partial class ViewerCanvas : DXCanvas
 
             Source = ImageSource.Direct2D;
             UseHardwareAcceleration = true;
-            _imageOpacity = 1;
 
             Invalidate();
         }

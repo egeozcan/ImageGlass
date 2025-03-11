@@ -916,7 +916,6 @@ public partial class FrmSlideshow : ThemedForm
             // set the main image
             PicMain.SetImage(photo.ImgData,
                 resetZoom: true,
-                enableFading: false,
                 initOpacity: 0.4f,
                 opacityStep: 0.02f);
 

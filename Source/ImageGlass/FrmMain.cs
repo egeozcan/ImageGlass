@@ -1103,7 +1103,6 @@ public partial class FrmMain : ThemedForm
                 autoAnimate: !e.IsViewingSeparateFrame,
                 frameIndex: e.FrameIndex,
                 resetZoom: e.ResetZoom,
-                enableFading: false,
                 channels: Local.ImageChannels);
 
             // update window fit
@@ -1267,9 +1266,7 @@ public partial class FrmMain : ThemedForm
                     Image = wicSrc,
                     CanAnimate = false,
                     FrameCount = 1,
-                }, enableFading: false,
-                    isForPreview: true,
-                    channels: Local.ImageChannels);
+                }, isForPreview: true, channels: Local.ImageChannels);
 
                 _isShowingImagePreview = true;
             }

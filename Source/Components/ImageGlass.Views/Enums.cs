@@ -38,8 +38,6 @@ public enum AnimationSource
     /// Zoom out animation. It does nothing if <see cref="ViewerCanvas.ZoomLevels"/> is set.
     /// </summary>
     ZoomOut = 1 << 6,
-
-    ImageFadeIn = 1 << 7,
 }
 
 
