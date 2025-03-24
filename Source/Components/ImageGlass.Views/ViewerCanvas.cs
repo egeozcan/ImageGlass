@@ -108,7 +108,6 @@ public partial class ViewerCanvas : DXCanvas
     private AnimatorSource _animatorSource = AnimatorSource.None;
     private ImgAnimator? _imgAnimator = null;
     private AnimationSource _animationSource = AnimationSource.None;
-    private bool _shouldRecalculateDrawingRegion = true;
 
     // Navigation buttons
     private DXButtonStates _navLeftState = DXButtonStates.Normal;
@@ -175,7 +174,9 @@ public partial class ViewerCanvas : DXCanvas
         set
         {
             Padding = new Padding(value, Padding.Top, Padding.Right, Padding.Bottom);
-            _shouldRecalculateDrawingRegion = true;
+
+            // update drawing regions
+            CalculateDrawingRegion();
             Refresh(!_isManualZoom);
         }
     }
@@ -191,7 +192,9 @@ public partial class ViewerCanvas : DXCanvas
         set
         {
             Padding = new Padding(Padding.Left, value, Padding.Right, Padding.Bottom);
-            _shouldRecalculateDrawingRegion = true;
+
+            // update drawing regions
+            CalculateDrawingRegion();
             Refresh(!_isManualZoom);
         }
     }
@@ -207,7 +210,9 @@ public partial class ViewerCanvas : DXCanvas
         set
         {
             Padding = new Padding(Padding.Left, Padding.Top, value, Padding.Bottom);
-            _shouldRecalculateDrawingRegion = true;
+
+            // update drawing regions
+            CalculateDrawingRegion();
             Refresh(!_isManualZoom);
         }
     }
@@ -223,7 +228,9 @@ public partial class ViewerCanvas : DXCanvas
         set
         {
             Padding = new Padding(Padding.Left, Padding.Top, Padding.Right, value);
-            _shouldRecalculateDrawingRegion = true;
+
+            // update drawing regions
+            CalculateDrawingRegion();
             Refresh(!_isManualZoom);
         }
     }
@@ -1477,7 +1484,8 @@ public partial class ViewerCanvas : DXCanvas
 
     protected override void OnResize(EventArgs e)
     {
-        _shouldRecalculateDrawingRegion = true;
+        // update drawing regions
+        CalculateDrawingRegion();
 
         // redraw the control on resizing if it's not manual zoom
         if (IsReady && Source != ImageSource.Null && !_isManualZoom)
@@ -1544,10 +1552,6 @@ public partial class ViewerCanvas : DXCanvas
             g.ClearBackground(TopLevelControl.BackColor);
             g.DrawRectangle(ClientRectangle, 0, Color.Transparent, BackColor);
         }
-
-
-        // update drawing regions
-        CalculateDrawingRegion();
 
         // checkerboard background
         DrawCheckerboardLayer(g);
@@ -1633,7 +1637,7 @@ public partial class ViewerCanvas : DXCanvas
     /// </summary>
     protected virtual void CalculateDrawingRegion()
     {
-        if (Source == ImageSource.Null || _shouldRecalculateDrawingRegion is false) return;
+        if (Source == ImageSource.Null) return;
 
         var zoomX = _zoommedPoint.X;
         var zoomY = _zoommedPoint.Y;
@@ -1711,8 +1715,6 @@ public partial class ViewerCanvas : DXCanvas
             _yOut = true;
             _srcRect.Y = 0;
         }
-
-        _shouldRecalculateDrawingRegion = false;
     }
 
 
@@ -2143,7 +2145,9 @@ public partial class ViewerCanvas : DXCanvas
             return;
         }
 
-        _shouldRecalculateDrawingRegion = true;
+        // update drawing regions
+        CalculateDrawingRegion();
+
         Invalidate();
 
         OnZoomChanged?.Invoke(this, new ZoomEventArgs()
@@ -2219,8 +2223,9 @@ public partial class ViewerCanvas : DXCanvas
         _zoomMode = zoomMode;
         _zoomFactor = CalculateZoomFactor(zoomMode, SourceWidth, SourceHeight, Width, Height);
         _isManualZoom = isManualZoom;
-        _shouldRecalculateDrawingRegion = true;
 
+        // update drawing regions
+        CalculateDrawingRegion();
 
         // use webview
         if (UseWebview2)
@@ -2390,8 +2395,10 @@ public partial class ViewerCanvas : DXCanvas
         if (_zoomFactor != newZoomFactor)
         {
             _zoomFactor = Math.Min(MaxZoom, Math.Max(newZoomFactor, MinZoom));
-            _shouldRecalculateDrawingRegion = true;
             _isManualZoom = true;
+
+            // update drawing regions
+            CalculateDrawingRegion();
 
             // if using Webview2
             if (UseWebview2)
@@ -2499,9 +2506,11 @@ public partial class ViewerCanvas : DXCanvas
 
         _oldZoomFactor = _zoomFactor;
         _zoomFactor = newZoomFactor;
-        _shouldRecalculateDrawingRegion = true;
         _isManualZoom = true;
         _zoommedPoint = location.ToVector2();
+
+        // update drawing regions
+        CalculateDrawingRegion();
 
         if (UseWebview2)
         {
@@ -2625,8 +2634,6 @@ public partial class ViewerCanvas : DXCanvas
         }
 
         _zoommedPoint = new();
-        _shouldRecalculateDrawingRegion = true;
-
 
         if (_xOut == false)
         {
@@ -2644,6 +2651,10 @@ public partial class ViewerCanvas : DXCanvas
 
         // emit panning event
         Panning?.Invoke(this, new PanningEventArgs(loc, new PointF(_panHostFromPoint)));
+
+
+        // update drawing regions
+        CalculateDrawingRegion();
 
         if (requestRerender)
         {
