@@ -2,6 +2,14 @@ ImageGlass - A lightweight, versatile image viewer
 ===
 
 
+<h3>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/1/15/Orange_rectangle.svg" height="10" width="100%"/>
+  📢 Try out <a href="https://github.com/d2phap/ImageGlass/releases/tag/9.2.1.324-beta">Version 9.3 Beta 2</a> and share your feedback!
+  <img src="https://upload.wikimedia.org/wikipedia/commons/1/15/Orange_rectangle.svg" height="10" width="100%"/>
+</h3>
+<br/><br/>
+
+
 [![Website](https://img.shields.io/badge/www-imageglass.org-0099BC.svg?maxAge=3600&color=%233097B8)](https://imageglass.org)
 [![GPL Licence](https://img.shields.io/badge/license-GPLv3-green.svg?maxAge=3600)](https://github.com/d2phap/ImageGlass/blob/master/LICENSE)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/imageglass/localized.svg)](https://crowdin.com/project/imageglass)
@@ -19,6 +27,7 @@ ImageGlass is a lightweight software designed for seamless viewing of images in 
 
 
 ## 📥 Download
+
 <a href="https://apps.microsoft.com/detail/9N33VZK3C7TH?launch=true&cid=GitHubRelease&mode=full">
   <img height="58" src="https://github.com/d2phap/ImageGlass/assets/3154213/08a071bb-a6ae-420c-b53b-2317004570d4" />
 </a>
