@@ -7,7 +7,7 @@ ImageGlass - A lightweight, versatile image viewer
   📢 Try out <a href="https://github.com/d2phap/ImageGlass/releases/tag/9.2.1.324-beta">Version 9.3 Beta 2</a> and share your feedback!
   <img src="https://upload.wikimedia.org/wikipedia/commons/1/15/Orange_rectangle.svg" height="10" width="100%"/>
 </h3>
-<br/><br/>
+<br/>
 
 
 [![Website](https://img.shields.io/badge/www-imageglass.org-0099BC.svg?maxAge=3600&color=%233097B8)](https://imageglass.org)
