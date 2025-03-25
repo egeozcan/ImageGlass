@@ -14,7 +14,7 @@ echo:
 echo:
 
 
-set PATH=..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64
+set PATH=..\..\Source\ImageGlass\bin\Publish\x64
 
 :: Executable files
 set FILES[0]=ImageGlass.exe

@@ -666,7 +666,7 @@ public static class PhotoCodec
                 // read source file content
                 using var fs = new FileStream(srcFilePath, FileMode.Open, FileAccess.Read);
                 var data = new byte[fs.Length];
-                await fs.ReadAsync(data.AsMemory(0, (int)fs.Length), token);
+                await fs.ReadExactlyAsync(data.AsMemory(0, (int)fs.Length), token);
                 fs.Close();
 
                 token.ThrowIfCancellationRequested();
