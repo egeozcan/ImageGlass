@@ -20,11 +20,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 using Cysharp.Text;
 using ImageGlass.Base;
 using ImageGlass.Settings;
+using System.ComponentModel;
 
 namespace ImageGlass;
 
 public partial class FrmCropSettings : DialogForm
 {
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public CropToolConfig Settings { get; init; }
 
 

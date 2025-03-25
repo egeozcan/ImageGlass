@@ -17,12 +17,15 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System.ComponentModel;
+
 namespace ImageGlass.UI;
 
 public class ModernSplitContainer : SplitContainer
 {
     private Color _splitterColor = Color.Transparent;
 
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Color SplitterBackColor
     {
         get => _splitterColor;

@@ -40,6 +40,7 @@ public partial class AlphaColorSlider : VSlider
     /// Gets, sets color value.
     /// </summary>
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Color ColorValue
     {
         get => _colorValue;

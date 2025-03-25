@@ -42,6 +42,7 @@ public class ModernComboBox : ComboBox
     /// <summary>
     /// Toggles dark mode for this <see cref="ModernButton"/> control.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool DarkMode
     {
         get => _darkMode;

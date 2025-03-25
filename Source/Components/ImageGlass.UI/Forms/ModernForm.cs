@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 using ImageGlass.Base;
 using ImageGlass.Base.WinApi;
+using System.ComponentModel;
 
 namespace ImageGlass.UI;
 
@@ -39,6 +40,7 @@ public partial class ModernForm : Form
     /// <summary>
     /// Enable transparent background.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public virtual bool EnableTransparent
     {
         get
@@ -61,6 +63,7 @@ public partial class ModernForm : Form
     /// <summary>
     /// Enables or disables form's dark mode.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public virtual bool DarkMode
     {
         get => _darkMode;
@@ -75,6 +78,7 @@ public partial class ModernForm : Form
     /// <summary>
     /// Gets, sets window backdrop.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public virtual BackdropStyle BackdropStyle
     {
         get => _backdropStyle;
@@ -89,6 +93,7 @@ public partial class ModernForm : Form
     /// <summary>
     /// Gets, sets the backdrop margin.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public virtual Padding BackdropMargin
     {
         get => _backdropMargin;
@@ -105,12 +110,14 @@ public partial class ModernForm : Form
     /// <summary>
     /// Gets, sets the keys to close the <see cref="ModernForm"/>.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public virtual Keys CloseFormHotkey { get; set; } = Keys.None;
 
 
     /// <summary>
     /// Enables or disables shortcut key handling in parent form.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public virtual bool EnableParentShortcut { get; set; } = false;
 
 
@@ -129,6 +136,7 @@ public partial class ModernForm : Form
     /// <summary>
     /// Gets, sets the value indicates that <see cref="DpiApi.CurrentDpi"/> should be updated when form DPI is changed.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public virtual bool EnableDpiApiUpdate { get; set; } = false;
 
 

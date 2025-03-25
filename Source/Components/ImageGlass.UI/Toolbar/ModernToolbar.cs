@@ -66,11 +66,13 @@ public class ModernToolbar : ToolStrip
     /// <summary>
     /// Enable transparent background.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool EnableTransparent { get; set; } = true;
 
     /// <summary>
     /// Show or hide main menu button of toolbar
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool ShowMainMenuButton
     {
         get => MainMenuButton.Visible;
@@ -85,6 +87,7 @@ public class ModernToolbar : ToolStrip
     /// <summary>
     /// Gets, sets main menu
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public ModernMenu MainMenu
     {
         get => _mainMenu;
@@ -103,6 +106,7 @@ public class ModernToolbar : ToolStrip
     /// <summary>
     /// Gets, sets value indicates that the tooltip is shown
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool HideTooltips { get; set; } = false;
 
     /// <summary>
@@ -113,6 +117,7 @@ public class ModernToolbar : ToolStrip
     /// <summary>
     /// Gets, sets items alignment
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public ToolbarAlignment Alignment
     {
         get => _alignment;
@@ -127,11 +132,13 @@ public class ModernToolbar : ToolStrip
     /// <summary>
     /// Gets, sets theme
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public IgTheme? Theme { get; set; }
 
     /// <summary>
     /// Gets, sets icons height
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public uint IconHeight
     {
         get => _iconHeight;
@@ -145,6 +152,7 @@ public class ModernToolbar : ToolStrip
     /// <summary>
     /// Gets, sets value indicates that the toolstrip will autofocus on hover
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool AutoFocusOnHover { get; set; } = true;
 
     #endregion

@@ -45,6 +45,7 @@ public partial class RgbColorSlider : VSlider
     /// Gets, sets RGB color value.
     /// </summary>
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Color ColorRGB
     {
         get => _colorRGB;
@@ -56,6 +57,7 @@ public partial class RgbColorSlider : VSlider
     /// Gets, sets, HSL color value.
     /// </summary>
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public HslColor ColorHSL
     {
         get => _colorHSL;
@@ -66,6 +68,7 @@ public partial class RgbColorSlider : VSlider
     /// <summary>
     /// Gets, set color mode
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public ColorMode ColorMode
     {
         get => _colorMode;

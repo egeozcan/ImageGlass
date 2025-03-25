@@ -36,6 +36,7 @@ public class ModernMenu(IContainer container) : ContextMenuStrip(container)
     /// <summary>
     /// Gets, sets the theme of menu
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public IgTheme Theme
     {
         get => _theme;
@@ -54,6 +55,7 @@ public class ModernMenu(IContainer container) : ContextMenuStrip(container)
     /// <summary>
     /// Checks if the menu is open.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool IsOpen { get; private set; } = false;
 
     /// <summary>
@@ -64,6 +66,7 @@ public class ModernMenu(IContainer container) : ContextMenuStrip(container)
     /// See the issue at: <see href="https://github.com/dotnet/winforms/issues/4898"/>.
     /// </para>
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public int CurrentDpi { get; set; } = 96;
 
 

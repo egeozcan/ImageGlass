@@ -60,6 +60,7 @@ public partial class FrmSlideshow : ThemedForm
     /// <summary>
     /// Hotkeys list of main menu
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public static Dictionary<string, List<Hotkey>> CurrentMenuHotkeys { get; set; } = new()
     {
         // Open context menu

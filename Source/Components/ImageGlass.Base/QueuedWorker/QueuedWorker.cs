@@ -58,6 +58,7 @@ public class QueuedWorker : Component
     /// Processing mode cannot be changed after any work is added to the work queue.
     /// </summary>
     [Browsable(true), Category("Behaviour"), DefaultValue(typeof(ProcessingMode), "FIFO")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public ProcessingMode ProcessingMode
     {
         get => _processingMode;
@@ -76,6 +77,7 @@ public class QueuedWorker : Component
     /// cannot be changed after any work is added to the work queue.
     /// </summary>
     [Browsable(true), Category("Behaviour"), DefaultValue(5)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public int PriorityQueues
     {
         get => _priorityQueues;
@@ -93,12 +95,14 @@ public class QueuedWorker : Component
     /// Determines whether the <see cref="QueuedWorker"/> started working.
     /// </summary>
     [Browsable(false), Category("Behavior")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool Started => _isStarted;
 
     /// <summary>
     /// Gets or sets a value indicating whether or not the worker thread is a background thread.
     /// </summary>
     [Browsable(true), Category("Behavior")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool IsBackground
     {
         get => _threads[0].IsBackground;

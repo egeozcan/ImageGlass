@@ -19,6 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 using ImageGlass.Base;
 using ImageGlass.Base.WinApi;
 using ImageGlass.UI;
+using System.ComponentModel;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -40,6 +41,7 @@ public partial class Popup : DialogForm
     /// <summary>
     /// Form title
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public string Title
     {
         get => Text;
@@ -60,6 +62,7 @@ public partial class Popup : DialogForm
     /// <summary>
     /// Heading text
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public string Heading
     {
         get => lblHeading.Text;
@@ -87,6 +90,7 @@ public partial class Popup : DialogForm
     /// <summary>
     /// Description text
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public string Description
     {
         get => lblDescription.Text;
@@ -114,6 +118,7 @@ public partial class Popup : DialogForm
     /// <summary>
     /// Form value.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public string Value
     {
         get => txtValue.Text;
@@ -124,6 +129,7 @@ public partial class Popup : DialogForm
     /// <summary>
     /// Note text.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public string Note
     {
         get => lblNote.Text;
@@ -155,6 +161,7 @@ public partial class Popup : DialogForm
     /// <summary>
     /// Gets, sets the type of the note.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public ColorStatusType NoteStatusType
     {
         get => _noteStatusType;
@@ -171,6 +178,7 @@ public partial class Popup : DialogForm
     /// <summary>
     /// Shows or hides text input.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool ShowTextInput
     {
         get => txtValue.Visible;
@@ -181,6 +189,7 @@ public partial class Popup : DialogForm
     /// <summary>
     /// Gets, set the value indicates that text input <c>Multiline</c> is enabled.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool TextInputMultiLine
     {
         get => txtValue.Multiline;
@@ -196,6 +205,7 @@ public partial class Popup : DialogForm
     /// <summary>
     /// Gets, set the value indicates that text input <c>ReadOnly</c> is enabled.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool TextInputReadOnly
     {
         get => txtValue.ReadOnly;
@@ -206,6 +216,7 @@ public partial class Popup : DialogForm
     /// <summary>
     /// Gets, sets check state of <see cref="ChkOption"/>.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool OptionCheckBoxChecked
     {
         get => ChkOption.Checked;
@@ -216,6 +227,7 @@ public partial class Popup : DialogForm
     /// <summary>
     /// Gets, sets text of the <see cref="ChkOption"/>.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public string OptionCheckBoxText
     {
         get => ChkOption.Text;
@@ -243,6 +255,7 @@ public partial class Popup : DialogForm
     /// <summary>
     /// Gets, sets the thumbnail overlay image.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Image? ThumbnailOverlay
     {
         get => picThumbnail.Image;
@@ -270,6 +283,7 @@ public partial class Popup : DialogForm
     /// <summary>
     /// Gets, sets the thumbnail image
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Image? Thumbnail
     {
         get => picThumbnail.BackgroundImage;
@@ -294,12 +308,14 @@ public partial class Popup : DialogForm
     /// <summary>
     /// Pattern for validation
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public string RegexPattern { get; set; } = string.Empty;
 
 
     /// <summary>
     /// Limit the number of characters the user can enter
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public int MaxLimit
     {
         set => txtValue.MaxLength = value;
@@ -309,6 +325,7 @@ public partial class Popup : DialogForm
     /// <summary>
     /// Allows integer number value only
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool IntValueOnly
     {
         get => _intValueOnly;
@@ -330,6 +347,7 @@ public partial class Popup : DialogForm
     /// <summary>
     /// Allows unsigned integer number only
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool UnsignedIntValueOnly
     {
         get => _unsignedIntValueOnly;
@@ -348,6 +366,7 @@ public partial class Popup : DialogForm
     /// <summary>
     /// Allows float number only
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool FloatValueOnly
     {
         get => _unsignedFloatValueOnly;
@@ -368,6 +387,7 @@ public partial class Popup : DialogForm
     /// <summary>
     /// Allows unsigned float number only
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool UnsignedFloatValueOnly
     {
         get => _floatValueOnly;
@@ -390,6 +410,7 @@ public partial class Popup : DialogForm
     /// <summary>
     /// Allow valid filename only
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool FileNameValueOnly { get; set; } = false;
 
 

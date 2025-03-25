@@ -60,6 +60,7 @@ public class ModernButton : Button
     /// <summary>
     /// Toggles dark mode for this <see cref="ModernButton"/> control.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool DarkMode
     {
         get => _darkMode;
@@ -113,7 +114,7 @@ public class ModernButton : Button
         }
     }
 
-
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public new string Text
     {
         get { return base.Text; }
@@ -127,6 +128,7 @@ public class ModernButton : Button
     public static new Padding DefaultPadding => new Padding(_padding);
 
 
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public new bool Enabled
     {
         get { return base.Enabled; }

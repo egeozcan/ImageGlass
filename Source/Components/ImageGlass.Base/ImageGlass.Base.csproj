@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0-windows10.0.17763.0</TargetFramework>
+        <TargetFramework>net9.0-windows10.0.17763.0</TargetFramework>
         <Nullable>enable</Nullable>
         <UseWindowsForms>true</UseWindowsForms>
         <ImplicitUsings>enable</ImplicitUsings>
@@ -84,7 +84,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="D2Phap.EggShell" Version="1.1.216" />
         <PackageReference Include="DirectNStandard" Version="1.17.2" />
         <PackageReference Include="Magick.NET-Q16-HDRI-OpenMP-arm64" Version="14.4.0" Condition="'$(Platform)' == 'ARM64'" />
         <PackageReference Include="Magick.NET-Q16-HDRI-OpenMP-x64" Version="14.5.0" Condition="'$(Platform)' == 'X64'" />
@@ -100,6 +99,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\..\..\EggShell\Source\EggShell\D2Phap.EggShell.csproj" />
         <ProjectReference Include="..\ImageGlass.Webp\ImageGlass.WebP.csproj" />
     </ItemGroup>
 

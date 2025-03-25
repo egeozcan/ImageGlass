@@ -111,6 +111,7 @@ public partial class ImageGallery : Control, IComponent
     /// <summary>
     /// Gets, set tooltip.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public ToolTip? Tooltip
     {
         get => mTooltip;
@@ -124,16 +125,19 @@ public partial class ImageGallery : Control, IComponent
     /// <summary>
     /// Enable transparent background.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool EnableTransparent { get; set; } = true;
 
     /// <summary>
     /// Gets, sets resizer.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public ResizerType Resizer { get; set; } = ResizerType.None;
 
     /// <summary>
     /// Gets, sets the size of <see cref="Resizer"/>. Default is <c>4px</c>.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public int ResizerSize { get; set; } = 8;
 
     /// <summary>
@@ -319,6 +323,7 @@ public partial class ImageGallery : Control, IComponent
     /// Gets or sets the path to the persistent cache file.
     /// </summary>
     [Category("Behavior"), Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public string PersistentCacheDirectory
     {
         get => thumbnailCache._diskCache.DirectoryName;
@@ -332,6 +337,7 @@ public partial class ImageGallery : Control, IComponent
     /// Gets or sets the size of the persistent cache file in MB.
     /// </summary>
     [Category("Behavior"), Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public long PersistentCacheSize
     {
         get
@@ -411,6 +417,7 @@ public partial class ImageGallery : Control, IComponent
     /// Gets or sets whether Key Navigation is enabled.
     /// </summary>
     [Category("Behavior")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool EnableKeyNavigation { get; set; } = true;
 
     /// <summary>
@@ -449,6 +456,7 @@ public partial class ImageGallery : Control, IComponent
     /// Gets the collection of items contained in the image list view.
     /// </summary>
     [Category("Behavior")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public ItemCollection Items
     {
         get => mItems;
@@ -701,6 +709,7 @@ public partial class ImageGallery : Control, IComponent
     /// <summary>
     /// Gets or sets the scroll offset.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     internal Point ViewOffset
     {
         get { return mViewOffset; }

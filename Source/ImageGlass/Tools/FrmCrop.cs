@@ -20,6 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 using ImageGlass.Base;
 using ImageGlass.Settings;
 using ImageGlass.Viewer;
+using System.ComponentModel;
 
 namespace ImageGlass;
 
@@ -34,6 +35,8 @@ public partial class FrmCrop : ToolForm, IToolForm<CropToolConfig>
 
 
     public string ToolId => "CropTool";
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public CropToolConfig Settings { get; set; }
 
 

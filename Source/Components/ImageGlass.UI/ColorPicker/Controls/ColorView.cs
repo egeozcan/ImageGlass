@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 using ImageGlass.Base;
+using System.ComponentModel;
 using System.Drawing.Drawing2D;
 
 namespace ImageGlass.UI;
@@ -38,6 +39,7 @@ public class ColorView : Control
     /// <summary>
     /// Gets, sets left color value.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Color Color1
     {
         get => _color1;
@@ -57,6 +59,7 @@ public class ColorView : Control
     /// <summary>
     /// Gets, sets right color value.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Color Color2
     {
         get => _color2;
@@ -76,6 +79,7 @@ public class ColorView : Control
     /// <summary>
     /// Gets, sets dark mode for <see cref="VSlider"/>.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool DarkMode
     {
         get => _darkMode;

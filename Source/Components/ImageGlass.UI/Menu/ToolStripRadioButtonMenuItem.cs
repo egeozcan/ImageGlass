@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+using System.ComponentModel;
 using System.Windows.Forms.VisualStyles;
 
 
@@ -202,6 +203,7 @@ public class ToolStripRadioButtonMenuItem : ToolStripMenuItem
 
     // Enable the item only if its parent item is in the checked state 
     // and its Enabled property has not been explicitly set to false. 
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override bool Enabled
     {
         get

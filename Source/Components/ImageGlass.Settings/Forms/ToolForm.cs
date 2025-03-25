@@ -35,6 +35,7 @@ public partial class ToolForm : ThemedForm
     /// <summary>
     /// Gets, sets the init location.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Point InitLocation { get; set; }
 
 

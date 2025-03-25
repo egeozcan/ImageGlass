@@ -91,6 +91,7 @@ public class VSlider : Control
     /// <summary>
     /// Gets, sets the value of <see cref="VSlider"/> scaled in range [0; 1].
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public float Value
     {
         get => _value;
@@ -101,6 +102,7 @@ public class VSlider : Control
     /// <summary>
     /// Gets, sets dark mode for <see cref="VSlider"/>.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool DarkMode
     {
         get => _darkMode;

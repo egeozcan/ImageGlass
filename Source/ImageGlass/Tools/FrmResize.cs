@@ -20,6 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 using ImageGlass.Base;
 using ImageGlass.Base.PhotoBox;
 using ImageGlass.Settings;
+using System.ComponentModel;
 using WicNet;
 
 namespace ImageGlass.Tools;
@@ -43,6 +44,7 @@ public partial class FrmResize : DialogForm
     /// <summary>
     /// Gets the output image after resized.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public WicBitmapSource? Result { get; private set; }
 
 

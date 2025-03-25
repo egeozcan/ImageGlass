@@ -558,6 +558,7 @@ public partial class ViewerCanvas : DXCanvas
     /// Gets, sets zoom levels (ordered by ascending).
     /// </summary>
     [Category("Zooming")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public float[] ZoomLevels
     {
         get => _zoomLevels;
@@ -909,6 +910,7 @@ public partial class ViewerCanvas : DXCanvas
     /// <summary>
     /// Enable transparent background.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool EnableTransparent { get; set; } = true;
 
 

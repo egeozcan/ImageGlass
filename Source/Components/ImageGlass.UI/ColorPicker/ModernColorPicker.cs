@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 using ImageGlass.Base;
+using System.ComponentModel;
 
 namespace ImageGlass.UI;
 
@@ -39,6 +40,7 @@ public partial class ModernColorPicker : UserControl
     /// <summary>
     /// Gets, sets color value.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Color ColorValue
     {
         get => _colorValue;
@@ -58,6 +60,7 @@ public partial class ModernColorPicker : UserControl
     /// <summary>
     /// Gets, sets color mode.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public ColorMode ColorMode
     {
         get => SliderRgb.ColorMode;
@@ -68,6 +71,7 @@ public partial class ModernColorPicker : UserControl
     /// <summary>
     /// Enables or disables control's dark mode.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool DarkMode
     {
         get => _darkMode;

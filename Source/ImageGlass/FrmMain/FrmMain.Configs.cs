@@ -24,6 +24,7 @@ using ImageGlass.Base.PhotoBox;
 using ImageGlass.Base.WinApi;
 using ImageGlass.Settings;
 using ImageGlass.UI;
+using System.ComponentModel;
 
 namespace ImageGlass;
 
@@ -36,6 +37,7 @@ public partial class FrmMain
     /// <summary>
     /// Hotkeys list of main menu
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public static Dictionary<string, List<Hotkey>> CurrentMenuHotkeys { get; set; } = new()
     {
 	    // Open main menu

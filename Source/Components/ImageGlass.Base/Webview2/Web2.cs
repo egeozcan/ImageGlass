@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.WinForms;
+using System.ComponentModel;
 
 namespace ImageGlass.Base;
 
@@ -38,11 +39,13 @@ public class Web2 : WebView2
     /// <summary>
     /// Enables or disables debug mode.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool EnableDebug { get; set; } = false;
 
     /// <summary>
     /// Gets, sets dark mode of <see cref="Web2"/>.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool DarkMode
     {
         get => _darkMode;
@@ -56,6 +59,7 @@ public class Web2 : WebView2
     /// <summary>
     /// Gets, sets accent color of <see cref="Web2"/>.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Color AccentColor
     {
         get => _accentColor;
@@ -69,6 +73,7 @@ public class Web2 : WebView2
     /// <summary>
     /// Gets, sets campaign for hyperlink url.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public string PageName { get; set; } = "unknown";
 
     /// <summary>

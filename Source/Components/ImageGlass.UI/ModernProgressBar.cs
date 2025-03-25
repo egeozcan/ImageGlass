@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 using ImageGlass.Base;
+using System.ComponentModel;
 using Timer = System.Windows.Forms.Timer;
 
 namespace ImageGlass.UI;
@@ -39,6 +40,7 @@ public class ModernProgressBar : ProgressBar
     /// <summary>
     /// Toggles dark mode for this <see cref="ModernButton"/> control.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool DarkMode
     {
         get => _darkMode;
@@ -53,6 +55,7 @@ public class ModernProgressBar : ProgressBar
     /// <summary>
     /// Use Marquee style.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool UseMarqueeStyle
     {
         get => _useMarqueeStyle;

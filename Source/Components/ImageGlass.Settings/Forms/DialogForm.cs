@@ -41,6 +41,7 @@ public partial class DialogForm : ThemedForm
     /// <summary>
     /// Gets, sets <see cref="BtnAccept"/>'s text.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public string AcceptButtonText
     {
         get => BtnAccept.Text;
@@ -77,6 +78,7 @@ public partial class DialogForm : ThemedForm
     /// <summary>
     /// Gets, sets <see cref="BtnCancel"/>'s text.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public string CancelButtonText
     {
         get => BtnCancel.Text;
@@ -102,6 +104,7 @@ public partial class DialogForm : ThemedForm
     /// <summary>
     /// Gets, sets <see cref="BtnApply"/>'s text.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public string ApplyButtonText
     {
         get => BtnApply.Text;

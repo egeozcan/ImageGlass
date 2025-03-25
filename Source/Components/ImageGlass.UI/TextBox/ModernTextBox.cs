@@ -29,6 +29,7 @@ public class ModernTextBox : TextBox
     /// <summary>
     /// Toggles dark mode for this <see cref="ModernButton"/> control.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool DarkMode
     {
         get => _darkMode;

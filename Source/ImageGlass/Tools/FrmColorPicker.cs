@@ -19,6 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 using ImageGlass.Base;
 using ImageGlass.Settings;
 using ImageGlass.Viewer;
+using System.ComponentModel;
 
 namespace ImageGlass;
 
@@ -30,6 +31,8 @@ public partial class FrmColorPicker : ToolForm, IToolForm<ColorPickerConfig>
 
 
     public string ToolId => "ColorPicker";
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public ColorPickerConfig Settings { get; set; }
 
 

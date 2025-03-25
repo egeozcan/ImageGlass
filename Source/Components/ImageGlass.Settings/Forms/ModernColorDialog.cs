@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 using ImageGlass.Base;
 using ImageGlass.UI;
+using System.ComponentModel;
 
 namespace ImageGlass.Settings;
 
@@ -33,6 +34,7 @@ public partial class ModernColorDialog : DialogForm
     /// <summary>
     /// Gets, sets the selected color value.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Color ColorValue
     {
         get => ColorPicker.ColorValue;
@@ -43,6 +45,7 @@ public partial class ModernColorDialog : DialogForm
     /// <summary>
     /// Gets, sets color mode.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public ColorMode ColorMode
     {
         get => ColorPicker.ColorMode;
