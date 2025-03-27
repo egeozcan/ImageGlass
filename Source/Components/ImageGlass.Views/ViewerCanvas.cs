@@ -2511,9 +2511,6 @@ public partial class ViewerCanvas : DXCanvas
         _isManualZoom = true;
         _zoommedPoint = location.ToVector2();
 
-        // update drawing regions
-        CalculateDrawingRegion();
-
         if (UseWebview2)
         {
             var newDelta = _zoomFactor / _oldZoomFactor;
@@ -2522,6 +2519,8 @@ public partial class ViewerCanvas : DXCanvas
             return false;
         }
 
+        // update drawing regions
+        CalculateDrawingRegion();
 
         if (requestRerender)
         {
