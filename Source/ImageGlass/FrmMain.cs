@@ -44,7 +44,6 @@ public partial class FrmMain : ThemedForm
     private CancellationTokenSource? _loadCancelTokenSrc = new();
     private readonly IProgress<ProgressReporterEventArgs> _uiReporter;
     private MovableForm? _movableForm;
-    private bool _isShowingImagePreview;
     private FileFinder? _fileFinder = new();
     string? _inputFilePath;
 
@@ -570,7 +569,7 @@ public partial class FrmMain : ThemedForm
     /// <summary>
     /// Updates <see cref="Local.CurrentIndex"/> according to the context.
     /// </summary>
-    private void UpdateCurrentIndex(string? currentFilePath)
+    private static void UpdateCurrentIndex(string? currentFilePath)
     {
         if (string.IsNullOrEmpty(currentFilePath))
         {
@@ -1122,7 +1121,6 @@ public partial class FrmMain : ThemedForm
         }
 
 
-        _isShowingImagePreview = false;
         LoadImageInfo(ImageInfoUpdateTypes.Dimension | ImageInfoUpdateTypes.FrameCount);
 
 
@@ -1267,8 +1265,6 @@ public partial class FrmMain : ThemedForm
                     CanAnimate = false,
                     FrameCount = 1,
                 }, isForPreview: true, channels: Local.ImageChannels);
-
-                _isShowingImagePreview = true;
             }
             catch (OperationCanceledException) { }
         }

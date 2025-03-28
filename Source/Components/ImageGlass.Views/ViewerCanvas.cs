@@ -1639,7 +1639,7 @@ public partial class ViewerCanvas : DXCanvas
     /// </summary>
     protected virtual void CalculateDrawingRegion()
     {
-        if (Source == ImageSource.Null) return;
+        if (Source == ImageSource.Null || DrawingArea.IsEmpty) return;
 
         var zoomX = _zoommedPoint.X;
         var zoomY = _zoommedPoint.Y;
