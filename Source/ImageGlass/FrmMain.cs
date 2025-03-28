@@ -2239,6 +2239,11 @@ public partial class FrmMain : ThemedForm
         IG_SetImageColorChannels();
     }
 
+    private void MnuInvertColors_Click(object sender, EventArgs e)
+    {
+        IG_InvertColors();
+    }
+
 
     private void MnuRotateLeft_Click(object sender, EventArgs e)
     {

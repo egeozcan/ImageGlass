@@ -93,8 +93,9 @@ public partial class FrmMain
         { nameof(MnuScaleToFill),           [new(Keys.D6), new(Keys.NumPad6)] },
 
         // MnuImage
-        { nameof(MnuViewChannels),          [new(Keys.Shift | Keys.C)] },
         { nameof(MnuLoadingOrders),         [new(Keys.Shift | Keys.O)] },
+        { nameof(MnuViewChannels),          [new(Keys.Shift | Keys.C)] },
+        { nameof(MnuInvertColors),          [new(Keys.Control | Keys.I)] }, // Ctrl+I
         { nameof(MnuRotateLeft),            [new(Keys.Control | Keys.OemPeriod)] }, // Ctrl+.
         { nameof(MnuRotateRight),           [new(Keys.Control | Keys.OemQuestion)] }, // Ctrl+/
         { nameof(MnuFlipHorizontal),        [new(Keys.Control | Keys.Oem1)] }, // Ctrl+;
@@ -105,7 +106,7 @@ public partial class FrmMain
         { nameof(MnuToggleImageAnimation),  [new(Keys.Control | Keys.Space)] },
         { nameof(MnuExportFrames),          [new(Keys.Control | Keys.J)] },
         { nameof(MnuOpenLocation),          [new(Keys.L)] },
-        { nameof(MnuImageProperties),       [new(Keys.Control | Keys.I)] },
+        { nameof(MnuImageProperties),       [new(Keys.Alt | Keys.Enter)] },
 
         // MnuClipboard
         { nameof(MnuCopyImageData),         [new(Keys.Control | Keys.C)] },
@@ -722,6 +723,8 @@ public partial class FrmMain
         // Menu Image
         #region Menu Image
         MnuImage.Text = lang[$"{Name}.{nameof(MnuImage)}"];
+
+        MnuInvertColors.Text = lang[$"{Name}.{nameof(MnuInvertColors)}"];
         MnuRotateLeft.Text = lang[$"{Name}.{nameof(MnuRotateLeft)}"];
         MnuRotateRight.Text = lang[$"{Name}.{nameof(MnuRotateRight)}"];
         MnuFlipHorizontal.Text = lang[$"{Name}.{nameof(MnuFlipHorizontal)}"];

@@ -447,6 +447,7 @@ public class IgLang : IDictionary<string, string>
             { "FrmMain.MnuViewChannels", "View channels" }, //v7.0
             { "FrmMain.MnuLoadingOrders", "Loading orders" }, //v8.0
 
+            { "FrmMain.MnuInvertColors", "Invert colors" }, // v9.3
             { "FrmMain.MnuRotateLeft", "Rotate left" }, //v7.5
             { "FrmMain.MnuRotateRight", "Rotate right" }, //v7.5
             { "FrmMain.MnuFlipHorizontal", "Flip Horizontal" }, // V6.0

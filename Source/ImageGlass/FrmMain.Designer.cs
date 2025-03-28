@@ -98,6 +98,7 @@ namespace ImageGlass
             MnuViewChannelAlphaOnly = new ToolStripMenuItem();
             MnuLoadingOrders = new ToolStripMenuItem();
             toolStripMenuItem16 = new ToolStripSeparator();
+            MnuInvertColors = new ToolStripMenuItem();
             MnuRotateLeft = new ToolStripMenuItem();
             MnuRotateRight = new ToolStripMenuItem();
             MnuFlipHorizontal = new ToolStripMenuItem();
@@ -558,7 +559,7 @@ namespace ImageGlass
             // 
             // MnuImage
             // 
-            MnuImage.DropDownItems.AddRange(new ToolStripItem[] { MnuViewChannels, MnuLoadingOrders, toolStripMenuItem16, MnuRotateLeft, MnuRotateRight, MnuFlipHorizontal, MnuFlipVertical, toolStripMenuItem17, MnuRename, MnuMoveToRecycleBin, MnuDeleteFromHardDisk, toolStripMenuItem18, MnuToggleImageAnimation, MnuExportFrames, MnuSetDesktopBackground, MnuSetLockScreen, MnuOpenLocation, toolStripSeparator1, MnuImageProperties });
+            MnuImage.DropDownItems.AddRange(new ToolStripItem[] { MnuLoadingOrders, MnuViewChannels, MnuInvertColors, toolStripMenuItem16, MnuRotateLeft, MnuRotateRight, MnuFlipHorizontal, MnuFlipVertical, toolStripMenuItem17, MnuRename, MnuMoveToRecycleBin, MnuDeleteFromHardDisk, toolStripMenuItem18, MnuToggleImageAnimation, MnuExportFrames, MnuSetDesktopBackground, MnuSetLockScreen, MnuOpenLocation, toolStripSeparator1, MnuImageProperties });
             MnuImage.Image = (Image)resources.GetObject("MnuImage.Image");
             MnuImage.ImageAlign = ContentAlignment.MiddleLeft;
             MnuImage.ImageScaling = ToolStripItemImageScaling.None;
@@ -675,6 +676,13 @@ namespace ImageGlass
             MnuLoadingOrders.Name = "MnuLoadingOrders";
             MnuLoadingOrders.Size = new Size(233, 22);
             MnuLoadingOrders.Text = "[Loading orders]";
+            // 
+            // MnuInvertColors
+            // 
+            MnuInvertColors.Name = "MnuInvertColors";
+            MnuInvertColors.Size = new Size(233, 22);
+            MnuInvertColors.Text = "[Rotate counterclockwise]";
+            MnuInvertColors.Click += MnuInvertColors_Click;
             // 
             // toolStripMenuItem16
             // 
@@ -1295,6 +1303,7 @@ namespace ImageGlass
         public ToolStripMenuItem MnuViewChannels;
         public ToolStripMenuItem MnuLoadingOrders;
         private ToolStripSeparator toolStripMenuItem16;
+        public ToolStripMenuItem MnuInvertColors;
         public ToolStripMenuItem MnuRotateLeft;
         public ToolStripMenuItem MnuRotateRight;
         public ToolStripMenuItem MnuFlipHorizontal;
