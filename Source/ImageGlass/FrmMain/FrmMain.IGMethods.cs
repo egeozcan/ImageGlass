@@ -2974,6 +2974,28 @@ public partial class FrmMain
 
 
     /// <summary>
+    /// Invert image colors.
+    /// </summary>
+    public void IG_InvertColors()
+    {
+        if (PicMain.Source == ImageSource.Null || Local.IsBusy) return;
+
+        // invert image colors
+        if (PicMain.InvertColor(true))
+        {
+            Local.ImageTransform.IsColorInverted = PicMain.IsColorInverted;
+        }
+        else
+        {
+            PicMain.ShowMessage(
+                text: "",
+                heading: Config.Language["_._InvalidAction"],
+                durationMs: Config.InAppMessageDuration);
+        }
+    }
+
+
+    /// <summary>
     /// Crops the viewing image.
     /// </summary>
     public void IG_Crop()
@@ -3023,7 +3045,7 @@ public partial class FrmMain
         // apply transforms
         if (Local.ImageTransform.HasChanges)
         {
-            PhotoCodec.TransformImage(img.ImgData.Image, Local.ImageTransform);
+            img.ImgData.Image = PhotoCodec.TransformImage(img.ImgData.Image, Local.ImageTransform);
         }
 
         if (selectionOnly)

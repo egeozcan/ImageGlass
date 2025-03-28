@@ -70,7 +70,7 @@ public partial class ViewerCanvas : DXCanvas
     private bool _isPreviewing = false;
     private bool _debugMode = false;
     private ImageDrawingState _imageDrawingState = ImageDrawingState.NotStarted;
-
+    private bool _isColorInverted = false;
 
     private RectangleF _srcRect = default; // image source rectangle
     private RectangleF _destRect = default; // image destination rectangle
@@ -935,6 +935,13 @@ public partial class ViewerCanvas : DXCanvas
     /// </summary>
     [Browsable(false)]
     public AnimationSource AnimationSource => _animationSource;
+
+
+    /// <summary>
+    /// Gets the value indicates whether the color is inverted by <see cref="InvertColor(bool)"/>.
+    /// </summary>
+    [Browsable(false)]
+    public bool IsColorInverted => _isColorInverted;
 
 
     /// <summary>
@@ -3080,6 +3087,7 @@ public partial class ViewerCanvas : DXCanvas
         _animatorSource = AnimatorSource.None;
         _isPreviewing = isForPreview;
         _sourceSelection = default;
+        _isColorInverted = false;
 
 
         // disable animations
@@ -3101,7 +3109,6 @@ public partial class ViewerCanvas : DXCanvas
         {
             // initialize animator if the image source is AnimatedImage
             CreateAnimatorFromSource(imgData);
-
 
 
             // viewing single frame of animated image
@@ -3278,6 +3285,34 @@ public partial class ViewerCanvas : DXCanvas
         {
             Refresh(resetZoom: false);
         }
+
+        return true;
+    }
+
+
+    /// <summary>
+    /// Inverts image colors.
+    /// </summary>
+    public bool InvertColor(bool requestRerender = true)
+    {
+        if (_d2dImage == null || IsImageAnimating) return false;
+
+        // create effect
+        using var effect = Device.CreateEffect(Direct2DEffects.CLSID_D2D1Invert);
+        effect.SetInput(_d2dImage, 0);
+
+        // apply the transformation
+        DXHelper.DisposeD2D1Bitmap(ref _d2dImage);
+        _d2dImage = effect.GetD2D1Bitmap1(Device, false);
+
+
+        // render the transformation
+        if (requestRerender)
+        {
+            Refresh(resetZoom: false);
+        }
+
+        _isColorInverted = !_isColorInverted;
 
         return true;
     }

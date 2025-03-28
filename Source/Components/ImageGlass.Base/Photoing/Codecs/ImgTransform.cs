@@ -22,38 +22,64 @@ public class ImgTransform
 {
     private float _rotation = 0;
     private FlipOptions _flipOptions = FlipOptions.None;
+    private bool _isColorInverted = false;
 
 
     /// <summary>
-    /// Contains all flips of the image.
+    /// Gets or sets the flip options, triggers the <see cref="Changed"/> event when changed.
     /// </summary>
     public FlipOptions Flips
     {
         get => _flipOptions;
         set
         {
-            _flipOptions = value;
-            Changed?.Invoke(this, EventArgs.Empty);
+            if (_flipOptions != value)
+            {
+                _flipOptions = value;
+                Changed?.Invoke(this, EventArgs.Empty);
+            }
         }
     }
 
 
     /// <summary>
-    /// Contains the rotation in degree of the image.
+    /// Gets or sets the rotation value, triggers the <see cref="Changed"/> event when changed.
     /// </summary>
     public float Rotation
     {
         get => _rotation;
         set
         {
-            _rotation = value;
-            Changed?.Invoke(this, EventArgs.Empty);
+            if (_rotation != value)
+            {
+                _rotation = value;
+                Changed?.Invoke(this, EventArgs.Empty);
+            }
         }
     }
 
 
     /// <summary>
-    /// Gets, sets frame index to apply the transformation to. Use <c>-1</c> to apply to all frames.
+    /// Gets or sets a value indicating whether the color is inverted.
+    /// Triggers the <see cref="Changed"/> event when changed.
+    /// </summary>
+    public bool IsColorInverted
+    {
+        get => _isColorInverted;
+        set
+        {
+            if (_isColorInverted != value)
+            {
+                _isColorInverted = value;
+                Changed?.Invoke(this, EventArgs.Empty);
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// Gets, sets frame index to apply the transformation to.
+    /// Use <c>-1</c> to apply to all frames.
     /// Default value is <c>-1</c>.
     /// </summary>
     public int FrameIndex { get; set; } = -1;
@@ -62,7 +88,9 @@ public class ImgTransform
     /// <summary>
     /// Checks if there are changes.
     /// </summary>
-    public bool HasChanges => Flips != FlipOptions.None || Rotation != 0;
+    public bool HasChanges => Flips != FlipOptions.None
+        || Rotation != 0
+        || IsColorInverted;
 
 
     /// <summary>
@@ -78,6 +106,7 @@ public class ImgTransform
     {
         _flipOptions = FlipOptions.None;
         _rotation = 0;
+        _isColorInverted = false;
         FrameIndex = -1;
 
         Changed?.Invoke(this, EventArgs.Empty);
