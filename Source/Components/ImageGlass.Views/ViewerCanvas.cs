@@ -1493,6 +1493,9 @@ public partial class ViewerCanvas : DXCanvas
 
     protected override void OnResize(EventArgs e)
     {
+        base.OnResize(e);
+        if (DrawingArea.IsEmpty) return;
+
         // update drawing regions
         CalculateDrawingRegion();
 
@@ -1501,8 +1504,6 @@ public partial class ViewerCanvas : DXCanvas
         {
             Refresh(true, false, true);
         }
-
-        base.OnResize(e);
     }
 
     protected override void OnFrame(FrameEventArgs e)
