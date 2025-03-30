@@ -2174,16 +2174,25 @@ public partial class ViewerCanvas : DXCanvas
     /// <summary>
     /// Calculates zoom factor by the input zoom mode, and source size.
     /// </summary>
+    public float CalculateZoomFactor(ZoomMode zoomMode, float srcWidth, float srcHeight)
+    {
+        return CalculateZoomFactor(zoomMode, srcWidth, srcHeight, (int)DrawingArea.Width, (int)DrawingArea.Height);
+    }
+
+
+    /// <summary>
+    /// Calculates zoom factor by the input zoom mode, and source size.
+    /// </summary>
     public float CalculateZoomFactor(ZoomMode zoomMode, float srcWidth, float srcHeight, int viewportW, int viewportH)
     {
-        if (srcWidth == 0 || srcHeight == 0) return _zoomFactor;
+        if (srcWidth == 0 || srcHeight == 0
+            || viewportW == 0 || viewportH == 0) return _zoomFactor;
 
-        var horizontalPadding = Padding.Left + Padding.Right;
-        var verticalPadding = Padding.Top + Padding.Bottom;
-        var widthScale = (viewportW - horizontalPadding) / srcWidth;
-        var heightScale = (viewportH - verticalPadding) / srcHeight;
 
+        var widthScale = viewportW / srcWidth;
+        var heightScale = viewportH / srcHeight;
         float zoomFactor;
+
 
         if (zoomMode == ZoomMode.ScaleToWidth)
         {
@@ -2228,10 +2237,12 @@ public partial class ViewerCanvas : DXCanvas
     /// </summary>
     public void SetZoomMode(ZoomMode? mode = null, bool isManualZoom = false, bool zoomedByResizing = false)
     {
+        if (DrawingArea.IsEmpty) return;
+
+
         // get zoom factor after applying the zoom mode
-        var zoomMode = mode ?? _zoomMode;
-        _zoomMode = zoomMode;
-        _zoomFactor = CalculateZoomFactor(zoomMode, SourceWidth, SourceHeight, Width, Height);
+        _zoomMode = mode ?? _zoomMode;
+        _zoomFactor = CalculateZoomFactor(_zoomMode, SourceWidth, SourceHeight);
         _isManualZoom = isManualZoom;
 
         // update drawing regions
@@ -2241,7 +2252,7 @@ public partial class ViewerCanvas : DXCanvas
         if (UseWebview2)
         {
             var obj = new ExpandoObject();
-            _ = obj.TryAdd("ZoomMode", zoomMode.ToString());
+            _ = obj.TryAdd("ZoomMode", _zoomMode.ToString());
             _ = obj.TryAdd("IsManualZoom", isManualZoom);
 
             Web2.PostWeb2Message(Web2BackendMsgNames.SET_ZOOM_MODE, BHelper.ToJson(obj));

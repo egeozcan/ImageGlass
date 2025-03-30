@@ -1237,7 +1237,7 @@ public partial class FrmMain : ThemedForm
                 }
                 else
                 {
-                    var zoomFactor = PicMain.CalculateZoomFactor(Config.ZoomMode, Local.Metadata.RenderedWidth, Local.Metadata.RenderedHeight, PicMain.Width, PicMain.Height);
+                    var zoomFactor = PicMain.CalculateZoomFactor(Config.ZoomMode, Local.Metadata.RenderedWidth, Local.Metadata.RenderedHeight);
 
                     previewSize = new((int)(Local.Metadata.RenderedWidth * zoomFactor), (int)(Local.Metadata.RenderedHeight * zoomFactor));
                 }
