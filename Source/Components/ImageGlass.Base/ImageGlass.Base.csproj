@@ -86,9 +86,9 @@
     <ItemGroup>
         <PackageReference Include="DirectNStandard" Version="1.17.2" />
         <PackageReference Include="Magick.NET-Q16-HDRI-OpenMP-arm64" Version="14.4.0" Condition="'$(Platform)' == 'ARM64'" />
-        <PackageReference Include="Magick.NET-Q16-HDRI-OpenMP-x64" Version="14.5.0" Condition="'$(Platform)' == 'X64'" />
-        <PackageReference Include="Magick.NET.SystemDrawing" Version="8.0.5" />
-        <PackageReference Include="Magick.NET.SystemWindowsMedia" Version="8.0.5" />
+        <PackageReference Include="Magick.NET-Q16-HDRI-OpenMP-x64" Version="14.6.0" Condition="'$(Platform)' == 'X64'" />
+        <PackageReference Include="Magick.NET.SystemDrawing" Version="8.0.6" />
+        <PackageReference Include="Magick.NET.SystemWindowsMedia" Version="8.0.6" />
         <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2151.40" />
         <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.183">
             <PrivateAssets>all</PrivateAssets>

@@ -1396,6 +1396,13 @@ public static class PhotoCodec
             settings.Format = MagickFormat.Svgz;
             settings.BackgroundColor = MagickColors.Transparent;
         }
+        else if (ext.Equals(".HEIC", StringComparison.OrdinalIgnoreCase))
+        {
+            settings.SetDefines(new HeicReadDefines()
+            {
+                MaxChildrenPerBox = 500,
+            });
+        }
         else if (ext.Equals(".JP2", StringComparison.OrdinalIgnoreCase))
         {
             settings.SetDefines(new Jp2ReadDefines
