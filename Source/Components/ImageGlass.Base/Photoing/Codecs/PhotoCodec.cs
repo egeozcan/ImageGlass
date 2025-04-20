@@ -758,8 +758,6 @@ public static class PhotoCodec
                 dc.BeginDraw();
                 dc.DrawImage(effect);
                 dc.EndDraw();
-
-                newBmp.Save("xxxxxxxx.jpg");
             }
 
             bmpSrc.Dispose();

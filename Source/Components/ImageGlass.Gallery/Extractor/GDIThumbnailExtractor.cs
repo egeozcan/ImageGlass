@@ -144,7 +144,7 @@ public partial class GDIExtractor : IExtractor
         // extrack thumbnail from shell
         if (useEmbeddedThumbnails == UseEmbeddedThumbnails.Always)
         {
-            thumb = ShellThumbnailApi.GetThumbnail(filename, size.Width, size.Height, ShellThumbnailOptions.ThumbnailOnly);
+            thumb = ShellThumbnailApi.GetThumbnail(filename, size.Width, size.Height, ShellThumbnailOptions.ThumbnailOnly | ShellThumbnailOptions.BiggerSizeOk);
         }
 
         // get thumbnail from source file
@@ -154,7 +154,7 @@ public partial class GDIExtractor : IExtractor
         }
         else
         {
-            thumb = ShellThumbnailApi.GetThumbnail(filename, size.Width, size.Height, ShellThumbnailOptions.ThumbnailOnly);
+            thumb = ShellThumbnailApi.GetThumbnail(filename, size.Width, size.Height, ShellThumbnailOptions.ThumbnailOnly | ShellThumbnailOptions.BiggerSizeOk);
 
             if (thumb == null)
             {
