@@ -41,7 +41,7 @@ ImageGlass is a lightweight software designed for seamless viewing of images in 
 
 ### ImageGlass on Microsoft Store!
 - If you want to support the development of ImageGlass, you can purchase ImageGlass from Microsoft Store.
-- Alternatively, you can use the one-time donation from [♥ GitHub Sponsor](https://github.com/sponsors/d2phap), then drop me a message in [ImageGlass Discord](https://discord.com/channels/818852544859209748/818852544859209751) or [email](https://imageglass.org/about), and I will send the code shortly.
+- Alternatively, you can use the one-time donation from [♥ GitHub Sponsor](https://github.com/sponsors/d2phap), then drop me a message in [ImageGlass Discord](https://discord.gg/tWjbynH2X8) or [email](https://imageglass.org/about), and I will send the code shortly.
 - ImageGlass Store provides the convenience of fast, easy installation onto all of your Windows devices along with fully automatic, behind-the-scenes updates with all the newest features, improvements, and fixes.
 
 ### Difference Between ImageGlass Classic and Store Release
@@ -86,7 +86,7 @@ For more information about ImageGlass, go to [ImageGlass Docs](https://imageglas
 
 ## 🤼 Community and Support
 - [GitHub issues](https://github.com/d2phap/ImageGlass/issues)
-- [ImageGlass Discord](https://discord.io/imageglass)
+- [ImageGlass Discord](https://discord.gg/tWjbynH2X8)
 - [Google forum](https://groups.google.com/forum/#!forum/imageglass)
 
 
