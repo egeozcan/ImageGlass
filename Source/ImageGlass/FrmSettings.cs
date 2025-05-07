@@ -269,7 +269,7 @@ public partial class FrmSettings : WebForm
 
 
         // Tab File type associations
-        #region Tab ile type associations
+        #region Tab File type associations
         else if (e.Name.Equals("Btn_OpenExtIconFolder", StringComparison.Ordinal))
         {
             var extIconDir = App.ConfigDir(PathType.Dir, Dir.ExtIcons);
