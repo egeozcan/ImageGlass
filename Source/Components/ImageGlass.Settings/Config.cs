@@ -2137,7 +2137,7 @@ public static class Config
         if (Source.Version <= Version) return;
 
 
-        // migrate from 9
+        // migrate from 9.0
         if (Version == 9)
         {
             // MouseClickActions
@@ -2156,6 +2156,15 @@ public static class Config
             {
                 MouseClickActions[MouseClickEvent.XButton2Click] = new(new("MnuViewNext"));
             }
+        }
+
+
+        // migrate from < 9.2
+        if (Version <= 9.2)
+        {
+            FileFormats.Add(".jxr");
+            FileFormats.Add(".hdp");
+            FileFormats.Add(".wdp");
         }
     }
 

@@ -52,7 +52,7 @@ public class Source
     /// <summary>
     /// Config file version
     /// </summary>
-    public static float Version => 9.1f;
+    public static float Version => 9.3f;
 
 
     /// <summary>
