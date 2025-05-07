@@ -205,7 +205,7 @@ public class FileFinder
 
 
         // search all sub-directories if root dir is not empty
-        if (searchSubDirectories && string.IsNullOrWhiteSpace(rootDir))
+        if (searchSubDirectories && !string.IsNullOrWhiteSpace(rootDir))
         {
             // search files for the sub dirs
             // get sub folders
