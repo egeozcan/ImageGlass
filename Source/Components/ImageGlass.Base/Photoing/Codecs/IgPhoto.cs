@@ -160,7 +160,9 @@ public class IgPhoto(string filePath) : IDisposable
             ImgData = await PhotoCodec.LoadAsync(FilePath, options, null, _tokenSrc?.Token);
 
             // update metadata for JXR format
-            if (Metadata.FileExtension == ".JXR")
+            if (Metadata.FileExtension == ".JXR"
+                || Metadata.FileExtension == ".HDP"
+                || Metadata.FileExtension == ".WDP")
             {
                 Metadata.RenderedWidth = Metadata.OriginalWidth = (uint)(ImgData.Image?.Width ?? 0);
                 Metadata.RenderedHeight = Metadata.OriginalHeight = (uint)(ImgData.Image?.Height ?? 0);

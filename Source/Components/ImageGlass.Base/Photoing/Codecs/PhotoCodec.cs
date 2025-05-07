@@ -931,6 +931,8 @@ public static class PhotoCodec
                 break;
 
             case ".JXR":
+            case ".HDP":
+            case ".WDP":
                 try
                 {
                     var wic = WicBitmapSource.Load(filePath);

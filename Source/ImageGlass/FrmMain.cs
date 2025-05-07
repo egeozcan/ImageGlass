@@ -17,7 +17,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 using Cysharp.Text;
-using D2Phap;
 using ImageGlass.Base;
 using ImageGlass.Base.Actions;
 using ImageGlass.Base.FileSystem;
@@ -847,7 +846,9 @@ public partial class FrmMain : ThemedForm
                     await photo.LoadAsync(readSettings, tokenSrc);
 
                     // update metadata for JXR format
-                    if (Local.Metadata.FileExtension == ".JXR")
+                    if (Local.Metadata.FileExtension == ".JXR"
+                        || Local.Metadata.FileExtension == ".HDP"
+                        || Local.Metadata.FileExtension == ".WDP")
                     {
                         Local.Metadata = photo.Metadata;
                     }
