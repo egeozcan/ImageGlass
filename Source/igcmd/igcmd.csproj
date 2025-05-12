@@ -11,7 +11,7 @@
         <AssemblyTitle>Igcmd: Command-line utility for ImageGlass</AssemblyTitle>
         <Copyright>Copyright © 2010 - 2025 Duong Dieu Phap</Copyright>
         <Company>Duong Dieu Phap</Company>
-        <Version>9.2.0.1208</Version>
+        <Version>9.3.0.514</Version>
         <FileVersion>$(Version)</FileVersion>
 
         <EntryPointExe>$(AssemblyName).exe</EntryPointExe>
