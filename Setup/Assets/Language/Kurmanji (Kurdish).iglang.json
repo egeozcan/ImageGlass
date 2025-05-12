@@ -4,7 +4,7 @@
     "EnglishName": "Kurdish",
     "LocalName": "Kurdî",
     "Author": "Cyax",
-    "MinVersion": "9.2"
+    "MinVersion": "9.3"
   },
   "Items": {
     "FrmCrop.SelectionAspectRatio._Original": "Original",
@@ -153,6 +153,7 @@
     "FrmMain.MnuScaleToFill": "Bo tijîkirinê bipîve",
     "FrmCrop.BtnCrop": "Crop",
     "_.AfterEditAppAction._Minimize": "Biçûk bike",
+    "FrmMain.MnuInvertColors": "Invert colors",
     "FrmSettings._StartupBoost": "Startup Boost",
     "FrmMain.MnuViewFirstFrame": "Çarçoveya yekem nîşan bide",
     "_.MouseWheelEvent._CtrlAndScroll": "Ctrl bitikîne û bişemtîne",
@@ -285,7 +286,6 @@
     "_.Metadata._ExifDateTimeOriginal": "EXIF: DateTimeOriginal",
     "FrmMain.MnuRotateRight": "Bizîvirîne rastê",
     "FrmSettings._MinEmbeddedThumbnailSize": "Minimum size of the embedded thumbnail to be loaded",
-    "FrmSettings._EnableImageTransition": "Enable image transition effect",
     "FrmMain.MnuSetDefaultPhotoViewer": "Set default photo viewer",
     "FrmMain.MnuImageProperties": "Taybetiyên wêneyê",
     "FrmSettings._EnableNavigationButtons": "Show navigation arrow buttons",
@@ -426,7 +426,7 @@
     "FrmMain.MnuCutFile._Success": "{0} pêl jê bike.",
     "FrmSettings._ZoomSpeed": "Zoom speed",
     "FrmMain.MnuToggleTopMost._Disable": "Disabled window always on top",
-    "FrmSettings._ShouldUseExplorerSortOrder": "Heke pêkan be fermana rêzkirina Windows File Explorer bi kar bîne",
+    "FrmSettings._ShouldUseExplorerSortOrder": "Use Explorer sort order if possible",
     "_.ImageInterpolation._Antisotropic": "Antisotropic",
     "FrmMain._ReachedFirstImage": "Gihîşt wêneyê yekem",
     "_._UnhandledException": "Unhandled exception",

@@ -4,7 +4,7 @@
     "EnglishName": "Taiwanese Mandarin",
     "LocalName": "正體中文",
     "Author": "Jeff",
-    "MinVersion": "9.2"
+    "MinVersion": "9.3"
   },
   "Items": {
     "FrmCrop.SelectionAspectRatio._Original": "原始",
@@ -153,6 +153,7 @@
     "FrmMain.MnuScaleToFill": "縮放到填滿",
     "FrmCrop.BtnCrop": "裁剪",
     "_.AfterEditAppAction._Minimize": "最小化",
+    "FrmMain.MnuInvertColors": "反轉色彩",
     "FrmSettings._StartupBoost": "啟動加速",
     "FrmMain.MnuViewFirstFrame": "檢視第一個框架",
     "_.MouseWheelEvent._CtrlAndScroll": "按住 Ctrl 並捲動",
@@ -285,7 +286,6 @@
     "_.Metadata._ExifDateTimeOriginal": "EXIF: DateTimeOriginal",
     "FrmMain.MnuRotateRight": "向右旋轉",
     "FrmSettings._MinEmbeddedThumbnailSize": "要載入的內嵌縮圖最小大小",
-    "FrmSettings._EnableImageTransition": "啟用影像轉場效果",
     "FrmMain.MnuSetDefaultPhotoViewer": "設定預設照片檢視程式",
     "FrmMain.MnuImageProperties": "圖片屬性",
     "FrmSettings._EnableNavigationButtons": "顯示導航箭頭按鈕",
@@ -426,7 +426,7 @@
     "FrmMain.MnuCutFile._Success": "已複製 {0} 個檔案。",
     "FrmSettings._ZoomSpeed": "縮放速度",
     "FrmMain.MnuToggleTopMost._Disable": "已停用視窗一律在頂部",
-    "FrmSettings._ShouldUseExplorerSortOrder": "如果可以的話，使用 Windows 檔案總管排序",
+    "FrmSettings._ShouldUseExplorerSortOrder": "若可能，請使用檔案總管排序順序",
     "_.ImageInterpolation._Antisotropic": "非均向性",
     "FrmMain._ReachedFirstImage": "到達第一張圖片",
     "_._UnhandledException": "未處理的異常",

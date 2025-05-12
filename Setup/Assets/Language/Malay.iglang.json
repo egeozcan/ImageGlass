@@ -4,7 +4,7 @@
     "EnglishName": "Malay",
     "LocalName": "Bahasa Melayu",
     "Author": "Abuyop",
-    "MinVersion": ""
+    "MinVersion": "9.2"
   },
   "Items": {
     "FrmCrop.SelectionAspectRatio._Original": "Asal",
@@ -153,6 +153,7 @@
     "FrmMain.MnuScaleToFill": "Skala dipenuhi",
     "FrmCrop.BtnCrop": "Kerat",
     "_.AfterEditAppAction._Minimize": "Minimumkan",
+    "FrmMain.MnuInvertColors": "Invert colors",
     "FrmSettings._StartupBoost": "Galak Permulaan",
     "FrmMain.MnuViewFirstFrame": "Lihat bingkai pertama",
     "_.MouseWheelEvent._CtrlAndScroll": "Tahan Ctrl dan tatal",
@@ -285,7 +286,6 @@
     "_.Metadata._ExifDateTimeOriginal": "EXIF: DateTimeOriginal",
     "FrmMain.MnuRotateRight": "Putar kanan",
     "FrmSettings._MinEmbeddedThumbnailSize": "Saiz minimum imej kenit terbenam yang dimuatkan",
-    "FrmSettings._EnableImageTransition": "Dayakan kesan peralihan imej",
     "FrmMain.MnuSetDefaultPhotoViewer": "Tetapkan pelihat foto Lalai",
     "FrmMain.MnuImageProperties": "Sifat imej",
     "FrmSettings._EnableNavigationButtons": "Tunjuk butang anak panah pengemudian",
@@ -426,7 +426,7 @@
     "FrmMain.MnuCutFile._Success": "Potong {0} fail(s).",
     "FrmSettings._ZoomSpeed": "Kelajuan zum",
     "FrmMain.MnuToggleTopMost._Disable": "Tetingkap sentiasa di atas dilumpuhkan",
-    "FrmSettings._ShouldUseExplorerSortOrder": "Guna tertib isih Pelayar Fail Windows jika boleh",
+    "FrmSettings._ShouldUseExplorerSortOrder": "Use Explorer sort order if possible",
     "_.ImageInterpolation._Antisotropic": "Antisotropic",
     "FrmMain._ReachedFirstImage": "Pada imej pertama",
     "_._UnhandledException": "Pengecualian tidak dikendali",

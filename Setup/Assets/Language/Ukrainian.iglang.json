@@ -4,7 +4,7 @@
     "EnglishName": "Ukrainian",
     "LocalName": "Українська",
     "Author": "Valentin Gonsharuk",
-    "MinVersion": "9.2"
+    "MinVersion": "9.3"
   },
   "Items": {
     "FrmCrop.SelectionAspectRatio._Original": "Оригінал",
@@ -153,6 +153,7 @@
     "FrmMain.MnuScaleToFill": "Заповнювати",
     "FrmCrop.BtnCrop": "Обрізати",
     "_.AfterEditAppAction._Minimize": "Згорнути",
+    "FrmMain.MnuInvertColors": "Invert colors",
     "FrmSettings._StartupBoost": "Startup Boost",
     "FrmMain.MnuViewFirstFrame": "Переглянути перший фрейм",
     "_.MouseWheelEvent._CtrlAndScroll": "Утримуйте Ctrl і прокрутіть",
@@ -285,7 +286,6 @@
     "_.Metadata._ExifDateTimeOriginal": "EXIF: DateTimeOriginal",
     "FrmMain.MnuRotateRight": "Повернути вправо",
     "FrmSettings._MinEmbeddedThumbnailSize": "Мінімальний розмір вбудованої мініатюри для завантаження",
-    "FrmSettings._EnableImageTransition": "Включити ефект переходу між зображеннями",
     "FrmMain.MnuSetDefaultPhotoViewer": "Встановити ImageGlass як основний переглядач фотографій",
     "FrmMain.MnuImageProperties": "Властивості зображення",
     "FrmSettings._EnableNavigationButtons": "Показати кнопки зі стрілками навігації",
@@ -426,7 +426,7 @@
     "FrmMain.MnuCutFile._Success": "Файл(ів) вирізано: {0}.",
     "FrmSettings._ZoomSpeed": "Швидкість масштабування",
     "FrmMain.MnuToggleTopMost._Disable": "Вимкнено: завжди поверх усіх вікон",
-    "FrmSettings._ShouldUseExplorerSortOrder": "За можливості використовувати порядок сортування як у Провіднику",
+    "FrmSettings._ShouldUseExplorerSortOrder": "Use Explorer sort order if possible",
     "_.ImageInterpolation._Antisotropic": "Анізотропний",
     "FrmMain._ReachedFirstImage": "Досягнуто перше зображення",
     "_._UnhandledException": "Необроблена помилка",

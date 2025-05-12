@@ -4,7 +4,7 @@
     "EnglishName": "Serbian (Cyrillic)",
     "LocalName": "Српски",
     "Author": "Ђорђе Васиљевић",
-    "MinVersion": "9.2"
+    "MinVersion": "9.3"
   },
   "Items": {
     "FrmCrop.SelectionAspectRatio._Original": "Оригинална",
@@ -153,6 +153,7 @@
     "FrmMain.MnuScaleToFill": "Попуни прозор",
     "FrmCrop.BtnCrop": "Опсеци",
     "_.AfterEditAppAction._Minimize": "Умањи",
+    "FrmMain.MnuInvertColors": "Invert colors",
     "FrmSettings._StartupBoost": "Startup Boost",
     "FrmMain.MnuViewFirstFrame": "Први кадар",
     "_.MouseWheelEvent._CtrlAndScroll": "Ctrl + точкић миша",
@@ -285,7 +286,6 @@
     "_.Metadata._ExifDateTimeOriginal": "EXIF: DateTimeOriginal",
     "FrmMain.MnuRotateRight": "Ротирај удесно",
     "FrmSettings._MinEmbeddedThumbnailSize": "Минимална величина уграђене сличице за учитавање",
-    "FrmSettings._EnableImageTransition": "Ефекат преласка слике",
     "FrmMain.MnuSetDefaultPhotoViewer": "Подеси подразумевани приказивач слика",
     "FrmMain.MnuImageProperties": "Својства слике",
     "FrmSettings._EnableNavigationButtons": "Стрелице за навигацију",

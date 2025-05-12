@@ -4,7 +4,7 @@
     "EnglishName": "Arabic",
     "LocalName": "الاسم المحلي للغة",
     "Author": "sysy1413",
-    "MinVersion": "9.2"
+    "MinVersion": "9.3"
   },
   "Items": {
     "FrmCrop.SelectionAspectRatio._Original": "Original",
@@ -153,6 +153,7 @@
     "FrmMain.MnuScaleToFill": "إعادة القياس لملء",
     "FrmCrop.BtnCrop": "Crop",
     "_.AfterEditAppAction._Minimize": "تصغير",
+    "FrmMain.MnuInvertColors": "Invert colors",
     "FrmSettings._StartupBoost": "Startup Boost",
     "FrmMain.MnuViewFirstFrame": "View first frame",
     "_.MouseWheelEvent._CtrlAndScroll": "Hold Ctrl and scroll",
@@ -285,7 +286,6 @@
     "_.Metadata._ExifDateTimeOriginal": "EXIF: DateTimeOriginal",
     "FrmMain.MnuRotateRight": "تدوير لليمين",
     "FrmSettings._MinEmbeddedThumbnailSize": "Minimum size of the embedded thumbnail to be loaded",
-    "FrmSettings._EnableImageTransition": "Enable image transition effect",
     "FrmMain.MnuSetDefaultPhotoViewer": "Set default photo viewer",
     "FrmMain.MnuImageProperties": "خصائص الصورة",
     "FrmSettings._EnableNavigationButtons": "Show navigation arrow buttons",
@@ -426,7 +426,7 @@
     "FrmMain.MnuCutFile._Success": "Cut {0} file(s).",
     "FrmSettings._ZoomSpeed": "Zoom speed",
     "FrmMain.MnuToggleTopMost._Disable": "Disabled window always on top",
-    "FrmSettings._ShouldUseExplorerSortOrder": "استخدام ترتيب فرز ملفات Windows إن أمكن",
+    "FrmSettings._ShouldUseExplorerSortOrder": "Use Explorer sort order if possible",
     "_.ImageInterpolation._Antisotropic": "Antisotropic",
     "FrmMain._ReachedFirstImage": "وصلت إلى أول صورة",
     "_._UnhandledException": "Unhandled exception",

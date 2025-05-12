@@ -4,7 +4,7 @@
     "EnglishName": "Dutch",
     "LocalName": "Nederlands",
     "Author": "S.Paternotte, emup, BudsieBuds",
-    "MinVersion": "9.2"
+    "MinVersion": "9.3"
   },
   "Items": {
     "FrmCrop.SelectionAspectRatio._Original": "Origineel",
@@ -153,6 +153,7 @@
     "FrmMain.MnuScaleToFill": "Vullend",
     "FrmCrop.BtnCrop": "Bijsnijden",
     "_.AfterEditAppAction._Minimize": "Minimaliseren",
+    "FrmMain.MnuInvertColors": "Invert colors",
     "FrmSettings._StartupBoost": "Snel opstarten",
     "FrmMain.MnuViewFirstFrame": "Eerste frame",
     "_.MouseWheelEvent._CtrlAndScroll": "Ctrl-scrollen",
@@ -285,7 +286,6 @@
     "_.Metadata._ExifDateTimeOriginal": "EXIF: DateTimeOriginal",
     "FrmMain.MnuRotateRight": "Rechtsom draaien",
     "FrmSettings._MinEmbeddedThumbnailSize": "Minimale grootte van de ingesloten miniatuur die moet worden geladen",
-    "FrmSettings._EnableImageTransition": "Afbeeldingovergangseffect inschakelen",
     "FrmMain.MnuSetDefaultPhotoViewer": "Standaard fotoviewer instellen",
     "FrmMain.MnuImageProperties": "Eigenschappen van afbeelding",
     "FrmSettings._EnableNavigationButtons": "Navigatiepijlen weergeven",

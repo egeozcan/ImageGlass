@@ -4,7 +4,7 @@
     "EnglishName": "French",
     "LocalName": "Français",
     "Author": "Jonas Boumediene",
-    "MinVersion": "9.2"
+    "MinVersion": "9.3"
   },
   "Items": {
     "FrmCrop.SelectionAspectRatio._Original": "Original",
@@ -153,6 +153,7 @@
     "FrmMain.MnuScaleToFill": "Redimensionner pour remplir",
     "FrmCrop.BtnCrop": "Rogner",
     "_.AfterEditAppAction._Minimize": "Réduire",
+    "FrmMain.MnuInvertColors": "Inverser les couleurs",
     "FrmSettings._StartupBoost": "Démarrage Rapide",
     "FrmMain.MnuViewFirstFrame": "Voir la première page",
     "_.MouseWheelEvent._CtrlAndScroll": "Maintenir Ctrl et faire défiler",
@@ -285,7 +286,6 @@
     "_.Metadata._ExifDateTimeOriginal": "EXIF: DateTimeOriginal",
     "FrmMain.MnuRotateRight": "Pivoter à droite",
     "FrmSettings._MinEmbeddedThumbnailSize": "Taille minimale de la vignette intégrée à charger",
-    "FrmSettings._EnableImageTransition": "Activer l'effet de transition de l'image",
     "FrmMain.MnuSetDefaultPhotoViewer": "Définir la visionneuse de photos par défaut",
     "FrmMain.MnuImageProperties": "Propriétés de l'image",
     "FrmSettings._EnableNavigationButtons": "Afficher les flèches de navigation",
@@ -426,7 +426,7 @@
     "FrmMain.MnuCutFile._Success": "{0} fichier(s) coupé(s).",
     "FrmSettings._ZoomSpeed": "Vitesse de zoom",
     "FrmMain.MnuToggleTopMost._Disable": "Fenêtre toujours premier plan désactivé",
-    "FrmSettings._ShouldUseExplorerSortOrder": "Utiliser l'ordre de tri de l'explorateur de fichiers de Windows si possible",
+    "FrmSettings._ShouldUseExplorerSortOrder": "Utiliser l'ordre de tri de l'Explorateur si possible",
     "_.ImageInterpolation._Antisotropic": "Anisotropique",
     "FrmMain._ReachedFirstImage": "Première image atteinte",
     "_._UnhandledException": "Exception non gérée",

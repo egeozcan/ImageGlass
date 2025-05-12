@@ -4,7 +4,7 @@
     "EnglishName": "Catalan",
     "LocalName": "Català",
     "Author": "Arnau Mora",
-    "MinVersion": "9.2"
+    "MinVersion": "9.3"
   },
   "Items": {
     "FrmCrop.SelectionAspectRatio._Original": "Original",
@@ -153,6 +153,7 @@
     "FrmMain.MnuScaleToFill": "Escalar fins emplenar",
     "FrmCrop.BtnCrop": "Crop",
     "_.AfterEditAppAction._Minimize": "Minimitzar",
+    "FrmMain.MnuInvertColors": "Invert colors",
     "FrmSettings._StartupBoost": "Startup Boost",
     "FrmMain.MnuViewFirstFrame": "View first frame",
     "_.MouseWheelEvent._CtrlAndScroll": "Hold Ctrl and scroll",
@@ -285,7 +286,6 @@
     "_.Metadata._ExifDateTimeOriginal": "EXIF: DateTimeOriginal",
     "FrmMain.MnuRotateRight": "Rotar a la dreta",
     "FrmSettings._MinEmbeddedThumbnailSize": "Minimum size of the embedded thumbnail to be loaded",
-    "FrmSettings._EnableImageTransition": "Enable image transition effect",
     "FrmMain.MnuSetDefaultPhotoViewer": "Set default photo viewer",
     "FrmMain.MnuImageProperties": "Propietats de la imatge",
     "FrmSettings._EnableNavigationButtons": "Show navigation arrow buttons",
@@ -426,7 +426,7 @@
     "FrmMain.MnuCutFile._Success": "S'han retallat {0} fitxer(s).",
     "FrmSettings._ZoomSpeed": "Zoom speed",
     "FrmMain.MnuToggleTopMost._Disable": "Disabled window always on top",
-    "FrmSettings._ShouldUseExplorerSortOrder": "Si és possible, utilitza l'ordre que faci servir l'Explorador de Windows",
+    "FrmSettings._ShouldUseExplorerSortOrder": "Use Explorer sort order if possible",
     "_.ImageInterpolation._Antisotropic": "Antisotropic",
     "FrmMain._ReachedFirstImage": "Està a l'última imatge",
     "_._UnhandledException": "Unhandled exception",

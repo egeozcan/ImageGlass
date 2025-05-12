@@ -4,7 +4,7 @@
     "EnglishName": "Croatian",
     "LocalName": "Hrvatski",
     "Author": "Krešimir Jurić",
-    "MinVersion": "9.2"
+    "MinVersion": "9.3"
   },
   "Items": {
     "FrmCrop.SelectionAspectRatio._Original": "Izvornik",
@@ -153,6 +153,7 @@
     "FrmMain.MnuScaleToFill": "Popuni zaslon",
     "FrmCrop.BtnCrop": "Obreži",
     "_.AfterEditAppAction._Minimize": "Minimiziraj",
+    "FrmMain.MnuInvertColors": "Invert colors",
     "FrmSettings._StartupBoost": "Startup Boost",
     "FrmMain.MnuViewFirstFrame": "Vidi prvu sličicu",
     "_.MouseWheelEvent._CtrlAndScroll": "Drži Ctrl i pomiči",
@@ -285,7 +286,6 @@
     "_.Metadata._ExifDateTimeOriginal": "EXIF: DateTimeOriginal",
     "FrmMain.MnuRotateRight": "Zakreni udesno",
     "FrmSettings._MinEmbeddedThumbnailSize": "Najmanja veličina ugrađene minijature za učitati",
-    "FrmSettings._EnableImageTransition": "Omogući prelazne efekte",
     "FrmMain.MnuSetDefaultPhotoViewer": "Postavi kao zadani preglednik slika",
     "FrmMain.MnuImageProperties": "Svojstva slike",
     "FrmSettings._EnableNavigationButtons": "Prikaži tipke navigacijskih strelica",

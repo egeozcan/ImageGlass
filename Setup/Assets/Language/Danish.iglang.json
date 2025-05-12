@@ -4,7 +4,7 @@
     "EnglishName": "Danish",
     "LocalName": "Dansk",
     "Author": "Kevin Ringsborg Neergaard, Magnus Schatz-Jakobsen",
-    "MinVersion": "9.2"
+    "MinVersion": "9.3"
   },
   "Items": {
     "FrmCrop.SelectionAspectRatio._Original": "Original",
@@ -153,6 +153,7 @@
     "FrmMain.MnuScaleToFill": "Tilpas fuld størrelse",
     "FrmCrop.BtnCrop": "Crop",
     "_.AfterEditAppAction._Minimize": "Minimer",
+    "FrmMain.MnuInvertColors": "Invert colors",
     "FrmSettings._StartupBoost": "Startup Boost",
     "FrmMain.MnuViewFirstFrame": "View first frame",
     "_.MouseWheelEvent._CtrlAndScroll": "Hold Ctrl and scroll",
@@ -285,7 +286,6 @@
     "_.Metadata._ExifDateTimeOriginal": "EXIF: DateTimeOriginal",
     "FrmMain.MnuRotateRight": "Rotér højre om",
     "FrmSettings._MinEmbeddedThumbnailSize": "Minimum size of the embedded thumbnail to be loaded",
-    "FrmSettings._EnableImageTransition": "Enable image transition effect",
     "FrmMain.MnuSetDefaultPhotoViewer": "Set default photo viewer",
     "FrmMain.MnuImageProperties": "Billede engenskaber",
     "FrmSettings._EnableNavigationButtons": "Show navigation arrow buttons",
@@ -426,7 +426,7 @@
     "FrmMain.MnuCutFile._Success": "Cut {0} file(s).",
     "FrmSettings._ZoomSpeed": "Zoom speed",
     "FrmMain.MnuToggleTopMost._Disable": "Disabled window always on top",
-    "FrmSettings._ShouldUseExplorerSortOrder": "Sorter med Windows Stifinder hvis muligt",
+    "FrmSettings._ShouldUseExplorerSortOrder": "Use Explorer sort order if possible",
     "_.ImageInterpolation._Antisotropic": "Antisotropic",
     "FrmMain._ReachedFirstImage": "Nået det første billede",
     "_._UnhandledException": "Unhandled exception",

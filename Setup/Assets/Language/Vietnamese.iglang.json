@@ -4,7 +4,7 @@
     "EnglishName": "Vietnamese",
     "LocalName": "Tiếng Việt",
     "Author": "Dương Diệu Pháp",
-    "MinVersion": "9.2"
+    "MinVersion": "9.3"
   },
   "Items": {
     "FrmCrop.SelectionAspectRatio._Original": "Gốc",
@@ -153,6 +153,7 @@
     "FrmMain.MnuScaleToFill": "Co dãn hình ảnh lấp đầy",
     "FrmCrop.BtnCrop": "Cắt",
     "_.AfterEditAppAction._Minimize": "Thu nhỏ cửa sổ",
+    "FrmMain.MnuInvertColors": "Đảo màu",
     "FrmSettings._StartupBoost": "Tăng tốc khởi động",
     "FrmMain.MnuViewFirstFrame": "Xem khung hình đầu tiên",
     "_.MouseWheelEvent._CtrlAndScroll": "Giữ phím Ctrl và cuộn chuột",
@@ -285,7 +286,6 @@
     "_.Metadata._ExifDateTimeOriginal": "EXIF: DateTimeOriginal",
     "FrmMain.MnuRotateRight": "Xoay phải",
     "FrmSettings._MinEmbeddedThumbnailSize": "Kích thước tổi thiểu để tải hình thu nhỏ",
-    "FrmSettings._EnableImageTransition": "Bật hiệu ứng chuyển ảnh",
     "FrmMain.MnuSetDefaultPhotoViewer": "Đặt làm trình xem ảnh mặc định",
     "FrmMain.MnuImageProperties": "Thuộc tính hình ảnh",
     "FrmSettings._EnableNavigationButtons": "Hiển thị nút mũi tên điều hướng",
@@ -426,7 +426,7 @@
     "FrmMain.MnuCutFile._Success": "Đã cắt {0} tập tin.",
     "FrmSettings._ZoomSpeed": "Tốc độ phóng to / thu nhỏ",
     "FrmMain.MnuToggleTopMost._Disable": "Đã tắt chế độ Cửa sổ trên cùng",
-    "FrmSettings._ShouldUseExplorerSortOrder": "Sử dụng thứ tự sắp xếp của Windows File Explorer khi có thể",
+    "FrmSettings._ShouldUseExplorerSortOrder": "Sử dụng thứ tự sắp xếp của Explorer nếu khả thi",
     "_.ImageInterpolation._Antisotropic": "Thuật toán Antisotropic",
     "FrmMain._ReachedFirstImage": "Đã ở đầu danh sách",
     "_._UnhandledException": "Lỗi ngoài ý muốn",

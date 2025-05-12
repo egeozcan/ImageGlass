@@ -4,7 +4,7 @@
     "EnglishName": "Serbian (Latin)",
     "LocalName": "Srpski",
     "Author": "Đorđe Vasiljević",
-    "MinVersion": "9.2"
+    "MinVersion": "9.3"
   },
   "Items": {
     "FrmCrop.SelectionAspectRatio._Original": "Originalna",
@@ -153,6 +153,7 @@
     "FrmMain.MnuScaleToFill": "Popuni prozor",
     "FrmCrop.BtnCrop": "Opseci",
     "_.AfterEditAppAction._Minimize": "Umanji",
+    "FrmMain.MnuInvertColors": "Invert colors",
     "FrmSettings._StartupBoost": "Startup Boost",
     "FrmMain.MnuViewFirstFrame": "Prvi kadar",
     "_.MouseWheelEvent._CtrlAndScroll": "Ctrl + točkić miša",
@@ -285,7 +286,6 @@
     "_.Metadata._ExifDateTimeOriginal": "EXIF: DateTimeOriginal",
     "FrmMain.MnuRotateRight": "Rotiraj udesno",
     "FrmSettings._MinEmbeddedThumbnailSize": "Minimalna veličina ugrađene sličice za učitavanje",
-    "FrmSettings._EnableImageTransition": "Efekat prelaska slike",
     "FrmMain.MnuSetDefaultPhotoViewer": "Podesi podrazumevani prikazivač slika",
     "FrmMain.MnuImageProperties": "Svojstva slike",
     "FrmSettings._EnableNavigationButtons": "Strelice za navigaciju",

@@ -4,7 +4,7 @@
     "EnglishName": "Japanese",
     "LocalName": "日本語",
     "Author": "Cue, KAWASAKICHIRO, Dice K, AdiXZ01, 片山朋和, tena4, wikeaka, tam330",
-    "MinVersion": "9.2"
+    "MinVersion": "9.3"
   },
   "Items": {
     "FrmCrop.SelectionAspectRatio._Original": "オリジナル",
@@ -153,6 +153,7 @@
     "FrmMain.MnuScaleToFill": "ウィンドウいっぱいに表示する",
     "FrmCrop.BtnCrop": "トリミング",
     "_.AfterEditAppAction._Minimize": "最小化する",
+    "FrmMain.MnuInvertColors": "色を反転させる",
     "FrmSettings._StartupBoost": "スタートアップブースト",
     "FrmMain.MnuViewFirstFrame": "最初のフレームを見る",
     "_.MouseWheelEvent._CtrlAndScroll": "Ctrl キーを押しながらスクロール",
@@ -285,7 +286,6 @@
     "_.Metadata._ExifDateTimeOriginal": "EXIF: DateTimeOriginal",
     "FrmMain.MnuRotateRight": "右に回転",
     "FrmSettings._MinEmbeddedThumbnailSize": "読み込むサムネイルの最小サイズ",
-    "FrmSettings._EnableImageTransition": "画像切替え時のエフェクトを有効にする",
     "FrmMain.MnuSetDefaultPhotoViewer": "既定のフォトビューアに設定",
     "FrmMain.MnuImageProperties": "画像のプロパティ",
     "FrmSettings._EnableNavigationButtons": "ナビゲーションを表示",
@@ -426,7 +426,7 @@
     "FrmMain.MnuCutFile._Success": "{0} ファイルを切り取りました。",
     "FrmSettings._ZoomSpeed": "ズーム速度",
     "FrmMain.MnuToggleTopMost._Disable": "最前面表示を無効にする",
-    "FrmSettings._ShouldUseExplorerSortOrder": "可能であればWindowsエクスプローラーの並び順を使用する",
+    "FrmSettings._ShouldUseExplorerSortOrder": "可能な場合はエクスプローラの並び順を使用する",
     "_.ImageInterpolation._Antisotropic": "異方性",
     "FrmMain._ReachedFirstImage": "最初の画像に到達しました。",
     "_._UnhandledException": "例外エラー(Unhandled exception)",

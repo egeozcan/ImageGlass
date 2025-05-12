@@ -4,7 +4,7 @@
     "EnglishName": "Polish",
     "LocalName": "Polski",
     "Author": "Daniel Wróblewski, Marek Koteluk, BestiaPL",
-    "MinVersion": "9.2"
+    "MinVersion": "9.3"
   },
   "Items": {
     "FrmCrop.SelectionAspectRatio._Original": "Oryginalny",
@@ -153,6 +153,7 @@
     "FrmMain.MnuScaleToFill": "Wypełnij",
     "FrmCrop.BtnCrop": "Przytnij",
     "_.AfterEditAppAction._Minimize": "Minimalizuj",
+    "FrmMain.MnuInvertColors": "Invert colors",
     "FrmSettings._StartupBoost": "Startup Boost",
     "FrmMain.MnuViewFirstFrame": "Zobacz pierwszą ramkę",
     "_.MouseWheelEvent._CtrlAndScroll": "Przytrzymaj Ctrl i przewiń",
@@ -218,7 +219,7 @@
     "FrmSettings.Layout._ToolbarPosition": "Pozycja paska narzędzi",
     "FrmUpdate._StatusUpdated": "Używasz najnowszej wersji!",
     "FrmMain.MnuExit": "Wyjdź",
-    "_._Webview2._Outdated": "Your WebView2 Runtime is not supported. Please update to version {0} or later.",
+    "_._Webview2._Outdated": "Your WebView2 Runtime is not supported. Proszę zaktualizować do wersji {0} lub nowszej.",
     "_._Yes": "Tak",
     "FrmMain.MnuRotateLeft": "Obróć w lewo",
     "FrmSettings._EnableStartupBoost": "Enable Startup Boost",
@@ -285,7 +286,6 @@
     "_.Metadata._ExifDateTimeOriginal": "EXIF: DateTimeOriginal",
     "FrmMain.MnuRotateRight": "Obróć w prawo",
     "FrmSettings._MinEmbeddedThumbnailSize": "Minimalny rozmiar osadzonej miniatury do załadowania",
-    "FrmSettings._EnableImageTransition": "Włącz efekt przejścia obrazu",
     "FrmMain.MnuSetDefaultPhotoViewer": "Ustaw domyślną przeglądarkę zdjęć",
     "FrmMain.MnuImageProperties": "Właściwości obrazu",
     "FrmSettings._EnableNavigationButtons": "Pokaż przyciski strzałek nawigacyjnych",
@@ -426,7 +426,7 @@
     "FrmMain.MnuCutFile._Success": "Wycięto {0} plik(ów).",
     "FrmSettings._ZoomSpeed": "Prędkość powiększania",
     "FrmMain.MnuToggleTopMost._Disable": "Wyłączone okno zawsze na górze",
-    "FrmSettings._ShouldUseExplorerSortOrder": "Użyj sortowania jak w Eksploratorze Windows",
+    "FrmSettings._ShouldUseExplorerSortOrder": "Use Explorer sort order if possible",
     "_.ImageInterpolation._Antisotropic": "Antyzotropowy",
     "FrmMain._ReachedFirstImage": "Nastąpiło przejście do pierwszego obrazu w serii",
     "_._UnhandledException": "Nieobsługiwany wyjątek",
