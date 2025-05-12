@@ -1,15 +1,6 @@
 ImageGlass - A lightweight, versatile image viewer
 ===
 
-
-<h3>
-  <img src="https://upload.wikimedia.org/wikipedia/commons/1/15/Orange_rectangle.svg" height="10" width="100%"/>
-  📢 Try out <a href="https://github.com/d2phap/ImageGlass/releases/tag/9.2.1.324-beta">Version 9.3 Beta 2</a> and share your feedback!
-  <img src="https://upload.wikimedia.org/wikipedia/commons/1/15/Orange_rectangle.svg" height="10" width="100%"/>
-</h3>
-<br/>
-
-
 [![Website](https://img.shields.io/badge/www-imageglass.org-0099BC.svg?maxAge=3600&color=%233097B8)](https://imageglass.org)
 [![GPL Licence](https://img.shields.io/badge/license-GPLv3-green.svg?maxAge=3600)](https://github.com/d2phap/ImageGlass/blob/master/LICENSE)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/imageglass/localized.svg)](https://crowdin.com/project/imageglass)
@@ -20,10 +11,7 @@ ImageGlass - A lightweight, versatile image viewer
 
 ImageGlass is a lightweight software designed for seamless viewing of images in a clean and intuitive interface. With support for over 80 common image formats including `WEBP`, `GIF`, `SVG`, `PNG`, `JXL`, `HEIC`,... ImageGlass also offers advanced features that cater to the needs of both regular users and designers, making it the excellent tool to enhance workflow efficiency.
 
-
-<a href="https://www.imageglass.org/download" target="_blank" title="View screen shots">
-<img src="https://raw.githubusercontent.com/ImageGlass/releases/main/screenshots/v9.0/9.0_b1.webp" alt="ImageGlass 9" width="640">
-</a><br/>
+[![ImageGlass 15th anniversary](https://github.com/user-attachments/assets/57a1818a-8fad-4b3e-9220-d59ba24703e7)](https://imageglass.org/news/announcing-imageglass-9-3-94)
 
 
 ## 📥 Download
