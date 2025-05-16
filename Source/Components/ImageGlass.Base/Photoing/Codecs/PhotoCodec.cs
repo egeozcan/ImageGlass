@@ -700,7 +700,7 @@ public static class PhotoCodec
     /// </summary>
     public static WicBitmapSource? TransformImage(WicBitmapSource? bmpSrc, ImgTransform? transform)
     {
-        if (bmpSrc == null || transform == null) return null;
+        if (bmpSrc == null || transform == null) return bmpSrc;
 
         // list of flips
         var flips = new List<WICBitmapTransformOptions>();
