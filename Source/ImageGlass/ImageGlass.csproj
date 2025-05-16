@@ -14,7 +14,7 @@
         <Description>A lightweight, versatile image viewer</Description>
         <Copyright>Copyright © 2010 - 2025 Duong Dieu Phap</Copyright>
         <Company>Duong Dieu Phap</Company>
-        <Version>9.3.0.514</Version>
+        <Version>9.3.0.516</Version>
         <FileVersion>$(Version)</FileVersion>
 
         <EntryPointExe>$(AssemblyName).exe</EntryPointExe>
@@ -170,7 +170,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="D2Phap.EggShell" Version="1.1.507" />
         <PackageReference Include="FileWatcherEx" Version="2.6.0" />
         <PackageReference Include="IDisposableAnalyzers" Version="4.0.8">
             <PrivateAssets>all</PrivateAssets>
