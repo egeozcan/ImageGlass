@@ -1923,13 +1923,14 @@ public static class Config
     public static async Task SetDefaultPhotoViewerAsync(bool enable)
     {
         var extensions = Config.GetImageFormats(Config.FileFormats);
+        var scope = App.IsPortable ? "" : IgCommands.PER_MACHINE;
 
         var cmd = enable
             ? IgCommands.SET_DEFAULT_PHOTO_VIEWER
             : IgCommands.REMOVE_DEFAULT_PHOTO_VIEWER;
 
         // run command and show the results
-        _ = await Config.RunIgcmd($"{cmd} {extensions} {IgCommands.PER_MACHINE} {IgCommands.SHOW_UI}");
+        _ = await Config.RunIgcmd($"{cmd} {extensions} {scope} {IgCommands.SHOW_UI}");
     }
 
 
