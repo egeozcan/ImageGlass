@@ -21,10 +21,10 @@
     <ROW Property="MSIFASTINSTALL" MultiBuildValue="DefaultBuild:3"/>
     <ROW Property="Manufacturer" Value="Duong Dieu Phap"/>
     <ROW Property="MsiLogging" MultiBuildValue="DefaultBuild:vp"/>
-    <ROW Property="ProductCode" Value="1033:{1B4E998D-C873-49F9-ADB6-60DD09F137CC} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{2F0A3F82-19C8-4B35-8300-AE53C04ADFAA} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="ImageGlass"/>
-    <ROW Property="ProductVersion" Value="9.3.0.514" Options="32"/>
+    <ROW Property="ProductVersion" Value="9.3.1.518" Options="32"/>
     <ROW Property="RUNAPPLICATION" Value="1" Type="4"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{877DB994-AB03-4025-B99D-41CE565E810B}"/>
@@ -54,7 +54,6 @@
     <ROW Directory="Kobe_Dir" Directory_Parent="Themes_Dir" DefaultDir="Kobe"/>
     <ROW Directory="Language_Dir" Directory_Parent="APPDIR" DefaultDir="Language"/>
     <ROW Directory="License_Dir" Directory_Parent="APPDIR" DefaultDir="License"/>
-    <ROW Directory="NewFolder_1_Dir" Directory_Parent="ProgramMenuFolder" DefaultDir="IMAGEG~1|ImageGlass"/>
     <ROW Directory="ProgramMenuFolder" Directory_Parent="TARGETDIR" DefaultDir="PROGRA~1|ProgramMenuFolder" IsPseudoRoot="1"/>
     <ROW Directory="TARGETDIR" DefaultDir="SourceDir"/>
     <ROW Directory="Themes_Dir" Directory_Parent="APPDIR" DefaultDir="Themes"/>
@@ -133,7 +132,6 @@
     <ROW Component="Microsoft.Win32.SystemEvents.dll" ComponentId="{E97A1B1E-DEB8-4AD5-AFBB-F0D579E6D475}" Directory_="APPDIR" Attributes="256" KeyPath="Microsoft.Win32.SystemEvents.dll"/>
     <ROW Component="Microsoft.Windows.SDK.NET.dll" ComponentId="{ECFA30A7-7FE7-4BC0-A765-3AA46EC4E5C0}" Directory_="APPDIR" Attributes="256" KeyPath="Microsoft.Windows.SDK.NET.dll"/>
     <ROW Component="MsStoreBadge.svg" ComponentId="{CF12EBFD-F28F-412C-B724-E85B3A47FDA6}" Directory_="img_Dir" Attributes="0" KeyPath="MsStoreBadge.svg" Type="0"/>
-    <ROW Component="NewFolder_1" ComponentId="{E5638F55-0D32-42B6-9019-BFBA4761A036}" Directory_="NewFolder_1_Dir" Attributes="0"/>
     <ROW Component="PenImc_cor3.dll" ComponentId="{AAC33DBE-F6B3-4700-B8BE-B7CF589B1CC6}" Directory_="APPDIR" Attributes="256" KeyPath="PenImc_cor3.dll"/>
     <ROW Component="PhotoSauce.MagicScaler.dll" ComponentId="{A79B44F1-0FAC-40E1-9202-DF971B29C59C}" Directory_="APPDIR" Attributes="256" KeyPath="PhotoSauce.MagicScaler.dll"/>
     <ROW Component="PresentationCore.dll" ComponentId="{F1B9746D-7CE0-40F0-B892-E4FB9BA41107}" Directory_="APPDIR" Attributes="256" KeyPath="PresentationCore.dll"/>
@@ -373,7 +371,7 @@
     <ROW Component="libwebpdecoder.dll" ComponentId="{91052970-20E3-4ED3-9F92-38BD416068E8}" Directory_="APPDIR" Attributes="256" KeyPath="libwebpdecoder.dll"/>
     <ROW Component="libwebpdemux.dll" ComponentId="{781370B9-C79A-4ADF-8787-F6FA419DC082}" Directory_="APPDIR" Attributes="256" KeyPath="libwebpdemux.dll"/>
     <ROW Component="mscordaccore.dll" ComponentId="{702877A6-E077-47FA-8D60-226278B699B0}" Directory_="APPDIR" Attributes="256" KeyPath="mscordaccore.dll"/>
-    <ROW Component="mscordaccore_amd64_amd64_9.0.325.11113.dll" ComponentId="{4A937682-FE84-419F-B8C2-B912EF405872}" Directory_="APPDIR" Attributes="256" KeyPath="mscordaccore_amd64_amd64_9.0.325.11113.dll"/>
+    <ROW Component="mscordaccore_amd64_amd64_9.0.525.21509.dll" ComponentId="{D7D1FB5B-A775-48A5-ABF0-A65B8586B64C}" Directory_="APPDIR" Attributes="256" KeyPath="mscordaccore_amd64_amd64_9.0.525.21509.dll"/>
     <ROW Component="mscordbi.dll" ComponentId="{06F69359-D78E-46BC-9FE0-358FD72C30A3}" Directory_="APPDIR" Attributes="256" KeyPath="mscordbi.dll"/>
     <ROW Component="mscorlib.dll" ComponentId="{2FA6A78D-2B03-4397-B728-6DDBE86EE205}" Directory_="APPDIR" Attributes="0" KeyPath="mscorlib.dll"/>
     <ROW Component="mscorrc.dll" ComponentId="{5CF9D626-45E1-4509-8035-AE1A6B71DB2B}" Directory_="APPDIR" Attributes="256" KeyPath="mscorrc.dll"/>
@@ -506,29 +504,29 @@
     <ROW File="WindowFit.svg" Component_="ActualSize.svg" FileName="WINDOW~1.SVG|WindowFit.svg" Attributes="0" SourcePath="..\Assets\Themes\Kobe\WindowFit.svg" SelfReg="false"/>
     <ROW File="ZoomIn.svg" Component_="ActualSize.svg" FileName="ZoomIn.svg" Attributes="0" SourcePath="..\Assets\Themes\Kobe\ZoomIn.svg" SelfReg="false"/>
     <ROW File="ZoomOut.svg" Component_="ActualSize.svg" FileName="ZoomOut.svg" Attributes="0" SourcePath="..\Assets\Themes\Kobe\ZoomOut.svg" SelfReg="false"/>
-    <ROW File="ArrowDown.svg" Component_="ArrowDown.svg" FileName="ARROWD~1.SVG|ArrowDown.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\Icons\ArrowDown.svg" SelfReg="false"/>
-    <ROW File="ArrowExchange.svg" Component_="ArrowDown.svg" FileName="ARROWE~1.SVG|ArrowExchange.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\Icons\ArrowExchange.svg" SelfReg="false"/>
-    <ROW File="ArrowLeft.svg" Component_="ArrowDown.svg" FileName="ARROWL~1.SVG|ArrowLeft.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\Icons\ArrowLeft.svg" SelfReg="false"/>
-    <ROW File="ArrowRight.svg" Component_="ArrowDown.svg" FileName="ARROWR~1.SVG|ArrowRight.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\Icons\ArrowRight.svg" SelfReg="false"/>
-    <ROW File="ArrowUp.svg" Component_="ArrowDown.svg" FileName="ArrowUp.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\Icons\ArrowUp.svg" SelfReg="false"/>
-    <ROW File="Copy.svg" Component_="ArrowDown.svg" FileName="Copy.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\Icons\Copy.svg" SelfReg="false"/>
-    <ROW File="Delete.svg_2" Component_="ArrowDown.svg" FileName="Delete.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\Icons\Delete.svg" SelfReg="false"/>
-    <ROW File="Edit.svg_2" Component_="ArrowDown.svg" FileName="Edit.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\Icons\Edit.svg" SelfReg="false"/>
-    <ROW File="Moon.svg" Component_="ArrowDown.svg" FileName="Moon.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\Icons\Moon.svg" SelfReg="false"/>
-    <ROW File="ResetSelection.svg" Component_="ArrowDown.svg" FileName="RESETS~1.SVG|ResetSelection.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\Icons\ResetSelection.svg" SelfReg="false"/>
-    <ROW File="Selection.svg" Component_="ArrowDown.svg" FileName="SELECT~1.SVG|Selection.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\Icons\Selection.svg" SelfReg="false"/>
-    <ROW File="Setting.svg" Component_="ArrowDown.svg" FileName="Setting.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\Icons\Setting.svg" SelfReg="false"/>
-    <ROW File="Sun.svg" Component_="ArrowDown.svg" FileName="Sun.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\Icons\Sun.svg" SelfReg="false"/>
-    <ROW File="ApacheLicense2.0.txt" Component_="ApacheLicense2.0.txt" FileName="APACHE~1.TXT|Apache License 2.0.txt" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\License\Apache License 2.0.txt" SelfReg="false"/>
-    <ROW File="CsWin32.txt" Component_="ApacheLicense2.0.txt" FileName="CsWin32.txt" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\License\CsWin32.txt" SelfReg="false"/>
-    <ROW File="d2phap.txt" Component_="ApacheLicense2.0.txt" FileName="d2phap.txt" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\License\d2phap.txt" SelfReg="false"/>
-    <ROW File="DirectN.txt" Component_="ApacheLicense2.0.txt" FileName="DirectN.txt" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\License\DirectN.txt" SelfReg="false"/>
-    <ROW File="libwebp.txt" Component_="ApacheLicense2.0.txt" FileName="libwebp.txt" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\License\libwebp.txt" SelfReg="false"/>
-    <ROW File="MagicScaler.txt" Component_="ApacheLicense2.0.txt" FileName="MAGICS~1.TXT|MagicScaler.txt" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\License\MagicScaler.txt" SelfReg="false"/>
-    <ROW File="Webview2.txt" Component_="ApacheLicense2.0.txt" FileName="Webview2.txt" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\License\Webview2.txt" SelfReg="false"/>
-    <ROW File="WicNet.txt" Component_="ApacheLicense2.0.txt" FileName="WicNet.txt" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\License\WicNet.txt" SelfReg="false"/>
-    <ROW File="WebView2Loader.dll_1" Component_="WebView2Loader.dll_1" FileName="WEBVIE~1.DLL|WebView2Loader.dll" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\runtimes\win-x64\native\WebView2Loader.dll" SelfReg="false"/>
-    <ROW File="ReadMe.rtf" Component_="igcmd.dll.config" FileName="ReadMe.rtf" Attributes="0" SourcePath="..\Assets\ReadMe.rtf" SelfReg="false"/>
+    <ROW File="ArrowDown.svg" Component_="ArrowDown.svg" FileName="ARROWD~1.SVG|ArrowDown.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\Icons\ArrowDown.svg" SelfReg="false"/>
+    <ROW File="ArrowExchange.svg" Component_="ArrowDown.svg" FileName="ARROWE~1.SVG|ArrowExchange.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\Icons\ArrowExchange.svg" SelfReg="false"/>
+    <ROW File="ArrowLeft.svg" Component_="ArrowDown.svg" FileName="ARROWL~1.SVG|ArrowLeft.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\Icons\ArrowLeft.svg" SelfReg="false"/>
+    <ROW File="ArrowRight.svg" Component_="ArrowDown.svg" FileName="ARROWR~1.SVG|ArrowRight.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\Icons\ArrowRight.svg" SelfReg="false"/>
+    <ROW File="ArrowUp.svg" Component_="ArrowDown.svg" FileName="ArrowUp.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\Icons\ArrowUp.svg" SelfReg="false"/>
+    <ROW File="Copy.svg" Component_="ArrowDown.svg" FileName="Copy.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\Icons\Copy.svg" SelfReg="false"/>
+    <ROW File="Delete.svg_2" Component_="ArrowDown.svg" FileName="Delete.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\Icons\Delete.svg" SelfReg="false"/>
+    <ROW File="Edit.svg_2" Component_="ArrowDown.svg" FileName="Edit.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\Icons\Edit.svg" SelfReg="false"/>
+    <ROW File="Moon.svg" Component_="ArrowDown.svg" FileName="Moon.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\Icons\Moon.svg" SelfReg="false"/>
+    <ROW File="ResetSelection.svg" Component_="ArrowDown.svg" FileName="RESETS~1.SVG|ResetSelection.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\Icons\ResetSelection.svg" SelfReg="false"/>
+    <ROW File="Selection.svg" Component_="ArrowDown.svg" FileName="SELECT~1.SVG|Selection.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\Icons\Selection.svg" SelfReg="false"/>
+    <ROW File="Setting.svg" Component_="ArrowDown.svg" FileName="Setting.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\Icons\Setting.svg" SelfReg="false"/>
+    <ROW File="Sun.svg" Component_="ArrowDown.svg" FileName="Sun.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\Icons\Sun.svg" SelfReg="false"/>
+    <ROW File="ApacheLicense2.0.txt" Component_="ApacheLicense2.0.txt" FileName="APACHE~1.TXT|Apache License 2.0.txt" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\License\Apache License 2.0.txt" SelfReg="false"/>
+    <ROW File="CsWin32.txt" Component_="ApacheLicense2.0.txt" FileName="CsWin32.txt" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\License\CsWin32.txt" SelfReg="false"/>
+    <ROW File="d2phap.txt" Component_="ApacheLicense2.0.txt" FileName="d2phap.txt" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\License\d2phap.txt" SelfReg="false"/>
+    <ROW File="DirectN.txt" Component_="ApacheLicense2.0.txt" FileName="DirectN.txt" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\License\DirectN.txt" SelfReg="false"/>
+    <ROW File="libwebp.txt" Component_="ApacheLicense2.0.txt" FileName="libwebp.txt" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\License\libwebp.txt" SelfReg="false"/>
+    <ROW File="MagicScaler.txt" Component_="ApacheLicense2.0.txt" FileName="MAGICS~1.TXT|MagicScaler.txt" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\License\MagicScaler.txt" SelfReg="false"/>
+    <ROW File="Webview2.txt" Component_="ApacheLicense2.0.txt" FileName="Webview2.txt" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\License\WebView2.txt" SelfReg="false"/>
+    <ROW File="WicNet.txt" Component_="ApacheLicense2.0.txt" FileName="WicNet.txt" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\License\WicNet.txt" SelfReg="false"/>
+    <ROW File="WebView2Loader.dll_1" Component_="WebView2Loader.dll_1" FileName="WEBVIE~1.DLL|WebView2Loader.dll" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\runtimes\win-x64\native\WebView2Loader.dll" SelfReg="false"/>
+    <ROW File="ReadMe.rtf" Component_="igcmd.dll.config" FileName="ReadMe.rtf" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\ReadMe.rtf" SelfReg="false"/>
     <ROW File="FrmSettings.d.ts" Component_="FrmSettings.d.ts" FileName="FRMSET~1.TS|FrmSettings.d.ts" Attributes="0" SourcePath="..\..\Source\Components\ImageGlass.Settings\WebUI\dist\dist\@types\FrmSettings.d.ts" SelfReg="false"/>
     <ROW File="Language.d.ts" Component_="Language.d.ts" FileName="LANGUA~1.TS|Language.d.ts" Attributes="0" SourcePath="..\..\Source\Components\ImageGlass.Settings\WebUI\dist\dist\common\Language.d.ts" SelfReg="false"/>
     <ROW File="HapplaBoxViewer.d.ts" Component_="HapplaBoxViewer.d.ts" FileName="HAPPLA~1.TS|HapplaBoxViewer.d.ts" Attributes="0" SourcePath="..\..\Source\Components\ImageGlass.Settings\WebUI\dist\dist\DXCanvas_Webview2\HapplaBoxViewer.d.ts" SelfReg="false"/>
@@ -654,16 +652,16 @@
     <ROW File="SerbianLatin.iglang.json" Component_="Vietnamese.iglang.json" FileName="SERBIA~2.JSO|Serbian (Latin).iglang.json" Attributes="0" SourcePath="..\Assets\Language\Serbian (Latin).iglang.json" SelfReg="false"/>
     <ROW File="Ukrainian.iglang.json" Component_="Vietnamese.iglang.json" FileName="UKRAIN~1.JSO|Ukrainian.iglang.json" Attributes="0" SourcePath="..\Assets\Language\Ukrainian.iglang.json" SelfReg="false"/>
     <ROW File="Persian.iglang.json" Component_="Vietnamese.iglang.json" FileName="PERSIA~1.JSO|Persian.iglang.json" Attributes="0" SourcePath="..\Assets\Language\Persian.iglang.json" SelfReg="false"/>
-    <ROW File="ZString.txt" Component_="ApacheLicense2.0.txt" FileName="ZString.txt" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\License\ZString.txt" SelfReg="false"/>
-    <ROW File="Info.svg" Component_="ArrowDown.svg" FileName="Info.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\Icons\Info.svg" SelfReg="false"/>
-    <ROW File="Warning.svg" Component_="ArrowDown.svg" FileName="Warning.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\Icons\Warning.svg" SelfReg="false"/>
+    <ROW File="ZString.txt" Component_="ApacheLicense2.0.txt" FileName="ZString.txt" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\License\ZString.txt" SelfReg="false"/>
+    <ROW File="Info.svg" Component_="ArrowDown.svg" FileName="Info.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\Icons\Info.svg" SelfReg="false"/>
+    <ROW File="Warning.svg" Component_="ArrowDown.svg" FileName="Warning.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\Icons\Warning.svg" SelfReg="false"/>
     <ROW File="ArabicEgypt.iglang.json" Component_="Vietnamese.iglang.json" FileName="ARABIC~1.JSO|Arabic, Egypt.iglang.json" Attributes="0" SourcePath="..\Assets\Language\Arabic, Egypt.iglang.json" SelfReg="false"/>
     <ROW File="Catalan.iglang.json" Component_="Vietnamese.iglang.json" FileName="CATALA~1.JSO|Catalan.iglang.json" Attributes="0" SourcePath="..\Assets\Language\Catalan.iglang.json" SelfReg="false"/>
     <ROW File="Danish.iglang.json" Component_="Vietnamese.iglang.json" FileName="DANISH~1.JSO|Danish.iglang.json" Attributes="0" SourcePath="..\Assets\Language\Danish.iglang.json" SelfReg="false"/>
     <ROW File="Hebrew.iglang.json" Component_="Vietnamese.iglang.json" FileName="HEBREW~1.JSO|Hebrew.iglang.json" Attributes="0" SourcePath="..\Assets\Language\Hebrew.iglang.json" SelfReg="false"/>
     <ROW File="Indonesian.iglang.json" Component_="Vietnamese.iglang.json" FileName="INDONE~1.JSO|Indonesian.iglang.json" Attributes="0" SourcePath="..\Assets\Language\Indonesian.iglang.json" SelfReg="false"/>
     <ROW File="Irish.iglang.json" Component_="Vietnamese.iglang.json" FileName="IRISHI~1.JSO|Irish.iglang.json" Attributes="0" SourcePath="..\Assets\Language\Irish.iglang.json" SelfReg="false"/>
-    <ROW File="ArrowMove.svg" Component_="ArrowDown.svg" FileName="ARROWM~1.SVG|ArrowMove.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\Icons\ArrowMove.svg" SelfReg="false"/>
+    <ROW File="ArrowMove.svg" Component_="ArrowDown.svg" FileName="ARROWM~1.SVG|ArrowMove.svg" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\Icons\ArrowMove.svg" SelfReg="false"/>
     <ROW File="Finnish.iglang.json" Component_="Vietnamese.iglang.json" FileName="FINNIS~1.JSO|Finnish.iglang.json" Attributes="0" SourcePath="..\Assets\Language\Finnish.iglang.json" SelfReg="false"/>
     <ROW File="Kyrgyz.iglang.json" Component_="Vietnamese.iglang.json" FileName="KYRGYZ~1.JSO|Kyrgyz.iglang.json" Attributes="0" SourcePath="..\Assets\Language\Kyrgyz.iglang.json" SelfReg="false"/>
     <ROW File="createdump.exe" Component_="createdump.exe" FileName="CREATE~1.EXE|createdump.exe" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\createdump.exe" SelfReg="false"/>
@@ -725,7 +723,6 @@
     <ROW File="Microsoft.Win32.SystemEvents.dll" Component_="Microsoft.Win32.SystemEvents.dll" FileName="MICRO~22.DLL|Microsoft.Win32.SystemEvents.dll" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\Microsoft.Win32.SystemEvents.dll" SelfReg="false"/>
     <ROW File="Microsoft.Windows.SDK.NET.dll" Component_="Microsoft.Windows.SDK.NET.dll" FileName="MICRO~23.DLL|Microsoft.Windows.SDK.NET.dll" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\Microsoft.Windows.SDK.NET.dll" SelfReg="false"/>
     <ROW File="mscordaccore.dll" Component_="mscordaccore.dll" FileName="MSCORD~1.DLL|mscordaccore.dll" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\mscordaccore.dll" SelfReg="false"/>
-    <ROW File="mscordaccore_amd64_amd64_9.0.325.11113.dll" Component_="mscordaccore_amd64_amd64_9.0.325.11113.dll" FileName="MSCORD~2.DLL|mscordaccore_amd64_amd64_9.0.325.11113.dll" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\mscordaccore_amd64_amd64_9.0.325.11113.dll" SelfReg="false"/>
     <ROW File="mscordbi.dll" Component_="mscordbi.dll" FileName="mscordbi.dll" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\mscordbi.dll" SelfReg="false"/>
     <ROW File="mscorlib.dll" Component_="mscorlib.dll" FileName="mscorlib.dll" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\mscorlib.dll" SelfReg="false"/>
     <ROW File="mscorrc.dll" Component_="mscorrc.dll" FileName="mscorrc.dll" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\mscorrc.dll" SelfReg="false"/>
@@ -967,7 +964,8 @@
     <ROW File="ImageGlass.Viewer.pdb" Component_="ImageGlass.Viewer.dll" FileName="IMAGEG~6.PDB|ImageGlass.Viewer.pdb" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\ImageGlass.Viewer.pdb" SelfReg="false"/>
     <ROW File="ImageGlass.WebP.pdb" Component_="ImageGlass.WebP.dll" FileName="IMAGEG~7.PDB|ImageGlass.WebP.pdb" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\ImageGlass.WebP.pdb" SelfReg="false"/>
     <ROW File="ImageGlass.WinTouch.pdb" Component_="ImageGlass.WinTouch.dll" FileName="IMAGEG~8.PDB|ImageGlass.WinTouch.pdb" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\ImageGlass.WinTouch.pdb" SelfReg="false"/>
-    <ROW File="default.webp" Component_="igcmd.dll.config" FileName="DEFAUL~1.WEB|default.webp" Attributes="0" SourcePath="..\Assets\default.webp" SelfReg="false"/>
+    <ROW File="default.webp" Component_="igcmd.dll.config" FileName="DEFAUL~1.WEB|default.webp" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\default.webp" SelfReg="false"/>
+    <ROW File="mscordaccore_amd64_amd64_9.0.525.21509.dll" Component_="mscordaccore_amd64_amd64_9.0.525.21509.dll" FileName="MSCORD~3.DLL|mscordaccore_amd64_amd64_9.0.525.21509.dll" Attributes="0" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\mscordaccore_amd64_amd64_9.0.525.21509.dll" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.AiPersistentPropComponent">
     <ROW Property="AI_INSTALLPERUSER" Registry="AI_INSTALLPERUSER" HklmSearch="AI_INSTALLPERUSER" HkcuSearch="AI_INSTALLPERUSER_1" Hklm64Search="AI_INSTALLPERUSER_2" Hkcu64Search="AI_INSTALLPERUSER_3"/>
@@ -1239,7 +1237,6 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCreateFolderComponent">
     <ROW Directory_="APPDIR" Component_="APPDIR" ManualDelete="true"/>
-    <ROW Directory_="NewFolder_1_Dir" Component_="NewFolder_1" ManualDelete="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCustActComponent">
     <ROW Action="AI_AuthorSinglePackage" Type="1" Source="aicustact.dll" Target="AI_AuthorSinglePackage" WithoutSeq="true"/>
@@ -1300,7 +1297,6 @@
     <ROW Feature_="MainFeatures" Component_="globalHelpers.d.ts"/>
     <ROW Feature_="MainFeatures" Component_="DXCanvas_Webview2.html"/>
     <ROW Feature_="MainFeatures" Component_="MsStoreBadge.svg"/>
-    <ROW Feature_="MainFeatures" Component_="NewFolder_1"/>
     <ROW Feature_="MainFeatures" Component_="ActualSize.svg_1"/>
     <ROW Feature_="MainFeatures" Component_="createdump.exe"/>
     <ROW Feature_="MainFeatures" Component_="igcmd.exe"/>
@@ -1362,7 +1358,6 @@
     <ROW Feature_="MainFeatures" Component_="Microsoft.Win32.SystemEvents.dll"/>
     <ROW Feature_="MainFeatures" Component_="Microsoft.Windows.SDK.NET.dll"/>
     <ROW Feature_="MainFeatures" Component_="mscordaccore.dll"/>
-    <ROW Feature_="MainFeatures" Component_="mscordaccore_amd64_amd64_9.0.325.11113.dll"/>
     <ROW Feature_="MainFeatures" Component_="mscordbi.dll"/>
     <ROW Feature_="MainFeatures" Component_="mscorlib.dll"/>
     <ROW Feature_="MainFeatures" Component_="mscorrc.dll"/>
@@ -1589,9 +1584,9 @@
     <ROW Feature_="MainFeatures" Component_="WinRT.Runtime.dll"/>
     <ROW Feature_="MainFeatures" Component_="wpfgfx_cor3.dll"/>
     <ROW Feature_="MainFeatures" Component_="ZString.dll"/>
+    <ROW Feature_="MainFeatures" Component_="mscordaccore_amd64_amd64_9.0.525.21509.dll"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiIconsComponent">
-    <ROW Name="SystemFoldermsiexec.exe" SourcePath="&lt;AI_RES&gt;uninstall.ico" Index="0"/>
     <ROW Name="icon256.exe" SourcePath="..\..\Assets\Logo\2023\icon256.ico" Index="0"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
@@ -1651,8 +1646,7 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiShortsComponent">
     <ROW Shortcut="ImageGlass" Directory_="DesktopFolder" Name="IMAGEG~1|[|ProductName]" Component_="ImageGlass.exe" Target="[#ImageGlass.exe]" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
-    <ROW Shortcut="ProductName9" Directory_="NewFolder_1_Dir" Name="IMAGEG~2|[|ProductName]" Component_="ImageGlass.exe" Target="[#ImageGlass.exe]" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
-    <ROW Shortcut="UninstallProductNameProductVersion" Directory_="NewFolder_1_Dir" Name="UNINST~1.112|Uninstall [|ProductName] [|ProductVersion]" Component_="APPDIR" Target="[SystemFolder]msiexec.exe" Arguments="/x [ProductCode]" Hotkey="0" Icon_="SystemFoldermsiexec.exe" IconIndex="0" ShowCmd="1"/>
+    <ROW Shortcut="ProductName9" Directory_="ProgramMenuFolder" Name="IMAGEG~1|[|ProductName]" Component_="ImageGlass.exe" Target="[#ImageGlass.exe]" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiTextStyleComponent">
     <ROW TextStyle="AppNameSegoeUI28" FaceName="Segoe UI" Size="28" Color="8847617" MultiBuildColor="DefaultBuild:16755712" StyleBits="0" MsiKey="AppNameSegoeUI28"/>
@@ -1675,10 +1669,10 @@
   <COMPONENT cid="caphyon.advinst.msicomp.SynchronizedFolderComponent">
     <ROW Directory_="ExtIcons_Dir" SourcePath="..\Assets\Ext-Icons" Feature="MainFeatures" ExcludePattern="*~|#*#|%*%|._|CVS|.cvsignore|SCCS|vssver.scc|mssccprj.scc|vssver2.scc|.svn|.DS_Store" ExcludeFlags="6" FileAddOptions="4"/>
     <ROW Directory_="Language_Dir" SourcePath="..\Assets\Language" Feature="MainFeatures" ExcludePattern="*~|#*#|%*%|._|CVS|.cvsignore|SCCS|vssver.scc|mssccprj.scc|vssver2.scc|.svn|.DS_Store" ExcludeFlags="6" FileAddOptions="4"/>
-    <ROW Directory_="License_Dir" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\License" Feature="MainFeatures" ExcludePattern="*~|#*#|%*%|._|CVS|.cvsignore|SCCS|vssver.scc|mssccprj.scc|vssver2.scc|.svn|.DS_Store" ExcludeFlags="6" FileAddOptions="4"/>
-    <ROW Directory_="Icons_Dir" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\Icons" Feature="MainFeatures" ExcludePattern="*~|#*#|%*%|._|CVS|.cvsignore|SCCS|vssver.scc|mssccprj.scc|vssver2.scc|.svn|.DS_Store" ExcludeFlags="6" FileAddOptions="4"/>
+    <ROW Directory_="License_Dir" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\License" Feature="MainFeatures" ExcludePattern="*~|#*#|%*%|._|CVS|.cvsignore|SCCS|vssver.scc|mssccprj.scc|vssver2.scc|.svn|.DS_Store" ExcludeFlags="6" FileAddOptions="4"/>
+    <ROW Directory_="Icons_Dir" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\Icons" Feature="MainFeatures" ExcludePattern="*~|#*#|%*%|._|CVS|.cvsignore|SCCS|vssver.scc|mssccprj.scc|vssver2.scc|.svn|.DS_Store" ExcludeFlags="6" FileAddOptions="4"/>
     <ROW Directory_="Themes_Dir" SourcePath="..\Assets\Themes" Feature="MainFeatures" ExcludePattern="*~|#*#|%*%|._|CVS|.cvsignore|SCCS|vssver.scc|mssccprj.scc|vssver2.scc|.svn|.DS_Store" ExcludeFlags="6" FileAddOptions="4"/>
-    <ROW Directory_="runtimes_Dir" SourcePath="..\..\Source\ImageGlass\bin\Publish\net8.0-windows-x64\runtimes" Feature="MainFeatures" ExcludePattern="*~|#*#|%*%|._|CVS|.cvsignore|SCCS|vssver.scc|mssccprj.scc|vssver2.scc|.svn|.DS_Store" ExcludeFlags="6" FileAddOptions="4"/>
+    <ROW Directory_="runtimes_Dir" SourcePath="..\..\Source\ImageGlass\bin\Publish\x64\runtimes" Feature="MainFeatures" ExcludePattern="*~|#*#|%*%|._|CVS|.cvsignore|SCCS|vssver.scc|mssccprj.scc|vssver2.scc|.svn|.DS_Store" ExcludeFlags="6" FileAddOptions="4"/>
     <ROW Directory_="dist_Dir" SourcePath="..\..\Source\Components\ImageGlass.Settings\WebUI\dist" Feature="MainFeatures" ExcludePattern="*~|#*#|%*%|._|CVS|.cvsignore|SCCS|vssver.scc|mssccprj.scc|vssver2.scc|.svn|.DS_Store" ExcludeFlags="6" FileAddOptions="4"/>
   </COMPONENT>
 </DOCUMENT>
