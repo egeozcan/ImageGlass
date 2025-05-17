@@ -35,7 +35,7 @@ set FILES[11]=ImageGlass.WinTouch.dll
 
 set FILES[12]=D2Phap.DXControl.dll
 set FILES[13]=DirectNStandard.dll
-set FILES[14]=D2Phap.EggShell.dll
+set FILES[14]=D2Phap.EggShell-ARM64.dll
 set FILES[15]=FileWatcherEx.dll
 
 set FILES[16]=libsharpyuv.dll
