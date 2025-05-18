@@ -1,6 +1,6 @@
 ---
-name: 🎯 Request a Feature
-about: Suggest an idea you wish to have in ImageGlass.
+name: '🎯 Request a Feature'
+about: 'Suggest an idea you wish to have in ImageGlass'
 title: ''
 labels: '🎯 feature'
 assignees: ''
