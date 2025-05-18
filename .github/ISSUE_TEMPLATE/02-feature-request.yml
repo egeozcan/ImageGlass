@@ -1,6 +1,6 @@
-name: Request a Feature
-description: Suggest an idea you wish to have in ImageGlass
-labels: '🎯 feature'
+name: 🎯 Request a Feature
+description: Suggest an idea you wish to have in ImageGlass.
+labels: ['🎯 feature']
 body:
 - type: markdown
   attributes:
@@ -39,7 +39,7 @@ body:
     required: true
 
 - type: textarea
-  id: media
+  id: feature-description
   attributes:
     label: 1️⃣ Describe the feature
     description: |
@@ -47,7 +47,7 @@ body:
       - ✅ Do use list bullets to describe, I'm LAZY to read an essay.
 
 - type: textarea
-  id: media
+  id: feature-usage
   attributes:
     label: 2️⃣ How to use feature
     description: List the steps to activate the feature and how other people use it.
@@ -57,7 +57,7 @@ body:
       3. 
 
 - type: textarea
-  id: media
+  id: additional-context
   attributes:
     label: 3️⃣ Additional context
     description: Add any other context or SCREENSHOTS about the new feature.
