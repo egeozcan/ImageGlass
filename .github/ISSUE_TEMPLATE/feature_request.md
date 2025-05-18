@@ -27,5 +27,3 @@ assignees: ''
 
 ### Additional context
 <!-- Add any other context or SCREENSHOTS about the new feature -->
-
-
