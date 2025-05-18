@@ -1,5 +1,5 @@
-name: Bug Report
-description: Create a report to help us improve. Clearly attach screenshots or video to help reproduce the issue quickly. Include a sample file if the problem involves image formats.
+name: "🐞 Bug Report"
+description: "Create a report to help us improve. Clearly attach screenshots or video to help reproduce the issue quickly. Include a sample file if the problem involves image formats."
 labels: ['\U0001F41E bug']
 body:
   - type: markdown
@@ -25,10 +25,11 @@ body:
         - ❌ Don't use "latest"
     validations:
       required: true
-- type: input
+- type: dropdown
     id: ig-release
     attributes:
       label: ImageGlass release
+      options: ["Classic", "Release"]
       placeholder: e.g. Classic or Store
       description: Use "Store" if you installed ImageGlass from MS Store.
     validations:
