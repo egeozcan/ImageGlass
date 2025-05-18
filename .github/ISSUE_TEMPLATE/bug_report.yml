@@ -5,8 +5,9 @@ body:
 - type: markdown
   attributes:
     value: |
-      ❗ **Before you fill in this bug report template**
-      Please search open/closed issues and discussions before submitting. The bug might be already known and fixed before.
+      Before you fill in this bug report template,
+      **please search** open/closed issues and discussions before submitting.
+      The bug might be already known and fixed before.
 
 - type: input
   id: os-version
@@ -31,10 +32,9 @@ body:
   attributes:
     label: ImageGlass release
     options:
-      - 
       - Classic
       - Store
-    description: Use "Store" if you installed ImageGlass from MS Store.
+    description: Select "Store" if you installed ImageGlass from [MS Store](https://apps.microsoft.com/detail/9N33VZK3C7TH?launch=true&cid=ig_github_bug_report&mode=full).
   validations:
     required: true
 
@@ -73,8 +73,6 @@ body:
     description: |
       - ✅ Do attach SCREENSHOTS, VIDEO to help explain your problem quickly.
       - ✅ Do attach a SAMPLE FILE if the problem involves image formats.
-  validations:
-    required: true
       
 - type: textarea
   id: additional-context
