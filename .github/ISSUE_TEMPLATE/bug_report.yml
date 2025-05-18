@@ -31,7 +31,9 @@ body:
   id: ig-release
   attributes:
     label: ImageGlass release
-    options: ["Classic", "Release"]
+    options:
+      - Classic
+      - Store
     placeholder: e.g. Classic or Store
     description: Use "Store" if you installed ImageGlass from MS Store.
   validations:
