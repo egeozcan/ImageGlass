@@ -1,13 +1,13 @@
 name: 🐞 Bug Report
 description: Create a report to help us improve. Clearly attach screenshots or video to help reproduce the issue quickly. Include a sample file if the problem involves image formats.
-labels: ['\U0001F41E bug']
+labels: ['🐞 bug']
 body:
 - type: markdown
   attributes:
     value: |
-      Before you fill in this bug report template,
+      Before you fill in this template,
       **please search** open/closed issues and discussions before submitting.
-      The bug might be already known and fixed before.
+      It might be already known and fixed before.
 
 - type: input
   id: os-version

@@ -1,0 +1,63 @@
+name: 🎯 Feature Request
+description: Suggest an idea you wish to have in ImageGlass.
+labels: ['🎯 feature']
+body:
+- type: markdown
+  attributes:
+    value: |
+      Before you fill in this template,
+      **please search** open/closed issues and discussions before submitting.
+      It might be already known before.
+
+- type: input
+  id: os-version
+  attributes:
+    label: Windows OS version
+    description: e.g. Windows 11 24H2
+  validations:
+    required: true
+
+- type: input
+  id: ig-version
+  attributes:
+    label: ImageGlass version
+    description: |
+      - ✅ Do provide full version number found in ImageGlass About dialog (press F1). E.g. v9.3.1.518
+      - ❌ Do not use "latest"
+  validations:
+    required: true
+
+- type: dropdown
+  id: ig-release
+  attributes:
+    label: ImageGlass release
+    options:
+      - Classic
+      - Store
+    description: Select "Store" if you installed ImageGlass from [MS Store](https://apps.microsoft.com/detail/9N33VZK3C7TH?launch=true&cid=ig_github_bug_report&mode=full).
+  validations:
+    required: true
+
+- type: textarea
+  id: media
+  attributes:
+    label: 1️⃣ Describe the feature
+    description: |
+      - ✅ Do make it SHORT and STRAIGHT FORWARD.
+      - ✅ Do use list bullets to describe, I'm LAZY to read an essay.
+
+- type: textarea
+  id: media
+  attributes:
+    label: 2️⃣ How to use feature
+    description: List the steps to activate the feature and how other people use it.
+    placeholder: |
+      1. 
+      2. 
+      3. 
+
+- type: textarea
+  id: media
+  attributes:
+    label: 3️⃣ Additional context
+    description: Add any other context or SCREENSHOTS about the new feature.
