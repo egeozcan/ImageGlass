@@ -22,7 +22,7 @@ body:
     label: ImageGlass version
     description: |
       - ✅ Do provide full version number found in ImageGlass About dialog (press F1). E.g. v9.3.1.518
-      - ❌ Don't use "latest"
+      - ❌ Do not use "latest"
   validations:
     required: true
 
@@ -31,6 +31,7 @@ body:
   attributes:
     label: ImageGlass release
     options:
+      - 
       - Classic
       - Store
     description: Use "Store" if you installed ImageGlass from MS Store.
