@@ -1,9 +1,13 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Ask question
+  - name: ⭐ Request Paid Support
+    url: https://imageglass.org/support#premium-support
+    about: Unlock premium assistance directly from the creator of ImageGlass.
+
+  - name: 🤔 Ask a Question
     url: https://github.com/d2phap/ImageGlass/discussions/new/choose
     about: Ask a question about ImageGlass features.
     
-  - name: Ask Discord community
+  - name: 🦜 Ask Discord Community
     url: https://discord.gg/tWjbynH2X8
     about: Join in official Discord server of ImageGlass.
