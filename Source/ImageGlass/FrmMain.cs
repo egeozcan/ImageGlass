@@ -418,7 +418,7 @@ public partial class FrmMain : ThemedForm
 
         if (string.IsNullOrEmpty(currentFile))
         {
-            filePath = paths.AsParallel().FirstOrDefault(i => BHelper.CheckPath(i) == PathType.File);
+            filePath = paths.FirstOrDefault(i => BHelper.CheckPath(i) == PathType.File);
             filePath = BHelper.ResolvePath(filePath);
         }
 
@@ -519,6 +519,7 @@ public partial class FrmMain : ThemedForm
 
         // initialize image list
         Local.InitImageList(null, distinctDirsList);
+        if (!hasInitFile) Local.CurrentIndex = 0;
 
 
         // Load images to the list
