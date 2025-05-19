@@ -105,6 +105,8 @@ public partial class FrmMain
             using var shell = new EggShell();
             Program.ForegroundShell = shell.GetForegroundWindowView();
         }
+
+        // save init input path
         Program.UpdateInputImagePath(filePath);
 
 
