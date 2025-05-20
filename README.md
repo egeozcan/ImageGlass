@@ -10,7 +10,7 @@ ImageGlass - A lightweight, versatile image viewer
 
 # 👉🏻 [Seeking Feedback: Replacing MSI installer with MSIX](https://github.com/d2phap/ImageGlass/discussions/2149)
 
-ImageGlass is a lightweight software designed for seamless viewing of images in a clean and intuitive interface. With support for over 80 common image formats including `WEBP`, `GIF`, `SVG`, `PNG`, `JXL`, `HEIC`,... ImageGlass also offers advanced features that cater to the needs of both regular users and designers, making it the excellent tool to enhance workflow efficiency.
+ImageGlass is a lightweight software designed for seamless viewing of images in a clean and intuitive interface. With support for over 88 common image formats including `WEBP`, `GIF`, `SVG`, `PNG`, `JXL`, `HEIC`,... ImageGlass also offers advanced features that cater to the needs of both regular users and designers, making it the excellent tool to enhance workflow efficiency.
 
 [![ImageGlass 15th anniversary](https://github.com/user-attachments/assets/57a1818a-8fad-4b3e-9220-d59ba24703e7)](https://imageglass.org/news/announcing-imageglass-9-3-94)
 
@@ -47,8 +47,7 @@ ImageGlass is a lightweight software designed for seamless viewing of images in 
 
 ## 🪁 System Requirements
 - Windows 10/11 64-bit, version 1809 (build 17763) or later
-- [.NET Desktop Runtime 8 (64-bit)](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
-- [WebView2 Runtime 64-bit v119.0.2151 or later](https://developer.microsoft.com/en-us/microsoft-edge/webview2/#download-section)
+- Optional: [WebView2 Runtime 64-bit v119.0.2151 or later](https://go.microsoft.com/fwlink/p/?LinkId=2124703)
 
 
 ## 👨‍💻 Development
@@ -80,21 +79,6 @@ For more information about ImageGlass, go to [ImageGlass Docs](https://imageglas
 
 
 ## 💖 This project needs your help!
-ImageGlass stands as an open-source, ad-free photo viewer, yet its development and upkeep demand resources. Your financial backing not only sustains this project but also fuels my motivation for crafting future releases.
+If you find ImageGlass useful and would like to support its ongoing development, consider making a donation. Your support, whether financial or simply sharing ImageGlass with others, means the world to me. Every bit helps keep the project alive and free for everyone.
 
-Should you opt for **GitHub Sponsor** or **Patreon**, be sure to explore the tier-specific benefits on offer.
-
-Your support is greatly appreciated!
-
-<a href="https://github.com/sponsors/d2phap" target="_blank" title="Become a sponsor">
-<img src="https://img.shields.io/badge/Github-@d2phap-24292e.svg?maxAge=3600&logo=github" height="30" alt="Become a sponsor">
-</a>
-
-<a href="https://www.patreon.com/d2phap" target="_blank" title="Become a patron">
-<img src="https://img.shields.io/badge/Patreon-@d2phap%20-e85b46.svg?maxAge=3600&logo=patreon" height="30" alt="Become a patron">
-</a>
-
-<a href="https://www.paypal.me/d2phap" target="_blank" title="Buy me a beer?">
-<img src="https://img.shields.io/badge/PayPal-Donate%20$10%20-0070ba.svg?maxAge=3600&logo=paypal" height="30" alt="Buy me a beer?">
-</a>
-
+Explorer the ways to support at: https://imageglass.org/donate
