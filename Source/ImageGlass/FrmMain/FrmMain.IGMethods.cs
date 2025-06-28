@@ -2074,8 +2074,8 @@ public partial class FrmMain
             if (!Config.EnableRealTimeFileUpdate)
             {
                 Local.Images.SetFileName(Local.CurrentIndex, newFilePath);
-                Gallery.Items[Local.CurrentIndex].FilePath = newFilePath;
-                Gallery.Items[Local.CurrentIndex].Text = newName;
+
+                Gallery.Items[Local.CurrentIndex].Rename(newFilePath);
                 LoadImageInfo(ImageInfoUpdateTypes.Name | ImageInfoUpdateTypes.Path);
             }
         }

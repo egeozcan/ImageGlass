@@ -588,6 +588,20 @@ public class ImageGalleryItem : ICloneable
     }
 
     /// <summary>
+    /// Updates file path of thumbnail and its related metadata.
+    /// </summary>
+    public void Rename(string newFilePath)
+    {
+        try
+        {
+            FilePath = newFilePath;
+            Text = Path.GetFileName(newFilePath);
+            UpdateDetails(true);
+        }
+        catch { }
+    }
+
+    /// <summary>
     /// Returns a path string to be used for extracting the shell icon
     /// of the item. Returns the filename for icon files and executables,
     /// file extension for other files.
