@@ -12,8 +12,11 @@ ImageGlass - A lightweight, versatile image viewer
 
 ImageGlass is a lightweight software designed for seamless viewing of images in a clean and intuitive interface. With support for over 88 common image formats including `WEBP`, `GIF`, `SVG`, `PNG`, `JXL`, `HEIC`,... ImageGlass also offers advanced features that cater to the needs of both regular users and designers, making it the excellent tool to enhance workflow efficiency.
 
-[![ImageGlass 15th anniversary](https://github.com/user-attachments/assets/57a1818a-8fad-4b3e-9220-d59ba24703e7)](https://imageglass.org/news/announcing-imageglass-9-3-94)
+[![Meet ImageGlass at WeAreDevelopers World Congress 2025 — Open Source Spotlight](https://github.com/user-attachments/assets/6a6352fb-d508-4348-9cbd-86f803811ea2)](https://imageglass.org/news/meet-imageglass-at-wearedevelopers-world-congress-2025-open-source-spotlight-95)
 
+<a href="https://imageglass.org/news/meet-imageglass-at-wearedevelopers-world-congress-2025-open-source-spotlight-95">
+  <img src="https://github.com/user-attachments/assets/6a6352fb-d508-4348-9cbd-86f803811ea2" />
+</a>
 
 ## 📥 Download
 
