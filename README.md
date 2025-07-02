@@ -8,15 +8,11 @@ ImageGlass - A lightweight, versatile image viewer
 [![Discord](https://img.shields.io/discord/818852544859209748?label=chat&logo=discord&color=%233097B8&style=social)](https://discord.gg/tWjbynH2X8)
 [![Twitter Follow](https://img.shields.io/twitter/follow/duongdieuphap?style=social)](https://twitter.com/duongdieuphap)
 
-# 👉🏻 [Seeking Feedback: Replacing MSI installer with MSIX](https://github.com/d2phap/ImageGlass/discussions/2149)
 
 ImageGlass is a lightweight software designed for seamless viewing of images in a clean and intuitive interface. With support for over 88 common image formats including `WEBP`, `GIF`, `SVG`, `PNG`, `JXL`, `HEIC`,... ImageGlass also offers advanced features that cater to the needs of both regular users and designers, making it the excellent tool to enhance workflow efficiency.
 
 [![Meet ImageGlass at WeAreDevelopers World Congress 2025 — Open Source Spotlight](https://github.com/user-attachments/assets/6a6352fb-d508-4348-9cbd-86f803811ea2)](https://imageglass.org/news/meet-imageglass-at-wearedevelopers-world-congress-2025-open-source-spotlight-95)
 
-<a href="https://imageglass.org/news/meet-imageglass-at-wearedevelopers-world-congress-2025-open-source-spotlight-95">
-  <img src="https://github.com/user-attachments/assets/6a6352fb-d508-4348-9cbd-86f803811ea2" />
-</a>
 
 ## 📥 Download
 
